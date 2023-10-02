@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
+import { CardImage } from '@components/ui/card-image';
 
 export default function IndexPage(): ReactNode {
   const handleClick = (): void => {
@@ -10,7 +11,7 @@ export default function IndexPage(): ReactNode {
     <div
       style={{
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         width: '80%',
         height: '50vh',
@@ -33,6 +34,7 @@ export default function IndexPage(): ReactNode {
       <Button onClick={handleClick} variant={ButtonVariant.outlined}>
         Удалить
       </Button>
+      <CardImage />
     </div>
   );
 }
