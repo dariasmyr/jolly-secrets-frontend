@@ -1,6 +1,25 @@
 import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
-import { CardImage } from '@components/ui/card-image';
+import { CardImage, ICardImageProperties } from '@components/ui/card-image';
+
+const testProperties: ICardImageProperties = {
+  imageUrl: '/assets/cat.jpg',
+  preHeader: 'Pre Header Text',
+  header: 'Header Text',
+  text: 'Body Text',
+  tags: [
+    {
+      title: 'Test Tag 1',
+      warning: true,
+    },
+    {
+      title: 'Test Tag 2',
+    },
+    {
+      title: 'Test Tag 3',
+    },
+  ],
+};
 
 export default function IndexPage(): ReactNode {
   const handleClick = (): void => {
@@ -34,7 +53,7 @@ export default function IndexPage(): ReactNode {
       <Button onClick={handleClick} variant={ButtonVariant.outlined}>
         Удалить
       </Button>
-      <CardImage />
+      <CardImage {...testProperties} />
     </div>
   );
 }
