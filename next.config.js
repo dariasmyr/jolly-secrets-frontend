@@ -31,6 +31,16 @@ const nextConfig = {
     styledComponents: true,
   },
   i18n,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'source.unsplash.com',
+        port: '',
+        pathname: '**',
+      },
+    ],
+  },
 };
 
 const outNextSentryConfig =

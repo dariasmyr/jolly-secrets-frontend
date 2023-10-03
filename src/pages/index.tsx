@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
 import { CardImage, ICardImageProperties } from '@components/ui/card-image';
+import { CardPreference } from '@components/ui/card-preference';
 
-const testProperties: ICardImageProperties = {
-  imageUrl: '/assets/cat.jpg',
+const testCardImageProperties: ICardImageProperties = {
+  imageUrl: 'https://source.unsplash.com/random/368×200/?fruit',
   preHeader: 'Pre Header Text',
   header: 'Header Text',
   text: 'Body Text',
@@ -21,6 +22,28 @@ const testProperties: ICardImageProperties = {
   ],
 };
 
+const textCardPreferenceProperties = {
+  header: 'Header Text',
+  preferences: [
+    {
+      title: 'Диапазон',
+      value: '1-10 USD',
+    },
+    {
+      title: 'Я не хочу чтобы мне дарили',
+      value: 'Сладости',
+    },
+    {
+      title: 'Я хочу чтобы мне дарили',
+      value: 'Книги',
+    },
+    {
+      title: 'Комментарий для партнёра',
+      value: 'Присылайте мне всё в офис 235',
+    },
+  ],
+};
+
 export default function IndexPage(): ReactNode {
   const handleClick = (): void => {
     // eslint-disable-next-line no-alert
@@ -33,9 +56,10 @@ export default function IndexPage(): ReactNode {
         flexDirection: 'column',
         justifyContent: 'space-between',
         width: '80%',
-        height: '50vh',
         alignItems: 'center',
         margin: '100px',
+        gap: '20px',
+        marginBottom: '100px',
       }}
     >
       <Button onClick={handleClick} variant={ButtonVariant.primary}>
@@ -53,7 +77,17 @@ export default function IndexPage(): ReactNode {
       <Button onClick={handleClick} variant={ButtonVariant.outlined}>
         Удалить
       </Button>
-      <CardImage {...testProperties} />
+      <CardImage
+        imageUrl={testCardImageProperties.imageUrl}
+        text={testCardImageProperties.text}
+        header={testCardImageProperties.header}
+        preHeader={testCardImageProperties.preHeader}
+        tags={testCardImageProperties.tags}
+      />
+      <CardPreference
+        header={textCardPreferenceProperties.header}
+        preferences={textCardPreferenceProperties.preferences}
+      />
     </div>
   );
 }
