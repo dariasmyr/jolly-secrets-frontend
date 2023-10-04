@@ -1,6 +1,4 @@
 import { ReactElement } from 'react';
-import { Tag } from '@components/ui/card-image/tag';
-
 import {
   Content,
   Header,
@@ -9,7 +7,8 @@ import {
   PreHeader,
   TagContainer,
   Text,
-} from '@components/ui/card-image/styles';
+} from '@components/ui/card-image/style';
+import { Tag } from '@components/ui/card-image/tag';
 
 export interface ITag {
   title: string;
