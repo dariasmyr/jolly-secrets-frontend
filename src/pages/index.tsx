@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
 import { CardImage, ICardImageProperties } from '@components/ui/card-image';
 import { CardPreference } from '@components/ui/card-preference';
+import { CardEmailToggle } from '@components/ui/email/card-email-toggle';
 
 const testCardImageProperties: ICardImageProperties = {
   imageUrl: 'https://source.unsplash.com/random/368×200/?fruit',
@@ -42,6 +43,11 @@ const textCardPreferenceProperties = {
       value: 'Присылайте мне всё в офис 235',
     },
   ],
+};
+
+const textCardEmailToggleProperties = {
+  title: 'Email',
+  description: 'При включенной опции уведомления будут приходить на ваш емейл',
 };
 
 export default function IndexPage(): ReactNode {
@@ -87,6 +93,10 @@ export default function IndexPage(): ReactNode {
       <CardPreference
         header={textCardPreferenceProperties.header}
         preferences={textCardPreferenceProperties.preferences}
+      />
+      <CardEmailToggle
+        title={textCardEmailToggleProperties.title}
+        description={textCardEmailToggleProperties.description}
       />
     </div>
   );

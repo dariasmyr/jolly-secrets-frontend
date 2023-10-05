@@ -1,0 +1,96 @@
+{
+  // These tasks will run in order when initializing your CodeSandbox project.
+  "setupTasks": [
+    {
+      "name": "Install Dependencies",
+      "command": "npm install"
+    }
+  ],
+
+  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
+  "tasks": {
+    "________________ BUILD AND RUN ________________": {
+      "name": "________________ BUILD AND RUN ________________",
+      "command": "npm run ________________ BUILD AND RUN ________________",
+      "runAtStart": false
+    },
+    "postinstall": {
+      "name": "postinstall",
+      "command": "npm run postinstall",
+      "runAtStart": false
+    },
+    "build": {
+      "name": "build",
+      "command": "npm run build",
+      "runAtStart": false
+    },
+    "start:dev": {
+      "name": "start:dev",
+      "command": "npm run start:dev",
+      "runAtStart": false,
+      "preview": {
+        "port": 3000
+      }
+    },
+    "start:prod": {
+      "name": "start:prod",
+      "command": "npm run start:prod",
+      "runAtStart": false
+    },
+    "analyze": {
+      "name": "analyze",
+      "command": "npm run analyze",
+      "runAtStart": false
+    },
+    "________________ FORMAT AND LINT ________________": {
+      "name": "________________ FORMAT AND LINT ________________",
+      "command": "npm run ________________ FORMAT AND LINT ________________",
+      "runAtStart": false
+    },
+    "ts:check": {
+      "name": "ts:check",
+      "command": "npm run ts:check",
+      "runAtStart": false
+    },
+    "lint": {
+      "name": "lint",
+      "command": "npm run lint",
+      "runAtStart": false
+    },
+    "lint:fix": {
+      "name": "lint:fix",
+      "command": "npm run lint:fix",
+      "runAtStart": false
+    },
+    "check": {
+      "name": "check",
+      "command": "npm run check",
+      "runAtStart": false
+    },
+    "________________ OTHER ________________": {
+      "name": "________________ OTHER ________________",
+      "command": "npm run ________________ OTHER ________________",
+      "runAtStart": false
+    },
+    "gen": {
+      "name": "gen",
+      "command": "npm run gen",
+      "runAtStart": false
+    },
+    "update": {
+      "name": "update",
+      "command": "npm run update",
+      "runAtStart": false
+    },
+    "prepare": {
+      "name": "prepare",
+      "command": "npm run prepare",
+      "runAtStart": false
+    },
+    "extract-translations": {
+      "name": "extract-translations",
+      "command": "npm run extract-translations",
+      "runAtStart": false
+    }
+  }
+}
