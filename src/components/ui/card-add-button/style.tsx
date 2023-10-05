@@ -3,13 +3,14 @@ import styled from 'styled-components';
 
 export const Paper = styled(MuiPaper)`
   width: 368px;
+  display: flex;
 `;
 
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 20px;
+  gap: 17px;
   padding: 16px 20px 32px 16px;
   flex-shrink: 0;
 `;
@@ -29,12 +30,6 @@ export const Header = styled.p`
   flex: 1 0 0;
 `;
 
-export const HeaderWrapper = styled.div`
-  display: inline-flex;
-  align-items: center;
-  width: 327px;
-`;
-
 export const Description = styled.p`
   width: 327px;
   color: #8d96a8;
@@ -49,4 +44,9 @@ export const Description = styled.p`
   font-weight: 400;
   line-height: 150%; /* 24px */
   letter-spacing: 0.15px;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `;

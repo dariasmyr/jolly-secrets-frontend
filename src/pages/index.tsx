@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
+import { CardAddButton } from '@components/ui/card-add-button';
 import { CardImage, ICardImageProperties } from '@components/ui/card-image';
+import { CardNameInput } from '@components/ui/card-name-input';
 import { CardPreference } from '@components/ui/card-preference';
 import { CardEmailToggle } from '@components/ui/email/card-email-toggle';
 
@@ -50,6 +52,11 @@ const textCardEmailToggleProperties = {
   description: 'При включенной опции уведомления будут приходить на ваш емейл',
 };
 
+const textCardAddButtonProperties = {
+  title: 'Добавить участников',
+  description: 'Нажми на кнопку чтобы сгенерировать приглашение.',
+};
+
 export default function IndexPage(): ReactNode {
   const handleClick = (): void => {
     // eslint-disable-next-line no-alert
@@ -94,10 +101,15 @@ export default function IndexPage(): ReactNode {
         header={textCardPreferenceProperties.header}
         preferences={textCardPreferenceProperties.preferences}
       />
+      <CardAddButton
+        title={textCardAddButtonProperties.title}
+        description={textCardAddButtonProperties.description}
+      />
       <CardEmailToggle
         title={textCardEmailToggleProperties.title}
         description={textCardEmailToggleProperties.description}
       />
+      <CardNameInput />
     </div>
   );
 }
