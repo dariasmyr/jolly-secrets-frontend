@@ -7,6 +7,7 @@ export const Paper = styled(MuiPaper)`
 `;
 
 export const Content = styled.div`
+  width: 368px;
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
