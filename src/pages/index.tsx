@@ -1,10 +1,18 @@
 import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
 import { CardAddButton } from '@components/ui/card-add-button';
+import {
+  CardDeleteInput,
+  ICardDeleteInputProperties,
+} from '@components/ui/card-delete-input';
 import { CardImage, ICardImageProperties } from '@components/ui/card-image';
 import { CardNameInput } from '@components/ui/card-name-input';
 import { CardPreference } from '@components/ui/card-preference';
 import { CardEmailToggle } from '@components/ui/email/card-email-toggle';
+
+const testCardDeleteInputProperties: ICardDeleteInputProperties = {
+  description: 'Чтобы удалить аккаунт напишите “Удалить аккаунт”',
+};
 
 const testCardImageProperties: ICardImageProperties = {
   imageUrl: 'https://source.unsplash.com/random/368×200/?fruit',
@@ -110,6 +118,9 @@ export default function IndexPage(): ReactNode {
         description={textCardEmailToggleProperties.description}
       />
       <CardNameInput />
+      <CardDeleteInput
+        description={testCardDeleteInputProperties.description}
+      />
     </div>
   );
 }
