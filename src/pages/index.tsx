@@ -9,6 +9,7 @@ import { CardImage, ICardImageProperties } from '@components/ui/card-image';
 import { CardNameInput } from '@components/ui/card-name-input';
 import { CardPreference } from '@components/ui/card-preference';
 import { CardEmailToggle } from '@components/ui/email/card-email-toggle';
+import { TabApplications } from '@components/ui/tab-applications';
 
 const testCardDeleteInputProperties: ICardDeleteInputProperties = {
   description: 'Чтобы удалить аккаунт напишите “Удалить аккаунт”',
@@ -121,6 +122,7 @@ export default function IndexPage(): ReactNode {
       <CardDeleteInput
         description={testCardDeleteInputProperties.description}
       />
+      <TabApplications />
     </div>
   );
 }
