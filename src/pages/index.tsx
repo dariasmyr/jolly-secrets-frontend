@@ -11,6 +11,11 @@ import { CardPreference } from '@components/ui/card-preference';
 import { CardEmailToggle } from '@components/ui/email/card-email-toggle';
 import { TabApplications } from '@components/ui/tab-applications';
 
+import {
+  CustomButton,
+  CustomButtonVariant,
+} from '@/components/ui/button/super-buttom';
+
 const testCardDeleteInputProperties: ICardDeleteInputProperties = {
   description: 'Чтобы удалить аккаунт напишите “Удалить аккаунт”',
 };
@@ -123,6 +128,8 @@ export default function IndexPage(): ReactNode {
         description={testCardDeleteInputProperties.description}
       />
       <TabApplications />
+      <CustomButton variant={CustomButtonVariant.participate} />
+      <CustomButton variant={CustomButtonVariant.expired} date="2023-05-03" />
     </div>
   );
 }
