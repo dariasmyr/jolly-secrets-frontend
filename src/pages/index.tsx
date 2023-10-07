@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
 import { ButtonLarge } from '@components/ui/button-large';
+import { ButtonSplit } from '@components/ui/button-split';
 import { CardAddButton } from '@components/ui/card-add-button';
 import {
   CardDeleteInput,
@@ -124,8 +125,9 @@ export default function IndexPage(): ReactNode {
         description={testCardDeleteInputProperties.description}
       />
       <TabApplications />
-      <ButtonLarge>Хочу учавстовать!</ButtonLarge>
+      <ButtonLarge onClick={handleClick}>Хочу учавстовать!</ButtonLarge>
       <ButtonLarge disabled>Завершено 01.12.2023</ButtonLarge>
+      <ButtonSplit />
     </div>
   );
 }

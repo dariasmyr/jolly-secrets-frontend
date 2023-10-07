@@ -6,6 +6,7 @@ interface IButtonLargeProperties {
   children: string;
   disabled?: boolean;
 }
+
 export const ButtonLarge = styled.button<IButtonLargeProperties>`
   width: 100%;
   height: 56px;
