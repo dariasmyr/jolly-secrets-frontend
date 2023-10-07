@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
+import { ButtonLarge } from '@components/ui/button-large';
 import { CardAddButton } from '@components/ui/card-add-button';
 import {
   CardDeleteInput,
@@ -10,11 +11,6 @@ import { CardNameInput } from '@components/ui/card-name-input';
 import { CardPreference } from '@components/ui/card-preference';
 import { CardEmailToggle } from '@components/ui/email/card-email-toggle';
 import { TabApplications } from '@components/ui/tab-applications';
-
-import {
-  CustomButton,
-  CustomButtonVariant,
-} from '@/components/ui/button/super-buttom';
 
 const testCardDeleteInputProperties: ICardDeleteInputProperties = {
   description: 'Чтобы удалить аккаунт напишите “Удалить аккаунт”',
@@ -128,8 +124,8 @@ export default function IndexPage(): ReactNode {
         description={testCardDeleteInputProperties.description}
       />
       <TabApplications />
-      <CustomButton variant={CustomButtonVariant.participate} />
-      <CustomButton variant={CustomButtonVariant.expired} date="2023-05-03" />
+      <ButtonLarge>Хочу учавстовать!</ButtonLarge>
+      <ButtonLarge disabled>Завершено 01.12.2023</ButtonLarge>
     </div>
   );
 }
