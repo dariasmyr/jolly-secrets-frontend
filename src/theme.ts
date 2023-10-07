@@ -4,16 +4,28 @@ export const themeMui = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#2196F3',
-      contrastText: '#fff',
+      main: '#a04028',
+      contrastText: '#ffffff',
     },
     secondary: {
-      main: '#F36D21',
-      contrastText: '#fff',
+      main: '#77574f',
+      contrastText: '#ffffff',
     },
     warning: {
-      main: '#C62828',
+      main: '#f7e1a6',
+      contrastText: '#000000',
+    },
+    error: {
+      main: '#ba1a1a',
+      contrastText: '#ffffff',
+    },
+    info: {
+      main: '#a28f5c',
       contrastText: '#fff',
+    },
+    background: {
+      default: '#FFFBFF',
+      paper: '#FAF1F4',
     },
   },
 });
