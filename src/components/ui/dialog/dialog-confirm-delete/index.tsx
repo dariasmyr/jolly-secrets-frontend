@@ -1,23 +1,32 @@
 import { ReactElement } from 'react';
 import { ButtonVariant } from '@components/ui/button';
 import { Dialog } from '@components/ui/dialog';
-function onCancel(): void {
-  // eslint-disable-next-line no-alert
-  alert('Cancel');
-}
+import { DialogContentText } from '@mui/material';
 
-function onConfirm(): void {
-  // eslint-disable-next-line no-alert
-  alert('Confirm');
-}
-export const DialogConfirmEmail = (properties: {
+export const DialogConfirmDelete = (properties: {
   isOpen: boolean;
 }): ReactElement => {
+  function onCancel(): void {
+    // eslint-disable-next-line no-alert
+    alert('Cancel');
+  }
+
+  function onDelete(): void {
+    // eslint-disable-next-line no-alert
+    alert('Delete');
+  }
+
   return (
     <Dialog
       open={properties.isOpen}
       title={'Вы уверены?'}
-      content={'После удаления аккаунт нельзя будет восстановить.'}
+      content={
+        <div>
+          <DialogContentText>
+            После удаления аккаунт нельзя будет восстановить.
+          </DialogContentText>
+        </div>
+      }
       buttons={[
         {
           title: 'Отмена',
@@ -26,7 +35,7 @@ export const DialogConfirmEmail = (properties: {
         },
         {
           title: 'Да, удалить аккаунт',
-          onClick: onConfirm,
+          onClick: onDelete,
           type: ButtonVariant.warning,
         },
       ]}

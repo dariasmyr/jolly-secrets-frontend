@@ -2,12 +2,11 @@ import { ReactElement } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
 import {
   Dialog as MUIDialog,
-  DialogActions,
+  DialogActions as OrigDialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  TextField,
 } from '@mui/material';
+import styled from 'styled-components';
 
 export interface IDialogButtonProperties {
   title: string;
@@ -18,30 +17,25 @@ export interface IDialogButtonProperties {
 export interface IDialogProperties {
   open: boolean;
   title: string;
-  content?: string;
+  content: ReactElement;
   inputLabel?: string;
   buttons: IDialogButtonProperties[];
 }
+
+const DialogActions = styled(OrigDialogActions)<{ buttonCount: number }>`
+  display: flex;
+  flex-direction: ${(properties): string =>
+    // eslint-disable-next-line no-magic-numbers
+    properties.buttonCount >= 3 ? 'column' : 'row'};
+  gap: 16px;
+`;
 
 export const Dialog = (properties: IDialogProperties): ReactElement => {
   return properties.open ? (
     <MUIDialog open={properties.open}>
       <DialogTitle>{properties.title}</DialogTitle>
-      <DialogContent>
-        {properties.content && (
-          <DialogContentText>{properties.content}</DialogContentText>
-        )}
-        {properties.inputLabel && (
-          <TextField
-            margin="dense"
-            id="name"
-            label={properties.inputLabel}
-            type="text"
-            fullWidth
-          />
-        )}
-      </DialogContent>
-      <DialogActions>
+      <DialogContent>{properties.content}</DialogContent>
+      <DialogActions buttonCount={properties.buttons.length}>
         {properties.buttons.map((button) => (
           <Button
             onClick={button.onClick}

@@ -10,10 +10,12 @@ import {
 import { CardImage, ICardImageProperties } from '@components/ui/card-image';
 import { CardNameInput } from '@components/ui/card-name-input';
 import { CardPreference } from '@components/ui/card-preference';
-import { DialogConfirmEmail } from '@components/ui/dialog/dialog-confirm-button';
+import { DialogChooseAccount } from '@components/ui/dialog/dialog-choose-account';
 import { DialogGenerateInvite } from '@components/ui/dialog/dialog-generate-invite';
+import { DialogInputEmail } from '@components/ui/dialog/dialog-input-email/input';
 import { CardEmailToggle } from '@components/ui/email/card-email-toggle';
 import { TabApplications } from '@components/ui/tab-applications';
+import { DialogConfirmDelete } from 'src/components/ui/dialog/dialog-confirm-delete';
 
 const testCardDeleteInputProperties: ICardDeleteInputProperties = {
   description: 'Чтобы удалить аккаунт напишите “Удалить аккаунт”',
@@ -130,8 +132,10 @@ export default function IndexPage(): ReactNode {
       <ButtonLarge onClick={handleClick}>Хочу учавстовать!</ButtonLarge>
       <ButtonLarge disabled>Завершено 01.12.2023</ButtonLarge>
       <ButtonSplit />
-      <DialogConfirmEmail isOpen={false} />
-      <DialogGenerateInvite isOpen={true} />
+      <DialogConfirmDelete isOpen={false} />
+      <DialogGenerateInvite isOpen={false} />
+      <DialogInputEmail isOpen={false} />
+      <DialogChooseAccount isOpen={true} />
     </div>
   );
 }
