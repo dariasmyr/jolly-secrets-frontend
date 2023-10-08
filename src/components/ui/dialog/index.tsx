@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  TextField,
 } from '@mui/material';
 
 export interface IDialogButtonProperties {
@@ -13,10 +14,12 @@ export interface IDialogButtonProperties {
   onClick: () => void;
   type: ButtonVariant;
 }
+
 export interface IDialogProperties {
   open: boolean;
   title: string;
-  content: string;
+  content?: string;
+  inputLabel?: string;
   buttons: IDialogButtonProperties[];
 }
 
@@ -25,7 +28,18 @@ export const Dialog = (properties: IDialogProperties): ReactElement => {
     <MUIDialog open={properties.open}>
       <DialogTitle>{properties.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{properties.content}</DialogContentText>
+        {properties.content && (
+          <DialogContentText>{properties.content}</DialogContentText>
+        )}
+        {properties.inputLabel && (
+          <TextField
+            margin="dense"
+            id="name"
+            label={properties.inputLabel}
+            type="text"
+            fullWidth
+          />
+        )}
       </DialogContent>
       <DialogActions>
         {properties.buttons.map((button) => (

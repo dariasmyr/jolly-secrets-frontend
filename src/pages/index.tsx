@@ -10,7 +10,8 @@ import {
 import { CardImage, ICardImageProperties } from '@components/ui/card-image';
 import { CardNameInput } from '@components/ui/card-name-input';
 import { CardPreference } from '@components/ui/card-preference';
-import { DialogConfirmEmail } from '@components/ui/dialog/dialog-confirm-button/input';
+import { DialogConfirmEmail } from '@components/ui/dialog/dialog-confirm-button';
+import { DialogGenerateInvite } from '@components/ui/dialog/dialog-generate-invite';
 import { CardEmailToggle } from '@components/ui/email/card-email-toggle';
 import { TabApplications } from '@components/ui/tab-applications';
 
@@ -129,7 +130,8 @@ export default function IndexPage(): ReactNode {
       <ButtonLarge onClick={handleClick}>Хочу учавстовать!</ButtonLarge>
       <ButtonLarge disabled>Завершено 01.12.2023</ButtonLarge>
       <ButtonSplit />
-      <DialogConfirmEmail isOpen={true} />
+      <DialogConfirmEmail isOpen={false} />
+      <DialogGenerateInvite isOpen={true} />
     </div>
   );
 }

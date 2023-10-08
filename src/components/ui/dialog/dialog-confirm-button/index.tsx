@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { ButtonVariant } from '@components/ui/button';
-import { Dialog } from '@components/ui/dialog/input';
+import { Dialog } from '@components/ui/dialog';
 function onCancel(): void {
   // eslint-disable-next-line no-alert
   alert('Cancel');
