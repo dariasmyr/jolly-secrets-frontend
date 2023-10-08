@@ -6,7 +6,16 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-export const ButtonSplit = (): ReactElement => {
+export interface IMenuOption {
+  title: string;
+  onClick: () => void;
+}
+
+export interface IMenuProperties {
+  options: IMenuOption[];
+}
+
+export const MenuOptions = (properties: IMenuProperties): ReactElement => {
   const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -17,27 +26,25 @@ export const ButtonSplit = (): ReactElement => {
     setAnchorElement(null);
   };
 
-  const handleDelete = (): void => {
-    // eslint-disable-next-line no-alert
-    alert('Удалить');
-    handleClose();
-  };
-
-  const handleEdit = (): void => {
-    // eslint-disable-next-line no-alert
-    alert('Изменить');
-    handleClose();
-  };
-
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: 'transparent',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        border: 'none',
+        width: '20px',
+        height: '20px',
+      }}
+    >
       <IconButton
         style={{ backgroundColor: 'transparent', border: 'none' }}
         aria-controls="simple-menu"
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <MoreVertIcon />
+        <MoreVertIcon fontSize="small" />
       </IconButton>
       <Menu
         id="simple-menu"
@@ -46,8 +53,17 @@ export const ButtonSplit = (): ReactElement => {
         open={Boolean(anchorElement)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleDelete}>Удалить</MenuItem>
-        <MenuItem onClick={handleEdit}>Изменить</MenuItem>
+        {properties.options.map((option, index) => (
+          <MenuItem
+            key={index}
+            onClick={(): void => {
+              option.onClick();
+              handleClose();
+            }}
+          >
+            {option.title}
+          </MenuItem>
+        ))}
       </Menu>
     </div>
   );

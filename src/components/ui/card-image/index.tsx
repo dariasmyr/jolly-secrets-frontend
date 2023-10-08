@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import {
   Content,
   Header,
+  HeaderWrapper,
   ImageWrapper,
   Paper,
   PreHeader,
@@ -9,17 +10,20 @@ import {
   Text,
 } from '@components/ui/card-image/style';
 import { Tag } from '@components/ui/card-image/tag';
+import { IMenuProperties, MenuOptions } from '@components/ui/menu-options';
 
 export interface ITag {
   title: string;
   warning?: boolean;
 }
+
 export interface ICardImageProperties {
   imageUrl: string;
   preHeader: string;
   header: string;
   text: string;
   tags: ITag[];
+  menu?: IMenuProperties;
 }
 
 export const CardImage = (properties: ICardImageProperties): ReactElement => {
@@ -27,7 +31,10 @@ export const CardImage = (properties: ICardImageProperties): ReactElement => {
     <Paper>
       <ImageWrapper src={properties.imageUrl} alt="" width={368} height={200} />
       <Content>
-        <PreHeader>{properties.preHeader}</PreHeader>
+        <HeaderWrapper>
+          <PreHeader>{properties.preHeader}</PreHeader>
+          {properties.menu && <MenuOptions options={properties.menu.options} />}
+        </HeaderWrapper>
         <Header>{properties.header}</Header>
         <Text>{properties.text}</Text>
         <TagContainer>

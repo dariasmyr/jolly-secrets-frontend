@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
 import { ButtonLarge } from '@components/ui/button-large';
-import { ButtonSplit } from '@components/ui/button-split';
 import { CardAddButton } from '@components/ui/card-add-button';
 import {
   CardDeleteInput,
@@ -16,6 +15,7 @@ import { DialogInputEmail } from '@components/ui/dialog/dialog-input-email/input
 import { CardEmailToggle } from '@components/ui/email/card-email-toggle';
 import { TabApplications } from '@components/ui/tab-applications';
 import { DialogConfirmDelete } from 'src/components/ui/dialog/dialog-confirm-delete';
+import { MenuOptions } from 'src/components/ui/menu-options';
 
 const testCardDeleteInputProperties: ICardDeleteInputProperties = {
   description: 'Чтобы удалить аккаунт напишите “Удалить аккаунт”',
@@ -38,6 +38,24 @@ const testCardImageProperties: ICardImageProperties = {
       title: 'Test Tag 3',
     },
   ],
+  menu: {
+    options: [
+      {
+        title: 'Изменить',
+        onClick: (): void => {
+          // eslint-disable-next-line no-alert
+          alert('Изменить');
+        },
+      },
+      {
+        title: 'Удалить',
+        onClick: (): void => {
+          // eslint-disable-next-line no-alert
+          alert('Удалить');
+        },
+      },
+    ],
+  },
 };
 
 const textCardPreferenceProperties = {
@@ -111,6 +129,7 @@ export default function IndexPage(): ReactNode {
         header={testCardImageProperties.header}
         preHeader={testCardImageProperties.preHeader}
         tags={testCardImageProperties.tags}
+        menu={testCardImageProperties.menu}
       />
       <CardPreference
         header={textCardPreferenceProperties.header}
@@ -131,11 +150,28 @@ export default function IndexPage(): ReactNode {
       <TabApplications />
       <ButtonLarge onClick={handleClick}>Хочу учавстовать!</ButtonLarge>
       <ButtonLarge disabled>Завершено 01.12.2023</ButtonLarge>
-      <ButtonSplit />
+      <MenuOptions
+        options={[
+          {
+            title: 'Изменить',
+            onClick: (): void => {
+              // eslint-disable-next-line no-alert
+              alert('Изменить');
+            },
+          },
+          {
+            title: 'Удалить',
+            onClick: (): void => {
+              // eslint-disable-next-line no-alert
+              alert('Удалить');
+            },
+          },
+        ]}
+      />
       <DialogConfirmDelete isOpen={false} />
       <DialogGenerateInvite isOpen={false} />
       <DialogInputEmail isOpen={false} />
-      <DialogChooseAccount isOpen={true} />
+      <DialogChooseAccount isOpen={false} />
     </div>
   );
 }
