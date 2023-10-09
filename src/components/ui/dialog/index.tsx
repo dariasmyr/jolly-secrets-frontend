@@ -18,7 +18,6 @@ export interface IDialogProperties {
   open: boolean;
   title: string;
   content: ReactElement;
-  inputLabel?: string;
   buttons: IDialogButtonProperties[];
 }
 

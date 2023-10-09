@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
 import { ButtonLarge } from '@components/ui/button-large';
 import { CardAddButton } from '@components/ui/card-add-button';
+import { CardCreateInputGroup } from '@components/ui/card-create-input/card-create-input-group';
 import {
   CardDeleteInput,
   ICardDeleteInputProperties,
@@ -172,6 +173,7 @@ export default function IndexPage(): ReactNode {
       <DialogGenerateInvite isOpen={false} />
       <DialogInputEmail isOpen={false} />
       <DialogChooseAccount isOpen={false} />
+      <CardCreateInputGroup />
     </div>
   );
 }
