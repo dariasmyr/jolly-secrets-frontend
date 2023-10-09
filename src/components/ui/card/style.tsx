@@ -11,3 +11,9 @@ export const Content = styled.div`
   justify-content: right;
   padding: 16px;
 `;
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;

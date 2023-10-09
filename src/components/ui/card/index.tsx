@@ -1,13 +1,11 @@
 import { ReactElement } from 'react';
-import { Content, Paper } from '@components/ui/card-create-input/style';
+import { Content, Paper } from '@components/ui/card/style';
 
 export interface ICardCreateInputProperties {
   content: ReactElement;
 }
 
-export const CardCreateInput = (
-  properties: ICardCreateInputProperties,
-): ReactElement => {
+export const Card = (properties: ICardCreateInputProperties): ReactElement => {
   return (
     <Paper>
       <Content>{properties.content}</Content>

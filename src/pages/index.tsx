@@ -2,11 +2,8 @@ import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
 import { ButtonLarge } from '@components/ui/button-large';
 import { CardAddButton } from '@components/ui/card-add-button';
-import { CardCreateInputGroup } from '@components/ui/card-create-input/card-create-input-group';
-import {
-  CardDeleteInput,
-  ICardDeleteInputProperties,
-} from '@components/ui/card-delete-input';
+import { CardCreateEvent } from '@components/ui/card-create-event';
+import { CardCreatePreference } from '@components/ui/card-create-preference';
 import { CardImage, ICardImageProperties } from '@components/ui/card-image';
 import { CardNameInput } from '@components/ui/card-name-input';
 import { CardPreference } from '@components/ui/card-preference';
@@ -15,6 +12,11 @@ import { DialogGenerateInvite } from '@components/ui/dialog/dialog-generate-invi
 import { DialogInputEmail } from '@components/ui/dialog/dialog-input-email/input';
 import { CardEmailToggle } from '@components/ui/email/card-email-toggle';
 import { TabApplications } from '@components/ui/tab-applications';
+import { CardCreateGroup } from 'src/components/ui/card-create-group';
+import {
+  CardDeleteAccount,
+  ICardDeleteInputProperties,
+} from 'src/components/ui/card-delete-account';
 import { DialogConfirmDelete } from 'src/components/ui/dialog/dialog-confirm-delete';
 import { MenuOptions } from 'src/components/ui/menu-options';
 
@@ -102,10 +104,11 @@ export default function IndexPage(): ReactNode {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        width: '80%',
         alignItems: 'center',
-        margin: '100px',
+        paddingLeft: 16,
+        paddingRight: 16,
         gap: '20px',
+        marginTop: '100px',
         marginBottom: '100px',
       }}
     >
@@ -145,7 +148,7 @@ export default function IndexPage(): ReactNode {
         description={textCardEmailToggleProperties.description}
       />
       <CardNameInput />
-      <CardDeleteInput
+      <CardDeleteAccount
         description={testCardDeleteInputProperties.description}
       />
       <TabApplications />
@@ -173,7 +176,9 @@ export default function IndexPage(): ReactNode {
       <DialogGenerateInvite isOpen={false} />
       <DialogInputEmail isOpen={false} />
       <DialogChooseAccount isOpen={false} />
-      <CardCreateInputGroup />
+      <CardCreateGroup />
+      <CardCreatePreference />
+      <CardCreateEvent />
     </div>
   );
 }

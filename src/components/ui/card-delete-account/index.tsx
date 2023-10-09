@@ -8,7 +8,7 @@ export interface ICardDeleteInputProperties {
   description: string;
 }
 
-export const CardDeleteInput = (
+export const CardDeleteAccount = (
   properties: ICardDeleteInputProperties,
 ): ReactElement => {
   const handleClick = (): void => {

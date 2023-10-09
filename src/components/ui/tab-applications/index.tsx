@@ -15,13 +15,19 @@ export const TabApplications = (): React.ReactElement => {
   };
 
   return (
-    <TabContext value={activeTab}>
-      <TabList onChange={handleChange} aria-label="lab API tabs example">
-        <Tab label="Моя Заявка" value="1" />
-        <Tab label="Заявка Тайного Санты" value="2" />
-      </TabList>
-      <TabPanel value="1">Моя Заявка</TabPanel>
-      <TabPanel value="2">Заявка Тайного Санты</TabPanel>
-    </TabContext>
+    <div
+      style={{
+        width: '100%',
+      }}
+    >
+      <TabContext value={activeTab}>
+        <TabList onChange={handleChange} aria-label="lab API tabs example">
+          <Tab label="Моя Заявка" value="1" />
+          <Tab label="Заявка Тайного Санты" value="2" />
+        </TabList>
+        <TabPanel value="1">Моя Заявка</TabPanel>
+        <TabPanel value="2">Заявка Тайного Санты</TabPanel>
+      </TabContext>
+    </div>
   );
 };

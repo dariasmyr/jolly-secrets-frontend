@@ -6,21 +6,20 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export interface ISelectOption {
-  title: string;
-  onClick: () => void;
-}
-
 export interface ISelectProperties {
   title: string;
-  options: ISelectOption[];
+  options: string[];
+  onChange: (option: string) => void;
 }
 
 export const SelectOptions = (properties: ISelectProperties): ReactElement => {
-  const [optionSelect, setOptionSelect] = React.useState('');
+  const [selectedOption, setSelectedOption] = React.useState<string>(
+    properties.options[0],
+  );
 
   const handleChange = (event: SelectChangeEvent): void => {
-    setOptionSelect(event.target.value as string);
+    setSelectedOption(event.target.value);
+    properties.onChange(event.target.value);
   };
   return (
     <div>
@@ -29,18 +28,13 @@ export const SelectOptions = (properties: ISelectProperties): ReactElement => {
         <Select
           labelId="select-label"
           id="select"
-          value={optionSelect}
+          value={selectedOption}
           label={properties.title}
           onChange={handleChange}
         >
           {properties.options.map((option, index) => (
-            <MenuItem
-              key={index}
-              onClick={(): void => {
-                option.onClick();
-              }}
-            >
-              {option.title}
+            <MenuItem key={index} value={option}>
+              {option}
             </MenuItem>
           ))}
         </Select>
