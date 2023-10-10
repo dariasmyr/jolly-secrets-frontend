@@ -10,13 +10,13 @@ export const Content = styled.div`
   flex-direction: column;
   justify-content: space-between;
   gap: 17px;
-  padding: 16px 20px 32px 16px;
+  padding: 16px;
 `;
 
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
 `;
 
 export const ButtonWrapper = styled.div`

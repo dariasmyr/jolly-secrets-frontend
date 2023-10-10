@@ -18,6 +18,9 @@ export const TabApplications = (): React.ReactElement => {
     <div
       style={{
         width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
       }}
     >
       <TabContext value={activeTab}>

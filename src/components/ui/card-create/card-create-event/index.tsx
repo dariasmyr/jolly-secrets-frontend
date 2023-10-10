@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
-import { Card } from '@components/ui/card';
-import { Wrapper } from '@components/ui/card/style';
+import { Wrapper } from '@components/ui/card-create/styled-components';
+import { Card } from '@components/ui/common/card';
 import { TextField } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';

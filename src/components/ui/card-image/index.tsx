@@ -8,9 +8,12 @@ import {
   PreHeader,
   TagContainer,
   Text,
-} from '@components/ui/card-image/style';
+} from '@components/ui/card-image/styled-components';
 import { Tag } from '@components/ui/card-image/tag';
-import { IMenuProperties, MenuOptions } from '@components/ui/menu-options';
+import {
+  IMenuProperties,
+  MenuOptions,
+} from 'src/components/ui/common/menu-options';
 
 export interface ITag {
   title: string;

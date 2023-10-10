@@ -1,8 +1,7 @@
 import { ReactElement } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
-import { Card } from '@components/ui/card';
-import { Description } from '@components/ui/card/style';
-import { Wrapper } from '@components/ui/card-delete-account/style';
+import { Card } from '@components/ui/common/card';
+import { Description, Wrapper } from '@components/ui/common/styled-components';
 import TextField from '@mui/material/TextField';
 
 export interface ICardDeleteInputProperties {
@@ -23,7 +22,7 @@ export const CardDeleteAccount = (
           <Description>{properties.description}</Description>
           <TextField
             fullWidth
-            defaultValue="Удалить аккаунт"
+            placeholder="Удалить аккаунт"
             size="small"
             color="error"
           />

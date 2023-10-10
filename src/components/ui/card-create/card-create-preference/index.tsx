@@ -1,10 +1,12 @@
 import { ReactElement } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
-import { Card } from '@components/ui/card';
-import { Wrapper } from '@components/ui/card/style';
-import { ButtonWrapper } from '@components/ui/card-create-preference/style';
-import { SelectOptions } from '@components/ui/select-options';
+import {
+  ButtonWrapper,
+  Wrapper,
+} from '@components/ui/card-create/styled-components';
+import { Card } from '@components/ui/common/card';
 import { TextField } from '@mui/material';
+import { SelectOptions } from 'src/components/ui/common/select-options';
 
 export const CardCreatePreference = (): ReactElement => {
   const handleClick = (): void => {

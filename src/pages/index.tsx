@@ -1,24 +1,24 @@
 import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
-import { ButtonLarge } from '@components/ui/button-large';
-import { CardCreateEvent } from '@components/ui/card-create-event';
-import { CardCreatePreference } from '@components/ui/card-create-preference';
+import { CardCreateEvent } from '@components/ui/card-create/card-create-event';
+import { CardCreateGroup } from '@components/ui/card-create/card-create-group';
+import { CardCreatePreference } from '@components/ui/card-create/card-create-preference';
 import { CardGenerateInvite } from '@components/ui/card-generate-invite';
 import { CardImage, ICardImageProperties } from '@components/ui/card-image';
-import { CardNameInput } from '@components/ui/card-name-input';
 import { CardPreference } from '@components/ui/card-preference';
 import { DialogChooseAccount } from '@components/ui/dialog/dialog-choose-account';
 import { DialogGenerateInvite } from '@components/ui/dialog/dialog-generate-invite';
 import { DialogInputEmail } from '@components/ui/dialog/dialog-input-email/input';
-import { CardEmailToggle } from '@components/ui/email/card-toggle-email';
 import { TabApplications } from '@components/ui/tab-applications';
-import { CardCreateGroup } from 'src/components/ui/card-create-group';
+import { ButtonLarge } from 'src/components/ui/button/button-large';
+import { CardChangeName } from 'src/components/ui/card-change-name';
 import {
   CardDeleteAccount,
   ICardDeleteInputProperties,
 } from 'src/components/ui/card-delete-account';
+import { CardEmailToggle } from 'src/components/ui/card-toggle-email';
+import { MenuOptions } from 'src/components/ui/common/menu-options';
 import { DialogConfirmDelete } from 'src/components/ui/dialog/dialog-confirm-delete';
-import { MenuOptions } from 'src/components/ui/menu-options';
 
 const testCardDeleteInputProperties: ICardDeleteInputProperties = {
   description: 'Чтобы удалить аккаунт напишите “Удалить аккаунт”',
@@ -147,7 +147,7 @@ export default function IndexPage(): ReactNode {
         title={textCardEmailToggleProperties.title}
         description={textCardEmailToggleProperties.description}
       />
-      <CardNameInput />
+      <CardChangeName />
       <CardDeleteAccount
         description={testCardDeleteInputProperties.description}
       />

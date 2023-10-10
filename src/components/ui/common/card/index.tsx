@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Content, Paper } from '@components/ui/card/style';
+import { Content, Paper } from '@components/ui/common/styled-components';
 
 export interface ICardCreateInputProperties {
   content: ReactElement;

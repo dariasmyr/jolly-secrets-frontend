@@ -6,7 +6,7 @@ import {
   TextWrapper,
   Title,
   Value,
-} from '@components/ui/card-preference/style';
+} from '@components/ui/card-preference/styled-components';
 
 export interface ICardPreferenceProperties {
   header: string;
