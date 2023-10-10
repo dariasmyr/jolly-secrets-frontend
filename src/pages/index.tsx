@@ -1,16 +1,16 @@
 import { ReactNode } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
 import { ButtonLarge } from '@components/ui/button-large';
-import { CardAddButton } from '@components/ui/card-add-button';
 import { CardCreateEvent } from '@components/ui/card-create-event';
 import { CardCreatePreference } from '@components/ui/card-create-preference';
+import { CardGenerateInvite } from '@components/ui/card-generate-invite';
 import { CardImage, ICardImageProperties } from '@components/ui/card-image';
 import { CardNameInput } from '@components/ui/card-name-input';
 import { CardPreference } from '@components/ui/card-preference';
 import { DialogChooseAccount } from '@components/ui/dialog/dialog-choose-account';
 import { DialogGenerateInvite } from '@components/ui/dialog/dialog-generate-invite';
 import { DialogInputEmail } from '@components/ui/dialog/dialog-input-email/input';
-import { CardEmailToggle } from '@components/ui/email/card-email-toggle';
+import { CardEmailToggle } from '@components/ui/email/card-toggle-email';
 import { TabApplications } from '@components/ui/tab-applications';
 import { CardCreateGroup } from 'src/components/ui/card-create-group';
 import {
@@ -88,7 +88,7 @@ const textCardEmailToggleProperties = {
   description: 'При включенной опции уведомления будут приходить на ваш емейл',
 };
 
-const textCardAddButtonProperties = {
+const textCardGenerateInviteProperties = {
   title: 'Добавить участников',
   description: 'Нажми на кнопку чтобы сгенерировать приглашение.',
 };
@@ -139,9 +139,9 @@ export default function IndexPage(): ReactNode {
         header={textCardPreferenceProperties.header}
         preferences={textCardPreferenceProperties.preferences}
       />
-      <CardAddButton
-        title={textCardAddButtonProperties.title}
-        description={textCardAddButtonProperties.description}
+      <CardGenerateInvite
+        title={textCardGenerateInviteProperties.title}
+        description={textCardGenerateInviteProperties.description}
       />
       <CardEmailToggle
         title={textCardEmailToggleProperties.title}

@@ -1,7 +1,8 @@
 import { ReactElement } from 'react';
 import { Button, ButtonVariant } from '@components/ui/button';
 import { Card } from '@components/ui/card';
-import { ButtonWrapper, Wrapper } from '@components/ui/card/style';
+import { Wrapper } from '@components/ui/card/style';
+import { ButtonWrapper } from '@components/ui/card-create-preference/style';
 import { SelectOptions } from '@components/ui/select-options';
 import { TextField } from '@mui/material';
 
