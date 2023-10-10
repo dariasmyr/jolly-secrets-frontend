@@ -17,3 +17,9 @@ export const Wrapper = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+`;

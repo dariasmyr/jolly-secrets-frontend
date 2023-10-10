@@ -1,10 +1,16 @@
 import { ReactElement } from 'react';
+import { Button, ButtonVariant } from '@components/ui/button';
 import { Card } from '@components/ui/card';
-import { Wrapper } from '@components/ui/card/style';
+import { ButtonWrapper, Wrapper } from '@components/ui/card/style';
 import { SelectOptions } from '@components/ui/select-options';
 import { TextField } from '@mui/material';
 
 export const CardCreatePreference = (): ReactElement => {
+  const handleClick = (): void => {
+    // eslint-disable-next-line no-alert
+    alert('click');
+  };
+
   return (
     <Card
       content={
@@ -43,6 +49,11 @@ export const CardCreatePreference = (): ReactElement => {
             fullWidth
             multiline
           />
+          <ButtonWrapper>
+            <Button onClick={handleClick} variant={ButtonVariant.warning}>
+              Удалить
+            </Button>
+          </ButtonWrapper>
         </Wrapper>
       }
     />
