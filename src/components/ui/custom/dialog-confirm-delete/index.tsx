@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
-import { ButtonVariant } from '@components/ui/button';
-import { Dialog } from '@components/ui/dialog';
+import { Dialog } from '@components/ui/common/dialog';
 import { DialogContentText } from '@mui/material';
+import { ButtonVariant } from 'src/components/ui/common/button';
 
 export const DialogConfirmDelete = (properties: {
   isOpen: boolean;

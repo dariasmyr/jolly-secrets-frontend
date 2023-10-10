@@ -1,8 +1,8 @@
 import { ReactElement } from 'react';
-import { Wrapper } from '@components/ui/card-create/styled-components';
 import { Card } from '@components/ui/common/card';
+import { SelectOptions } from '@components/ui/common/select-options';
+import { Wrapper } from '@components/ui/custom/card-create/styled-components';
 import { TextField } from '@mui/material';
-import { SelectOptions } from 'src/components/ui/common/select-options';
 
 export const CardCreateGroup = (): ReactElement => {
   return (

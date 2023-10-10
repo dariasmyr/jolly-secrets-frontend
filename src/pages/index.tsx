@@ -1,24 +1,27 @@
 import { ReactNode } from 'react';
-import { Button, ButtonVariant } from '@components/ui/button';
-import { CardCreateEvent } from '@components/ui/card-create/card-create-event';
-import { CardCreateGroup } from '@components/ui/card-create/card-create-group';
-import { CardCreatePreference } from '@components/ui/card-create/card-create-preference';
-import { CardGenerateInvite } from '@components/ui/card-generate-invite';
-import { CardImage, ICardImageProperties } from '@components/ui/card-image';
-import { CardPreference } from '@components/ui/card-preference';
-import { DialogChooseAccount } from '@components/ui/dialog/dialog-choose-account';
-import { DialogGenerateInvite } from '@components/ui/dialog/dialog-generate-invite';
-import { DialogInputEmail } from '@components/ui/dialog/dialog-input-email/input';
-import { TabApplications } from '@components/ui/tab-applications';
-import { ButtonLarge } from 'src/components/ui/button/button-large';
-import { CardChangeName } from 'src/components/ui/card-change-name';
+import { CardCreateEvent } from '@components/ui/custom/card-create/card-create-event';
+import { CardCreateGroup } from '@components/ui/custom/card-create/card-create-group';
+import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
+import { DialogInputEmail } from '@components/ui/custom/dialog-input-email/input';
+import { Button, ButtonVariant } from 'src/components/ui/common/button';
+import { MenuOptions } from 'src/components/ui/common/menu-options';
+import { TabApplications } from 'src/components/ui/common/tab-applications';
+import { ButtonLarge } from 'src/components/ui/custom/button-large';
+import { CardChangeName } from 'src/components/ui/custom/card-change-name';
 import {
   CardDeleteAccount,
   ICardDeleteInputProperties,
-} from 'src/components/ui/card-delete-account';
-import { CardEmailToggle } from 'src/components/ui/card-toggle-email';
-import { MenuOptions } from 'src/components/ui/common/menu-options';
-import { DialogConfirmDelete } from 'src/components/ui/dialog/dialog-confirm-delete';
+} from 'src/components/ui/custom/card-delete-account';
+import { CardGenerateInvite } from 'src/components/ui/custom/card-generate-invite';
+import {
+  CardImage,
+  ICardImageProperties,
+} from 'src/components/ui/custom/card-image';
+import { CardPreference } from 'src/components/ui/custom/card-preference';
+import { CardEmailToggle } from 'src/components/ui/custom/card-toggle-email';
+import { DialogChooseAccount } from 'src/components/ui/custom/dialog-choose-account';
+import { DialogConfirmDelete } from 'src/components/ui/custom/dialog-confirm-delete';
+import { DialogGenerateInvite } from 'src/components/ui/custom/dialog-generate-invite';
 
 const testCardDeleteInputProperties: ICardDeleteInputProperties = {
   description: 'Чтобы удалить аккаунт напишите “Удалить аккаунт”',

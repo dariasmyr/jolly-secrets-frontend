@@ -1,8 +1,8 @@
 import { ReactElement } from 'react';
-import { Button, ButtonVariant } from '@components/ui/button';
 import { Card } from '@components/ui/common/card';
 import { Description, Wrapper } from '@components/ui/common/styled-components';
 import TextField from '@mui/material/TextField';
+import { Button, ButtonVariant } from 'src/components/ui/common/button';
 
 export interface ICardDeleteInputProperties {
   description: string;

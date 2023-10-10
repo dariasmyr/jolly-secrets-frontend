@@ -1,10 +1,10 @@
 import { ReactElement } from 'react';
+import { Card } from '@components/ui/common/card';
+import { Description, Wrapper } from '@components/ui/common/styled-components';
 import {
   Header,
   HeaderWrapper,
-} from '@components/ui/card-toggle-email/styled-components';
-import { Card } from '@components/ui/common/card';
-import { Description, Wrapper } from '@components/ui/common/styled-components';
+} from '@components/ui/custom/card-toggle-email/styled-components';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import { Avatar, Switch } from '@mui/material';
 

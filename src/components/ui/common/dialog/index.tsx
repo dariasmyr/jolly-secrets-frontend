@@ -1,11 +1,11 @@
 import { ReactElement } from 'react';
-import { Button, ButtonVariant } from '@components/ui/button';
 import {
   Dialog as MUIDialog,
   DialogActions as OrigDialogActions,
   DialogContent,
   DialogTitle,
 } from '@mui/material';
+import { Button, ButtonVariant } from 'src/components/ui/common/button';
 import styled from 'styled-components';
 
 export interface IDialogButtonProperties {

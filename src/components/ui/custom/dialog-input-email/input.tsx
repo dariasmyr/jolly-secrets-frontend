@@ -1,9 +1,9 @@
 import { ReactElement, useState } from 'react';
-import { ButtonVariant } from '@components/ui/button';
-import { Dialog } from '@components/ui/dialog';
-import { TextField } from '@mui/material';
+import { Dialog } from '@components/ui/common/dialog';
+import { DialogContentText, TextField } from '@mui/material';
+import { ButtonVariant } from 'src/components/ui/common/button';
 
-export const DialogGenerateInvite = (properties: {
+export const DialogInputEmail = (properties: {
   isOpen: boolean;
 }): ReactElement => {
   const [inputValue, setInputValue] = useState('');
@@ -24,13 +24,16 @@ export const DialogGenerateInvite = (properties: {
   return (
     <Dialog
       open={properties.isOpen}
-      title={'Скопируй и отправь другу'}
+      title={'Укажите почту'}
       content={
         <div>
+          <DialogContentText>
+            По этому адресу мы будем уведомлять вас о статусе заявок.
+          </DialogContentText>
           <TextField
             margin="dense"
             id="name"
-            label={'Ссылка'}
+            label={'Ваша почта'}
             type="text"
             fullWidth
             value={inputValue}
@@ -45,9 +48,9 @@ export const DialogGenerateInvite = (properties: {
           type: ButtonVariant.outlined,
         },
         {
-          title: 'Пригласить еще',
+          title: 'Сохранить',
           onClick: onConfirm,
-          type: ButtonVariant.warning,
+          type: ButtonVariant.outlined,
         },
       ]}
     />

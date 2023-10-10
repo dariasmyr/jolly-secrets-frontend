@@ -1,5 +1,9 @@
 import { ReactElement } from 'react';
 import {
+  IMenuProperties,
+  MenuOptions,
+} from '@components/ui/common/menu-options';
+import {
   Content,
   Header,
   HeaderWrapper,
@@ -8,12 +12,8 @@ import {
   PreHeader,
   TagContainer,
   Text,
-} from '@components/ui/card-image/styled-components';
-import { Tag } from '@components/ui/card-image/tag';
-import {
-  IMenuProperties,
-  MenuOptions,
-} from 'src/components/ui/common/menu-options';
+} from '@components/ui/custom/card-image/styled-components';
+import { Tag } from '@components/ui/custom/card-image/tag';
 
 export interface ITag {
   title: string;

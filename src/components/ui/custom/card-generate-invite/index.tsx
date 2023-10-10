@@ -1,5 +1,4 @@
 import { ReactElement } from 'react';
-import { Button, ButtonVariant } from '@components/ui/button';
 import { Card } from '@components/ui/common/card';
 import {
   ButtonWrapper,
@@ -7,6 +6,7 @@ import {
   Header,
   Wrapper,
 } from '@components/ui/common/styled-components';
+import { Button, ButtonVariant } from 'src/components/ui/common/button';
 
 export interface ICardGenerateInviteProperties {
   title: string;
