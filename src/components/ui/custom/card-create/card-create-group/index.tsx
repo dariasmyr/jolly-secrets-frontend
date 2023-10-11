@@ -4,32 +4,40 @@ import { SelectOptions } from '@components/ui/common/select-options';
 import { Wrapper } from '@components/ui/custom/card-create/styled-components';
 import { TextField } from '@mui/material';
 
-export const CardCreateGroup = (): ReactElement => {
+interface ITextFieldProperties {
+  label: string;
+  multiline: boolean;
+}
+
+interface ICardCreateFieldsProperties {
+  textFields: ITextFieldProperties[];
+  accessLevelTitle: string;
+  accessLevelOptions: string[];
+  onAccessLevelChange: (option: string) => void;
+}
+
+export const CardCreateGroup = (
+  properties: ICardCreateFieldsProperties,
+): ReactElement => {
   return (
     <Card
       content={
         <Wrapper>
-          <TextField
-            id="group_name"
-            label={'Название группы'}
-            type="text"
-            fullWidth
-            size="small"
-          />
-          <TextField
-            id="description"
-            label={'Описание группы'}
-            type="text"
-            fullWidth
-            multiline
-          />
+          {properties.textFields.map((field, index) => (
+            <TextField
+              key={index}
+              id={`field-${index}`}
+              label={field.label}
+              type="text"
+              fullWidth
+              size={field.multiline ? 'medium' : 'small'}
+              multiline={field.multiline}
+            />
+          ))}
           <SelectOptions
-            title="Уровень доступа"
-            options={['Публичная', 'Приватная']}
-            onChange={(option): void => {
-              // eslint-disable-next-line no-alert
-              alert(option);
-            }}
+            title={properties.accessLevelTitle}
+            options={properties.accessLevelOptions}
+            onChange={properties.onAccessLevelChange}
           />
         </Wrapper>
       }

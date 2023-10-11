@@ -6,28 +6,46 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 
-export const CardCreateEvent = (): ReactElement => {
+interface IDateRangeProperties {
+  start: string;
+  end: string;
+}
+
+interface ITextFieldProperties {
+  label: string;
+  isMultiline: boolean; // Добавляем свойство для определения многострочного поля
+}
+
+interface ICardCreateEventProperties {
+  textFields: ITextFieldProperties[];
+  dateRange: IDateRangeProperties;
+}
+
+export const CardCreateEvent = (
+  properties: ICardCreateEventProperties,
+): ReactElement => {
   return (
     <Card
       content={
         <Wrapper>
-          <TextField
-            id="event-name"
-            label={'Название события'}
-            type="text"
-            fullWidth
-            size="small"
-          />
-          <TextField
-            id="event-description"
-            label={'Описание события'}
-            type="text"
-            fullWidth
-            multiline
-          />
+          {properties.textFields.map((textField, index) => (
+            <div key={index}>
+              <TextField
+                id={`event-${index}`}
+                label={textField.label}
+                type="text"
+                fullWidth
+                size={textField.isMultiline ? 'medium' : 'small'}
+                multiline={textField.isMultiline}
+              />
+            </div>
+          ))}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateRangePicker
-              localeText={{ start: 'Check-in', end: 'Check-out' }}
+              localeText={{
+                start: properties.dateRange.start,
+                end: properties.dateRange.end,
+              }}
             />
           </LocalizationProvider>
         </Wrapper>

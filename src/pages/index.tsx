@@ -160,7 +160,12 @@ export default function IndexPage(): ReactNode {
         title={textCardEmailToggleProperties.title}
         description={textCardEmailToggleProperties.description}
       />
-      <CardChangeName />
+      <CardChangeName
+        label="Имя пользователя"
+        placeholder="Введите новое имя"
+        onSaveClick={handleClick}
+        button="Сохранить"
+      />
       <CardDeleteAccount
         description={testCardDeleteInputProperties.description}
       />
@@ -189,9 +194,39 @@ export default function IndexPage(): ReactNode {
       <DialogGenerateInvite isOpen={false} />
       <DialogInputEmail isOpen={false} />
       <DialogChooseAccount isOpen={false} />
-      <CardCreateGroup />
-      <CardCreatePreference />
-      <CardCreateEvent />
+      <CardCreateGroup
+        textFields={[
+          { label: 'Название группы', multiline: false },
+          { label: 'Описание группы', multiline: true },
+        ]}
+        accessLevelTitle="Уровень доступа"
+        accessLevelOptions={['Публичная', 'Приватная']}
+        onAccessLevelChange={handleClick}
+      />
+      <CardCreatePreference
+        selectTitle="Ограничение по цене"
+        priceOptions={[
+          'Без ограничений',
+          '1-10 USD',
+          '10-100 USD',
+          '100-1000 USD',
+        ]}
+        onPriceOptionChange={handleClick}
+        textFields={[
+          { label: 'Я НЕ хочу чтобы мне дарили', multiline: false, warn: true },
+          { label: 'Я хочу чтобы мне дарили', multiline: false, warn: false },
+          { label: 'Комментарий для поиска', multiline: true, warn: false },
+        ]}
+        onDeleteButtonClick={handleClick}
+        button="Удалить"
+      />
+      <CardCreateEvent
+        textFields={[
+          { label: 'Название события', isMultiline: false },
+          { label: 'Описание события', isMultiline: true },
+        ]}
+        dateRange={{ start: 'Начало', end: 'Конец' }}
+      />{' '}
       <FabAdd onClick={handleClick} />
     </div>
   );
