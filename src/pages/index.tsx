@@ -4,6 +4,7 @@ import { CardCreateGroup } from '@components/ui/custom/card-create/card-create-g
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
 import { DialogInputEmail } from '@components/ui/custom/dialog-input-email/input';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
+import { FabAdd } from 'src/components/ui/common/fab-add';
 import { MenuOptions } from 'src/components/ui/common/menu-options';
 import { TabApplications } from 'src/components/ui/common/tab-applications';
 import { ButtonLarge } from 'src/components/ui/custom/button-large';
@@ -182,6 +183,7 @@ export default function IndexPage(): ReactNode {
       <CardCreateGroup />
       <CardCreatePreference />
       <CardCreateEvent />
+      <FabAdd />
     </div>
   );
 }
