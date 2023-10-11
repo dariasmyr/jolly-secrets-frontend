@@ -1,6 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable unicorn/no-null */
 import React, { ReactElement, useState } from 'react';
+import { Wrapper } from '@components/ui/common/menu-options/styled-components';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -27,17 +28,7 @@ export const MenuOptions = (properties: IMenuProperties): ReactElement => {
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: 'transparent',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        border: 'none',
-        width: '20px',
-        height: '20px',
-      }}
-    >
+    <Wrapper>
       <IconButton
         style={{ backgroundColor: 'transparent', border: 'none' }}
         aria-controls="simple-menu"
@@ -65,6 +56,6 @@ export const MenuOptions = (properties: IMenuProperties): ReactElement => {
           </MenuItem>
         ))}
       </Menu>
-    </div>
+    </Wrapper>
   );
 };

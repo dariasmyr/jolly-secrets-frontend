@@ -97,7 +97,16 @@ const textCardGenerateInviteProperties = {
   description: 'Нажми на кнопку чтобы сгенерировать приглашение.',
 };
 
+const tabs = [
+  { label: 'Моя заявка', value: 'tab1' },
+  { label: 'Заявка Тайного Санты', value: 'tab2' },
+];
+
 export default function IndexPage(): ReactNode {
+  const handleTabChange = (tabValue: string): void => {
+    console.log(`Selected tab: ${tabValue}`);
+    // Ваша логика обработки изменения вкладки
+  };
   const handleClick = (): void => {
     // eslint-disable-next-line no-alert
     alert('click');
@@ -155,7 +164,7 @@ export default function IndexPage(): ReactNode {
       <CardDeleteAccount
         description={testCardDeleteInputProperties.description}
       />
-      <TabApplications />
+      <TabApplications tabs={tabs} onTabChange={handleTabChange} />
       <ButtonLarge onClick={handleClick}>Хочу учавстовать!</ButtonLarge>
       <ButtonLarge disabled>Завершено 01.12.2023</ButtonLarge>
       <MenuOptions
@@ -183,7 +192,7 @@ export default function IndexPage(): ReactNode {
       <CardCreateGroup />
       <CardCreatePreference />
       <CardCreateEvent />
-      <FabAdd />
+      <FabAdd onClick={handleClick} />
     </div>
   );
 }
