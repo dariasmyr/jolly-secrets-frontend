@@ -6,15 +6,14 @@ import { Button, ButtonVariant } from 'src/components/ui/common/button';
 
 export interface ICardDeleteInputProperties {
   description: string;
+  placeholder: string;
+  onDeleteButtonClick: () => void;
+  button: string;
 }
 
 export const CardDeleteAccount = (
   properties: ICardDeleteInputProperties,
 ): ReactElement => {
-  const handleClick = (): void => {
-    // eslint-disable-next-line no-alert
-    alert('click');
-  };
   return (
     <Card
       content={
@@ -22,12 +21,15 @@ export const CardDeleteAccount = (
           <Description>{properties.description}</Description>
           <TextField
             fullWidth
-            placeholder="Удалить аккаунт"
+            placeholder={properties.placeholder}
             size="small"
             color="error"
           />
-          <Button onClick={handleClick} variant={ButtonVariant.warning}>
-            Удалить
+          <Button
+            onClick={properties.onDeleteButtonClick}
+            variant={ButtonVariant.warning}
+          >
+            {properties.button}
           </Button>
         </Wrapper>
       }

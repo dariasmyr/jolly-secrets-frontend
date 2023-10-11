@@ -9,10 +9,7 @@ import { MenuOptions } from 'src/components/ui/common/menu-options';
 import { TabApplications } from 'src/components/ui/common/tab-applications';
 import { ButtonLarge } from 'src/components/ui/custom/button-large';
 import { CardChangeName } from 'src/components/ui/custom/card-change-name';
-import {
-  CardDeleteAccount,
-  ICardDeleteInputProperties,
-} from 'src/components/ui/custom/card-delete-account';
+import { CardDeleteAccount } from 'src/components/ui/custom/card-delete-account';
 import { CardGenerateInvite } from 'src/components/ui/custom/card-generate-invite';
 import {
   CardImage,
@@ -23,10 +20,6 @@ import { CardEmailToggle } from 'src/components/ui/custom/card-toggle-email';
 import { DialogChooseAccount } from 'src/components/ui/custom/dialog-choose-account';
 import { DialogConfirmDelete } from 'src/components/ui/custom/dialog-confirm-delete';
 import { DialogGenerateInvite } from 'src/components/ui/custom/dialog-generate-invite';
-
-const testCardDeleteInputProperties: ICardDeleteInputProperties = {
-  description: 'Чтобы удалить аккаунт напишите “Удалить аккаунт”',
-};
 
 const testCardImageProperties: ICardImageProperties = {
   imageUrl: 'https://source.unsplash.com/random/368×200/?fruit',
@@ -92,11 +85,6 @@ const textCardEmailToggleProperties = {
   description: 'При включенной опции уведомления будут приходить на ваш емейл',
 };
 
-const textCardGenerateInviteProperties = {
-  title: 'Добавить участников',
-  description: 'Нажми на кнопку чтобы сгенерировать приглашение.',
-};
-
 const tabs = [
   { label: 'Моя заявка', value: 'tab1' },
   { label: 'Заявка Тайного Санты', value: 'tab2' },
@@ -105,7 +93,6 @@ const tabs = [
 export default function IndexPage(): ReactNode {
   const handleTabChange = (tabValue: string): void => {
     console.log(`Selected tab: ${tabValue}`);
-    // Ваша логика обработки изменения вкладки
   };
   const handleClick = (): void => {
     // eslint-disable-next-line no-alert
@@ -153,8 +140,10 @@ export default function IndexPage(): ReactNode {
         preferences={textCardPreferenceProperties.preferences}
       />
       <CardGenerateInvite
-        title={textCardGenerateInviteProperties.title}
-        description={textCardGenerateInviteProperties.description}
+        title={'Добавить участников'}
+        description={'Нажми на кнопку чтобы сгенерировать приглашение.'}
+        onGenerateInviteClick={handleClick}
+        button={'Добавить участников'}
       />
       <CardEmailToggle
         title={textCardEmailToggleProperties.title}
@@ -167,7 +156,10 @@ export default function IndexPage(): ReactNode {
         button="Сохранить"
       />
       <CardDeleteAccount
-        description={testCardDeleteInputProperties.description}
+        description={'Чтобы удалить аккаунт напишите “Удалить аккаунт”'}
+        placeholder={'Удалить'}
+        onDeleteButtonClick={handleClick}
+        button={'Удалить'}
       />
       <TabApplications tabs={tabs} onTabChange={handleTabChange} />
       <ButtonLarge onClick={handleClick}>Хочу учавстовать!</ButtonLarge>
