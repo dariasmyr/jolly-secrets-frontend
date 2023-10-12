@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { CardCreateEvent } from '@components/ui/custom/card-create/card-create-event';
 import { CardCreateGroup } from '@components/ui/custom/card-create/card-create-group';
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
-import { DialogInputEmail } from '@components/ui/custom/dialog-input-email/input';
+import { DialogInputEmail } from '@components/ui/custom/dialog-input-email';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
 import { FabAdd } from 'src/components/ui/common/fab-add';
 import { MenuOptions } from 'src/components/ui/common/menu-options';
@@ -183,7 +183,7 @@ export default function IndexPage(): ReactNode {
         ]}
       />
       <DialogConfirmDelete isOpen={false} />
-      <DialogGenerateInvite isOpen={false} />
+      <DialogGenerateInvite isOpen={true} />
       <DialogInputEmail isOpen={false} />
       <DialogChooseAccount isOpen={false} />
       <CardCreateGroup

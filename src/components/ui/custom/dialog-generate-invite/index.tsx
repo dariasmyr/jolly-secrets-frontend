@@ -1,24 +1,45 @@
 import { ReactElement, useState } from 'react';
 import { Dialog } from '@components/ui/common/dialog';
-import { TextField } from '@mui/material';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
 import { ButtonVariant } from 'src/components/ui/common/button';
+
+// Функция для генерации случайной строки
+function generateRandomString(length: number): string {
+  const charset =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let result = '';
+  for (let index = 0; index < length; index++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    result += charset.charAt(randomIndex);
+  }
+  return result;
+}
 
 export const DialogGenerateInvite = (properties: {
   isOpen: boolean;
 }): ReactElement => {
   const [inputValue, setInputValue] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
   function onCancel(): void {
     // eslint-disable-next-line no-alert
     alert('Cancel');
   }
 
-  function onConfirm(): void {
-    // eslint-disable-next-line no-alert
-    alert(inputValue);
+  function onGenerate(): void {
+    const codeLength = 10;
+    const randomString = generateRandomString(codeLength);
+    setInputValue(randomString);
   }
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    setInputValue(event.target.value);
+  function onCopy(): void {
+    setSnackbarOpen(true);
+  }
+
+  function handleCloseSnackbar(): void {
+    setSnackbarOpen(false);
   }
 
   return (
@@ -34,7 +55,22 @@ export const DialogGenerateInvite = (properties: {
             type="text"
             fullWidth
             value={inputValue}
-            onChange={handleChange}
+            onChange={(): void => {}}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={onCopy} color="primary">
+                    <FileCopyIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+            message="Скопировано в буфер обмена"
           />
         </div>
       }
@@ -45,9 +81,9 @@ export const DialogGenerateInvite = (properties: {
           type: ButtonVariant.outlined,
         },
         {
-          title: 'Пригласить еще',
-          onClick: onConfirm,
-          type: ButtonVariant.warning,
+          title: 'Сгенерировать',
+          onClick: onGenerate,
+          type: ButtonVariant.primary,
         },
       ]}
     />
