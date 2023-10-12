@@ -192,7 +192,7 @@ export default function IndexPage(): ReactNode {
         onConfirmClick={handleClick}
       />
       <DialogGenerateInvite
-        isOpen={true}
+        isOpen={false}
         title="Скопируй и отправь другу"
         onCancelClick={handleClick}
       />
