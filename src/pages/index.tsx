@@ -20,6 +20,7 @@ import { CardEmailToggle } from 'src/components/ui/custom/card-toggle-email';
 import { DialogChooseAccount } from 'src/components/ui/custom/dialog-choose-account';
 import { DialogConfirmDelete } from 'src/components/ui/custom/dialog-confirm-delete';
 import { DialogGenerateInvite } from 'src/components/ui/custom/dialog-generate-invite';
+import { Notification } from 'src/components/ui/custom/notification';
 
 const testCardImageProperties: ICardImageProperties = {
   imageUrl: 'https://source.unsplash.com/random/368×200/?fruit',
@@ -247,6 +248,11 @@ export default function IndexPage(): ReactNode {
         dateRange={{ start: 'Начало', end: 'Конец' }}
       />{' '}
       <FabAdd onClick={handleClick} />
+      <Notification
+        sender="Тайный Санта"
+        date="9 часов назад"
+        text="Мы нашли вам тайного санту. Скорее посмотрите, что он написал. Просто нажмите на это сообщение!"
+      />
     </div>
   );
 }
