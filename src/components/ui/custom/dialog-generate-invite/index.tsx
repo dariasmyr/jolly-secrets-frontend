@@ -5,7 +5,6 @@ import { IconButton, InputAdornment, TextField } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import { ButtonVariant } from 'src/components/ui/common/button';
 
-// Функция для генерации случайной строки
 function generateRandomString(length: number): string {
   const charset =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -31,10 +30,16 @@ export const DialogGenerateInvite = (properties: {
   function onGenerate(): void {
     const codeLength = 10;
     const randomString = generateRandomString(codeLength);
-    setInputValue(randomString);
+    const inviteLink = `${process.env.NEXT_PUBLIC_SELF_URL}invite?code=${randomString}`;
+    setInputValue(inviteLink);
+  }
+
+  async function handleClick(): Promise<void> {
+    await navigator.clipboard.writeText(inputValue);
   }
 
   function onCopy(): void {
+    handleClick();
     setSnackbarOpen(true);
   }
 
@@ -56,6 +61,7 @@ export const DialogGenerateInvite = (properties: {
             fullWidth
             value={inputValue}
             onChange={(): void => {}}
+            multiline
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
