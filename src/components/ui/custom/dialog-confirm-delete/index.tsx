@@ -3,39 +3,47 @@ import { Dialog } from '@components/ui/common/dialog';
 import { DialogContentText } from '@mui/material';
 import { ButtonVariant } from 'src/components/ui/common/button';
 
-export const DialogConfirmDelete = (properties: {
+interface DialogConfirmDeleteProperties {
   isOpen: boolean;
-}): ReactElement => {
-  function onCancel(): void {
-    // eslint-disable-next-line no-alert
-    alert('Cancel');
-  }
+  title: string;
+  description: string;
+  cancelButtonText: string;
+  confirmButtonText: string;
+  onCancelClick: () => void;
+  onConfirmClick: () => void;
+}
 
-  function onDelete(): void {
-    // eslint-disable-next-line no-alert
-    alert('Delete');
-  }
+export const DialogConfirmDelete = (
+  properties: DialogConfirmDeleteProperties,
+): ReactElement => {
+  const {
+    isOpen,
+    title,
+    description,
+    cancelButtonText,
+    confirmButtonText,
+    onCancelClick,
+    onConfirmClick,
+  } = properties;
 
   return (
     <Dialog
-      open={properties.isOpen}
-      title={'Вы уверены?'}
+      open={isOpen}
+      title={title}
       content={
         <div>
-          <DialogContentText>
-            После удаления аккаунт нельзя будет восстановить.
-          </DialogContentText>
+          <DialogContentText>{description}</DialogContentText>
         </div>
       }
       buttons={[
         {
-          title: 'Отмена',
-          onClick: onCancel,
+          title: cancelButtonText,
+          onClick: onCancelClick,
           type: ButtonVariant.outlined,
         },
         {
-          title: 'Да, удалить аккаунт',
-          onClick: onDelete,
+          title: confirmButtonText,
+          onClick: onConfirmClick,
           type: ButtonVariant.warning,
         },
       ]}

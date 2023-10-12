@@ -182,10 +182,37 @@ export default function IndexPage(): ReactNode {
           },
         ]}
       />
-      <DialogConfirmDelete isOpen={false} />
-      <DialogGenerateInvite isOpen={true} />
-      <DialogInputEmail isOpen={false} />
-      <DialogChooseAccount isOpen={false} />
+      <DialogConfirmDelete
+        isOpen={false}
+        title="Вы уверены?"
+        description="После удаления аккаунта нельзя будет восстановить."
+        cancelButtonText="Отмена"
+        confirmButtonText="Да, удалить аккаунт"
+        onCancelClick={handleClick}
+        onConfirmClick={handleClick}
+      />
+      <DialogGenerateInvite
+        isOpen={true}
+        title="Скопируй и отправь другу"
+        onCancelClick={handleClick}
+      />
+      <DialogInputEmail
+        isOpen={false}
+        title="Укажите почту"
+        onCancelClick={handleClick}
+        onSaveClick={handleClick}
+      />
+      <DialogChooseAccount
+        isOpen={false}
+        title="Выберите аккаунт, который хотите оставить"
+        description="У вас уже есть аккаунт, привязанный к Telegram/Google профилю. Выберите аккаунт, который хотите оставить, и мы привяжем к нему ваш Telegram/Google профиль."
+        telegramButtonText="Аккаунт Telegram"
+        googleButtonText="Аккаунт Google"
+        cancelButtonText="Отмена"
+        onTelegramClick={handleClick}
+        onGoogleClick={handleClick}
+        onCancelClick={handleClick}
+      />
       <CardCreateGroup
         textFields={[
           { label: 'Название группы', multiline: false },

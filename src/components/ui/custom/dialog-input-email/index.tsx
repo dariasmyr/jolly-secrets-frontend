@@ -3,28 +3,30 @@ import { Dialog } from '@components/ui/common/dialog';
 import { DialogContentText, TextField } from '@mui/material';
 import { ButtonVariant } from 'src/components/ui/common/button';
 
-export const DialogInputEmail = (properties: {
+interface DialogInputEmailProperties {
   isOpen: boolean;
-}): ReactElement => {
-  const [inputValue, setInputValue] = useState('');
-  function onCancel(): void {
-    // eslint-disable-next-line no-alert
-    alert('Cancel');
-  }
+  title: string;
+  onCancelClick: () => void;
+  onSaveClick: (email: string) => void;
+}
 
-  function onConfirm(): void {
-    // eslint-disable-next-line no-alert
-    alert(inputValue);
-  }
+export const DialogInputEmail = (
+  properties: DialogInputEmailProperties,
+): ReactElement => {
+  const [inputValue, setInputValue] = useState('');
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
     setInputValue(event.target.value);
   }
 
+  function handleSave(): void {
+    properties.onSaveClick(inputValue);
+  }
+
   return (
     <Dialog
       open={properties.isOpen}
-      title={'Укажите почту'}
+      title={properties.title}
       content={
         <div>
           <DialogContentText>
@@ -44,12 +46,12 @@ export const DialogInputEmail = (properties: {
       buttons={[
         {
           title: 'Отмена',
-          onClick: onCancel,
+          onClick: properties.onCancelClick,
           type: ButtonVariant.outlined,
         },
         {
           title: 'Сохранить',
-          onClick: onConfirm,
+          onClick: handleSave,
           type: ButtonVariant.outlined,
         },
       ]}

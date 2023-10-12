@@ -2,41 +2,57 @@ import { ReactElement } from 'react';
 import { Dialog } from '@components/ui/common/dialog';
 import { DialogContentText } from '@mui/material';
 import { ButtonVariant } from 'src/components/ui/common/button';
-export const DialogChooseAccount = (properties: {
+
+interface DialogChooseAccountProperties {
   isOpen: boolean;
-}): ReactElement => {
-  function onChoice(choice: string): void {
-    // eslint-disable-next-line no-alert
-    alert(choice);
-  }
+  title: string;
+  description: string;
+  telegramButtonText: string;
+  googleButtonText: string;
+  cancelButtonText: string;
+  onTelegramClick: () => void;
+  onGoogleClick: () => void;
+  onCancelClick: () => void;
+}
+
+export const DialogChooseAccount = (
+  properties: DialogChooseAccountProperties,
+): ReactElement => {
+  const {
+    isOpen,
+    title,
+    description,
+    telegramButtonText,
+    googleButtonText,
+    cancelButtonText,
+    onTelegramClick,
+    onGoogleClick,
+    onCancelClick,
+  } = properties;
 
   return (
     <Dialog
-      open={properties.isOpen}
-      title={'Выберите аккаунт, который хотите оставить'}
+      open={isOpen}
+      title={title}
       content={
         <div>
-          <DialogContentText>
-            У вас уже есть аккаунт, привязанный к Telegram/Google профилю.
-            Выберите аккаунт, который хотите оставить, и мы привяжен к нему ваш
-            Telegram/Google профиль.
-          </DialogContentText>
+          <DialogContentText>{description}</DialogContentText>
         </div>
       }
       buttons={[
         {
-          title: 'Аккаунт telegram',
-          onClick: () => onChoice('Аккаунт telegram'),
+          title: telegramButtonText,
+          onClick: onTelegramClick,
           type: ButtonVariant.primary,
         },
         {
-          title: 'Аккаунт google',
-          onClick: () => onChoice('Аккаунт google'),
+          title: googleButtonText,
+          onClick: onGoogleClick,
           type: ButtonVariant.primary,
         },
         {
-          title: 'Отмена',
-          onClick: () => onChoice,
+          title: cancelButtonText,
+          onClick: onCancelClick,
           type: ButtonVariant.borderless,
         },
       ]}
