@@ -13,7 +13,7 @@ interface IDateRangeProperties {
 
 interface ITextFieldProperties {
   label: string;
-  isMultiline: boolean; // Добавляем свойство для определения многострочного поля
+  isMultiline: boolean;
 }
 
 interface ICardCreateEventProperties {

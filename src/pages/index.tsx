@@ -20,6 +20,7 @@ import { CardEmailToggle } from 'src/components/ui/custom/card-toggle-email';
 import { DialogChooseAccount } from 'src/components/ui/custom/dialog-choose-account';
 import { DialogConfirmDelete } from 'src/components/ui/custom/dialog-confirm-delete';
 import { DialogGenerateInvite } from 'src/components/ui/custom/dialog-generate-invite';
+import { Notification } from 'src/components/ui/custom/notification';
 
 const testCardImageProperties: ICardImageProperties = {
   imageUrl: 'https://source.unsplash.com/random/368×200/?fruit',
@@ -182,10 +183,37 @@ export default function IndexPage(): ReactNode {
           },
         ]}
       />
-      <DialogConfirmDelete isOpen={false} />
-      <DialogGenerateInvite isOpen={true} />
-      <DialogInputEmail isOpen={false} />
-      <DialogChooseAccount isOpen={false} />
+      <DialogConfirmDelete
+        isOpen={false}
+        title="Вы уверены?"
+        description="После удаления аккаунта нельзя будет восстановить."
+        cancelButtonText="Отмена"
+        confirmButtonText="Да, удалить аккаунт"
+        onCancelClick={handleClick}
+        onConfirmClick={handleClick}
+      />
+      <DialogGenerateInvite
+        isOpen={false}
+        title="Скопируй и отправь другу"
+        onCancelClick={handleClick}
+      />
+      <DialogInputEmail
+        isOpen={false}
+        title="Укажите почту"
+        onCancelClick={handleClick}
+        onSaveClick={handleClick}
+      />
+      <DialogChooseAccount
+        isOpen={false}
+        title="Выберите аккаунт, который хотите оставить"
+        description="У вас уже есть аккаунт, привязанный к Telegram/Google профилю. Выберите аккаунт, который хотите оставить, и мы привяжем к нему ваш Telegram/Google профиль."
+        telegramButtonText="Аккаунт Telegram"
+        googleButtonText="Аккаунт Google"
+        cancelButtonText="Отмена"
+        onTelegramClick={handleClick}
+        onGoogleClick={handleClick}
+        onCancelClick={handleClick}
+      />
       <CardCreateGroup
         textFields={[
           { label: 'Название группы', multiline: false },
@@ -220,6 +248,11 @@ export default function IndexPage(): ReactNode {
         dateRange={{ start: 'Начало', end: 'Конец' }}
       />{' '}
       <FabAdd onClick={handleClick} />
+      <Notification
+        sender="Тайный Санта"
+        date="9 часов назад"
+        text="Мы нашли вам тайного санту. Скорее посмотрите, что он написал. Просто нажмите на это сообщение!"
+      />
     </div>
   );
 }
