@@ -245,7 +245,7 @@ export default function IndexPage(): ReactNode {
           { label: 'Название события', isMultiline: false },
           { label: 'Описание события', isMultiline: true },
         ]}
-        dateRange={{ start: 'Начало', end: 'Конец' }}
+        dateRange={{ endDate: 'Дата окончания события' }}
       />{' '}
       <FabAdd onClick={handleClick} />
       <Notification

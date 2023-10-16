@@ -4,11 +4,10 @@ import { Wrapper } from '@components/ui/custom/card-create/styled-components';
 import { TextField } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface IDateRangeProperties {
-  start: string;
-  end: string;
+  endDate: string;
 }
 
 interface ITextFieldProperties {
@@ -41,12 +40,7 @@ export const CardCreateEvent = (
             </div>
           ))}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateRangePicker
-              localeText={{
-                start: properties.dateRange.start,
-                end: properties.dateRange.end,
-              }}
-            />
+            <DatePicker label={properties.dateRange.endDate} slotProps={{}} />
           </LocalizationProvider>
         </Wrapper>
       }
