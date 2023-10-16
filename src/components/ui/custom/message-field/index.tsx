@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   width: 390px;
-  height: var(--6, 48px);
   flex-shrink: 0;
   background: #fff;
   box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.15);
@@ -15,33 +14,38 @@ const Container = styled.div`
 const ContentWrapper = styled.div`
   flex: 1;
   display: flex;
+  flexdirection: row;
   align-items: center;
+  justify-content: center;
   padding: 8px;
 `;
 
-const Input = styled.input`
+const TextArea = styled.textarea`
   flex: 1;
   border: none;
   outline: none;
-  width: 327px;
+  width: 100%;
+  height: auto; /* Allow the textarea to grow in height */
+  resize: vertical; /* Allow vertical resizing */
   color: #8d96a8;
   font-feature-settings:
     'clig' off,
     'liga' off;
-
-  /* typography/body1 */
   font-family: Roboto, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 150%; /* 24px */
+  line-height: 100%;
   letter-spacing: 0.15px;
+  overflow-y: auto;
 `;
 
 const SendButton = styled(SendIcon)`
   cursor: pointer;
   color: #a5a5a5;
+  margin-left: 4px;
 `;
+
 interface IMessageFieldProperties {
   onClick: (message: string) => void;
 }
@@ -52,7 +56,7 @@ export const MessageField = (
   const [message, setMessage] = useState('');
 
   const handleMessageChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLTextAreaElement>,
   ): void => {
     setMessage(event.target.value);
   };
@@ -65,8 +69,7 @@ export const MessageField = (
   return (
     <Container>
       <ContentWrapper>
-        <Input
-          type="text"
+        <TextArea
           placeholder="Напишите сообщение..."
           value={message}
           onChange={handleMessageChange}
