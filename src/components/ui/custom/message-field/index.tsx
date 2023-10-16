@@ -8,13 +8,12 @@ const Container = styled.div`
   background: #fff;
   box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.15);
   display: flex;
-  flex-direction: column;
 `;
 
 const ContentWrapper = styled.div`
   flex: 1;
   display: flex;
-  flexdirection: row;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 8px;
@@ -25,19 +24,17 @@ const TextArea = styled.textarea`
   border: none;
   outline: none;
   width: 100%;
-  height: auto; /* Allow the textarea to grow in height */
-  resize: vertical; /* Allow vertical resizing */
-  color: #8d96a8;
+  height: 2em;
+  resize: vertical;
+  color: #2d2d2d;
   font-feature-settings:
     'clig' off,
     'liga' off;
   font-family: Roboto, sans-serif;
-  font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 100%;
-  letter-spacing: 0.15px;
-  overflow-y: auto;
+  padding: 0.5em 0;
+  overflow-y: hidden;
 `;
 
 const SendButton = styled(SendIcon)`
@@ -70,6 +67,7 @@ export const MessageField = (
     <Container>
       <ContentWrapper>
         <TextArea
+          maxLength={200}
           placeholder="Напишите сообщение..."
           value={message}
           onChange={handleMessageChange}

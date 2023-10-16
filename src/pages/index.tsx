@@ -3,6 +3,10 @@ import { CardCreateEvent } from '@components/ui/custom/card-create/card-create-e
 import { CardCreateGroup } from '@components/ui/custom/card-create/card-create-group';
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
 import { DialogInputEmail } from '@components/ui/custom/dialog-input-email';
+import {
+  IncomingMessageComponent,
+  OutgoingMessageComponent,
+} from '@components/ui/custom/message';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
 import { FabAdd } from 'src/components/ui/common/fab-add';
 import { MenuOptions } from 'src/components/ui/common/menu-options';
@@ -255,6 +259,12 @@ export default function IndexPage(): ReactNode {
         text="Мы нашли вам тайного санту. Скорее посмотрите, что он написал. Просто нажмите на это сообщение!"
       />
       <MessageField onClick={handleClick} />
+      <OutgoingMessageComponent text={'Привет, как дела?'} />
+      <IncomingMessageComponent
+        text={
+          'Привет, у меня все хорошо! Это очень длинное сообщение, которое должно занимать несколько строк!'
+        }
+      />
     </div>
   );
 }
