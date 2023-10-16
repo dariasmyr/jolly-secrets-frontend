@@ -20,6 +20,7 @@ import { CardEmailToggle } from 'src/components/ui/custom/card-toggle-email';
 import { DialogChooseAccount } from 'src/components/ui/custom/dialog-choose-account';
 import { DialogConfirmDelete } from 'src/components/ui/custom/dialog-confirm-delete';
 import { DialogGenerateInvite } from 'src/components/ui/custom/dialog-generate-invite';
+import { MessageField } from 'src/components/ui/custom/message-field';
 import { Notification } from 'src/components/ui/custom/notification';
 
 const testCardImageProperties: ICardImageProperties = {
@@ -253,6 +254,7 @@ export default function IndexPage(): ReactNode {
         date="9 часов назад"
         text="Мы нашли вам тайного санту. Скорее посмотрите, что он написал. Просто нажмите на это сообщение!"
       />
+      <MessageField onClick={handleClick} />
     </div>
   );
 }
