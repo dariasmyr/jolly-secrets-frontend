@@ -4,7 +4,7 @@ import { themeMui } from '@/theme';
 
 export const MessageBase = styled.div`
   display: flex;
-  padding: 6px;
+  padding: 6px 8px;
   align-items: center;
   font-family: Roboto, sans-serif;
   font-size: 13px;
@@ -17,7 +17,7 @@ export const MessageBase = styled.div`
 
 export const StyledMessage = styled(MessageBase)<{ isOutgoing: boolean }>`
   width: auto;
-  max-width: 50vw;
+  max-width: 90%;
   text-align: justify;
   border-radius: ${(properties): string =>
     properties.isOutgoing ? '12px 12px 0 12px' : '12px 12px 12px 0'};
@@ -32,7 +32,8 @@ export const StyledMessage = styled(MessageBase)<{ isOutgoing: boolean }>`
 `;
 
 export const MessageWrapper = styled.div<{ isOutgoing: boolean }>`
-  width: 390px;
+  width: 100%;
+  max-width: 390px;
   display: flex;
   justify-content: ${(properties): string =>
     properties.isOutgoing ? 'flex-end' : 'flex-start'};

@@ -263,6 +263,7 @@ export default function IndexPage(): ReactNode {
         }
         isOutgoing={false}
       />
+      <Message text={'Пtot l,otybt ly nfrjt j'} isOutgoing={true} />
     </div>
   );
 }
