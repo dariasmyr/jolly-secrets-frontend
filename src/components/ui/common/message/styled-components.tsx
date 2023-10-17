@@ -4,7 +4,7 @@ import { themeMui } from '@/theme';
 
 export const MessageBase = styled.div`
   display: flex;
-  padding: 4px;
+  padding: 6px;
   align-items: center;
   font-family: Roboto, sans-serif;
   font-size: 13px;
