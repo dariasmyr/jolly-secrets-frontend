@@ -15,32 +15,26 @@ export const MessageBase = styled.div`
   color: var(--text-primary, rgba(0, 0, 0, 0.87));
 `;
 
-export const OutgoingMessage = styled(MessageBase)`
+export const StyledMessage = styled(MessageBase)<{ isOutgoing: boolean }>`
   width: auto;
   max-width: 50vw;
   text-align: justify;
-  border-radius: 12px 12px 0 12px;
-  background-color: ${themeMui.palette.secondary.main};
-  color: ${themeMui.palette.secondary.contrastText};
+  border-radius: ${(properties): string =>
+    properties.isOutgoing ? '12px 12px 0 12px' : '12px 12px 12px 0'};
+  background-color: ${(properties): string =>
+    properties.isOutgoing
+      ? themeMui.palette.primary.main
+      : themeMui.palette.secondary.main};
+  color: ${(properties): string =>
+    properties.isOutgoing
+      ? themeMui.palette.primary.contrastText
+      : themeMui.palette.secondary.contrastText};
 `;
 
-export const IncomingMessage = styled(MessageBase)`
-  width: auto;
-  max-width: 50vw;
-  text-align: justify;
-  border-radius: 12px 12px 12px 0;
-  background-color: ${themeMui.palette.primary.main};
-  color: ${themeMui.palette.primary.contrastText};
-`;
-
-export const OutgoingMessageWrapper = styled.div`
+export const MessageWrapper = styled.div<{ isOutgoing: boolean }>`
   width: 390px;
   display: flex;
-  justify-content: end;
-`;
-
-export const IncomingMessageWrapper = styled.div`
-  width: 390px;
-  display: flex;
-  justify-content: start;
+  justify-content: ${(properties): string =>
+    properties.isOutgoing ? 'flex-end' : 'flex-start'};
+  padding: 10px;
 `;

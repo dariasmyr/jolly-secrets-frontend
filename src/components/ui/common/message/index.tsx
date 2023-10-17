@@ -1,31 +1,20 @@
 import { ReactElement } from 'react';
 import {
-  IncomingMessage,
-  IncomingMessageWrapper,
-  OutgoingMessage,
-  OutgoingMessageWrapper,
+  MessageWrapper,
+  StyledMessage,
 } from '@components/ui/common/message/styled-components';
 
 interface IMessageProperties {
   text: string;
+  isOutgoing: boolean;
 }
 
-export const OutgoingMessageComponent = (
-  properties: IMessageProperties,
-): ReactElement => {
+export const Message = (properties: IMessageProperties): ReactElement => {
   return (
-    <OutgoingMessageWrapper>
-      <OutgoingMessage>{properties.text}</OutgoingMessage>
-    </OutgoingMessageWrapper>
-  );
-};
-
-export const IncomingMessageComponent = (
-  properties: IMessageProperties,
-): ReactElement => {
-  return (
-    <IncomingMessageWrapper>
-      <IncomingMessage>{properties.text}</IncomingMessage>
-    </IncomingMessageWrapper>
+    <MessageWrapper isOutgoing={properties.isOutgoing}>
+      <StyledMessage isOutgoing={properties.isOutgoing}>
+        {properties.text}
+      </StyledMessage>
+    </MessageWrapper>
   );
 };

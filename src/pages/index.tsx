@@ -6,10 +6,7 @@ import { DialogInputEmail } from '@components/ui/custom/dialog-input-email';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
 import { FabAdd } from 'src/components/ui/common/fab-add';
 import { MenuOptions } from 'src/components/ui/common/menu-options';
-import {
-  IncomingMessageComponent,
-  OutgoingMessageComponent,
-} from 'src/components/ui/common/message';
+import { Message } from 'src/components/ui/common/message';
 import { MessageField } from 'src/components/ui/common/message-field';
 import { TabApplications } from 'src/components/ui/common/tab-applications';
 import { ButtonLarge } from 'src/components/ui/custom/button-large';
@@ -259,11 +256,12 @@ export default function IndexPage(): ReactNode {
         text="Мы нашли вам тайного санту. Скорее посмотрите, что он написал. Просто нажмите на это сообщение!"
       />
       <MessageField onClick={handleClick} />
-      <OutgoingMessageComponent text={'Привет, как дела?'} />
-      <IncomingMessageComponent
+      <Message text={'Привет, как дела?'} isOutgoing={true} />
+      <Message
         text={
           'Привет, у меня все хорошо! Это очень длинное сообщение, которое должно занимать несколько строк!'
         }
+        isOutgoing={false}
       />
     </div>
   );
