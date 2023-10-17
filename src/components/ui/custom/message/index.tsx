@@ -15,15 +15,29 @@ const MessageBase = styled.div`
 `;
 
 const OutgoingMessage = styled(MessageBase)`
-  width: 156px;
+  width: auto;
+  text-align: center;
   border-radius: 12px 12px 0 12px;
   background: rgba(0, 0, 0, 0.18);
 `;
 
 const IncomingMessage = styled(MessageBase)`
-  width: 261px;
+  width: auto;
+  text-align: center;
   border-radius: 12px 12px 12px 0;
   background: var(--action-selected, rgba(0, 0, 0, 0.08));
+`;
+
+const OutgoingMessageWrapper = styled.div`
+  width: 390px;
+  display: flex;
+  justify-content: end;
+`;
+
+const IncomingMessageWrapper = styled.div`
+  width: 390px;
+  display: flex;
+  justify-content: start;
 `;
 
 interface IMessageProperties {
@@ -33,11 +47,19 @@ interface IMessageProperties {
 export const OutgoingMessageComponent = (
   properties: IMessageProperties,
 ): ReactElement => {
-  return <OutgoingMessage>{properties.text}</OutgoingMessage>;
+  return (
+    <OutgoingMessageWrapper>
+      <OutgoingMessage>{properties.text}</OutgoingMessage>
+    </OutgoingMessageWrapper>
+  );
 };
 
 export const IncomingMessageComponent = (
   properties: IMessageProperties,
 ): ReactElement => {
-  return <IncomingMessage>{properties.text}</IncomingMessage>;
+  return (
+    <IncomingMessageWrapper>
+      <IncomingMessage>{properties.text}</IncomingMessage>
+    </IncomingMessageWrapper>
+  );
 };
