@@ -7,6 +7,7 @@ import MuiAppBar from '@mui/material/AppBar';
 export interface IAppBarProperties {
   title: string;
   onMenuClick?: () => void;
+  onAccountClick?: () => void;
 }
 
 export const AppBar = (properties: IAppBarProperties): ReactElement => {
@@ -17,7 +18,7 @@ export const AppBar = (properties: IAppBarProperties): ReactElement => {
         position: 'fixed',
         top: 0,
         width: '100%',
-        zIndex: 1,
+        zIndex: 9999,
       }}
     >
       <Toolbar>
@@ -40,8 +41,8 @@ export const AppBar = (properties: IAppBarProperties): ReactElement => {
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
-            // onClick={handleMenu}
             color="inherit"
+            onClick={properties.onAccountClick}
           >
             <AccountCircle />
           </IconButton>

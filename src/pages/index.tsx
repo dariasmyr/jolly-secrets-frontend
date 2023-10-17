@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { Page } from '@components/ui/common/page';
 import { CardCreateEvent } from '@components/ui/custom/card-create/card-create-event';
 import { CardCreateGroup } from '@components/ui/custom/card-create/card-create-group';
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
@@ -102,7 +103,8 @@ export default function IndexPage(): ReactNode {
     alert('click');
   };
   return (
-    <div
+    <Page
+      title={'Home page'}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -248,7 +250,7 @@ export default function IndexPage(): ReactNode {
           { label: 'Описание события', isMultiline: true },
         ]}
         dateRange={{ endDate: 'Дата окончания события' }}
-      />{' '}
+      />
       <FabAdd onClick={handleClick} />
       <Notification
         sender="Тайный Санта"
@@ -264,6 +266,6 @@ export default function IndexPage(): ReactNode {
         isOutgoing={false}
       />
       <Message text={'Пtot l,otybt ly nfrjt j'} isOutgoing={true} />
-    </div>
+    </Page>
   );
 }
