@@ -1,4 +1,4 @@
-import { CSSProperties, ReactElement, useState } from 'react';
+import { CSSProperties, ReactElement, useEffect, useState } from 'react';
 import { AppBar } from '@components/ui/common/app-bar';
 import styled from 'styled-components';
 
@@ -18,6 +18,18 @@ export const Page = (properties: IPageProperties): ReactElement => {
   const handleHideMenu = (): void => {
     setShowMenu(false);
   };
+
+  useEffect(() => {
+    const onKeydown = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') handleHideMenu();
+    };
+
+    document.addEventListener('keydown', onKeydown);
+
+    setShowMenu(false);
+
+    return () => document.removeEventListener('keydown', onKeydown);
+  }, []);
 
   return (
     <PageContainer style={properties.style}>
