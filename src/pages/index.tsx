@@ -3,13 +3,14 @@ import { CardCreateEvent } from '@components/ui/custom/card-create/card-create-e
 import { CardCreateGroup } from '@components/ui/custom/card-create/card-create-group';
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
 import { DialogInputEmail } from '@components/ui/custom/dialog-input-email';
-import {
-  IncomingMessageComponent,
-  OutgoingMessageComponent,
-} from '@components/ui/custom/message';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
 import { FabAdd } from 'src/components/ui/common/fab-add';
 import { MenuOptions } from 'src/components/ui/common/menu-options';
+import {
+  IncomingMessageComponent,
+  OutgoingMessageComponent,
+} from 'src/components/ui/common/message';
+import { MessageField } from 'src/components/ui/common/message-field';
 import { TabApplications } from 'src/components/ui/common/tab-applications';
 import { ButtonLarge } from 'src/components/ui/custom/button-large';
 import { CardChangeName } from 'src/components/ui/custom/card-change-name';
@@ -24,7 +25,6 @@ import { CardEmailToggle } from 'src/components/ui/custom/card-toggle-email';
 import { DialogChooseAccount } from 'src/components/ui/custom/dialog-choose-account';
 import { DialogConfirmDelete } from 'src/components/ui/custom/dialog-confirm-delete';
 import { DialogGenerateInvite } from 'src/components/ui/custom/dialog-generate-invite';
-import { MessageField } from 'src/components/ui/custom/message-field';
 import { Notification } from 'src/components/ui/custom/notification';
 
 const testCardImageProperties: ICardImageProperties = {

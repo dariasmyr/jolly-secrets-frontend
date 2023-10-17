@@ -45,8 +45,6 @@ export const Description = styled.p`
   font-feature-settings:
     'clig' off,
     'liga' off;
-
-  /* typography/body1 */
   font-family: Roboto, sans-serif;
   font-size: 16px;
   font-style: normal;
