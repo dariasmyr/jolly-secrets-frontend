@@ -1,12 +1,129 @@
-import { CSSProperties, ReactElement, useEffect, useState } from 'react';
+import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
 import { AppBar } from '@components/ui/common/app-bar';
+import GroupIcon from '@mui/icons-material/Group';
+import HomeIcon from '@mui/icons-material/Home';
+import LogoutIcon from '@mui/icons-material/Logout';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Box, SvgIcon } from '@mui/material';
 import styled from 'styled-components';
+
+const LogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+`;
+
+const Logo: React.FC = () => (
+  <LogoContainer>
+    <Box
+      component="img"
+      src={'/assets/secret_santa.png'}
+      sx={{ maxWidth: '200px', maxHeight: '200px' }}
+      alt="Logo"
+    />
+  </LogoContainer>
+);
+
+const PrimaryIcon = ({
+  children,
+}: {
+  children: ReactElement;
+}): ReactElement => <SvgIcon color="primary">{children}</SvgIcon>;
+
+const menuItems = [
+  {
+    name: 'Главная',
+    link: '/home',
+    icon: (
+      <PrimaryIcon>
+        <HomeIcon />
+      </PrimaryIcon>
+    ),
+  },
+  {
+    name: 'Мои группы',
+    link: '/groups',
+    icon: (
+      <PrimaryIcon>
+        <GroupIcon />
+      </PrimaryIcon>
+    ),
+  },
+  {
+    name: 'Настройки',
+    link: '/settings',
+    icon: (
+      <PrimaryIcon>
+        <SettingsIcon />
+      </PrimaryIcon>
+    ),
+  },
+  {
+    name: 'Уведомления',
+    link: '/notifications',
+    icon: (
+      <PrimaryIcon>
+        <NotificationsIcon />
+      </PrimaryIcon>
+    ),
+  },
+  {
+    name: 'Выход',
+    link: '/logout',
+    icon: (
+      <PrimaryIcon>
+        <LogoutIcon />
+      </PrimaryIcon>
+    ),
+  },
+];
 
 export interface IPageProperties {
   title: string;
   children: ReactElement | ReactElement[];
   style?: CSSProperties;
 }
+
+interface MenuItemProperties {
+  icon: ReactElement;
+  name: string;
+  link: string;
+}
+
+const MenuItem: React.FC<MenuItemProperties> = ({ icon, name }) => (
+  <MenuItemContainer>
+    <IconContainer>{icon}</IconContainer>
+    <Text>{name}</Text>
+  </MenuItemContainer>
+);
+
+const MenuItemContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  padding: 8px;
+  cursor: pointer;
+`;
+
+const IconContainer = styled.div`
+  width: 18px;
+  height: 18px;
+  margin-right: 29px;
+  flex-shrink: 0;
+`;
+
+const Text = styled.div`
+  color: #000;
+  font-feature-settings:
+    'clig' off,
+    'liga' off;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%; /* 25.6px */
+  letter-spacing: 0.15px;
+`;
 
 export const Page = (properties: IPageProperties): ReactElement => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -46,17 +163,14 @@ export const Page = (properties: IPageProperties): ReactElement => {
           open={showMenu}
           onClick={(event): void => event.stopPropagation()}
         >
-          {Array.from({ length: 8 }).map((_, index) => (
-            <div
+          <Logo />
+          {menuItems.map((item, index) => (
+            <MenuItem
               key={index}
-              style={{ cursor: 'pointer', padding: '8px' }}
-              onClick={(): void => {
-                // eslint-disable-next-line no-alert
-                alert(`Menu ${index + 1} Clicked`);
-              }}
-            >
-              Menu {index + 1}
-            </div>
+              icon={item.icon}
+              name={item.name}
+              link={item.link}
+            />
           ))}
         </Menu>
       </MenuContainer>
@@ -79,10 +193,11 @@ interface IMenuProperties {
 const Menu = styled.div<IMenuProperties>`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   background-color: #ffffff;
   padding: 56px 0 0 0;
   width: 80%;
+  max-width: 400px;
   height: 100vh;
   cursor: default;
 
