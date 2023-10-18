@@ -1,18 +1,20 @@
 import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
 import { AppBar } from '@components/ui/common/app-bar';
+import {
+  IconContainer,
+  LogoContainer,
+  Menu,
+  MenuContainer,
+  MenuItemContainer,
+  MenuOptionText,
+  PageContainer,
+} from '@components/ui/common/page/styled-components';
 import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, SvgIcon } from '@mui/material';
-import styled from 'styled-components';
-
-const LogoContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 20px 0;
-`;
 
 const Logo: React.FC = () => (
   <LogoContainer>
@@ -94,36 +96,9 @@ interface MenuItemProperties {
 const MenuItem: React.FC<MenuItemProperties> = ({ icon, name }) => (
   <MenuItemContainer>
     <IconContainer>{icon}</IconContainer>
-    <Text>{name}</Text>
+    <MenuOptionText>{name}</MenuOptionText>
   </MenuItemContainer>
 );
-
-const MenuItemContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  padding: 8px;
-  cursor: pointer;
-`;
-
-const IconContainer = styled.div`
-  width: 18px;
-  height: 18px;
-  margin-right: 29px;
-  flex-shrink: 0;
-`;
-
-const Text = styled.div`
-  color: #000;
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-  font-family: Roboto, sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 160%; /* 25.6px */
-  letter-spacing: 0.15px;
-`;
 
 export const Page = (properties: IPageProperties): ReactElement => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -178,45 +153,3 @@ export const Page = (properties: IPageProperties): ReactElement => {
     </PageContainer>
   );
 };
-
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 56px 0 0 0;
-`;
-
-interface IMenuProperties {
-  open: boolean;
-}
-
-const Menu = styled.div<IMenuProperties>`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: #ffffff;
-  padding: 56px 0 0 0;
-  width: 80%;
-  max-width: 400px;
-  height: 100vh;
-  cursor: default;
-
-  transform: ${({ open }): string =>
-    open ? 'translateX(0)' : 'translateX(-100%)'};
-  transition: transform 0.3s ease-in-out;
-`;
-
-const MenuContainer = styled.div<IMenuProperties>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.61);
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  cursor: pointer;
-
-  // fade in slowly
-  visibility: ${({ open }): string => (open ? 'visible' : 'hidden')};
-  transition: visibility 0.2s ease-in-out;
-`;
