@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { Page } from '@components/ui/common/page';
 import { Stepper } from '@components/ui/common/stepper';
 import { CardCreateEvent } from '@components/ui/custom/card-create/card-create-event';
@@ -99,13 +100,13 @@ const steps = [
   {
     label: 'Подготовка',
     description: 'Первый шаг в процессе',
-    showDescription: false,
+    showDescription: true,
     completed: true,
   },
   {
     label: 'Исполнение',
     description: 'Второй шаг в процессе',
-    showDescription: true,
+    showDescription: false,
     completed: false,
   },
   {
@@ -139,6 +140,17 @@ export default function IndexPage(): ReactNode {
         marginBottom: '100px',
       }}
     >
+      <CollapsedBreadcrumbs
+        steps={[
+          { label: 'Публичные группы', link: '#', onClick: handleClick },
+          { label: 'Тайные Санты Грушевки', link: '#', onClick: handleClick },
+          {
+            label: 'Событие: тайные санты грушевки',
+            link: '#',
+            onClick: handleClick,
+          },
+        ]}
+      />
       <Button onClick={handleClick} variant={ButtonVariant.primary}>
         я получил подарок
       </Button>
