@@ -99,14 +99,17 @@ const steps = [
   {
     label: 'Подготовка',
     description: 'Первый шаг в процессе',
+    showDescription: true,
   },
   {
     label: 'Исполнение',
     description: 'Второй шаг в процессе',
+    showDescription: false,
   },
   {
     label: 'Завершение',
     description: 'Третий и заключительный шаг в процессе',
+    showDescription: false,
   },
 ];
 
@@ -282,7 +285,7 @@ export default function IndexPage(): ReactNode {
         isOutgoing={false}
       />
       <Message text={'Пtot l,otybt ly nfrjt j'} isOutgoing={true} />
-      <Stepper initialStep={3} steps={steps} />
+      <Stepper lastCompletedStep={1} steps={steps} />
     </Page>
   );
 }

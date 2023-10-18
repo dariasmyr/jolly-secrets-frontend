@@ -11,22 +11,23 @@ import {
 interface IStepProperties {
   label: string;
   description: string;
+  showDescription: boolean; // Флаг для отображения описания
 }
 
 interface StepperProperties {
   steps: IStepProperties[];
-  initialStep: number;
+  lastCompletedStep: number;
 }
 
 export const Stepper = ({
   steps,
-  initialStep,
+  lastCompletedStep,
 }: StepperProperties): ReactElement => {
-  const [activeStep, setActiveStep] = useState(initialStep);
+  const [activeStep, setActiveStep] = useState(lastCompletedStep);
 
   useEffect(() => {
-    setActiveStep(initialStep);
-  }, [initialStep]);
+    setActiveStep(lastCompletedStep);
+  }, [lastCompletedStep]);
 
   return (
     <MuiStepper activeStep={activeStep} orientation="vertical">
@@ -34,7 +35,9 @@ export const Stepper = ({
         <Step key={step.label} completed={index < activeStep}>
           <StepLabel>{step.label}</StepLabel>
           <StepContent>
-            <Typography>{step.description}</Typography>
+            {step.showDescription && (
+              <Typography>{step.description}</Typography>
+            )}
             <Box sx={{ mb: 2 }} />
           </StepContent>
         </Step>
