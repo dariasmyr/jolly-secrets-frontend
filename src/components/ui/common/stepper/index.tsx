@@ -1,7 +1,6 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import {
   Box,
-  Button,
   Step,
   StepContent,
   StepLabel,
@@ -9,56 +8,34 @@ import {
   Typography,
 } from '@mui/material';
 
-export interface IStepProperties {
+interface IStepProperties {
   label: string;
   description: string;
-  buttonLabel?: string;
-  buttonActive?: boolean;
-  isActiveStep?: boolean;
+}
+
+interface StepperProperties {
+  steps: IStepProperties[];
+  initialStep: number;
 }
 
 export const Stepper = ({
   steps,
-}: {
-  steps: IStepProperties[];
-}): ReactElement => {
-  const [stepsState, setStepsState] = useState<{ [step: number]: boolean }>({});
+  initialStep,
+}: StepperProperties): ReactElement => {
+  const [activeStep, setActiveStep] = useState(initialStep);
 
-  const handleNext = (): void => {
-    const currentActiveIndex = steps.findIndex((step) => step.isActiveStep);
-    if (currentActiveIndex < steps.length - 1) {
-      steps[currentActiveIndex].isActiveStep = false;
-      steps[currentActiveIndex + 1].isActiveStep = true;
-    }
-    setStepsState((previousStepsState) => ({
-      ...previousStepsState,
-      [currentActiveIndex]: true,
-    }));
-  };
+  useEffect(() => {
+    setActiveStep(initialStep);
+  }, [initialStep]);
 
   return (
-    <MuiStepper
-      activeStep={steps.findIndex((step) => step.isActiveStep)}
-      orientation="vertical"
-    >
+    <MuiStepper activeStep={activeStep} orientation="vertical">
       {steps.map((step, index) => (
-        <Step key={step.label} completed={stepsState[index]}>
+        <Step key={step.label} completed={index < activeStep}>
           <StepLabel>{step.label}</StepLabel>
           <StepContent>
             <Typography>{step.description}</Typography>
-            <Box sx={{ mb: 2 }}>
-              <div>
-                {step.buttonActive && (
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    {step.buttonLabel || 'Continue'}
-                  </Button>
-                )}
-              </div>
-            </Box>
+            <Box sx={{ mb: 2 }} />
           </StepContent>
         </Step>
       ))}

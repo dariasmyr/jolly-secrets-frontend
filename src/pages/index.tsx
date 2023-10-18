@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Page } from '@components/ui/common/page';
-import { IStepProperties, Stepper } from '@components/ui/common/stepper';
+import { Stepper } from '@components/ui/common/stepper';
 import { CardCreateEvent } from '@components/ui/custom/card-create/card-create-event';
 import { CardCreateGroup } from '@components/ui/custom/card-create/card-create-group';
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
@@ -95,31 +95,18 @@ const tabs = [
   { label: 'Заявка Тайного Санты', value: 'tab2' },
 ];
 
-const steps: IStepProperties[] = [
+const steps = [
   {
-    label: 'Поиск Тайного Санты',
-    description: 'Ищем Вам Тайного Санту...',
-    buttonActive: false,
-    isActiveStep: false,
+    label: 'Подготовка',
+    description: 'Первый шаг в процессе',
   },
   {
-    label: 'Ожидание отправления',
-    description: 'Ожидаем отправки подарка...',
-    buttonLabel: 'Я отправил подарок',
-    buttonActive: false,
-    isActiveStep: false,
+    label: 'Исполнение',
+    description: 'Второй шаг в процессе',
   },
   {
-    label: 'Отправлено',
-    description: 'Подарок отправлен.',
-    buttonActive: false,
-    isActiveStep: false,
-  },
-  {
-    label: 'Выполнено',
-    description: 'Все шаги выполнены.',
-    buttonActive: false,
-    isActiveStep: true,
+    label: 'Завершение',
+    description: 'Третий и заключительный шаг в процессе',
   },
 ];
 
@@ -295,7 +282,7 @@ export default function IndexPage(): ReactNode {
         isOutgoing={false}
       />
       <Message text={'Пtot l,otybt ly nfrjt j'} isOutgoing={true} />
-      <Stepper steps={steps} />
+      <Stepper initialStep={3} steps={steps} />
     </Page>
   );
 }
