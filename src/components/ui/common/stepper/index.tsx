@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement } from 'react';
 import {
   Box,
   Step,
@@ -11,28 +11,23 @@ import {
 interface IStepProperties {
   label: string;
   description: string;
-  showDescription: boolean; // Флаг для отображения описания
+  showDescription: boolean;
+  completed: boolean;
 }
 
 interface StepperProperties {
   steps: IStepProperties[];
-  lastCompletedStep: number;
 }
 
-export const Stepper = ({
-  steps,
-  lastCompletedStep,
-}: StepperProperties): ReactElement => {
-  const [activeStep, setActiveStep] = useState(lastCompletedStep);
-
-  useEffect(() => {
-    setActiveStep(lastCompletedStep);
-  }, [lastCompletedStep]);
-
+export const Stepper = ({ steps }: StepperProperties): ReactElement => {
   return (
-    <MuiStepper activeStep={activeStep} orientation="vertical">
-      {steps.map((step, index) => (
-        <Step key={step.label} completed={index < activeStep}>
+    <MuiStepper orientation="vertical">
+      {steps.map((step) => (
+        <Step
+          key={step.label}
+          completed={step.completed}
+          active={!step.completed}
+        >
           <StepLabel>{step.label}</StepLabel>
           <StepContent>
             {step.showDescription && (
