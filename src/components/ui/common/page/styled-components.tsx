@@ -7,7 +7,7 @@ interface IMenuProperties {
 export const LogoContainer = styled.div`
   display: flex;
   justify-content: center;
-  padding: 20px 0;
+  align-self: center;
 `;
 
 export const MenuItemContainer = styled.div`
@@ -49,7 +49,7 @@ export const Menu = styled.div<IMenuProperties>`
   flex-direction: column;
   align-items: flex-start;
   background-color: #ffffff;
-  padding: 56px 0 0 0;
+  padding: 56px 0 0 16px;
   width: 80%;
   max-width: 400px;
   height: 100vh;

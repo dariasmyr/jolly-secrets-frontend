@@ -1,4 +1,6 @@
 import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { AppBar } from '@components/ui/common/app-bar';
 import {
   IconContainer,
@@ -14,14 +16,14 @@ import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Box, SvgIcon } from '@mui/material';
+import { SvgIcon } from '@mui/material';
 
 const Logo: React.FC = () => (
   <LogoContainer>
-    <Box
-      component="img"
+    <Image
       src={'/assets/secret_santa.png'}
-      sx={{ maxWidth: '200px', maxHeight: '200px' }}
+      width={220}
+      height={120}
       alt="Logo"
     />
   </LogoContainer>
@@ -33,54 +35,6 @@ const PrimaryIcon = ({
   children: ReactElement;
 }): ReactElement => <SvgIcon color="primary">{children}</SvgIcon>;
 
-const menuItems = [
-  {
-    name: 'Главная',
-    link: '/home',
-    icon: (
-      <PrimaryIcon>
-        <HomeIcon />
-      </PrimaryIcon>
-    ),
-  },
-  {
-    name: 'Мои группы',
-    link: '/groups',
-    icon: (
-      <PrimaryIcon>
-        <GroupIcon />
-      </PrimaryIcon>
-    ),
-  },
-  {
-    name: 'Настройки',
-    link: '/settings',
-    icon: (
-      <PrimaryIcon>
-        <SettingsIcon />
-      </PrimaryIcon>
-    ),
-  },
-  {
-    name: 'Уведомления',
-    link: '/notifications',
-    icon: (
-      <PrimaryIcon>
-        <NotificationsIcon />
-      </PrimaryIcon>
-    ),
-  },
-  {
-    name: 'Выход',
-    link: '/logout',
-    icon: (
-      <PrimaryIcon>
-        <LogoutIcon />
-      </PrimaryIcon>
-    ),
-  },
-];
-
 export interface IPageProperties {
   title: string;
   children: ReactElement | ReactElement[];
@@ -90,18 +44,21 @@ export interface IPageProperties {
 interface MenuItemProperties {
   icon: ReactElement;
   name: string;
-  link: string;
+  onClick?: () => void;
 }
 
-const MenuItem: React.FC<MenuItemProperties> = ({ icon, name }) => (
-  <MenuItemContainer>
-    <IconContainer>{icon}</IconContainer>
-    <MenuOptionText>{name}</MenuOptionText>
-  </MenuItemContainer>
-);
+const MenuItem = (properties: MenuItemProperties): ReactElement => {
+  return (
+    <MenuItemContainer onClick={properties.onClick}>
+      <IconContainer>{properties.icon}</IconContainer>
+      <MenuOptionText>{properties.name}</MenuOptionText>
+    </MenuItemContainer>
+  );
+};
 
 export const Page = (properties: IPageProperties): ReactElement => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleShowMenu = (): void => {
     setShowMenu(true);
@@ -139,14 +96,61 @@ export const Page = (properties: IPageProperties): ReactElement => {
           onClick={(event): void => event.stopPropagation()}
         >
           <Logo />
-          {menuItems.map((item, index) => (
-            <MenuItem
-              key={index}
-              icon={item.icon}
-              name={item.name}
-              link={item.link}
-            />
-          ))}
+          <MenuItem
+            icon={
+              <PrimaryIcon>
+                <HomeIcon />
+              </PrimaryIcon>
+            }
+            name={'Главная'}
+            onClick={async (): Promise<void> => {
+              await router.push('/home');
+            }}
+          />
+          <MenuItem
+            icon={
+              <PrimaryIcon>
+                <GroupIcon />
+              </PrimaryIcon>
+            }
+            name={'Мои группы'}
+            onClick={async (): Promise<void> => {
+              await router.push('/groups');
+            }}
+          />
+          <MenuItem
+            icon={
+              <PrimaryIcon>
+                <SettingsIcon />
+              </PrimaryIcon>
+            }
+            name={'Настройки'}
+            onClick={async (): Promise<void> => {
+              await router.push('/settings');
+            }}
+          />
+          <MenuItem
+            icon={
+              <PrimaryIcon>
+                <NotificationsIcon />
+              </PrimaryIcon>
+            }
+            name={'Уведомления'}
+            onClick={async (): Promise<void> => {
+              await router.push('/notifications');
+            }}
+          />
+          <MenuItem
+            icon={
+              <PrimaryIcon>
+                <LogoutIcon />
+              </PrimaryIcon>
+            }
+            name={'Выход'}
+            onClick={async (): Promise<void> => {
+              await router.push('/logout');
+            }}
+          />
         </Menu>
       </MenuContainer>
       {properties.children}
