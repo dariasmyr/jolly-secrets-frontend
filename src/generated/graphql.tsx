@@ -617,6 +617,14 @@ export type LoginWithTelegramMutationVariables = Exact<{
 
 export type LoginWithTelegramMutation = { __typename?: 'Mutation', loginWithTelegram: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, username: string } } };
 
+export type PrivateGroupsQueryVariables = Exact<{
+  offset: Scalars['Float']['input'];
+  limit: Scalars['Float']['input'];
+}>;
+
+
+export type PrivateGroupsQuery = { __typename?: 'Query', privateGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number }> | null }> };
+
 export type PublicGroupsQueryVariables = Exact<{
   offset: Scalars['Float']['input'];
   limit: Scalars['Float']['input'];
@@ -730,6 +738,54 @@ export function useLoginWithTelegramMutation(baseOptions?: Apollo.MutationHookOp
 export type LoginWithTelegramMutationHookResult = ReturnType<typeof useLoginWithTelegramMutation>;
 export type LoginWithTelegramMutationResult = Apollo.MutationResult<LoginWithTelegramMutation>;
 export type LoginWithTelegramMutationOptions = Apollo.BaseMutationOptions<LoginWithTelegramMutation, LoginWithTelegramMutationVariables>;
+export const PrivateGroupsDocument = gql`
+    query PrivateGroups($offset: Float!, $limit: Float!) {
+  privateGroups(offset: $offset, limit: $limit) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    type
+    status
+    events {
+      status
+    }
+    members {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __usePrivateGroupsQuery__
+ *
+ * To run a query within a React component, call `usePrivateGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePrivateGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePrivateGroupsQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function usePrivateGroupsQuery(baseOptions: Apollo.QueryHookOptions<PrivateGroupsQuery, PrivateGroupsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PrivateGroupsQuery, PrivateGroupsQueryVariables>(PrivateGroupsDocument, options);
+      }
+export function usePrivateGroupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PrivateGroupsQuery, PrivateGroupsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PrivateGroupsQuery, PrivateGroupsQueryVariables>(PrivateGroupsDocument, options);
+        }
+export type PrivateGroupsQueryHookResult = ReturnType<typeof usePrivateGroupsQuery>;
+export type PrivateGroupsLazyQueryHookResult = ReturnType<typeof usePrivateGroupsLazyQuery>;
+export type PrivateGroupsQueryResult = Apollo.QueryResult<PrivateGroupsQuery, PrivateGroupsQueryVariables>;
 export const PublicGroupsDocument = gql`
     query PublicGroups($offset: Float!, $limit: Float!) {
   publicGroups(offset: $offset, limit: $limit) {

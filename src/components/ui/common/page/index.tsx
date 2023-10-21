@@ -108,7 +108,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
             }
             name={'Главная'}
             onClick={async (): Promise<void> => {
-              await router.push('/home');
+              await router.push('/public-groups');
             }}
           />
           <MenuItem
@@ -119,7 +119,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
             }
             name={'Мои группы'}
             onClick={async (): Promise<void> => {
-              await router.push('/groups');
+              await router.push('/private-groups');
             }}
           />
           <MenuItem

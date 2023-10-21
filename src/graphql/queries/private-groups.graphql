@@ -1,0 +1,17 @@
+query PrivateGroups($offset: Float!, $limit: Float!) {
+  privateGroups(offset: $offset, limit: $limit) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    type
+    status
+    events {
+      status
+    }
+    members {
+      id
+    }
+  }
+}
