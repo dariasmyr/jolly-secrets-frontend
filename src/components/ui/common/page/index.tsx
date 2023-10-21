@@ -20,12 +20,7 @@ import { SvgIcon } from '@mui/material';
 
 const Logo: React.FC = () => (
   <LogoContainer>
-    <Image
-      src={'/assets/secret_santa.png'}
-      width={220}
-      height={120}
-      alt="Logo"
-    />
+    <Image src={'/assets/logo2.png'} width={220} height={120} alt="Logo" />
   </LogoContainer>
 );
 
