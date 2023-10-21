@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 import Tooltip from '@mui/material/Tooltip';
@@ -8,8 +8,24 @@ interface IFabAddProperties {
   onClick?: () => void;
 }
 
-export function FabAdd({ onClick }: IFabAddProperties): ReactElement {
-  const [open, setOpen] = React.useState(false);
+export function FabAdd({
+  onClick,
+}: IFabAddProperties): ReactElement | undefined {
+  const [open, setOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  let lastScrollTop = 0;
+
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      const st = window.scrollY || document.documentElement.scrollTop;
+      if (st > lastScrollTop) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+  }, []);
 
   const handleClose = (): void => {
     setOpen(false);
@@ -19,13 +35,13 @@ export function FabAdd({ onClick }: IFabAddProperties): ReactElement {
     setOpen(true);
   };
 
-  return (
+  return isVisible ? (
     <Tooltip open={open} onClose={handleClose} onOpen={handleOpen} title="Add">
       <FabWrapper color="primary" aria-label="add" onClick={onClick}>
         <AddIcon />
       </FabWrapper>
     </Tooltip>
-  );
+  ) : undefined;
 }
 
 const FabWrapper = styled(Fab)`
