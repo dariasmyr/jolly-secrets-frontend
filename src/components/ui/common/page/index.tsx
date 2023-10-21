@@ -1,4 +1,10 @@
-import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
+import React, {
+  CSSProperties,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AppBar } from '@components/ui/common/app-bar';
@@ -18,6 +24,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { SvgIcon } from '@mui/material';
 
+import { useAuthStore } from '@/store/auth.store';
+
 const Logo: React.FC = () => (
   <LogoContainer>
     <Image src={'/assets/logo1.png'} width={320} height={150} alt="Logo" />
@@ -32,7 +40,7 @@ const PrimaryIcon = ({
 
 export interface IPageProperties {
   title: string;
-  children: ReactElement | ReactElement[] | string;
+  children: ReactNode;
   style?: CSSProperties;
 }
 
@@ -54,6 +62,7 @@ const MenuItem = (properties: MenuItemProperties): ReactElement => {
 export const Page = (properties: IPageProperties): ReactElement => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const router = useRouter();
+  const authStore = useAuthStore();
 
   const handleShowMenu = (): void => {
     setShowMenu(true);
@@ -143,7 +152,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
             }
             name={'Выход'}
             onClick={async (): Promise<void> => {
-              await router.push('/logout');
+              authStore.clear();
             }}
           />
         </Menu>

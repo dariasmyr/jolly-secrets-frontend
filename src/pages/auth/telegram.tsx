@@ -34,7 +34,7 @@ const Login: FC = () => {
 
         settingsStore.setToken(loginData.loginWithTelegram.token);
         settingsStore.setAccount(loginData.loginWithTelegram.account);
-        await router.push('/home');
+        await router.push('/public-groups');
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         console.log('error', error);

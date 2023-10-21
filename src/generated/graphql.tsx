@@ -617,6 +617,14 @@ export type LoginWithTelegramMutationVariables = Exact<{
 
 export type LoginWithTelegramMutation = { __typename?: 'Mutation', loginWithTelegram: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, username: string } } };
 
+export type PublicGroupsQueryVariables = Exact<{
+  offset: Scalars['Float']['input'];
+  limit: Scalars['Float']['input'];
+}>;
+
+
+export type PublicGroupsQuery = { __typename?: 'Query', publicGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number }> | null }> };
+
 
 export const DebugDocument = gql`
     query Debug {
@@ -722,3 +730,51 @@ export function useLoginWithTelegramMutation(baseOptions?: Apollo.MutationHookOp
 export type LoginWithTelegramMutationHookResult = ReturnType<typeof useLoginWithTelegramMutation>;
 export type LoginWithTelegramMutationResult = Apollo.MutationResult<LoginWithTelegramMutation>;
 export type LoginWithTelegramMutationOptions = Apollo.BaseMutationOptions<LoginWithTelegramMutation, LoginWithTelegramMutationVariables>;
+export const PublicGroupsDocument = gql`
+    query PublicGroups($offset: Float!, $limit: Float!) {
+  publicGroups(offset: $offset, limit: $limit) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    type
+    status
+    events {
+      status
+    }
+    members {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __usePublicGroupsQuery__
+ *
+ * To run a query within a React component, call `usePublicGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePublicGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePublicGroupsQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function usePublicGroupsQuery(baseOptions: Apollo.QueryHookOptions<PublicGroupsQuery, PublicGroupsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PublicGroupsQuery, PublicGroupsQueryVariables>(PublicGroupsDocument, options);
+      }
+export function usePublicGroupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PublicGroupsQuery, PublicGroupsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PublicGroupsQuery, PublicGroupsQueryVariables>(PublicGroupsDocument, options);
+        }
+export type PublicGroupsQueryHookResult = ReturnType<typeof usePublicGroupsQuery>;
+export type PublicGroupsLazyQueryHookResult = ReturnType<typeof usePublicGroupsLazyQuery>;
+export type PublicGroupsQueryResult = Apollo.QueryResult<PublicGroupsQuery, PublicGroupsQueryVariables>;

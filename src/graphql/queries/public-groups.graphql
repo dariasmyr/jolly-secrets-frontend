@@ -1,0 +1,17 @@
+query PublicGroups($offset: Float!, $limit: Float!) {
+  publicGroups(offset: $offset, limit: $limit) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    type
+    status
+    events {
+      status
+    }
+    members {
+      id
+    }
+  }
+}

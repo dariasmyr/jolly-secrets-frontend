@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
 import Script from 'next/script';
 import { appWithTranslation } from 'next-i18next';
@@ -29,6 +29,11 @@ const handlePromiseRejection = (event: PromiseRejectionEvent): void => {
 function MyApp({ Component, pageProps }: AppProps): ReactNode {
   const { debugMode } = useSettingsStore();
   const apolloClient = useApolloClient();
+  const [rendered, setRendered] = useState(false);
+
+  useEffect(() => {
+    setRendered(true);
+  }, []);
 
   useEffect(() => {
     window.addEventListener('error', handleError);
@@ -44,6 +49,9 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
     return <div>ApolloClient is not initialized</div>;
   }
 
+  if (!rendered) {
+    return <div>Loading...</div>;
+  }
   return (
     <StyledComponentProvider theme={themeStyled}>
       <MaterialUiProvider theme={themeMui}>
