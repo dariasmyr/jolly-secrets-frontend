@@ -10,10 +10,13 @@ export const LogoContainer = styled.div`
   align-self: center;
 `;
 
-export const MenuItemContainer = styled.div`
+export const MenuItemContainer = styled.div<{ isActive?: boolean }>`
+  background-color: ${({ isActive }): string =>
+    isActive ? '#e0e0e0' : 'transparent'};
   display: flex;
   align-items: flex-start;
-  padding: 8px;
+  padding: 8px 16px 8px 16px;
+  width: 100%;
   cursor: pointer;
 `;
 
@@ -49,7 +52,7 @@ export const Menu = styled.div<IMenuProperties>`
   flex-direction: column;
   align-items: flex-start;
   background-color: #ffffff;
-  padding: 56px 0 0 16px;
+  padding: 56px 0 0 0;
   width: 80%;
   max-width: 400px;
   height: 100vh;

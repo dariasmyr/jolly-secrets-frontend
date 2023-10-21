@@ -48,11 +48,15 @@ interface MenuItemProperties {
   icon: ReactElement;
   name: string;
   onClick?: () => void;
+  isActive?: boolean;
 }
 
 const MenuItem = (properties: MenuItemProperties): ReactElement => {
   return (
-    <MenuItemContainer onClick={properties.onClick}>
+    <MenuItemContainer
+      onClick={properties.onClick}
+      isActive={properties.isActive}
+    >
       <IconContainer>{properties.icon}</IconContainer>
       <MenuOptionText>{properties.name}</MenuOptionText>
     </MenuItemContainer>
@@ -110,6 +114,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
             onClick={async (): Promise<void> => {
               await router.push('/public-groups');
             }}
+            isActive={router.pathname === '/public-groups'}
           />
           <MenuItem
             icon={
@@ -121,6 +126,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
             onClick={async (): Promise<void> => {
               await router.push('/private-groups');
             }}
+            isActive={router.pathname === '/private-groups'}
           />
           <MenuItem
             icon={
@@ -132,6 +138,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
             onClick={async (): Promise<void> => {
               await router.push('/settings');
             }}
+            isActive={router.pathname === '/settings'}
           />
           <MenuItem
             icon={
@@ -143,6 +150,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
             onClick={async (): Promise<void> => {
               await router.push('/notifications');
             }}
+            isActive={router.pathname === '/notifications'}
           />
           <MenuItem
             icon={
