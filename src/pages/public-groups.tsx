@@ -1,5 +1,6 @@
 import { FC, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { FabAdd } from '@components/ui/common/fab-add';
 import { Page } from '@components/ui/common/page';
 import { CardImage } from '@components/ui/custom/card-image';
 import styled from 'styled-components';
@@ -50,6 +51,7 @@ const PublicGroups: FC = () => {
           ]}
         />
       ))}
+      <FabAdd />
     </Page>
   );
 };
