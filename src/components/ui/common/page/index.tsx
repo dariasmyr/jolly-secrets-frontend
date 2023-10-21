@@ -20,7 +20,7 @@ import { SvgIcon } from '@mui/material';
 
 const Logo: React.FC = () => (
   <LogoContainer>
-    <Image src={'/assets/logo2.png'} width={220} height={120} alt="Logo" />
+    <Image src={'/assets/logo1.png'} width={320} height={150} alt="Logo" />
   </LogoContainer>
 );
 
@@ -32,7 +32,7 @@ const PrimaryIcon = ({
 
 export interface IPageProperties {
   title: string;
-  children: ReactElement | ReactElement[];
+  children: ReactElement | ReactElement[] | string;
   style?: CSSProperties;
 }
 

@@ -63,11 +63,11 @@ export default function Profile(): ReactElement {
       <PageWrapper>
         <ProfileWrapper>
           <h1>{t('profile:page_title')}</h1>
-          <Link href="/auth/register" locale={locale}>
+          <Link href="/auth/register_old" locale={locale}>
             {t('register')}
           </Link>
           <br />
-          <Link href="/auth/login" locale={locale}>
+          <Link href="/auth/login_old" locale={locale}>
             {t('common:login')}
           </Link>
         </ProfileWrapper>
