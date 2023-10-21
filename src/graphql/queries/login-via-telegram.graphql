@@ -1,0 +1,18 @@
+query GenerateTelegramBotLink {
+  generateTelegramBotLink
+}
+
+mutation LoginWithTelegram($token: String!) {
+  loginWithTelegram(
+    token: $token
+  ) {
+    token
+    account {
+      id
+      email
+      roles
+      status
+      username
+    }
+  }
+}

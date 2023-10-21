@@ -5,66 +5,36 @@ schema {
 
 type Account {
   _count: AccountCount!
+  avatarUrl: String
+  chatMembers: [ChatMember!]
   createdAt: DateTime!
-  email: String!
+  email: String
+  eventApplications: [EventApplication!]
+  externalProfiles: [ExternalProfile!]
+  groupMembers: [GroupMember!]
   id: Int!
-  profile: Profile
-  profileId: Int
+  messages: [Message!]
+  notifications: [Notification!]
+  roles: [AccountRole!]
   sessions: [AccountSession!]
+  status: AccountStatus!
   updatedAt: DateTime!
+  username: String!
 }
 
 type AccountCount {
+  chatMembers: Int!
+  eventApplications: Int!
+  externalProfiles: Int!
+  groupMembers: Int!
+  messages: Int!
+  notifications: Int!
   sessions: Int!
 }
 
-input AccountCreateManyProfileInput {
-  createdAt: DateTime
-  email: String!
-  id: Int
-  passwordHash: String!
-  updatedAt: DateTime
-}
-
-input AccountCreateManyProfileInputEnvelope {
-  data: [AccountCreateManyProfileInput!]!
-  skipDuplicates: Boolean
-}
-
-input AccountCreateOrConnectWithoutProfileInput {
-  create: AccountCreateWithoutProfileInput!
-  where: AccountWhereUniqueInput!
-}
-
-input AccountCreateWithoutProfileInput {
-  createdAt: DateTime
-  email: String!
-  passwordHash: String!
-  sessions: AccountSessionCreateNestedManyWithoutAccountInput
-  updatedAt: DateTime
-}
-
-input AccountListRelationFilter {
-  every: AccountWhereInput
-  none: AccountWhereInput
-  some: AccountWhereInput
-}
-
-input AccountRelationFilter {
-  is: AccountWhereInput
-  isNot: AccountWhereInput
-}
-
-input AccountScalarWhereInput {
-  AND: [AccountScalarWhereInput!]
-  NOT: [AccountScalarWhereInput!]
-  OR: [AccountScalarWhereInput!]
-  createdAt: DateTimeFilter
-  email: StringFilter
-  id: IntFilter
-  passwordHash: StringFilter
-  profileId: IntNullableFilter
-  updatedAt: DateTimeFilter
+enum AccountRole {
+  ADMIN
+  USER
 }
 
 type AccountSession {
@@ -78,222 +48,10 @@ type AccountSession {
   userAgent: String
 }
 
-input AccountSessionCreateManyAccountInput {
-  createdAt: DateTime
-  expiresAt: DateTime!
-  id: Int
-  ipAddr: String!
-  token: String!
-  updatedAt: DateTime
-  userAgent: String
-}
-
-input AccountSessionCreateManyAccountInputEnvelope {
-  data: [AccountSessionCreateManyAccountInput!]!
-  skipDuplicates: Boolean
-}
-
-input AccountSessionCreateNestedManyWithoutAccountInput {
-  connect: [AccountSessionWhereUniqueInput!]
-  connectOrCreate: [AccountSessionCreateOrConnectWithoutAccountInput!]
-  create: [AccountSessionCreateWithoutAccountInput!]
-  createMany: AccountSessionCreateManyAccountInputEnvelope
-}
-
-input AccountSessionCreateOrConnectWithoutAccountInput {
-  create: AccountSessionCreateWithoutAccountInput!
-  where: AccountSessionWhereUniqueInput!
-}
-
-input AccountSessionCreateWithoutAccountInput {
-  createdAt: DateTime
-  expiresAt: DateTime!
-  ipAddr: String!
-  token: String!
-  updatedAt: DateTime
-  userAgent: String
-}
-
-input AccountSessionListRelationFilter {
-  every: AccountSessionWhereInput
-  none: AccountSessionWhereInput
-  some: AccountSessionWhereInput
-}
-
-input AccountSessionScalarWhereInput {
-  AND: [AccountSessionScalarWhereInput!]
-  NOT: [AccountSessionScalarWhereInput!]
-  OR: [AccountSessionScalarWhereInput!]
-  accountId: IntFilter
-  createdAt: DateTimeFilter
-  expiresAt: DateTimeFilter
-  id: IntFilter
-  ipAddr: StringFilter
-  token: StringFilter
-  updatedAt: DateTimeFilter
-  userAgent: StringNullableFilter
-}
-
-input AccountSessionUpdateManyMutationInput {
-  createdAt: DateTime
-  expiresAt: DateTime
-  ipAddr: String
-  token: String
-  updatedAt: DateTime
-  userAgent: String
-}
-
-input AccountSessionUpdateManyWithWhereWithoutAccountInput {
-  data: AccountSessionUpdateManyMutationInput!
-  where: AccountSessionScalarWhereInput!
-}
-
-input AccountSessionUpdateManyWithoutAccountNestedInput {
-  connect: [AccountSessionWhereUniqueInput!]
-  connectOrCreate: [AccountSessionCreateOrConnectWithoutAccountInput!]
-  create: [AccountSessionCreateWithoutAccountInput!]
-  createMany: AccountSessionCreateManyAccountInputEnvelope
-  delete: [AccountSessionWhereUniqueInput!]
-  deleteMany: [AccountSessionScalarWhereInput!]
-  disconnect: [AccountSessionWhereUniqueInput!]
-  set: [AccountSessionWhereUniqueInput!]
-  update: [AccountSessionUpdateWithWhereUniqueWithoutAccountInput!]
-  updateMany: [AccountSessionUpdateManyWithWhereWithoutAccountInput!]
-  upsert: [AccountSessionUpsertWithWhereUniqueWithoutAccountInput!]
-}
-
-input AccountSessionUpdateWithWhereUniqueWithoutAccountInput {
-  data: AccountSessionUpdateWithoutAccountInput!
-  where: AccountSessionWhereUniqueInput!
-}
-
-input AccountSessionUpdateWithoutAccountInput {
-  createdAt: DateTime
-  expiresAt: DateTime
-  ipAddr: String
-  token: String
-  updatedAt: DateTime
-  userAgent: String
-}
-
-input AccountSessionUpsertWithWhereUniqueWithoutAccountInput {
-  create: AccountSessionCreateWithoutAccountInput!
-  update: AccountSessionUpdateWithoutAccountInput!
-  where: AccountSessionWhereUniqueInput!
-}
-
-input AccountSessionWhereInput {
-  AND: [AccountSessionWhereInput!]
-  NOT: [AccountSessionWhereInput!]
-  OR: [AccountSessionWhereInput!]
-  account: AccountRelationFilter
-  accountId: IntFilter
-  createdAt: DateTimeFilter
-  expiresAt: DateTimeFilter
-  id: IntFilter
-  ipAddr: StringFilter
-  token: StringFilter
-  updatedAt: DateTimeFilter
-  userAgent: StringNullableFilter
-}
-
-input AccountSessionWhereUniqueInput {
-  AND: [AccountSessionWhereInput!]
-  NOT: [AccountSessionWhereInput!]
-  OR: [AccountSessionWhereInput!]
-  account: AccountRelationFilter
-  accountId: IntFilter
-  createdAt: DateTimeFilter
-  expiresAt: DateTimeFilter
-  id: Int
-  ipAddr: StringFilter
-  token: String
-  updatedAt: DateTimeFilter
-  userAgent: StringNullableFilter
-}
-
 enum AccountStatus {
   ACTIVE
   DELETED
   INACTIVE
-}
-
-input AccountUpdateManyMutationInput {
-  createdAt: DateTime
-  email: String
-  passwordHash: String
-  updatedAt: DateTime
-}
-
-input AccountUpdateManyWithWhereWithoutProfileInput {
-  data: AccountUpdateManyMutationInput!
-  where: AccountScalarWhereInput!
-}
-
-input AccountUpdateManyWithoutProfileNestedInput {
-  connect: [AccountWhereUniqueInput!]
-  connectOrCreate: [AccountCreateOrConnectWithoutProfileInput!]
-  create: [AccountCreateWithoutProfileInput!]
-  createMany: AccountCreateManyProfileInputEnvelope
-  delete: [AccountWhereUniqueInput!]
-  deleteMany: [AccountScalarWhereInput!]
-  disconnect: [AccountWhereUniqueInput!]
-  set: [AccountWhereUniqueInput!]
-  update: [AccountUpdateWithWhereUniqueWithoutProfileInput!]
-  updateMany: [AccountUpdateManyWithWhereWithoutProfileInput!]
-  upsert: [AccountUpsertWithWhereUniqueWithoutProfileInput!]
-}
-
-input AccountUpdateWithWhereUniqueWithoutProfileInput {
-  data: AccountUpdateWithoutProfileInput!
-  where: AccountWhereUniqueInput!
-}
-
-input AccountUpdateWithoutProfileInput {
-  createdAt: DateTime
-  email: String
-  passwordHash: String
-  sessions: AccountSessionUpdateManyWithoutAccountNestedInput
-  updatedAt: DateTime
-}
-
-input AccountUpsertWithWhereUniqueWithoutProfileInput {
-  create: AccountCreateWithoutProfileInput!
-  update: AccountUpdateWithoutProfileInput!
-  where: AccountWhereUniqueInput!
-}
-
-input AccountWhereInput {
-  AND: [AccountWhereInput!]
-  NOT: [AccountWhereInput!]
-  OR: [AccountWhereInput!]
-  createdAt: DateTimeFilter
-  email: StringFilter
-  id: IntFilter
-  passwordHash: StringFilter
-  profile: ProfileNullableRelationFilter
-  profileId: IntNullableFilter
-  sessions: AccountSessionListRelationFilter
-  updatedAt: DateTimeFilter
-}
-
-input AccountWhereUniqueInput {
-  AND: [AccountWhereInput!]
-  NOT: [AccountWhereInput!]
-  OR: [AccountWhereInput!]
-  createdAt: DateTimeFilter
-  email: String
-  id: Int
-  passwordHash: StringFilter
-  profile: ProfileNullableRelationFilter
-  profileId: IntNullableFilter
-  sessions: AccountSessionListRelationFilter
-  updatedAt: DateTimeFilter
-}
-
-input ActivateAccountInput {
-  code: String!
-  email: String!
 }
 
 type AuthResponse {
@@ -301,71 +59,229 @@ type AuthResponse {
   token: String!
 }
 
+type Chat {
+  _count: ChatCount!
+  chatMembers: [ChatMember!]!
+  createdAt: DateTime!
+  eventApplicationPair: [EventApplicationPair!]
+  id: Int!
+  members: [ChatMember!]
+  messages: [Message!]
+  updatedAt: DateTime!
+}
+
+type ChatCount {
+  eventApplicationPair: Int!
+  members: Int!
+  messages: Int!
+}
+
+type ChatMember {
+  account: Account!
+  accountId: Int!
+  chat: Chat
+  chatId: Int
+  createdAt: DateTime!
+  id: Int!
+  role: ChatMemberRole!
+  updatedAt: DateTime!
+}
+
+enum ChatMemberRole {
+  ADMIN
+  MEMBER
+}
+
+input CreateChatMemberInput {
+  accountId: Float!
+  chatId: Float!
+  role: String!
+}
+
+input CreateEventApplicationInput {
+  accountId: Float!
+  eventId: Float!
+  preferences: [CreatePreferenceInput!]!
+}
+
+input CreateEventInput {
+  description: String!
+  endsAt: DateTime!
+  groupId: Float!
+  name: String!
+  startsAt: DateTime!
+}
+
+input CreateGroupMemberInput {
+  accountId: Float!
+  link: String!
+}
+
+input CreateMessageInput {
+  accountId: Float!
+  chatId: Float!
+  text: String!
+}
+
+input CreateOrUpdateGroupInput {
+  description: String!
+  name: String!
+  type: String!
+}
+
+input CreatePreferenceInput {
+  applicationId: Float!
+  comment: String!
+  dislikes: String!
+  likes: String!
+  priceRange: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
-input DateTimeFilter {
-  equals: DateTime
-  gt: DateTime
-  gte: DateTime
-  in: [DateTime!]
-  lt: DateTime
-  lte: DateTime
-  not: NestedDateTimeFilter
-  notIn: [DateTime!]
+type Event {
+  _count: EventCount!
+  applicationPairs: [EventApplicationPair!]
+  createdAt: DateTime!
+  description: String!
+  endsAt: DateTime!
+  eventApplicationPairs: [EventApplicationPair!]!
+  group: Group!
+  groupId: Int!
+  id: Int!
+  name: String!
+  pictureUrl: String!
+  startsAt: DateTime!
+  status: EventStatus!
+  updatedAt: DateTime!
 }
 
-input EmailPasswordInput {
-  email: String!
-  password: String!
+type EventApplication {
+  _count: EventApplicationCount!
+  account: Account!
+  accountId: Int!
+  createdAt: DateTime!
+  eventApplicationFirstPairs: [EventApplicationPair!]
+  eventApplicationSecondPairs: [EventApplicationPair!]
+  id: Int!
+  preferences: [Preference!]
+  status: EventApplicationStatus!
+  updatedAt: DateTime!
 }
 
-input EnumAccountStatusFilter {
-  equals: AccountStatus
-  in: [AccountStatus!]
-  not: NestedEnumAccountStatusFilter
-  notIn: [AccountStatus!]
+type EventApplicationCount {
+  eventApplicationFirstPairs: Int!
+  eventApplicationSecondPairs: Int!
+  preferences: Int!
 }
 
-input EnumProfileRoleNullableListFilter {
-  equals: [ProfileRole!]
-  has: ProfileRole
-  hasEvery: [ProfileRole!]
-  hasSome: [ProfileRole!]
-  isEmpty: Boolean
+type EventApplicationPair {
+  applicationFirst: EventApplication!
+  applicationSecond: EventApplication
+  chat: Chat
+  chatId: Int
+  chats: [Chat!]!
+  createdAt: DateTime!
+  event: Event!
+  eventApplicationFirst: EventApplication!
+  eventApplicationFirstId: Int!
+  eventApplicationSecond: EventApplication!
+  eventApplicationSecondId: Int
+  eventId: Int!
+  id: Int!
+  updatedAt: DateTime!
 }
 
-input GenerateEmailCodeInput {
-  email: String!
+enum EventApplicationStatus {
+  GIFT_NOT_RECEIVED
+  GIFT_RECEIVED
+  GIFT_SENT
+  LOOKING_FOR_PAIR
+  PAIRED
 }
 
-type GenerateEmailCodeResponse {
-  expiresAt: DateTime!
-  result: Boolean!
+type EventCount {
+  applicationPairs: Int!
 }
 
-input IntFilter {
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntFilter
-  notIn: [Int!]
+enum EventStatus {
+  CLOSED
+  EXPIRED
+  OPEN
 }
 
-input IntNullableFilter {
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntNullableFilter
-  notIn: [Int!]
+type ExternalProfile {
+  account: Account!
+  accountId: Int!
+  createdAt: DateTime!
+  externalId: String!
+  id: Int!
+  provider: ExternalProfileProvider!
+  updatedAt: DateTime!
+}
+
+enum ExternalProfileProvider {
+  GOOGLE
+  TELEGRAM
+}
+
+type Group {
+  _count: GroupCount!
+  createdAt: DateTime!
+  description: String!
+  events: [Event!]
+  groupInvites: [GroupInvite!]
+  id: Int!
+  members: [GroupMember!]
+  name: String!
+  pictureUrl: String!
+  status: GroupStatus!
+  type: GroupType!
+  updatedAt: DateTime!
+}
+
+type GroupCount {
+  events: Int!
+  groupInvites: Int!
+  members: Int!
+}
+
+type GroupInvite {
+  code: String!
+  createdAt: DateTime!
+  group: Group!
+  groupId: Int!
+  id: Int!
+  updatedAt: DateTime!
+}
+
+type GroupMember {
+  account: Account!
+  accountId: Int!
+  createdAt: DateTime!
+  group: Group!
+  groupId: Int!
+  id: Int!
+  role: GroupMemberRole!
+  updatedAt: DateTime!
+}
+
+enum GroupMemberRole {
+  ADMIN
+  MEMBER
+}
+
+enum GroupStatus {
+  CLOSED
+  OPEN
+}
+
+enum GroupType {
+  PRIVATE
+  PUBLIC
 }
 
 """
@@ -373,185 +289,96 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
-type Mutation {
-  activateAccount(data: ActivateAccountInput!): Account!
-  changePassword(newPassword: String!, password: String!): Account!
-  echo(text: String!): String!
-  generateEmailCode(data: GenerateEmailCodeInput!): GenerateEmailCodeResponse!
-  login(data: EmailPasswordInput!): AuthResponse!
-  loginAs(email: String!): AuthResponse!
-  logout(sessionIds: [Float!]!): Boolean!
-  register(data: EmailPasswordInput!): AuthResponse!
-  resetPassword(data: ResetPasswordInput!): Account!
-  updateProfile(input: ProfileUpdateInput!): Profile!
-}
-
-input NestedDateTimeFilter {
-  equals: DateTime
-  gt: DateTime
-  gte: DateTime
-  in: [DateTime!]
-  lt: DateTime
-  lte: DateTime
-  not: NestedDateTimeFilter
-  notIn: [DateTime!]
-}
-
-input NestedEnumAccountStatusFilter {
-  equals: AccountStatus
-  in: [AccountStatus!]
-  not: NestedEnumAccountStatusFilter
-  notIn: [AccountStatus!]
-}
-
-input NestedIntFilter {
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntFilter
-  notIn: [Int!]
-}
-
-input NestedIntNullableFilter {
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntNullableFilter
-  notIn: [Int!]
-}
-
-input NestedStringFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  not: NestedStringFilter
-  notIn: [String!]
-  startsWith: String
-}
-
-input NestedStringNullableFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  not: NestedStringNullableFilter
-  notIn: [String!]
-  startsWith: String
-}
-
-type Profile {
-  _count: ProfileCount!
-  accounts: [Account!]
-  avatarUrl: String
-  bio: String
+type Message {
+  account: Account!
+  accountId: Int!
+  chat: Chat
+  chatId: Int
   createdAt: DateTime!
   id: Int!
-  name: String
-  roles: [ProfileRole!]
-  status: AccountStatus!
+  text: String!
   updatedAt: DateTime!
 }
 
-type ProfileCount {
-  accounts: Int!
+type Mutation {
+  createChatMember(input: CreateChatMemberInput!): ChatMember!
+  createEvent(input: CreateEventInput!): Event!
+  createEventApplication(input: CreateEventApplicationInput!): Event!
+  createGroup(input: CreateOrUpdateGroupInput!): Group!
+  createGroupMember(input: CreateGroupMemberInput!): GroupMember!
+  createMessage(input: CreateMessageInput!): Message!
+  deleteAccount: Account!
+  deleteEvent(id: Float!): Boolean!
+  deleteGroup(id: Float!): Group!
+  deletePreference(id: Float!): Preference!
+  disableNotifications: Account!
+  echo(text: String!): String!
+  enableNotifications(email: String!): Account!
+  loginWithGoogle(code: String!): AuthResponse!
+  loginWithTelegram(token: String!): AuthResponse!
+  logout(sessionIds: [Float!]!): Boolean!
+  mergeProfileToAccount(accountIdToLeave: Float!, accountIdToRemove: Float!, externalId: String!, provider: String!): Account!
+  setEventApplicationStatus(eventApplicationId: Float!, status: String!): Event!
+  setNotificationAsRead(id: Float!): Notification!
+  updateAccount(input: UpdateAccountInput!): Account!
+  updateGroup(id: Float!, input: CreateOrUpdateGroupInput!): Group!
 }
 
-input ProfileNullableRelationFilter {
-  is: ProfileWhereInput
-  isNot: ProfileWhereInput
+type Notification {
+  account: Account!
+  accountId: Int!
+  createdAt: DateTime!
+  id: Int!
+  message: String!
+  read: Boolean!
+  title: String!
+  updatedAt: DateTime!
 }
 
-enum ProfileRole {
-  ADMIN
-  USER
+type Preference {
+  application: EventApplication
+  applicationId: Int
+  comment: String!
+  createdAt: DateTime!
+  dislikes: String!
+  eventApplication: EventApplication!
+  id: Int!
+  likes: String!
+  priceRange: PriceRange!
+  updatedAt: DateTime!
 }
 
-input ProfileUpdateInput {
-  accounts: AccountUpdateManyWithoutProfileNestedInput
-  avatarUrl: String
-  bio: String
-  createdAt: DateTime
-  name: String
-  roles: [ProfileRole!]
-  status: AccountStatus
-  updatedAt: DateTime
-}
-
-input ProfileWhereInput {
-  AND: [ProfileWhereInput!]
-  NOT: [ProfileWhereInput!]
-  OR: [ProfileWhereInput!]
-  accounts: AccountListRelationFilter
-  avatarUrl: StringNullableFilter
-  bio: StringNullableFilter
-  createdAt: DateTimeFilter
-  id: IntFilter
-  name: StringNullableFilter
-  roles: EnumProfileRoleNullableListFilter
-  status: EnumAccountStatusFilter
-  updatedAt: DateTimeFilter
+enum PriceRange {
+  MIN_0_MAX_10
+  MIN_10_MAX_20
+  MIN_20_MAX_30
+  NO_MATTER
 }
 
 type Query {
+  chat(id: Float!): [Chat!]!
+  chatMembers(chatId: Float!): [ChatMember!]!
   currentSession: AccountSession!
   debug: JSON!
   echo(text: String!): String!
+  event(id: Float!): Event!
+  eventApplicationPair(id: Float!): EventApplicationPair!
+  eventApplicationPairs(eventId: Float!): [EventApplicationPair!]!
+  events(groupId: Float!): [Event!]!
+  generateTelegramBotLink: String!
+  generateUrlGoogle(state: String): String!
+  group(id: Float!): Group!
+  groupInvite(groupId: Float!): [GroupInvite!]!
+  groupMember(groupId: Float!): [GroupMember!]!
+  messages(chatId: Float!): [Message!]!
+  notification(id: Float!): Notification!
+  notifications(limit: Float!, offset: Float!): [Notification!]!
+  privateGroups(limit: Float!, offset: Float!): [Group!]!
+  publicGroups(limit: Float!, offset: Float!): [Group!]!
   testTranslation(username: String!): String!
   whoami: Account!
 }
 
-enum QueryMode {
-  default
-  insensitive
-}
-
-input ResetPasswordInput {
-  email: String!
-  emailCode: String!
-  newPassword: String!
-}
-
-input StringFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  mode: QueryMode
-  not: NestedStringFilter
-  notIn: [String!]
-  startsWith: String
-}
-
-input StringNullableFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  mode: QueryMode
-  not: NestedStringNullableFilter
-  notIn: [String!]
-  startsWith: String
+input UpdateAccountInput {
+  username: String!
 }

@@ -23,68 +23,38 @@ export type Scalars = {
 export type Account = {
   __typename?: 'Account';
   _count: AccountCount;
+  avatarUrl?: Maybe<Scalars['String']['output']>;
+  chatMembers?: Maybe<Array<ChatMember>>;
   createdAt: Scalars['DateTime']['output'];
-  email: Scalars['String']['output'];
+  email?: Maybe<Scalars['String']['output']>;
+  eventApplications?: Maybe<Array<EventApplication>>;
+  externalProfiles?: Maybe<Array<ExternalProfile>>;
+  groupMembers?: Maybe<Array<GroupMember>>;
   id: Scalars['Int']['output'];
-  profile?: Maybe<Profile>;
-  profileId?: Maybe<Scalars['Int']['output']>;
+  messages?: Maybe<Array<Message>>;
+  notifications?: Maybe<Array<Notification>>;
+  roles?: Maybe<Array<AccountRole>>;
   sessions?: Maybe<Array<AccountSession>>;
+  status: AccountStatus;
   updatedAt: Scalars['DateTime']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type AccountCount = {
   __typename?: 'AccountCount';
+  chatMembers: Scalars['Int']['output'];
+  eventApplications: Scalars['Int']['output'];
+  externalProfiles: Scalars['Int']['output'];
+  groupMembers: Scalars['Int']['output'];
+  messages: Scalars['Int']['output'];
+  notifications: Scalars['Int']['output'];
   sessions: Scalars['Int']['output'];
 };
 
-export type AccountCreateManyProfileInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  email: Scalars['String']['input'];
-  id?: InputMaybe<Scalars['Int']['input']>;
-  passwordHash: Scalars['String']['input'];
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type AccountCreateManyProfileInputEnvelope = {
-  data: Array<AccountCreateManyProfileInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type AccountCreateOrConnectWithoutProfileInput = {
-  create: AccountCreateWithoutProfileInput;
-  where: AccountWhereUniqueInput;
-};
-
-export type AccountCreateWithoutProfileInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  email: Scalars['String']['input'];
-  passwordHash: Scalars['String']['input'];
-  sessions?: InputMaybe<AccountSessionCreateNestedManyWithoutAccountInput>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type AccountListRelationFilter = {
-  every?: InputMaybe<AccountWhereInput>;
-  none?: InputMaybe<AccountWhereInput>;
-  some?: InputMaybe<AccountWhereInput>;
-};
-
-export type AccountRelationFilter = {
-  is?: InputMaybe<AccountWhereInput>;
-  isNot?: InputMaybe<AccountWhereInput>;
-};
-
-export type AccountScalarWhereInput = {
-  AND?: InputMaybe<Array<AccountScalarWhereInput>>;
-  NOT?: InputMaybe<Array<AccountScalarWhereInput>>;
-  OR?: InputMaybe<Array<AccountScalarWhereInput>>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  email?: InputMaybe<StringFilter>;
-  id?: InputMaybe<IntFilter>;
-  passwordHash?: InputMaybe<StringFilter>;
-  profileId?: InputMaybe<IntNullableFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-};
+export enum AccountRole {
+  Admin = 'ADMIN',
+  User = 'USER'
+}
 
 export type AccountSession = {
   __typename?: 'AccountSession';
@@ -98,223 +68,11 @@ export type AccountSession = {
   userAgent?: Maybe<Scalars['String']['output']>;
 };
 
-export type AccountSessionCreateManyAccountInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  expiresAt: Scalars['DateTime']['input'];
-  id?: InputMaybe<Scalars['Int']['input']>;
-  ipAddr: Scalars['String']['input'];
-  token: Scalars['String']['input'];
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  userAgent?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type AccountSessionCreateManyAccountInputEnvelope = {
-  data: Array<AccountSessionCreateManyAccountInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type AccountSessionCreateNestedManyWithoutAccountInput = {
-  connect?: InputMaybe<Array<AccountSessionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AccountSessionCreateOrConnectWithoutAccountInput>>;
-  create?: InputMaybe<Array<AccountSessionCreateWithoutAccountInput>>;
-  createMany?: InputMaybe<AccountSessionCreateManyAccountInputEnvelope>;
-};
-
-export type AccountSessionCreateOrConnectWithoutAccountInput = {
-  create: AccountSessionCreateWithoutAccountInput;
-  where: AccountSessionWhereUniqueInput;
-};
-
-export type AccountSessionCreateWithoutAccountInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  expiresAt: Scalars['DateTime']['input'];
-  ipAddr: Scalars['String']['input'];
-  token: Scalars['String']['input'];
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  userAgent?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type AccountSessionListRelationFilter = {
-  every?: InputMaybe<AccountSessionWhereInput>;
-  none?: InputMaybe<AccountSessionWhereInput>;
-  some?: InputMaybe<AccountSessionWhereInput>;
-};
-
-export type AccountSessionScalarWhereInput = {
-  AND?: InputMaybe<Array<AccountSessionScalarWhereInput>>;
-  NOT?: InputMaybe<Array<AccountSessionScalarWhereInput>>;
-  OR?: InputMaybe<Array<AccountSessionScalarWhereInput>>;
-  accountId?: InputMaybe<IntFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  expiresAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<IntFilter>;
-  ipAddr?: InputMaybe<StringFilter>;
-  token?: InputMaybe<StringFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-  userAgent?: InputMaybe<StringNullableFilter>;
-};
-
-export type AccountSessionUpdateManyMutationInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  expiresAt?: InputMaybe<Scalars['DateTime']['input']>;
-  ipAddr?: InputMaybe<Scalars['String']['input']>;
-  token?: InputMaybe<Scalars['String']['input']>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  userAgent?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type AccountSessionUpdateManyWithWhereWithoutAccountInput = {
-  data: AccountSessionUpdateManyMutationInput;
-  where: AccountSessionScalarWhereInput;
-};
-
-export type AccountSessionUpdateManyWithoutAccountNestedInput = {
-  connect?: InputMaybe<Array<AccountSessionWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AccountSessionCreateOrConnectWithoutAccountInput>>;
-  create?: InputMaybe<Array<AccountSessionCreateWithoutAccountInput>>;
-  createMany?: InputMaybe<AccountSessionCreateManyAccountInputEnvelope>;
-  delete?: InputMaybe<Array<AccountSessionWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<AccountSessionScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<AccountSessionWhereUniqueInput>>;
-  set?: InputMaybe<Array<AccountSessionWhereUniqueInput>>;
-  update?: InputMaybe<Array<AccountSessionUpdateWithWhereUniqueWithoutAccountInput>>;
-  updateMany?: InputMaybe<Array<AccountSessionUpdateManyWithWhereWithoutAccountInput>>;
-  upsert?: InputMaybe<Array<AccountSessionUpsertWithWhereUniqueWithoutAccountInput>>;
-};
-
-export type AccountSessionUpdateWithWhereUniqueWithoutAccountInput = {
-  data: AccountSessionUpdateWithoutAccountInput;
-  where: AccountSessionWhereUniqueInput;
-};
-
-export type AccountSessionUpdateWithoutAccountInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  expiresAt?: InputMaybe<Scalars['DateTime']['input']>;
-  ipAddr?: InputMaybe<Scalars['String']['input']>;
-  token?: InputMaybe<Scalars['String']['input']>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  userAgent?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type AccountSessionUpsertWithWhereUniqueWithoutAccountInput = {
-  create: AccountSessionCreateWithoutAccountInput;
-  update: AccountSessionUpdateWithoutAccountInput;
-  where: AccountSessionWhereUniqueInput;
-};
-
-export type AccountSessionWhereInput = {
-  AND?: InputMaybe<Array<AccountSessionWhereInput>>;
-  NOT?: InputMaybe<Array<AccountSessionWhereInput>>;
-  OR?: InputMaybe<Array<AccountSessionWhereInput>>;
-  account?: InputMaybe<AccountRelationFilter>;
-  accountId?: InputMaybe<IntFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  expiresAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<IntFilter>;
-  ipAddr?: InputMaybe<StringFilter>;
-  token?: InputMaybe<StringFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-  userAgent?: InputMaybe<StringNullableFilter>;
-};
-
-export type AccountSessionWhereUniqueInput = {
-  AND?: InputMaybe<Array<AccountSessionWhereInput>>;
-  NOT?: InputMaybe<Array<AccountSessionWhereInput>>;
-  OR?: InputMaybe<Array<AccountSessionWhereInput>>;
-  account?: InputMaybe<AccountRelationFilter>;
-  accountId?: InputMaybe<IntFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  expiresAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<Scalars['Int']['input']>;
-  ipAddr?: InputMaybe<StringFilter>;
-  token?: InputMaybe<Scalars['String']['input']>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-  userAgent?: InputMaybe<StringNullableFilter>;
-};
-
 export enum AccountStatus {
   Active = 'ACTIVE',
   Deleted = 'DELETED',
   Inactive = 'INACTIVE'
 }
-
-export type AccountUpdateManyMutationInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  passwordHash?: InputMaybe<Scalars['String']['input']>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type AccountUpdateManyWithWhereWithoutProfileInput = {
-  data: AccountUpdateManyMutationInput;
-  where: AccountScalarWhereInput;
-};
-
-export type AccountUpdateManyWithoutProfileNestedInput = {
-  connect?: InputMaybe<Array<AccountWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AccountCreateOrConnectWithoutProfileInput>>;
-  create?: InputMaybe<Array<AccountCreateWithoutProfileInput>>;
-  createMany?: InputMaybe<AccountCreateManyProfileInputEnvelope>;
-  delete?: InputMaybe<Array<AccountWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<AccountScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<AccountWhereUniqueInput>>;
-  set?: InputMaybe<Array<AccountWhereUniqueInput>>;
-  update?: InputMaybe<Array<AccountUpdateWithWhereUniqueWithoutProfileInput>>;
-  updateMany?: InputMaybe<Array<AccountUpdateManyWithWhereWithoutProfileInput>>;
-  upsert?: InputMaybe<Array<AccountUpsertWithWhereUniqueWithoutProfileInput>>;
-};
-
-export type AccountUpdateWithWhereUniqueWithoutProfileInput = {
-  data: AccountUpdateWithoutProfileInput;
-  where: AccountWhereUniqueInput;
-};
-
-export type AccountUpdateWithoutProfileInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  passwordHash?: InputMaybe<Scalars['String']['input']>;
-  sessions?: InputMaybe<AccountSessionUpdateManyWithoutAccountNestedInput>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type AccountUpsertWithWhereUniqueWithoutProfileInput = {
-  create: AccountCreateWithoutProfileInput;
-  update: AccountUpdateWithoutProfileInput;
-  where: AccountWhereUniqueInput;
-};
-
-export type AccountWhereInput = {
-  AND?: InputMaybe<Array<AccountWhereInput>>;
-  NOT?: InputMaybe<Array<AccountWhereInput>>;
-  OR?: InputMaybe<Array<AccountWhereInput>>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  email?: InputMaybe<StringFilter>;
-  id?: InputMaybe<IntFilter>;
-  passwordHash?: InputMaybe<StringFilter>;
-  profile?: InputMaybe<ProfileNullableRelationFilter>;
-  profileId?: InputMaybe<IntNullableFilter>;
-  sessions?: InputMaybe<AccountSessionListRelationFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-};
-
-export type AccountWhereUniqueInput = {
-  AND?: InputMaybe<Array<AccountWhereInput>>;
-  NOT?: InputMaybe<Array<AccountWhereInput>>;
-  OR?: InputMaybe<Array<AccountWhereInput>>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['Int']['input']>;
-  passwordHash?: InputMaybe<StringFilter>;
-  profile?: InputMaybe<ProfileNullableRelationFilter>;
-  profileId?: InputMaybe<IntNullableFilter>;
-  sessions?: InputMaybe<AccountSessionListRelationFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-};
-
-export type ActivateAccountInput = {
-  code: Scalars['String']['input'];
-  email: Scalars['String']['input'];
-};
 
 export type AuthResponse = {
   __typename?: 'AuthResponse';
@@ -322,92 +80,319 @@ export type AuthResponse = {
   token: Scalars['String']['output'];
 };
 
-export type DateTimeFilter = {
-  equals?: InputMaybe<Scalars['DateTime']['input']>;
-  gt?: InputMaybe<Scalars['DateTime']['input']>;
-  gte?: InputMaybe<Scalars['DateTime']['input']>;
-  in?: InputMaybe<Array<Scalars['DateTime']['input']>>;
-  lt?: InputMaybe<Scalars['DateTime']['input']>;
-  lte?: InputMaybe<Scalars['DateTime']['input']>;
-  not?: InputMaybe<NestedDateTimeFilter>;
-  notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+export type Chat = {
+  __typename?: 'Chat';
+  _count: ChatCount;
+  chatMembers: Array<ChatMember>;
+  createdAt: Scalars['DateTime']['output'];
+  eventApplicationPair?: Maybe<Array<EventApplicationPair>>;
+  id: Scalars['Int']['output'];
+  members?: Maybe<Array<ChatMember>>;
+  messages?: Maybe<Array<Message>>;
+  updatedAt: Scalars['DateTime']['output'];
 };
 
-export type EmailPasswordInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+export type ChatCount = {
+  __typename?: 'ChatCount';
+  eventApplicationPair: Scalars['Int']['output'];
+  members: Scalars['Int']['output'];
+  messages: Scalars['Int']['output'];
 };
 
-export type EnumAccountStatusFilter = {
-  equals?: InputMaybe<AccountStatus>;
-  in?: InputMaybe<Array<AccountStatus>>;
-  not?: InputMaybe<NestedEnumAccountStatusFilter>;
-  notIn?: InputMaybe<Array<AccountStatus>>;
+export type ChatMember = {
+  __typename?: 'ChatMember';
+  account: Account;
+  accountId: Scalars['Int']['output'];
+  chat?: Maybe<Chat>;
+  chatId?: Maybe<Scalars['Int']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['Int']['output'];
+  role: ChatMemberRole;
+  updatedAt: Scalars['DateTime']['output'];
 };
 
-export type EnumProfileRoleNullableListFilter = {
-  equals?: InputMaybe<Array<ProfileRole>>;
-  has?: InputMaybe<ProfileRole>;
-  hasEvery?: InputMaybe<Array<ProfileRole>>;
-  hasSome?: InputMaybe<Array<ProfileRole>>;
-  isEmpty?: InputMaybe<Scalars['Boolean']['input']>;
+export enum ChatMemberRole {
+  Admin = 'ADMIN',
+  Member = 'MEMBER'
+}
+
+export type CreateChatMemberInput = {
+  accountId: Scalars['Float']['input'];
+  chatId: Scalars['Float']['input'];
+  role: Scalars['String']['input'];
 };
 
-export type GenerateEmailCodeInput = {
-  email: Scalars['String']['input'];
+export type CreateEventApplicationInput = {
+  accountId: Scalars['Float']['input'];
+  eventId: Scalars['Float']['input'];
+  preferences: Array<CreatePreferenceInput>;
 };
 
-export type GenerateEmailCodeResponse = {
-  __typename?: 'GenerateEmailCodeResponse';
-  expiresAt: Scalars['DateTime']['output'];
-  result: Scalars['Boolean']['output'];
+export type CreateEventInput = {
+  description: Scalars['String']['input'];
+  endsAt: Scalars['DateTime']['input'];
+  groupId: Scalars['Float']['input'];
+  name: Scalars['String']['input'];
+  startsAt: Scalars['DateTime']['input'];
 };
 
-export type IntFilter = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
-  gt?: InputMaybe<Scalars['Int']['input']>;
-  gte?: InputMaybe<Scalars['Int']['input']>;
-  in?: InputMaybe<Array<Scalars['Int']['input']>>;
-  lt?: InputMaybe<Scalars['Int']['input']>;
-  lte?: InputMaybe<Scalars['Int']['input']>;
-  not?: InputMaybe<NestedIntFilter>;
-  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
+export type CreateGroupMemberInput = {
+  accountId: Scalars['Float']['input'];
+  link: Scalars['String']['input'];
 };
 
-export type IntNullableFilter = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
-  gt?: InputMaybe<Scalars['Int']['input']>;
-  gte?: InputMaybe<Scalars['Int']['input']>;
-  in?: InputMaybe<Array<Scalars['Int']['input']>>;
-  lt?: InputMaybe<Scalars['Int']['input']>;
-  lte?: InputMaybe<Scalars['Int']['input']>;
-  not?: InputMaybe<NestedIntNullableFilter>;
-  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
+export type CreateMessageInput = {
+  accountId: Scalars['Float']['input'];
+  chatId: Scalars['Float']['input'];
+  text: Scalars['String']['input'];
+};
+
+export type CreateOrUpdateGroupInput = {
+  description: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+};
+
+export type CreatePreferenceInput = {
+  applicationId: Scalars['Float']['input'];
+  comment: Scalars['String']['input'];
+  dislikes: Scalars['String']['input'];
+  likes: Scalars['String']['input'];
+  priceRange: Scalars['String']['input'];
+};
+
+export type Event = {
+  __typename?: 'Event';
+  _count: EventCount;
+  applicationPairs?: Maybe<Array<EventApplicationPair>>;
+  createdAt: Scalars['DateTime']['output'];
+  description: Scalars['String']['output'];
+  endsAt: Scalars['DateTime']['output'];
+  eventApplicationPairs: Array<EventApplicationPair>;
+  group: Group;
+  groupId: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  pictureUrl: Scalars['String']['output'];
+  startsAt: Scalars['DateTime']['output'];
+  status: EventStatus;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type EventApplication = {
+  __typename?: 'EventApplication';
+  _count: EventApplicationCount;
+  account: Account;
+  accountId: Scalars['Int']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  eventApplicationFirstPairs?: Maybe<Array<EventApplicationPair>>;
+  eventApplicationSecondPairs?: Maybe<Array<EventApplicationPair>>;
+  id: Scalars['Int']['output'];
+  preferences?: Maybe<Array<Preference>>;
+  status: EventApplicationStatus;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type EventApplicationCount = {
+  __typename?: 'EventApplicationCount';
+  eventApplicationFirstPairs: Scalars['Int']['output'];
+  eventApplicationSecondPairs: Scalars['Int']['output'];
+  preferences: Scalars['Int']['output'];
+};
+
+export type EventApplicationPair = {
+  __typename?: 'EventApplicationPair';
+  applicationFirst: EventApplication;
+  applicationSecond?: Maybe<EventApplication>;
+  chat?: Maybe<Chat>;
+  chatId?: Maybe<Scalars['Int']['output']>;
+  chats: Array<Chat>;
+  createdAt: Scalars['DateTime']['output'];
+  event: Event;
+  eventApplicationFirst: EventApplication;
+  eventApplicationFirstId: Scalars['Int']['output'];
+  eventApplicationSecond: EventApplication;
+  eventApplicationSecondId?: Maybe<Scalars['Int']['output']>;
+  eventId: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export enum EventApplicationStatus {
+  GiftNotReceived = 'GIFT_NOT_RECEIVED',
+  GiftReceived = 'GIFT_RECEIVED',
+  GiftSent = 'GIFT_SENT',
+  LookingForPair = 'LOOKING_FOR_PAIR',
+  Paired = 'PAIRED'
+}
+
+export type EventCount = {
+  __typename?: 'EventCount';
+  applicationPairs: Scalars['Int']['output'];
+};
+
+export enum EventStatus {
+  Closed = 'CLOSED',
+  Expired = 'EXPIRED',
+  Open = 'OPEN'
+}
+
+export type ExternalProfile = {
+  __typename?: 'ExternalProfile';
+  account: Account;
+  accountId: Scalars['Int']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  externalId: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  provider: ExternalProfileProvider;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export enum ExternalProfileProvider {
+  Google = 'GOOGLE',
+  Telegram = 'TELEGRAM'
+}
+
+export type Group = {
+  __typename?: 'Group';
+  _count: GroupCount;
+  createdAt: Scalars['DateTime']['output'];
+  description: Scalars['String']['output'];
+  events?: Maybe<Array<Event>>;
+  groupInvites?: Maybe<Array<GroupInvite>>;
+  id: Scalars['Int']['output'];
+  members?: Maybe<Array<GroupMember>>;
+  name: Scalars['String']['output'];
+  pictureUrl: Scalars['String']['output'];
+  status: GroupStatus;
+  type: GroupType;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type GroupCount = {
+  __typename?: 'GroupCount';
+  events: Scalars['Int']['output'];
+  groupInvites: Scalars['Int']['output'];
+  members: Scalars['Int']['output'];
+};
+
+export type GroupInvite = {
+  __typename?: 'GroupInvite';
+  code: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  group: Group;
+  groupId: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type GroupMember = {
+  __typename?: 'GroupMember';
+  account: Account;
+  accountId: Scalars['Int']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  group: Group;
+  groupId: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  role: GroupMemberRole;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export enum GroupMemberRole {
+  Admin = 'ADMIN',
+  Member = 'MEMBER'
+}
+
+export enum GroupStatus {
+  Closed = 'CLOSED',
+  Open = 'OPEN'
+}
+
+export enum GroupType {
+  Private = 'PRIVATE',
+  Public = 'PUBLIC'
+}
+
+export type Message = {
+  __typename?: 'Message';
+  account: Account;
+  accountId: Scalars['Int']['output'];
+  chat?: Maybe<Chat>;
+  chatId?: Maybe<Scalars['Int']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['Int']['output'];
+  text: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  activateAccount: Account;
-  changePassword: Account;
+  createChatMember: ChatMember;
+  createEvent: Event;
+  createEventApplication: Event;
+  createGroup: Group;
+  createGroupMember: GroupMember;
+  createMessage: Message;
+  deleteAccount: Account;
+  deleteEvent: Scalars['Boolean']['output'];
+  deleteGroup: Group;
+  deletePreference: Preference;
+  disableNotifications: Account;
   echo: Scalars['String']['output'];
-  generateEmailCode: GenerateEmailCodeResponse;
-  login: AuthResponse;
-  loginAs: AuthResponse;
+  enableNotifications: Account;
+  loginWithGoogle: AuthResponse;
+  loginWithTelegram: AuthResponse;
   logout: Scalars['Boolean']['output'];
-  register: AuthResponse;
-  resetPassword: Account;
-  updateProfile: Profile;
+  mergeProfileToAccount: Account;
+  setEventApplicationStatus: Event;
+  setNotificationAsRead: Notification;
+  updateAccount: Account;
+  updateGroup: Group;
 };
 
 
-export type MutationActivateAccountArgs = {
-  data: ActivateAccountInput;
+export type MutationCreateChatMemberArgs = {
+  input: CreateChatMemberInput;
 };
 
 
-export type MutationChangePasswordArgs = {
-  newPassword: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+export type MutationCreateEventArgs = {
+  input: CreateEventInput;
+};
+
+
+export type MutationCreateEventApplicationArgs = {
+  input: CreateEventApplicationInput;
+};
+
+
+export type MutationCreateGroupArgs = {
+  input: CreateOrUpdateGroupInput;
+};
+
+
+export type MutationCreateGroupMemberArgs = {
+  input: CreateGroupMemberInput;
+};
+
+
+export type MutationCreateMessageArgs = {
+  input: CreateMessageInput;
+};
+
+
+export type MutationDeleteEventArgs = {
+  id: Scalars['Float']['input'];
+};
+
+
+export type MutationDeleteGroupArgs = {
+  id: Scalars['Float']['input'];
+};
+
+
+export type MutationDeletePreferenceArgs = {
+  id: Scalars['Float']['input'];
 };
 
 
@@ -416,18 +401,18 @@ export type MutationEchoArgs = {
 };
 
 
-export type MutationGenerateEmailCodeArgs = {
-  data: GenerateEmailCodeInput;
-};
-
-
-export type MutationLoginArgs = {
-  data: EmailPasswordInput;
-};
-
-
-export type MutationLoginAsArgs = {
+export type MutationEnableNotificationsArgs = {
   email: Scalars['String']['input'];
+};
+
+
+export type MutationLoginWithGoogleArgs = {
+  code: Scalars['String']['input'];
+};
+
+
+export type MutationLoginWithTelegramArgs = {
+  token: Scalars['String']['input'];
 };
 
 
@@ -436,150 +421,101 @@ export type MutationLogoutArgs = {
 };
 
 
-export type MutationRegisterArgs = {
-  data: EmailPasswordInput;
+export type MutationMergeProfileToAccountArgs = {
+  accountIdToLeave: Scalars['Float']['input'];
+  accountIdToRemove: Scalars['Float']['input'];
+  externalId: Scalars['String']['input'];
+  provider: Scalars['String']['input'];
 };
 
 
-export type MutationResetPasswordArgs = {
-  data: ResetPasswordInput;
+export type MutationSetEventApplicationStatusArgs = {
+  eventApplicationId: Scalars['Float']['input'];
+  status: Scalars['String']['input'];
 };
 
 
-export type MutationUpdateProfileArgs = {
-  input: ProfileUpdateInput;
+export type MutationSetNotificationAsReadArgs = {
+  id: Scalars['Float']['input'];
 };
 
-export type NestedDateTimeFilter = {
-  equals?: InputMaybe<Scalars['DateTime']['input']>;
-  gt?: InputMaybe<Scalars['DateTime']['input']>;
-  gte?: InputMaybe<Scalars['DateTime']['input']>;
-  in?: InputMaybe<Array<Scalars['DateTime']['input']>>;
-  lt?: InputMaybe<Scalars['DateTime']['input']>;
-  lte?: InputMaybe<Scalars['DateTime']['input']>;
-  not?: InputMaybe<NestedDateTimeFilter>;
-  notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+
+export type MutationUpdateAccountArgs = {
+  input: UpdateAccountInput;
 };
 
-export type NestedEnumAccountStatusFilter = {
-  equals?: InputMaybe<AccountStatus>;
-  in?: InputMaybe<Array<AccountStatus>>;
-  not?: InputMaybe<NestedEnumAccountStatusFilter>;
-  notIn?: InputMaybe<Array<AccountStatus>>;
+
+export type MutationUpdateGroupArgs = {
+  id: Scalars['Float']['input'];
+  input: CreateOrUpdateGroupInput;
 };
 
-export type NestedIntFilter = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
-  gt?: InputMaybe<Scalars['Int']['input']>;
-  gte?: InputMaybe<Scalars['Int']['input']>;
-  in?: InputMaybe<Array<Scalars['Int']['input']>>;
-  lt?: InputMaybe<Scalars['Int']['input']>;
-  lte?: InputMaybe<Scalars['Int']['input']>;
-  not?: InputMaybe<NestedIntFilter>;
-  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
-};
-
-export type NestedIntNullableFilter = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
-  gt?: InputMaybe<Scalars['Int']['input']>;
-  gte?: InputMaybe<Scalars['Int']['input']>;
-  in?: InputMaybe<Array<Scalars['Int']['input']>>;
-  lt?: InputMaybe<Scalars['Int']['input']>;
-  lte?: InputMaybe<Scalars['Int']['input']>;
-  not?: InputMaybe<NestedIntNullableFilter>;
-  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
-};
-
-export type NestedStringFilter = {
-  contains?: InputMaybe<Scalars['String']['input']>;
-  endsWith?: InputMaybe<Scalars['String']['input']>;
-  equals?: InputMaybe<Scalars['String']['input']>;
-  gt?: InputMaybe<Scalars['String']['input']>;
-  gte?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lt?: InputMaybe<Scalars['String']['input']>;
-  lte?: InputMaybe<Scalars['String']['input']>;
-  not?: InputMaybe<NestedStringFilter>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
-  startsWith?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type NestedStringNullableFilter = {
-  contains?: InputMaybe<Scalars['String']['input']>;
-  endsWith?: InputMaybe<Scalars['String']['input']>;
-  equals?: InputMaybe<Scalars['String']['input']>;
-  gt?: InputMaybe<Scalars['String']['input']>;
-  gte?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lt?: InputMaybe<Scalars['String']['input']>;
-  lte?: InputMaybe<Scalars['String']['input']>;
-  not?: InputMaybe<NestedStringNullableFilter>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
-  startsWith?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type Profile = {
-  __typename?: 'Profile';
-  _count: ProfileCount;
-  accounts?: Maybe<Array<Account>>;
-  avatarUrl?: Maybe<Scalars['String']['output']>;
-  bio?: Maybe<Scalars['String']['output']>;
+export type Notification = {
+  __typename?: 'Notification';
+  account: Account;
+  accountId: Scalars['Int']['output'];
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['Int']['output'];
-  name?: Maybe<Scalars['String']['output']>;
-  roles?: Maybe<Array<ProfileRole>>;
-  status: AccountStatus;
+  message: Scalars['String']['output'];
+  read: Scalars['Boolean']['output'];
+  title: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
-export type ProfileCount = {
-  __typename?: 'ProfileCount';
-  accounts: Scalars['Int']['output'];
+export type Preference = {
+  __typename?: 'Preference';
+  application?: Maybe<EventApplication>;
+  applicationId?: Maybe<Scalars['Int']['output']>;
+  comment: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  dislikes: Scalars['String']['output'];
+  eventApplication: EventApplication;
+  id: Scalars['Int']['output'];
+  likes: Scalars['String']['output'];
+  priceRange: PriceRange;
+  updatedAt: Scalars['DateTime']['output'];
 };
 
-export type ProfileNullableRelationFilter = {
-  is?: InputMaybe<ProfileWhereInput>;
-  isNot?: InputMaybe<ProfileWhereInput>;
-};
-
-export enum ProfileRole {
-  Admin = 'ADMIN',
-  User = 'USER'
+export enum PriceRange {
+  Min_0Max_10 = 'MIN_0_MAX_10',
+  Min_10Max_20 = 'MIN_10_MAX_20',
+  Min_20Max_30 = 'MIN_20_MAX_30',
+  NoMatter = 'NO_MATTER'
 }
-
-export type ProfileUpdateInput = {
-  accounts?: InputMaybe<AccountUpdateManyWithoutProfileNestedInput>;
-  avatarUrl?: InputMaybe<Scalars['String']['input']>;
-  bio?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  roles?: InputMaybe<Array<ProfileRole>>;
-  status?: InputMaybe<AccountStatus>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type ProfileWhereInput = {
-  AND?: InputMaybe<Array<ProfileWhereInput>>;
-  NOT?: InputMaybe<Array<ProfileWhereInput>>;
-  OR?: InputMaybe<Array<ProfileWhereInput>>;
-  accounts?: InputMaybe<AccountListRelationFilter>;
-  avatarUrl?: InputMaybe<StringNullableFilter>;
-  bio?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<IntFilter>;
-  name?: InputMaybe<StringNullableFilter>;
-  roles?: InputMaybe<EnumProfileRoleNullableListFilter>;
-  status?: InputMaybe<EnumAccountStatusFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-};
 
 export type Query = {
   __typename?: 'Query';
+  chat: Array<Chat>;
+  chatMembers: Array<ChatMember>;
   currentSession: AccountSession;
   debug: Scalars['JSON']['output'];
   echo: Scalars['String']['output'];
+  event: Event;
+  eventApplicationPair: EventApplicationPair;
+  eventApplicationPairs: Array<EventApplicationPair>;
+  events: Array<Event>;
+  generateTelegramBotLink: Scalars['String']['output'];
+  generateUrlGoogle: Scalars['String']['output'];
+  group: Group;
+  groupInvite: Array<GroupInvite>;
+  groupMember: Array<GroupMember>;
+  messages: Array<Message>;
+  notification: Notification;
+  notifications: Array<Notification>;
+  privateGroups: Array<Group>;
+  publicGroups: Array<Group>;
   testTranslation: Scalars['String']['output'];
   whoami: Account;
+};
+
+
+export type QueryChatArgs = {
+  id: Scalars['Float']['input'];
+};
+
+
+export type QueryChatMembersArgs = {
+  chatId: Scalars['Float']['input'];
 };
 
 
@@ -588,154 +524,100 @@ export type QueryEchoArgs = {
 };
 
 
+export type QueryEventArgs = {
+  id: Scalars['Float']['input'];
+};
+
+
+export type QueryEventApplicationPairArgs = {
+  id: Scalars['Float']['input'];
+};
+
+
+export type QueryEventApplicationPairsArgs = {
+  eventId: Scalars['Float']['input'];
+};
+
+
+export type QueryEventsArgs = {
+  groupId: Scalars['Float']['input'];
+};
+
+
+export type QueryGenerateUrlGoogleArgs = {
+  state?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGroupArgs = {
+  id: Scalars['Float']['input'];
+};
+
+
+export type QueryGroupInviteArgs = {
+  groupId: Scalars['Float']['input'];
+};
+
+
+export type QueryGroupMemberArgs = {
+  groupId: Scalars['Float']['input'];
+};
+
+
+export type QueryMessagesArgs = {
+  chatId: Scalars['Float']['input'];
+};
+
+
+export type QueryNotificationArgs = {
+  id: Scalars['Float']['input'];
+};
+
+
+export type QueryNotificationsArgs = {
+  limit: Scalars['Float']['input'];
+  offset: Scalars['Float']['input'];
+};
+
+
+export type QueryPrivateGroupsArgs = {
+  limit: Scalars['Float']['input'];
+  offset: Scalars['Float']['input'];
+};
+
+
+export type QueryPublicGroupsArgs = {
+  limit: Scalars['Float']['input'];
+  offset: Scalars['Float']['input'];
+};
+
+
 export type QueryTestTranslationArgs = {
   username: Scalars['String']['input'];
 };
 
-export enum QueryMode {
-  Default = 'default',
-  Insensitive = 'insensitive'
-}
-
-export type ResetPasswordInput = {
-  email: Scalars['String']['input'];
-  emailCode: Scalars['String']['input'];
-  newPassword: Scalars['String']['input'];
+export type UpdateAccountInput = {
+  username: Scalars['String']['input'];
 };
-
-export type StringFilter = {
-  contains?: InputMaybe<Scalars['String']['input']>;
-  endsWith?: InputMaybe<Scalars['String']['input']>;
-  equals?: InputMaybe<Scalars['String']['input']>;
-  gt?: InputMaybe<Scalars['String']['input']>;
-  gte?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lt?: InputMaybe<Scalars['String']['input']>;
-  lte?: InputMaybe<Scalars['String']['input']>;
-  mode?: InputMaybe<QueryMode>;
-  not?: InputMaybe<NestedStringFilter>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
-  startsWith?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type StringNullableFilter = {
-  contains?: InputMaybe<Scalars['String']['input']>;
-  endsWith?: InputMaybe<Scalars['String']['input']>;
-  equals?: InputMaybe<Scalars['String']['input']>;
-  gt?: InputMaybe<Scalars['String']['input']>;
-  gte?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lt?: InputMaybe<Scalars['String']['input']>;
-  lte?: InputMaybe<Scalars['String']['input']>;
-  mode?: InputMaybe<QueryMode>;
-  not?: InputMaybe<NestedStringNullableFilter>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
-  startsWith?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type LoginMutationVariables = Exact<{
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-}>;
-
-
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email: string } } };
-
-export type RegisterMutationVariables = Exact<{
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-}>;
-
-
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email: string } } };
 
 export type DebugQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type DebugQuery = { __typename?: 'Query', debug: any };
 
-export type WhoAmIQueryVariables = Exact<{ [key: string]: never; }>;
+export type GenerateTelegramBotLinkQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type WhoAmIQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', id: number, email: string, profile?: { __typename?: 'Profile', id: number, avatarUrl?: string | null, name?: string | null, status: AccountStatus } | null } };
+export type GenerateTelegramBotLinkQuery = { __typename?: 'Query', generateTelegramBotLink: string };
+
+export type LoginWithTelegramMutationVariables = Exact<{
+  token: Scalars['String']['input'];
+}>;
 
 
-export const LoginDocument = gql`
-    mutation Login($email: String!, $password: String!) {
-  login(data: {email: $email, password: $password}) {
-    token
-    account {
-      id
-      email
-    }
-  }
-}
-    `;
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+export type LoginWithTelegramMutation = { __typename?: 'Mutation', loginWithTelegram: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, username: string } } };
 
-/**
- * __useLoginMutation__
- *
- * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [loginMutation, { data, loading, error }] = useLoginMutation({
- *   variables: {
- *      email: // value for 'email'
- *      password: // value for 'password'
- *   },
- * });
- */
-export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
-      }
-export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
-export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
-export const RegisterDocument = gql`
-    mutation Register($email: String!, $password: String!) {
-  register(data: {email: $email, password: $password}) {
-    token
-    account {
-      id
-      email
-    }
-  }
-}
-    `;
-export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
-/**
- * __useRegisterMutation__
- *
- * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRegisterMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [registerMutation, { data, loading, error }] = useRegisterMutation({
- *   variables: {
- *      email: // value for 'email'
- *      password: // value for 'password'
- *   },
- * });
- */
-export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
-      }
-export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
-export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const DebugDocument = gql`
     query Debug {
   debug
@@ -768,44 +650,75 @@ export function useDebugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Debu
 export type DebugQueryHookResult = ReturnType<typeof useDebugQuery>;
 export type DebugLazyQueryHookResult = ReturnType<typeof useDebugLazyQuery>;
 export type DebugQueryResult = Apollo.QueryResult<DebugQuery, DebugQueryVariables>;
-export const WhoAmIDocument = gql`
-    query WhoAmI {
-  whoami {
-    id
-    email
-    profile {
-      id
-      avatarUrl
-      name
-      status
-    }
-  }
+export const GenerateTelegramBotLinkDocument = gql`
+    query GenerateTelegramBotLink {
+  generateTelegramBotLink
 }
     `;
 
 /**
- * __useWhoAmIQuery__
+ * __useGenerateTelegramBotLinkQuery__
  *
- * To run a query within a React component, call `useWhoAmIQuery` and pass it any options that fit your needs.
- * When your component renders, `useWhoAmIQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGenerateTelegramBotLinkQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGenerateTelegramBotLinkQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useWhoAmIQuery({
+ * const { data, loading, error } = useGenerateTelegramBotLinkQuery({
  *   variables: {
  *   },
  * });
  */
-export function useWhoAmIQuery(baseOptions?: Apollo.QueryHookOptions<WhoAmIQuery, WhoAmIQueryVariables>) {
+export function useGenerateTelegramBotLinkQuery(baseOptions?: Apollo.QueryHookOptions<GenerateTelegramBotLinkQuery, GenerateTelegramBotLinkQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<WhoAmIQuery, WhoAmIQueryVariables>(WhoAmIDocument, options);
+        return Apollo.useQuery<GenerateTelegramBotLinkQuery, GenerateTelegramBotLinkQueryVariables>(GenerateTelegramBotLinkDocument, options);
       }
-export function useWhoAmILazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WhoAmIQuery, WhoAmIQueryVariables>) {
+export function useGenerateTelegramBotLinkLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GenerateTelegramBotLinkQuery, GenerateTelegramBotLinkQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<WhoAmIQuery, WhoAmIQueryVariables>(WhoAmIDocument, options);
+          return Apollo.useLazyQuery<GenerateTelegramBotLinkQuery, GenerateTelegramBotLinkQueryVariables>(GenerateTelegramBotLinkDocument, options);
         }
-export type WhoAmIQueryHookResult = ReturnType<typeof useWhoAmIQuery>;
-export type WhoAmILazyQueryHookResult = ReturnType<typeof useWhoAmILazyQuery>;
-export type WhoAmIQueryResult = Apollo.QueryResult<WhoAmIQuery, WhoAmIQueryVariables>;
+export type GenerateTelegramBotLinkQueryHookResult = ReturnType<typeof useGenerateTelegramBotLinkQuery>;
+export type GenerateTelegramBotLinkLazyQueryHookResult = ReturnType<typeof useGenerateTelegramBotLinkLazyQuery>;
+export type GenerateTelegramBotLinkQueryResult = Apollo.QueryResult<GenerateTelegramBotLinkQuery, GenerateTelegramBotLinkQueryVariables>;
+export const LoginWithTelegramDocument = gql`
+    mutation LoginWithTelegram($token: String!) {
+  loginWithTelegram(token: $token) {
+    token
+    account {
+      id
+      email
+      roles
+      status
+      username
+    }
+  }
+}
+    `;
+export type LoginWithTelegramMutationFn = Apollo.MutationFunction<LoginWithTelegramMutation, LoginWithTelegramMutationVariables>;
+
+/**
+ * __useLoginWithTelegramMutation__
+ *
+ * To run a mutation, you first call `useLoginWithTelegramMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginWithTelegramMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginWithTelegramMutation, { data, loading, error }] = useLoginWithTelegramMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useLoginWithTelegramMutation(baseOptions?: Apollo.MutationHookOptions<LoginWithTelegramMutation, LoginWithTelegramMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginWithTelegramMutation, LoginWithTelegramMutationVariables>(LoginWithTelegramDocument, options);
+      }
+export type LoginWithTelegramMutationHookResult = ReturnType<typeof useLoginWithTelegramMutation>;
+export type LoginWithTelegramMutationResult = Apollo.MutationResult<LoginWithTelegramMutation>;
+export type LoginWithTelegramMutationOptions = Apollo.BaseMutationOptions<LoginWithTelegramMutation, LoginWithTelegramMutationVariables>;
