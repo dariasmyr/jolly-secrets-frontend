@@ -1,5 +1,5 @@
-query PrivateGroups($offset: Int!, $limit: Int!) {
-  privateGroups(offset: $offset, limit: $limit) {
+mutation DeleteGroup ($id: Int!) {
+  deleteGroup(id: $id) {
     id
     createdAt
     pictureUrl

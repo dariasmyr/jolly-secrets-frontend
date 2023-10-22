@@ -126,7 +126,7 @@ input CreateMessageInput {
 input CreateOrUpdateGroupInput {
   description: String!
   name: String!
-  type: String!
+  type: GroupType!
 }
 
 input CreatePreferenceInput {
@@ -309,7 +309,7 @@ type Mutation {
   createMessage(input: CreateMessageInput!): Message!
   deleteAccount: Account!
   deleteEvent(id: Float!): Boolean!
-  deleteGroup(id: Float!): Group!
+  deleteGroup(id: Int!): Group!
   deletePreference(id: Float!): Preference!
   disableNotifications: Account!
   echo(text: String!): String!
@@ -373,8 +373,8 @@ type Query {
   messages(chatId: Float!): [Message!]!
   notification(id: Float!): Notification!
   notifications(limit: Float!, offset: Float!): [Notification!]!
-  privateGroups(limit: Float!, offset: Float!): [Group!]!
-  publicGroups(limit: Float!, offset: Float!): [Group!]!
+  privateGroups(limit: Int!, offset: Int!): [Group!]!
+  publicGroups(limit: Int!, offset: Int!): [Group!]!
   testTranslation(username: String!): String!
   whoami: Account!
 }

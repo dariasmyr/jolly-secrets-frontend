@@ -6,4 +6,5 @@ export const Wrapper = styled.div`
   border: none;
   width: 20px;
   height: 20px;
+  margin-right: 10px;
 `;

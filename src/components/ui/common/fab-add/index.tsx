@@ -8,23 +8,26 @@ interface IFabAddProperties {
   onClick?: () => void;
 }
 
-export function FabAdd({
-  onClick,
-}: IFabAddProperties): ReactElement | undefined {
+export function FabAdd({ onClick }: IFabAddProperties): ReactElement {
   const [open, setOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   let lastScrollTop = 0;
 
   useEffect(() => {
-    window.addEventListener('scroll', () => {
+    function handleScroll(): void {
       const st = window.scrollY || document.documentElement.scrollTop;
       if (st > lastScrollTop) {
-        setIsVisible(false);
-      } else {
         setIsVisible(true);
+      } else {
+        setIsVisible(false);
       }
       lastScrollTop = st <= 0 ? 0 : st;
-    });
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleClose = (): void => {
@@ -35,17 +38,35 @@ export function FabAdd({
     setOpen(true);
   };
 
-  return isVisible ? (
+  return (
     <Tooltip open={open} onClose={handleClose} onOpen={handleOpen} title="Add">
-      <FabWrapper color="primary" aria-label="add" onClick={onClick}>
+      <FabWrapper
+        className={isVisible ? 'show' : 'hide'}
+        color="primary"
+        aria-label="add"
+        onClick={onClick}
+      >
         <AddIcon />
       </FabWrapper>
     </Tooltip>
-  ) : undefined;
+  );
 }
 
 const FabWrapper = styled(Fab)`
   position: fixed;
   bottom: 20px;
   right: 20px;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+  transform: scale(0);
+
+  &.show {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &.hide {
+    opacity: 0;
+    transform: scale(0);
+  }
 `;

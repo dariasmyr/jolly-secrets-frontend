@@ -35,7 +35,7 @@ export const MenuOptions = (properties: IMenuProperties): ReactElement => {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <MoreVertIcon fontSize="small" />
+        <MoreVertIcon fontSize="medium" />
       </IconButton>
       <Menu
         id="simple-menu"

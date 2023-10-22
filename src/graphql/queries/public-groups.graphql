@@ -1,4 +1,4 @@
-query PublicGroups($offset: Float!, $limit: Float!) {
+query PublicGroups($offset: Int!, $limit: Int!) {
   publicGroups(offset: $offset, limit: $limit) {
     id
     createdAt
@@ -12,6 +12,7 @@ query PublicGroups($offset: Float!, $limit: Float!) {
     }
     members {
       id
+      role
     }
   }
 }

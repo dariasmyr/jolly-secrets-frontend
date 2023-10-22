@@ -150,7 +150,7 @@ export type CreateMessageInput = {
 export type CreateOrUpdateGroupInput = {
   description: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  type: Scalars['String']['input'];
+  type: GroupType;
 };
 
 export type CreatePreferenceInput = {
@@ -387,7 +387,7 @@ export type MutationDeleteEventArgs = {
 
 
 export type MutationDeleteGroupArgs = {
-  id: Scalars['Float']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
@@ -581,14 +581,14 @@ export type QueryNotificationsArgs = {
 
 
 export type QueryPrivateGroupsArgs = {
-  limit: Scalars['Float']['input'];
-  offset: Scalars['Float']['input'];
+  limit: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
 };
 
 
 export type QueryPublicGroupsArgs = {
-  limit: Scalars['Float']['input'];
-  offset: Scalars['Float']['input'];
+  limit: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
 };
 
 
@@ -605,6 +605,13 @@ export type DebugQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type DebugQuery = { __typename?: 'Query', debug: any };
 
+export type DeleteGroupMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteGroupMutation = { __typename?: 'Mutation', deleteGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
+
 export type GenerateTelegramBotLinkQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -618,20 +625,20 @@ export type LoginWithTelegramMutationVariables = Exact<{
 export type LoginWithTelegramMutation = { __typename?: 'Mutation', loginWithTelegram: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, username: string } } };
 
 export type PrivateGroupsQueryVariables = Exact<{
-  offset: Scalars['Float']['input'];
-  limit: Scalars['Float']['input'];
+  offset: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
 }>;
 
 
-export type PrivateGroupsQuery = { __typename?: 'Query', privateGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number }> | null }> };
+export type PrivateGroupsQuery = { __typename?: 'Query', privateGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null }> };
 
 export type PublicGroupsQueryVariables = Exact<{
-  offset: Scalars['Float']['input'];
-  limit: Scalars['Float']['input'];
+  offset: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
 }>;
 
 
-export type PublicGroupsQuery = { __typename?: 'Query', publicGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number }> | null }> };
+export type PublicGroupsQuery = { __typename?: 'Query', publicGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null }> };
 
 
 export const DebugDocument = gql`
@@ -666,6 +673,52 @@ export function useDebugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Debu
 export type DebugQueryHookResult = ReturnType<typeof useDebugQuery>;
 export type DebugLazyQueryHookResult = ReturnType<typeof useDebugLazyQuery>;
 export type DebugQueryResult = Apollo.QueryResult<DebugQuery, DebugQueryVariables>;
+export const DeleteGroupDocument = gql`
+    mutation DeleteGroup($id: Int!) {
+  deleteGroup(id: $id) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    type
+    status
+    events {
+      status
+    }
+    members {
+      id
+      role
+    }
+  }
+}
+    `;
+export type DeleteGroupMutationFn = Apollo.MutationFunction<DeleteGroupMutation, DeleteGroupMutationVariables>;
+
+/**
+ * __useDeleteGroupMutation__
+ *
+ * To run a mutation, you first call `useDeleteGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteGroupMutation, { data, loading, error }] = useDeleteGroupMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteGroupMutation(baseOptions?: Apollo.MutationHookOptions<DeleteGroupMutation, DeleteGroupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteGroupMutation, DeleteGroupMutationVariables>(DeleteGroupDocument, options);
+      }
+export type DeleteGroupMutationHookResult = ReturnType<typeof useDeleteGroupMutation>;
+export type DeleteGroupMutationResult = Apollo.MutationResult<DeleteGroupMutation>;
+export type DeleteGroupMutationOptions = Apollo.BaseMutationOptions<DeleteGroupMutation, DeleteGroupMutationVariables>;
 export const GenerateTelegramBotLinkDocument = gql`
     query GenerateTelegramBotLink {
   generateTelegramBotLink
@@ -739,7 +792,7 @@ export type LoginWithTelegramMutationHookResult = ReturnType<typeof useLoginWith
 export type LoginWithTelegramMutationResult = Apollo.MutationResult<LoginWithTelegramMutation>;
 export type LoginWithTelegramMutationOptions = Apollo.BaseMutationOptions<LoginWithTelegramMutation, LoginWithTelegramMutationVariables>;
 export const PrivateGroupsDocument = gql`
-    query PrivateGroups($offset: Float!, $limit: Float!) {
+    query PrivateGroups($offset: Int!, $limit: Int!) {
   privateGroups(offset: $offset, limit: $limit) {
     id
     createdAt
@@ -753,6 +806,7 @@ export const PrivateGroupsDocument = gql`
     }
     members {
       id
+      role
     }
   }
 }
@@ -787,7 +841,7 @@ export type PrivateGroupsQueryHookResult = ReturnType<typeof usePrivateGroupsQue
 export type PrivateGroupsLazyQueryHookResult = ReturnType<typeof usePrivateGroupsLazyQuery>;
 export type PrivateGroupsQueryResult = Apollo.QueryResult<PrivateGroupsQuery, PrivateGroupsQueryVariables>;
 export const PublicGroupsDocument = gql`
-    query PublicGroups($offset: Float!, $limit: Float!) {
+    query PublicGroups($offset: Int!, $limit: Int!) {
   publicGroups(offset: $offset, limit: $limit) {
     id
     createdAt
@@ -801,6 +855,7 @@ export const PublicGroupsDocument = gql`
     }
     members {
       id
+      role
     }
   }
 }
