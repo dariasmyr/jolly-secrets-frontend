@@ -612,6 +612,20 @@ export type DeleteGroupMutationVariables = Exact<{
 
 export type DeleteGroupMutation = { __typename?: 'Mutation', deleteGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
 
+export type GenerateUrlGoogleQueryVariables = Exact<{
+  state: Scalars['String']['input'];
+}>;
+
+
+export type GenerateUrlGoogleQuery = { __typename?: 'Query', generateUrlGoogle: string };
+
+export type LoginWithGoogleMutationVariables = Exact<{
+  code: Scalars['String']['input'];
+}>;
+
+
+export type LoginWithGoogleMutation = { __typename?: 'Mutation', loginWithGoogle: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, username: string } } };
+
 export type GenerateTelegramBotLinkQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -719,6 +733,79 @@ export function useDeleteGroupMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteGroupMutationHookResult = ReturnType<typeof useDeleteGroupMutation>;
 export type DeleteGroupMutationResult = Apollo.MutationResult<DeleteGroupMutation>;
 export type DeleteGroupMutationOptions = Apollo.BaseMutationOptions<DeleteGroupMutation, DeleteGroupMutationVariables>;
+export const GenerateUrlGoogleDocument = gql`
+    query generateUrlGoogle($state: String!) {
+  generateUrlGoogle(state: $state)
+}
+    `;
+
+/**
+ * __useGenerateUrlGoogleQuery__
+ *
+ * To run a query within a React component, call `useGenerateUrlGoogleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGenerateUrlGoogleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGenerateUrlGoogleQuery({
+ *   variables: {
+ *      state: // value for 'state'
+ *   },
+ * });
+ */
+export function useGenerateUrlGoogleQuery(baseOptions: Apollo.QueryHookOptions<GenerateUrlGoogleQuery, GenerateUrlGoogleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GenerateUrlGoogleQuery, GenerateUrlGoogleQueryVariables>(GenerateUrlGoogleDocument, options);
+      }
+export function useGenerateUrlGoogleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GenerateUrlGoogleQuery, GenerateUrlGoogleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GenerateUrlGoogleQuery, GenerateUrlGoogleQueryVariables>(GenerateUrlGoogleDocument, options);
+        }
+export type GenerateUrlGoogleQueryHookResult = ReturnType<typeof useGenerateUrlGoogleQuery>;
+export type GenerateUrlGoogleLazyQueryHookResult = ReturnType<typeof useGenerateUrlGoogleLazyQuery>;
+export type GenerateUrlGoogleQueryResult = Apollo.QueryResult<GenerateUrlGoogleQuery, GenerateUrlGoogleQueryVariables>;
+export const LoginWithGoogleDocument = gql`
+    mutation loginWithGoogle($code: String!) {
+  loginWithGoogle(code: $code) {
+    token
+    account {
+      id
+      email
+      roles
+      status
+      username
+    }
+  }
+}
+    `;
+export type LoginWithGoogleMutationFn = Apollo.MutationFunction<LoginWithGoogleMutation, LoginWithGoogleMutationVariables>;
+
+/**
+ * __useLoginWithGoogleMutation__
+ *
+ * To run a mutation, you first call `useLoginWithGoogleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginWithGoogleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginWithGoogleMutation, { data, loading, error }] = useLoginWithGoogleMutation({
+ *   variables: {
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useLoginWithGoogleMutation(baseOptions?: Apollo.MutationHookOptions<LoginWithGoogleMutation, LoginWithGoogleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginWithGoogleMutation, LoginWithGoogleMutationVariables>(LoginWithGoogleDocument, options);
+      }
+export type LoginWithGoogleMutationHookResult = ReturnType<typeof useLoginWithGoogleMutation>;
+export type LoginWithGoogleMutationResult = Apollo.MutationResult<LoginWithGoogleMutation>;
+export type LoginWithGoogleMutationOptions = Apollo.BaseMutationOptions<LoginWithGoogleMutation, LoginWithGoogleMutationVariables>;
 export const GenerateTelegramBotLinkDocument = gql`
     query GenerateTelegramBotLink {
   generateTelegramBotLink

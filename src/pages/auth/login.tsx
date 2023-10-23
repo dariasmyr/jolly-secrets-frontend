@@ -5,23 +5,44 @@ import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import styled from 'styled-components';
 
-import { useGenerateTelegramBotLinkQuery } from '@/generated/graphql';
+import {
+  useGenerateTelegramBotLinkQuery,
+  useGenerateUrlGoogleQuery,
+} from '@/generated/graphql';
 
 const Login: FC = () => {
   const { data: tgLinkData, error: tgLinkError } =
     useGenerateTelegramBotLinkQuery();
+  const { data: googleLinkData, error: googleLinkError } =
+    useGenerateUrlGoogleQuery({
+      variables: {
+        state: 'http://localhost:3000/auth/google',
+      },
+    });
   const router = useRouter();
 
   if (tgLinkError) {
     return <div>Error: {JSON.stringify(tgLinkError)}</div>;
   }
 
+  if (googleLinkError) {
+    return <div>Error: {JSON.stringify(googleLinkError)}</div>;
+  }
+
   if (!tgLinkData) {
+    return <div>Loading...</div>;
+  }
+
+  if (!googleLinkData) {
     return <div>Loading...</div>;
   }
 
   const handleLoginViaTelegram = async (): Promise<void> => {
     await router.push(tgLinkData.generateTelegramBotLink);
+  };
+
+  const handleLoginViaGoogle = async (): Promise<void> => {
+    await router.push(googleLinkData.generateUrlGoogle);
   };
 
   return (
@@ -36,7 +57,9 @@ const Login: FC = () => {
           </p>
         }
       />
-      <Button variant={ButtonVariant.primary}>ВОЙТИ ЧЕРЕЗ GOOGLE</Button>
+      <Button variant={ButtonVariant.primary} onClick={handleLoginViaGoogle}>
+        ВОЙТИ ЧЕРЕЗ GOOGLE
+      </Button>
       <div>или</div>
       <Button variant={ButtonVariant.primary} onClick={handleLoginViaTelegram}>
         ВОЙТИ ЧЕРЕЗ TELEGRAM

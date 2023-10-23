@@ -1,0 +1,18 @@
+query generateUrlGoogle ($state: String!) {
+  generateUrlGoogle(state: $state)
+}
+
+mutation loginWithGoogle ($code: String!) {
+  loginWithGoogle(
+    code: $code
+  ) {
+    token
+    account {
+      id
+      email
+      roles
+      status
+      username
+    }
+  }
+}
