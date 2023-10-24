@@ -30,6 +30,11 @@ const PrivateGroups: FC = () => {
     },
   });
 
+  const createGroup = (): void => {
+    // eslint-disable-next-line no-alert
+    router.push('/create-group');
+  };
+
   useEffect(() => {
     if (!authStore.token) {
       router.push('/auth/login');
@@ -103,7 +108,7 @@ const PrivateGroups: FC = () => {
           />
         );
       })}
-      <FabAdd />
+      <FabAdd onClick={createGroup} />
       <DialogConfirmDelete
         isOpen={isDialogOpen}
         title="Удалить группу"

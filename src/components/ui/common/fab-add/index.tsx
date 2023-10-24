@@ -10,7 +10,7 @@ interface IFabAddProperties {
 
 export function FabAdd({ onClick }: IFabAddProperties): ReactElement {
   const [open, setOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   let lastScrollTop = 0;
 
   useEffect(() => {

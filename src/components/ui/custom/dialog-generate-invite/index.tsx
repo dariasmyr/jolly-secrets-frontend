@@ -2,6 +2,7 @@ import { ReactElement, useState } from 'react';
 import { Dialog } from '@components/ui/common/dialog';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { ButtonVariant } from 'src/components/ui/common/button';
 
@@ -9,6 +10,10 @@ interface DialogGenerateInviteProperties {
   isOpen: boolean;
   title: string;
   onCancelClick: () => void;
+  linkLabel: string;
+  clipboardMessage: string;
+  cancelButtonLabel: string;
+  generateButtonLabel: string;
 }
 
 export const DialogGenerateInvite = (
@@ -53,7 +58,7 @@ export const DialogGenerateInvite = (
           <TextField
             margin="dense"
             id="name"
-            label={'Ссылка'}
+            label={properties.linkLabel}
             type="text"
             fullWidth
             value={inputValue}
@@ -76,18 +81,25 @@ export const DialogGenerateInvite = (
             open={snackbarOpen}
             autoHideDuration={3000}
             onClose={handleCloseSnackbar}
-            message="Скопировано в буфер обмена"
-          />
+          >
+            <Alert
+              onClose={handleCloseSnackbar}
+              severity="info"
+              sx={{ width: '100%' }}
+            >
+              {properties.clipboardMessage}
+            </Alert>
+          </Snackbar>
         </div>
       }
       buttons={[
         {
-          title: 'Отмена',
+          title: properties.cancelButtonLabel,
           onClick: properties.onCancelClick,
           type: ButtonVariant.outlined,
         },
         {
-          title: 'Сгенерировать',
+          title: properties.generateButtonLabel,
           onClick: handleClick,
           type: ButtonVariant.primary,
         },

@@ -15,10 +15,15 @@ export const useAuthStore = create(
   persist<IAuthState>(
     (set) => ({
       token: undefined,
-      setToken: (token: string | undefined): void => set({ token }),
+      setToken: (token: string | undefined): void => {
+        console.log('Token:', token); // log token
+        set({ token });
+      },
       account: undefined,
-      setAccount: (account: Partial<Account> | undefined): void =>
-        set({ account }),
+      setAccount: (account: Partial<Account> | undefined): void => {
+        console.log('Account:', account); // log account
+        set({ account });
+      },
       clear: (): void => set({ token: undefined, account: undefined }),
     }),
     {

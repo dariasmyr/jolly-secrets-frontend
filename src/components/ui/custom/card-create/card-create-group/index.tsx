@@ -7,6 +7,7 @@ import { TextField } from '@mui/material';
 interface ITextFieldProperties {
   label: string;
   multiline: boolean;
+  onChange: (index: number, value: string) => void;
 }
 
 interface ICardCreateFieldsProperties {
