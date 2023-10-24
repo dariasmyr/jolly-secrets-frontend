@@ -88,6 +88,8 @@ export const Page = (properties: IPageProperties): ReactElement => {
     return () => document.removeEventListener('keydown', onKeydown);
   }, []);
 
+  if (!router.isReady) return <div>Loading...</div>;
+
   return (
     <PageContainer style={properties.style}>
       <AppBar

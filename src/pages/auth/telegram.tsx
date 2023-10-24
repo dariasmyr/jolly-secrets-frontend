@@ -5,8 +5,8 @@ import { useLoginWithTelegramMutation } from '@/generated/graphql';
 import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
 
-const Login: FC = () => {
-  const settingsStore = useAuthStore();
+const Telegram: FC = () => {
+  const authStore = useAuthStore();
   const [login] = useLoginWithTelegramMutation();
   const router = useRouter();
   const token = router.query.token;
@@ -14,35 +14,32 @@ const Login: FC = () => {
   useEffect(() => {
     (async (): Promise<void> => {
       if (!token) return;
+      const { data: loginData, errors } = await login({
+        variables: {
+          token: token as string,
+        },
+      });
 
-      try {
-        const { data: loginData, errors } = await login({
-          variables: {
-            token: token as string,
-          },
-        });
-
-        if (errors) {
-          log.error('errors', errors);
-          return;
-        }
-
-        if (!loginData) {
-          log.error('No login data');
-          return;
-        }
-
-        settingsStore.setToken(loginData.loginWithTelegram.token);
-        settingsStore.setAccount(loginData.loginWithTelegram.account);
-        await router.push('/public-groups');
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        console.log('error', error);
+      if (errors) {
+        log.error('errors', errors);
+        return;
       }
+
+      if (!loginData) {
+        log.error('No login data');
+        return;
+      }
+
+      authStore.setToken(loginData.loginWithTelegram.token);
+      authStore.setAccount(loginData.loginWithTelegram.account);
+
+      await router.push('/public-groups');
     })();
-  }, [router.isReady, token]);
+  }, [token]);
+
+  if (!router.isReady) return <div>Loading...</div>;
 
   return <div>{token}</div>;
 };
 
-export default Login;
+export default Telegram;
