@@ -3,7 +3,6 @@ import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { Page } from '@components/ui/common/page';
 import { Stepper } from '@components/ui/common/stepper';
 import { CardCreateEvent } from '@components/ui/custom/card-create/card-create-event';
-import { CardCreateGroup } from '@components/ui/custom/card-create/card-create-group';
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
 import { DialogInputEmail } from '@components/ui/custom/dialog-input-email';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
@@ -24,7 +23,6 @@ import { CardPreference } from 'src/components/ui/custom/card-preference';
 import { CardEmailToggle } from 'src/components/ui/custom/card-toggle-email';
 import { DialogChooseAccount } from 'src/components/ui/custom/dialog-choose-account';
 import { DialogConfirmDelete } from 'src/components/ui/custom/dialog-confirm-delete';
-import { DialogGenerateInvite } from 'src/components/ui/custom/dialog-generate-invite';
 import { Notification } from 'src/components/ui/custom/notification';
 
 const testCardImageProperties: ICardImageProperties = {
@@ -230,11 +228,6 @@ export default function IndexPage(): ReactNode {
         onCancelClick={handleClick}
         onConfirmClick={handleClick}
       />
-      <DialogGenerateInvite
-        isOpen={false}
-        title="Скопируй и отправь другу"
-        onCancelClick={handleClick}
-      />
       <DialogInputEmail
         isOpen={false}
         title="Укажите почту"
@@ -251,15 +244,6 @@ export default function IndexPage(): ReactNode {
         onTelegramClick={handleClick}
         onGoogleClick={handleClick}
         onCancelClick={handleClick}
-      />
-      <CardCreateGroup
-        textFields={[
-          { label: 'Название группы', multiline: false },
-          { label: 'Описание группы', multiline: true },
-        ]}
-        accessLevelTitle="Уровень доступа"
-        accessLevelOptions={['Публичная', 'Приватная']}
-        onAccessLevelChange={handleClick}
       />
       <CardCreatePreference
         selectTitle="Ограничение по цене"
