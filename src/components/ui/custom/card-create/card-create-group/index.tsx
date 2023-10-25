@@ -7,7 +7,9 @@ import { TextField } from '@mui/material';
 interface ITextFieldProperties {
   label: string;
   multiline: boolean;
-  onChange: (index: number, value: string) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+  isError?: boolean;
 }
 
 interface ICardCreateFieldsProperties {
@@ -33,6 +35,7 @@ export const CardCreateGroup = (
               fullWidth
               size={field.multiline ? 'medium' : 'small'}
               multiline={field.multiline}
+              onChange={field.onChange}
             />
           ))}
           <SelectOptions

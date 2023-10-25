@@ -30,11 +30,6 @@ const CreateGroup: FC = () => {
     setIsPrivate(level === 'Приватная');
   };
 
-  const handleTextFieldChange = (index: number, value: string): void => {
-    if (index === 0) setName(value);
-    else if (index === 1) setDescription(value);
-  };
-
   const handleSubmit = (): void => {
     createGroup({
       variables: {
@@ -59,12 +54,14 @@ const CreateGroup: FC = () => {
           {
             label: 'Название группы',
             multiline: false,
-            onChange: handleTextFieldChange,
+            onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+              setName(event.target.value),
           },
           {
             label: 'Описание группы',
             multiline: true,
-            onChange: handleTextFieldChange,
+            onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+              setDescription(event.target.value),
           },
         ]}
         accessLevelTitle="Уровень доступа"
