@@ -1,10 +1,12 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { Dialog } from '@components/ui/common/dialog';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { ButtonVariant } from 'src/components/ui/common/button';
+
+import { useCreateGroupInviteMutation } from '@/generated/graphql';
 
 interface DialogGenerateInviteProperties {
   isOpen: boolean;
@@ -14,6 +16,7 @@ interface DialogGenerateInviteProperties {
   clipboardMessage: string;
   cancelButtonLabel: string;
   generateButtonLabel: string;
+  groupId: number;
 }
 
 export const DialogGenerateInvite = (
@@ -21,32 +24,31 @@ export const DialogGenerateInvite = (
 ): ReactElement => {
   const [inputValue, setInputValue] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [createGroupInvite] = useCreateGroupInviteMutation();
 
   async function onCopy(inviteLink: string): Promise<void> {
     await navigator.clipboard.writeText(inviteLink);
     setSnackbarOpen(true);
   }
 
+  useEffect(() => {
+    if (properties.isOpen) {
+      handleClick();
+    }
+  }, [properties.isOpen]);
+
   async function handleClick(): Promise<void> {
-    const codeLength = 10;
-    const randomString = generateRandomString(codeLength);
-    const inviteLink = `${process.env.NEXT_PUBLIC_SELF_URL}invite?code=${randomString}`;
+    const code = await createGroupInvite({
+      variables: {
+        groupId: properties.groupId,
+      },
+    });
+    const inviteLink = `${process.env.NEXT_PUBLIC_SELF_URL_BASE}invite?code=${code.data?.createGroupInvite.code}`;
     setInputValue(inviteLink);
   }
 
   function handleCloseSnackbar(): void {
     setSnackbarOpen(false);
-  }
-
-  function generateRandomString(length: number): string {
-    const charset =
-      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
-    for (let index = 0; index < length; index++) {
-      const randomIndex = Math.floor(Math.random() * charset.length);
-      result += charset.charAt(randomIndex);
-    }
-    return result;
   }
 
   return (
@@ -101,7 +103,7 @@ export const DialogGenerateInvite = (
         {
           title: properties.generateButtonLabel,
           onClick: handleClick,
-          type: ButtonVariant.primary,
+          type: ButtonVariant.outlined,
         },
       ]}
     />

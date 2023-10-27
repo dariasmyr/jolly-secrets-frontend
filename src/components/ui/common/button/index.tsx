@@ -48,10 +48,12 @@ const ColorMap: Record<
 };
 
 export function Button({
+  disabled,
   children,
   onClick,
   variant = ButtonVariant.primary,
 }: PropsWithChildren<{
+  disabled?: boolean;
   onClick?: () => void;
   variant: ButtonVariant;
   textColor?: string;
@@ -61,6 +63,7 @@ export function Button({
       variant={VariantMap[variant]}
       color={ColorMap[variant]}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </MaterialButton>

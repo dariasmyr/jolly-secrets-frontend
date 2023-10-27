@@ -305,6 +305,7 @@ type Mutation {
   createEvent(input: CreateEventInput!): Event!
   createEventApplication(input: CreateEventApplicationInput!): Event!
   createGroup(input: CreateOrUpdateGroupInput!): Group!
+  createGroupInvite(groupId: Int!): GroupInvite!
   createGroupMember(input: CreateGroupMemberInput!): GroupMember!
   createMessage(input: CreateMessageInput!): Message!
   deleteAccount: Account!
@@ -367,7 +368,7 @@ type Query {
   events(groupId: Float!): [Event!]!
   generateTelegramBotLink: String!
   generateUrlGoogle(state: String): String!
-  group(id: Float!): Group!
+  group(id: Int!): Group!
   groupInvite(groupId: Float!): [GroupInvite!]!
   groupMember(groupId: Float!): [GroupMember!]!
   messages(chatId: Float!): [Message!]!

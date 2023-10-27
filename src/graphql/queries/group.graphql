@@ -1,0 +1,39 @@
+query Group ($id: Int!) {
+  group(id: $id) {
+    id
+    createdAt
+    updatedAt
+    pictureUrl
+    name
+    description
+    type
+    status
+    members {
+      id
+      createdAt
+      updatedAt
+      groupId
+      accountId
+      role
+    }
+    events {
+      id
+      createdAt
+      updatedAt
+      pictureUrl
+      status
+      groupId
+      name
+      description
+      startsAt
+      endsAt
+    }
+    groupInvites {
+      id
+      createdAt
+      updatedAt
+      groupId
+      code
+    }
+  }
+}

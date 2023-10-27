@@ -331,6 +331,7 @@ export type Mutation = {
   createEvent: Event;
   createEventApplication: Event;
   createGroup: Group;
+  createGroupInvite: GroupInvite;
   createGroupMember: GroupMember;
   createMessage: Message;
   deleteAccount: Account;
@@ -368,6 +369,11 @@ export type MutationCreateEventApplicationArgs = {
 
 export type MutationCreateGroupArgs = {
   input: CreateOrUpdateGroupInput;
+};
+
+
+export type MutationCreateGroupInviteArgs = {
+  groupId: Scalars['Int']['input'];
 };
 
 
@@ -550,7 +556,7 @@ export type QueryGenerateUrlGoogleArgs = {
 
 
 export type QueryGroupArgs = {
-  id: Scalars['Float']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
@@ -600,6 +606,13 @@ export type UpdateAccountInput = {
   username: Scalars['String']['input'];
 };
 
+export type CreateGroupInviteMutationVariables = Exact<{
+  groupId: Scalars['Int']['input'];
+}>;
+
+
+export type CreateGroupInviteMutation = { __typename?: 'Mutation', createGroupInvite: { __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string } };
+
 export type CreateGroupMutationVariables = Exact<{
   name: Scalars['String']['input'];
   description: Scalars['String']['input'];
@@ -620,6 +633,13 @@ export type DeleteGroupMutationVariables = Exact<{
 
 
 export type DeleteGroupMutation = { __typename?: 'Mutation', deleteGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
+
+export type GroupQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: number, createdAt: any, updatedAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, members?: Array<{ __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole }> | null, events?: Array<{ __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl: string, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any }> | null, groupInvites?: Array<{ __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string }> | null } };
 
 export type GenerateUrlGoogleQueryVariables = Exact<{
   state: Scalars['String']['input'];
@@ -664,6 +684,43 @@ export type PublicGroupsQueryVariables = Exact<{
 export type PublicGroupsQuery = { __typename?: 'Query', publicGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null }> };
 
 
+export const CreateGroupInviteDocument = gql`
+    mutation CreateGroupInvite($groupId: Int!) {
+  createGroupInvite(groupId: $groupId) {
+    id
+    createdAt
+    updatedAt
+    groupId
+    code
+  }
+}
+    `;
+export type CreateGroupInviteMutationFn = Apollo.MutationFunction<CreateGroupInviteMutation, CreateGroupInviteMutationVariables>;
+
+/**
+ * __useCreateGroupInviteMutation__
+ *
+ * To run a mutation, you first call `useCreateGroupInviteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGroupInviteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createGroupInviteMutation, { data, loading, error }] = useCreateGroupInviteMutation({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *   },
+ * });
+ */
+export function useCreateGroupInviteMutation(baseOptions?: Apollo.MutationHookOptions<CreateGroupInviteMutation, CreateGroupInviteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateGroupInviteMutation, CreateGroupInviteMutationVariables>(CreateGroupInviteDocument, options);
+      }
+export type CreateGroupInviteMutationHookResult = ReturnType<typeof useCreateGroupInviteMutation>;
+export type CreateGroupInviteMutationResult = Apollo.MutationResult<CreateGroupInviteMutation>;
+export type CreateGroupInviteMutationOptions = Apollo.BaseMutationOptions<CreateGroupInviteMutation, CreateGroupInviteMutationVariables>;
 export const CreateGroupDocument = gql`
     mutation CreateGroup($name: String!, $description: String!, $type: GroupType!) {
   createGroup(input: {name: $name, description: $description, type: $type}) {
@@ -790,6 +847,75 @@ export function useDeleteGroupMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteGroupMutationHookResult = ReturnType<typeof useDeleteGroupMutation>;
 export type DeleteGroupMutationResult = Apollo.MutationResult<DeleteGroupMutation>;
 export type DeleteGroupMutationOptions = Apollo.BaseMutationOptions<DeleteGroupMutation, DeleteGroupMutationVariables>;
+export const GroupDocument = gql`
+    query Group($id: Int!) {
+  group(id: $id) {
+    id
+    createdAt
+    updatedAt
+    pictureUrl
+    name
+    description
+    type
+    status
+    members {
+      id
+      createdAt
+      updatedAt
+      groupId
+      accountId
+      role
+    }
+    events {
+      id
+      createdAt
+      updatedAt
+      pictureUrl
+      status
+      groupId
+      name
+      description
+      startsAt
+      endsAt
+    }
+    groupInvites {
+      id
+      createdAt
+      updatedAt
+      groupId
+      code
+    }
+  }
+}
+    `;
+
+/**
+ * __useGroupQuery__
+ *
+ * To run a query within a React component, call `useGroupQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGroupQuery(baseOptions: Apollo.QueryHookOptions<GroupQuery, GroupQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GroupQuery, GroupQueryVariables>(GroupDocument, options);
+      }
+export function useGroupLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GroupQuery, GroupQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GroupQuery, GroupQueryVariables>(GroupDocument, options);
+        }
+export type GroupQueryHookResult = ReturnType<typeof useGroupQuery>;
+export type GroupLazyQueryHookResult = ReturnType<typeof useGroupLazyQuery>;
+export type GroupQueryResult = Apollo.QueryResult<GroupQuery, GroupQueryVariables>;
 export const GenerateUrlGoogleDocument = gql`
     query generateUrlGoogle($state: String!) {
   generateUrlGoogle(state: $state)

@@ -34,7 +34,13 @@ const CreateGroup: FC = () => {
   const { register, handleSubmit, formState } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
   });
+  // eslint-disable-next-line unicorn/no-null
+  const [groupId, setGroupId] = useState<number | null>(null);
+  const [groupCreated, setGroupCreated] = useState(false);
 
+  const handleBackClick = async (): Promise<void> => {
+    await router.push(isPrivate ? '/private-groups' : '/public-groups');
+  };
   const handleClickOpenDialog = (): void => {
     setShowDialog(true);
   };
@@ -47,25 +53,29 @@ const CreateGroup: FC = () => {
     setIsPrivate(level === 'Приватная');
   };
 
-  const handleFormSubmit = async (data: FormData): Promise<void> => {
+  const handleFormSubmit = async (formData: FormData): Promise<void> => {
     if (Object.keys(formState.errors).length > 0) {
       log.debug('Error', formState.errors);
       return;
     }
-    log.debug('Data', data);
+    log.debug('Data', formData);
     const createGroupResponse = await createGroup({
       variables: {
-        name: data.groupName,
-        description: data.groupDescription,
+        name: formData.groupName,
+        description: formData.groupDescription,
         type: isPrivate ? GroupType.Private : GroupType.Public,
       },
     });
     log.debug('Create group response', createGroupResponse);
     if (createGroupResponse.data?.createGroup) {
+      if (isPrivate) {
+        setGroupCreated(true);
+      }
+      setGroupId(createGroupResponse.data.createGroup.id);
       reset();
-      await (isPrivate
-        ? router.push(`/private-groups`)
-        : router.push(`/public-groups`));
+      if (!isPrivate) {
+        await router.push(`/public-groups`);
+      }
     }
   };
 
@@ -79,9 +89,9 @@ const CreateGroup: FC = () => {
     <Page title={'Cоздание группы'} style={{ gap: 16, marginTop: 24 }}>
       <Header>Создание группы</Header>
       <FormWrapper
-        onSubmit={handleSubmit(async (data) => {
+        onSubmit={handleSubmit(async (formData) => {
           try {
-            await handleFormSubmit(data);
+            await handleFormSubmit(formData);
           } catch (submitError) {
             log.error('Create group error', submitError);
           }
@@ -119,7 +129,7 @@ const CreateGroup: FC = () => {
             />,
           ]}
         </CardCreateGroup>
-        {isPrivate && (
+        {groupCreated && isPrivate && (
           <CardGenerateInvite
             title={'Участники'}
             description={'Нажми на кнопку чтобы сгенерировать приглашение.'}
@@ -129,9 +139,22 @@ const CreateGroup: FC = () => {
         )}
         <Button
           variant={ButtonVariant.primary}
-          onClick={handleSubmit(handleFormSubmit)}
+          onClick={handleSubmit(async (formData) => {
+            try {
+              await handleFormSubmit(formData);
+              if (isPrivate) {
+                handleClickOpenDialog();
+              }
+            } catch (submitError) {
+              log.error('Create group error', submitError);
+            }
+          })}
+          disabled={groupCreated}
         >
           Создать группу
+        </Button>
+        <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
+          Назад
         </Button>
       </FormWrapper>
       <DialogGenerateInvite
@@ -142,6 +165,7 @@ const CreateGroup: FC = () => {
         linkLabel={'Ссылка на приглашение'}
         clipboardMessage={'Ссылка скопирована'}
         generateButtonLabel={'Сгенерировать'}
+        groupId={groupId!}
       />
     </Page>
   );

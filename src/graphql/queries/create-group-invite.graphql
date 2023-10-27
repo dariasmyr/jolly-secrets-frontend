@@ -1,0 +1,9 @@
+mutation CreateGroupInvite ($groupId: Int!) {
+  createGroupInvite(groupId: $groupId) {
+    id
+    createdAt
+    updatedAt
+    groupId
+    code
+  }
+}
