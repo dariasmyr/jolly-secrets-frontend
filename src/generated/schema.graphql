@@ -112,11 +112,6 @@ input CreateEventInput {
   startsAt: DateTime!
 }
 
-input CreateGroupMemberInput {
-  accountId: Float!
-  link: String!
-}
-
 input CreateMessageInput {
   accountId: Float!
   chatId: Float!
@@ -306,7 +301,7 @@ type Mutation {
   createEventApplication(input: CreateEventApplicationInput!): Event!
   createGroup(input: CreateOrUpdateGroupInput!): Group!
   createGroupInvite(groupId: Int!): GroupInvite!
-  createGroupMember(input: CreateGroupMemberInput!): GroupMember!
+  createGroupMember(code: String!): GroupMember!
   createMessage(input: CreateMessageInput!): Message!
   deleteAccount: Account!
   deleteEvent(id: Float!): Boolean!

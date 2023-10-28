@@ -26,7 +26,7 @@ const PublicGroups: FC = () => {
   const { data, error, loading, refetch } = usePublicGroupsQuery({
     variables: {
       offset: 0,
-      limit: 10,
+      limit: 100,
     },
   });
 

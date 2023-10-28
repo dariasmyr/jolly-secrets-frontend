@@ -26,7 +26,7 @@ const PrivateGroups: FC = () => {
   const { data, error, loading, refetch } = usePrivateGroupsQuery({
     variables: {
       offset: 0,
-      limit: 10,
+      limit: 100,
     },
   });
 

@@ -43,7 +43,7 @@ export const DialogGenerateInvite = (
         groupId: properties.groupId,
       },
     });
-    const inviteLink = `${process.env.NEXT_PUBLIC_SELF_URL_BASE}invite?code=${code.data?.createGroupInvite.code}`;
+    const inviteLink = `${process.env.NEXT_PUBLIC_SELF_URL_BASE}/invite?code=${code.data?.createGroupInvite.code}`;
     setInputValue(inviteLink);
   }
 

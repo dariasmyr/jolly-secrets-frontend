@@ -136,11 +136,6 @@ export type CreateEventInput = {
   startsAt: Scalars['DateTime']['input'];
 };
 
-export type CreateGroupMemberInput = {
-  accountId: Scalars['Float']['input'];
-  link: Scalars['String']['input'];
-};
-
 export type CreateMessageInput = {
   accountId: Scalars['Float']['input'];
   chatId: Scalars['Float']['input'];
@@ -378,7 +373,7 @@ export type MutationCreateGroupInviteArgs = {
 
 
 export type MutationCreateGroupMemberArgs = {
-  input: CreateGroupMemberInput;
+  code: Scalars['String']['input'];
 };
 
 
@@ -613,6 +608,13 @@ export type CreateGroupInviteMutationVariables = Exact<{
 
 export type CreateGroupInviteMutation = { __typename?: 'Mutation', createGroupInvite: { __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string } };
 
+export type CreateGroupMemberMutationVariables = Exact<{
+  code: Scalars['String']['input'];
+}>;
+
+
+export type CreateGroupMemberMutation = { __typename?: 'Mutation', createGroupMember: { __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole, group: { __typename?: 'Group', id: number, type: GroupType }, account: { __typename?: 'Account', id: number, roles?: Array<AccountRole> | null } } };
+
 export type CreateGroupMutationVariables = Exact<{
   name: Scalars['String']['input'];
   description: Scalars['String']['input'];
@@ -721,6 +723,52 @@ export function useCreateGroupInviteMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateGroupInviteMutationHookResult = ReturnType<typeof useCreateGroupInviteMutation>;
 export type CreateGroupInviteMutationResult = Apollo.MutationResult<CreateGroupInviteMutation>;
 export type CreateGroupInviteMutationOptions = Apollo.BaseMutationOptions<CreateGroupInviteMutation, CreateGroupInviteMutationVariables>;
+export const CreateGroupMemberDocument = gql`
+    mutation CreateGroupMember($code: String!) {
+  createGroupMember(code: $code) {
+    id
+    createdAt
+    updatedAt
+    groupId
+    accountId
+    role
+    group {
+      id
+      type
+    }
+    account {
+      id
+      roles
+    }
+  }
+}
+    `;
+export type CreateGroupMemberMutationFn = Apollo.MutationFunction<CreateGroupMemberMutation, CreateGroupMemberMutationVariables>;
+
+/**
+ * __useCreateGroupMemberMutation__
+ *
+ * To run a mutation, you first call `useCreateGroupMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGroupMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createGroupMemberMutation, { data, loading, error }] = useCreateGroupMemberMutation({
+ *   variables: {
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useCreateGroupMemberMutation(baseOptions?: Apollo.MutationHookOptions<CreateGroupMemberMutation, CreateGroupMemberMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateGroupMemberMutation, CreateGroupMemberMutationVariables>(CreateGroupMemberDocument, options);
+      }
+export type CreateGroupMemberMutationHookResult = ReturnType<typeof useCreateGroupMemberMutation>;
+export type CreateGroupMemberMutationResult = Apollo.MutationResult<CreateGroupMemberMutation>;
+export type CreateGroupMemberMutationOptions = Apollo.BaseMutationOptions<CreateGroupMemberMutation, CreateGroupMemberMutationVariables>;
 export const CreateGroupDocument = gql`
     mutation CreateGroup($name: String!, $description: String!, $type: GroupType!) {
   createGroup(input: {name: $name, description: $description, type: $type}) {

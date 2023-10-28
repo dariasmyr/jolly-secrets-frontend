@@ -1,0 +1,18 @@
+mutation CreateGroupMember ($code: String!) {
+  createGroupMember(code: $code) {
+    id
+    createdAt
+    updatedAt
+    groupId
+    accountId
+    role
+    group {
+      id
+      type
+    }
+    account {
+      id
+      roles
+    }
+  }
+}
