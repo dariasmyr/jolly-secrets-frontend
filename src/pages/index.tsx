@@ -22,7 +22,7 @@ import {
 import { CardPreference } from 'src/components/ui/custom/card-preference';
 import { CardEmailToggle } from 'src/components/ui/custom/card-toggle-email';
 import { DialogChooseAccount } from 'src/components/ui/custom/dialog-choose-account';
-import { DialogConfirmDelete } from 'src/components/ui/custom/dialog-confirm-delete';
+import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
 import { Notification } from 'src/components/ui/custom/notification';
 
 const testCardImageProperties: ICardImageProperties = {
@@ -219,7 +219,7 @@ export default function IndexPage(): ReactNode {
           },
         ]}
       />
-      <DialogConfirmDelete
+      <DialogConfirmAction
         isOpen={false}
         title="Вы уверены?"
         description="После удаления аккаунта нельзя будет восстановить."

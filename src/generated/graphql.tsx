@@ -447,7 +447,7 @@ export type MutationUpdateAccountArgs = {
 
 
 export type MutationUpdateGroupArgs = {
-  id: Scalars['Float']['input'];
+  id: Scalars['Int']['input'];
   input: CreateOrUpdateGroupInput;
 };
 
@@ -684,6 +684,16 @@ export type PublicGroupsQueryVariables = Exact<{
 
 
 export type PublicGroupsQuery = { __typename?: 'Query', publicGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null }> };
+
+export type UpdateGroupMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  type: GroupType;
+}>;
+
+
+export type UpdateGroupMutation = { __typename?: 'Mutation', updateGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
 
 
 export const CreateGroupInviteDocument = gql`
@@ -1207,3 +1217,55 @@ export function usePublicGroupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type PublicGroupsQueryHookResult = ReturnType<typeof usePublicGroupsQuery>;
 export type PublicGroupsLazyQueryHookResult = ReturnType<typeof usePublicGroupsLazyQuery>;
 export type PublicGroupsQueryResult = Apollo.QueryResult<PublicGroupsQuery, PublicGroupsQueryVariables>;
+export const UpdateGroupDocument = gql`
+    mutation UpdateGroup($id: Int!, $name: String!, $description: String!, $type: GroupType!) {
+  updateGroup(
+    id: $id
+    input: {name: $name, description: $description, type: $type}
+  ) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    type
+    status
+    events {
+      status
+    }
+    members {
+      id
+      role
+    }
+  }
+}
+    `;
+export type UpdateGroupMutationFn = Apollo.MutationFunction<UpdateGroupMutation, UpdateGroupMutationVariables>;
+
+/**
+ * __useUpdateGroupMutation__
+ *
+ * To run a mutation, you first call `useUpdateGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateGroupMutation, { data, loading, error }] = useUpdateGroupMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *      description: // value for 'description'
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useUpdateGroupMutation(baseOptions?: Apollo.MutationHookOptions<UpdateGroupMutation, UpdateGroupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateGroupMutation, UpdateGroupMutationVariables>(UpdateGroupDocument, options);
+      }
+export type UpdateGroupMutationHookResult = ReturnType<typeof useUpdateGroupMutation>;
+export type UpdateGroupMutationResult = Apollo.MutationResult<UpdateGroupMutation>;
+export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<UpdateGroupMutation, UpdateGroupMutationVariables>;

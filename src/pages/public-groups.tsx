@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { FabAdd } from '@components/ui/common/fab-add';
 import { Page } from '@components/ui/common/page';
 import { CardImage } from '@components/ui/custom/card-image';
-import { DialogConfirmDelete } from '@components/ui/custom/dialog-confirm-delete';
+import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
 import styled from 'styled-components';
 
 import {
@@ -89,9 +89,9 @@ const PublicGroups: FC = () => {
                 ? {
                     options: [
                       {
-                        title: 'Редактировать',
+                        title: 'Изменить',
                         onClick: (): void => {
-                          router.push(`/groups/${group.id}/edit`);
+                          router.push(`/update-group?id=${group.id}`);
                         },
                       },
                       {
@@ -109,7 +109,7 @@ const PublicGroups: FC = () => {
         );
       })}
       <FabAdd onClick={createGroup} />
-      <DialogConfirmDelete
+      <DialogConfirmAction
         isOpen={isDialogOpen}
         title="Удалить группу"
         description="Вы уверены, что хотите удалить эту группу? Это действие не может быть отменено."

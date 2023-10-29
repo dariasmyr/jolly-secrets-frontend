@@ -3,15 +3,16 @@ import { Card } from '@components/ui/common/card';
 import { SelectOptions } from '@components/ui/common/select-options';
 import { Wrapper } from '@components/ui/custom/card-create/styled-components';
 
-interface ICardCreateFieldsProperties {
+interface ICardFieldsProperties {
   accessLevelTitle: string;
   accessLevelOptions: string[];
+  defaultOption: string;
   onAccessLevelChange: (option: string) => void;
   children: ReactNode;
 }
 
-export const CardCreateGroup = (
-  properties: ICardCreateFieldsProperties,
+export const CardCreateOrUpdateGroup = (
+  properties: ICardFieldsProperties,
 ): ReactElement => {
   return (
     <Card
@@ -21,6 +22,7 @@ export const CardCreateGroup = (
           <SelectOptions
             title={properties.accessLevelTitle}
             options={properties.accessLevelOptions}
+            defaultOption={properties.defaultOption}
             onChange={properties.onAccessLevelChange}
           />
         </Wrapper>

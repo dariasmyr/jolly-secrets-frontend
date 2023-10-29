@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { CardGenerateInvite } from '@components/ui/custom/card-generate-invite';
+import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { DialogGenerateInvite } from '@components/ui/custom/dialog-generate-invite';
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextField from '@mui/material/TextField';
@@ -11,7 +12,11 @@ import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/ca
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { GroupType, useCreateGroupMutation } from '@/generated/graphql';
+import {
+  GroupType,
+  useGroupQuery,
+  useUpdateGroupMutation,
+} from '@/generated/graphql';
 import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
 
@@ -25,32 +30,47 @@ type FormData = {
   groupDescription: string;
 };
 
-const CreateGroup: FC = () => {
+const UpdateGroup: FC = () => {
   const authStore = useAuthStore();
   const router = useRouter();
-  const [createGroup, { reset }] = useCreateGroupMutation();
+  const { data: groupData, loading: groupIsLoading } = useGroupQuery({
+    variables: {
+      id: Number(router.query.id),
+    },
+  });
+  const [updateGroup, { reset }] = useUpdateGroupMutation();
   const [isPrivate, setIsPrivate] = useState(false);
-  const [showDialog, setShowDialog] = useState(false);
+  const [showGenerateInviteDialog, setShowGenerateInviteDialog] =
+    useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const { register, handleSubmit, formState } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
   });
   // eslint-disable-next-line unicorn/no-null
-  const [groupId, setGroupId] = useState<number | null>(null);
-  const [groupCreated, setGroupCreated] = useState(false);
+  const groupId = router.query.id;
 
+  useEffect(() => {
+    if (groupData) {
+      setIsPrivate(groupData.group.type === GroupType.Private);
+    }
+  }, [groupData]);
   const handleBackClick = async (): Promise<void> => {
     await router.push(isPrivate ? '/private-groups' : '/public-groups');
   };
   const handleClickOpenDialog = (): void => {
-    setShowDialog(true);
+    setShowGenerateInviteDialog(true);
   };
 
   const handleClickCloseDialog = (): void => {
-    setShowDialog(false);
+    setShowGenerateInviteDialog(false);
   };
 
   const handleAccessLevelChange = (level: string): void => {
-    setIsPrivate(level === GroupType.Private);
+    if (level === 'Приватная' && !isPrivate) {
+      setShowConfirmDialog(true);
+    } else {
+      setIsPrivate(level === 'Приватная');
+    }
   };
 
   const handleFormSubmit = async (formData: FormData): Promise<void> => {
@@ -59,19 +79,19 @@ const CreateGroup: FC = () => {
       return;
     }
     log.debug('Data', formData);
-    const createGroupResponse = await createGroup({
+    const updateGroupResponse = await updateGroup({
       variables: {
+        id: Number(groupId),
         name: formData.groupName,
         description: formData.groupDescription,
         type: isPrivate ? GroupType.Private : GroupType.Public,
       },
     });
-    log.debug('Create group response', createGroupResponse);
-    if (createGroupResponse.data?.createGroup) {
+    log.debug('Update group response', updateGroupResponse);
+    if (updateGroupResponse.data?.updateGroup) {
       if (isPrivate) {
-        setGroupCreated(true);
+        await router.push(`/private-groups`);
       }
-      setGroupId(createGroupResponse.data.createGroup.id);
       reset();
       if (!isPrivate) {
         await router.push(`/public-groups`);
@@ -85,22 +105,30 @@ const CreateGroup: FC = () => {
     }
   }, [authStore]);
 
+  if (groupIsLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <Page title={'Cоздание группы'} style={{ gap: 16, marginTop: 24 }}>
-      <Header>Создание группы</Header>
+    <Page title={'Изменить группы'} style={{ gap: 16, marginTop: 24 }}>
+      <Header>Изменить группу</Header>
       <FormWrapper
         onSubmit={handleSubmit(async (formData) => {
           try {
             await handleFormSubmit(formData);
           } catch (submitError) {
-            log.error('Create group error', submitError);
+            log.error('Update group error', submitError);
           }
         })}
       >
         <CardCreateOrUpdateGroup
           accessLevelTitle="Уровень доступа"
           accessLevelOptions={['Публичная', 'Приватная']}
-          defaultOption={'Публичная'}
+          defaultOption={
+            groupData?.group.type === GroupType.Private
+              ? 'Приватная'
+              : 'Публичная'
+          }
           onAccessLevelChange={handleAccessLevelChange}
         >
           {[
@@ -114,6 +142,7 @@ const CreateGroup: FC = () => {
               multiline={false}
               error={Boolean(formState.errors.groupName)}
               helperText={formState.errors.groupName?.message}
+              defaultValue={groupData?.group?.name}
               {...register('groupName')}
             />,
             <TextField
@@ -126,11 +155,12 @@ const CreateGroup: FC = () => {
               multiline={true}
               error={Boolean(formState.errors.groupDescription)}
               helperText={formState.errors.groupDescription?.message}
+              defaultValue={groupData?.group?.description}
               {...register('groupDescription')}
             />,
           ]}
         </CardCreateOrUpdateGroup>
-        {groupCreated && isPrivate && (
+        {isPrivate && (
           <CardGenerateInvite
             title={'Участники'}
             description={'Нажми на кнопку чтобы сгенерировать приглашение.'}
@@ -143,30 +173,39 @@ const CreateGroup: FC = () => {
           onClick={handleSubmit(async (formData) => {
             try {
               await handleFormSubmit(formData);
-              if (isPrivate) {
-                handleClickOpenDialog();
-              }
             } catch (submitError) {
               log.error('Create group error', submitError);
             }
           })}
-          disabled={groupCreated}
         >
-          Создать группу
+          Изменить группу
         </Button>
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
           Назад
         </Button>
       </FormWrapper>
       <DialogGenerateInvite
-        isOpen={showDialog}
+        isOpen={showGenerateInviteDialog}
         title="Скопируй и отправь другу"
         onCancelClick={handleClickCloseDialog}
         cancelButtonLabel={'Закрыть'}
         linkLabel={'Ссылка на приглашение'}
         clipboardMessage={'Ссылка скопирована'}
         generateButtonLabel={'Сгенерировать'}
-        groupId={groupId!}
+        groupId={Number(groupId)}
+      />
+      <DialogConfirmAction
+        isOpen={showConfirmDialog}
+        title="Сделать группу приватной?"
+        description="Приглашение будет сгенерировано после подтверждения."
+        cancelButtonText="Отмена"
+        confirmButtonText="ОК"
+        onCancelClick={(): void => setShowConfirmDialog(false)}
+        onConfirmClick={(): void => {
+          setShowConfirmDialog(false);
+          setIsPrivate(true);
+          setShowGenerateInviteDialog(true);
+        }}
       />
     </Page>
   );
@@ -196,4 +235,4 @@ const FormWrapper = styled.form`
   margin-left: 24px;
 `;
 
-export default CreateGroup;
+export default UpdateGroup;

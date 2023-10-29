@@ -3,7 +3,7 @@ import { Dialog } from '@components/ui/common/dialog';
 import { DialogContentText } from '@mui/material';
 import { ButtonVariant } from 'src/components/ui/common/button';
 
-interface DialogConfirmDeleteProperties {
+interface DialogConfirmActionProperties {
   isOpen: boolean;
   title: string;
   description: string;
@@ -13,8 +13,8 @@ interface DialogConfirmDeleteProperties {
   onConfirmClick: () => void;
 }
 
-export const DialogConfirmDelete = (
-  properties: DialogConfirmDeleteProperties,
+export const DialogConfirmAction = (
+  properties: DialogConfirmActionProperties,
 ): ReactElement => {
   const {
     isOpen,

@@ -1,0 +1,21 @@
+mutation UpdateGroup($id: Int!, $name: String!, $description: String!, $type: GroupType!) {
+  updateGroup(
+    id: $id,
+    input: { name: $name, description: $description, type: $type }
+  ) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    type
+    status
+    events {
+      status
+    }
+    members {
+      id
+      role
+    }
+  }
+}
