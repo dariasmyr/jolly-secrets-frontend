@@ -33,6 +33,7 @@ export const CardCreatePreference = (
           <SelectOptions
             title={properties.selectTitle}
             options={properties.priceOptions}
+            defaultOption={properties.priceOptions[0]}
             onChange={properties.onPriceOptionChange}
           />
           {properties.textFields.map((field, index) => (
