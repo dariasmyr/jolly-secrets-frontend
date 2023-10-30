@@ -107,7 +107,7 @@ input CreateEventApplicationInput {
 input CreateEventInput {
   description: String!
   endsAt: DateTime!
-  groupId: Float!
+  groupId: Int!
   name: String!
   startsAt: DateTime!
 }
@@ -357,10 +357,10 @@ type Query {
   currentSession: AccountSession!
   debug: JSON!
   echo(text: String!): String!
-  event(id: Float!): Event!
+  event(id: Int!): Event!
   eventApplicationPair(id: Float!): EventApplicationPair!
   eventApplicationPairs(eventId: Float!): [EventApplicationPair!]!
-  events(groupId: Float!): [Event!]!
+  events(groupId: Int!): [Event!]!
   generateTelegramBotLink: String!
   generateUrlGoogle(state: String): String!
   group(id: Int!): Group!

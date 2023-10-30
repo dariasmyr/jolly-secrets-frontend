@@ -1,0 +1,20 @@
+query event($id: Int!) {
+  event(
+    id: $id
+  ) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    status
+    startsAt
+    endsAt
+    group {
+      id
+    }
+    applicationPairs {
+      id
+    }
+  }
+}

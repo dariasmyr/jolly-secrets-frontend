@@ -131,7 +131,7 @@ export type CreateEventApplicationInput = {
 export type CreateEventInput = {
   description: Scalars['String']['input'];
   endsAt: Scalars['DateTime']['input'];
-  groupId: Scalars['Float']['input'];
+  groupId: Scalars['Int']['input'];
   name: Scalars['String']['input'];
   startsAt: Scalars['DateTime']['input'];
 };
@@ -526,7 +526,7 @@ export type QueryEchoArgs = {
 
 
 export type QueryEventArgs = {
-  id: Scalars['Float']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
@@ -541,7 +541,7 @@ export type QueryEventApplicationPairsArgs = {
 
 
 export type QueryEventsArgs = {
-  groupId: Scalars['Float']['input'];
+  groupId: Scalars['Int']['input'];
 };
 
 
@@ -601,6 +601,17 @@ export type UpdateAccountInput = {
   username: Scalars['String']['input'];
 };
 
+export type CreateEventMutationVariables = Exact<{
+  groupId: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  startsAt: Scalars['DateTime']['input'];
+  endsAt: Scalars['DateTime']['input'];
+}>;
+
+
+export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', id: number, createdAt: any, pictureUrl: string, name: string, description: string, status: EventStatus, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number }> | null } };
+
 export type CreateGroupInviteMutationVariables = Exact<{
   groupId: Scalars['Int']['input'];
 }>;
@@ -635,6 +646,20 @@ export type DeleteGroupMutationVariables = Exact<{
 
 
 export type DeleteGroupMutation = { __typename?: 'Mutation', deleteGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
+
+export type EventQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type EventQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: number, createdAt: any, pictureUrl: string, name: string, description: string, status: EventStatus, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number }> | null } };
+
+export type EventsQueryVariables = Exact<{
+  groupId: Scalars['Int']['input'];
+}>;
+
+
+export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', id: number, createdAt: any, pictureUrl: string, name: string, description: string, status: EventStatus, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number }> | null }> };
 
 export type GroupQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -696,6 +721,58 @@ export type UpdateGroupMutationVariables = Exact<{
 export type UpdateGroupMutation = { __typename?: 'Mutation', updateGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
 
 
+export const CreateEventDocument = gql`
+    mutation CreateEvent($groupId: Int!, $name: String!, $description: String!, $startsAt: DateTime!, $endsAt: DateTime!) {
+  createEvent(
+    input: {groupId: $groupId, name: $name, description: $description, startsAt: $startsAt, endsAt: $endsAt}
+  ) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    status
+    startsAt
+    endsAt
+    group {
+      id
+    }
+    applicationPairs {
+      id
+    }
+  }
+}
+    `;
+export type CreateEventMutationFn = Apollo.MutationFunction<CreateEventMutation, CreateEventMutationVariables>;
+
+/**
+ * __useCreateEventMutation__
+ *
+ * To run a mutation, you first call `useCreateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *      name: // value for 'name'
+ *      description: // value for 'description'
+ *      startsAt: // value for 'startsAt'
+ *      endsAt: // value for 'endsAt'
+ *   },
+ * });
+ */
+export function useCreateEventMutation(baseOptions?: Apollo.MutationHookOptions<CreateEventMutation, CreateEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument, options);
+      }
+export type CreateEventMutationHookResult = ReturnType<typeof useCreateEventMutation>;
+export type CreateEventMutationResult = Apollo.MutationResult<CreateEventMutation>;
+export type CreateEventMutationOptions = Apollo.BaseMutationOptions<CreateEventMutation, CreateEventMutationVariables>;
 export const CreateGroupInviteDocument = gql`
     mutation CreateGroupInvite($groupId: Int!) {
   createGroupInvite(groupId: $groupId) {
@@ -905,6 +982,102 @@ export function useDeleteGroupMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteGroupMutationHookResult = ReturnType<typeof useDeleteGroupMutation>;
 export type DeleteGroupMutationResult = Apollo.MutationResult<DeleteGroupMutation>;
 export type DeleteGroupMutationOptions = Apollo.BaseMutationOptions<DeleteGroupMutation, DeleteGroupMutationVariables>;
+export const EventDocument = gql`
+    query event($id: Int!) {
+  event(id: $id) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    status
+    startsAt
+    endsAt
+    group {
+      id
+    }
+    applicationPairs {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useEventQuery__
+ *
+ * To run a query within a React component, call `useEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEventQuery(baseOptions: Apollo.QueryHookOptions<EventQuery, EventQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EventQuery, EventQueryVariables>(EventDocument, options);
+      }
+export function useEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EventQuery, EventQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EventQuery, EventQueryVariables>(EventDocument, options);
+        }
+export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
+export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
+export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
+export const EventsDocument = gql`
+    query events($groupId: Int!) {
+  events(groupId: $groupId) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    status
+    startsAt
+    endsAt
+    group {
+      id
+    }
+    applicationPairs {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useEventsQuery__
+ *
+ * To run a query within a React component, call `useEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventsQuery({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *   },
+ * });
+ */
+export function useEventsQuery(baseOptions: Apollo.QueryHookOptions<EventsQuery, EventsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EventsQuery, EventsQueryVariables>(EventsDocument, options);
+      }
+export function useEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EventsQuery, EventsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EventsQuery, EventsQueryVariables>(EventsDocument, options);
+        }
+export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
+export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
+export type EventsQueryResult = Apollo.QueryResult<EventsQuery, EventsQueryVariables>;
 export const GroupDocument = gql`
     query Group($id: Int!) {
   group(id: $id) {

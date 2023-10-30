@@ -1,0 +1,20 @@
+mutation CreateEvent($groupId: Int!, $name: String!, $description: String!, $startsAt: DateTime!, $endsAt: DateTime!) {
+  createEvent(
+    input: {groupId: $groupId, name: $name, description: $description, startsAt: $startsAt, endsAt: $endsAt }
+  ) {
+    id
+    createdAt
+    pictureUrl
+    name
+    description
+    status
+    startsAt
+    endsAt
+    group {
+      id
+    }
+    applicationPairs {
+      id
+    }
+  }
+}
