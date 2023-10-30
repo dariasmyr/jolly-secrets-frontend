@@ -105,6 +105,9 @@ const PublicGroups: FC = () => {
                   }
                 : undefined
             }
+            onClick={(): void => {
+              router.push(`/events?groupId=${group.id}`);
+            }}
           />
         );
       })}

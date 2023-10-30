@@ -27,11 +27,12 @@ export interface ICardImageProperties {
   text: string;
   tags: ITag[];
   menu?: IMenuProperties;
+  onClick?: () => void;
 }
 
 export const CardImage = (properties: ICardImageProperties): ReactElement => {
   return (
-    <Paper>
+    <Paper onClick={properties.onClick}>
       <ImageWrapper src={properties.imageUrl} alt="" width={368} height={200} />
       <Content>
         <HeaderWrapper>
