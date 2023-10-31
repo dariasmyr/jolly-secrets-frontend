@@ -61,7 +61,7 @@ const Events: FC = () => {
 
   const steps = [
     {
-      label: 'Группы',
+      label: isPrivate ? 'Мои группы' : 'Публичные группы',
       link: isPrivate ? '/private-groups' : '/public-groups',
       onClick: async (): Promise<void> => {
         await router.push(isPrivate ? '/private-groups' : '/public-groups');
@@ -79,29 +79,33 @@ const Events: FC = () => {
   return (
     <Page title={groupData!.group.name} style={{ gap: 16, marginTop: 24 }}>
       <Header>{groupData?.group.name}</Header>
+      <Breadcrumbs>
+        <CollapsedBreadcrumbs steps={steps} />
+      </Breadcrumbs>
       {eventsData?.events.map((event) => {
         const isExpired = new Date(event.endsAt) < new Date();
         const tags = [
           {
-            title: `${event.applicationPairs?.length} пар`,
+            title: `${event.applicationPairs?.length || 0} пар`,
           },
           {
             title: `${event.status}`,
             warning: isExpired,
           },
         ];
+
+        const startDate = new Date(event.startsAt).toLocaleDateString();
+        const endDate = new Date(event.endsAt).toLocaleDateString();
+
         return (
-          <Wrapper key={event.id}>
-            <CollapsedBreadcrumbs steps={steps} />
-            <CardImage
-              key={event.id}
-              imageUrl={event.pictureUrl}
-              preHeader={`${event.startsAt} - ${event.endsAt}`}
-              header={event.name}
-              text={event.description}
-              tags={tags}
-            />
-          </Wrapper>
+          <CardImage
+            key={event.id}
+            imageUrl={event.pictureUrl}
+            preHeader={`${startDate} - ${endDate}`}
+            header={event.name}
+            text={event.description}
+            tags={tags}
+          />
         );
       })}
       <FabAdd onClick={createEvent} />
@@ -124,11 +128,8 @@ const Header = styled.div`
   margin-right: 24px;
   margin-left: 24px;
 `;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+const Breadcrumbs = styled.div`
+  align-self: flex-start;
   margin-right: 24px;
   margin-left: 24px;
 `;
