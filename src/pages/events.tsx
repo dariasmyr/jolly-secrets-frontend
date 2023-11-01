@@ -6,7 +6,12 @@ import { Page } from '@components/ui/common/page';
 import { CardImage } from '@components/ui/custom/card-image';
 import styled from 'styled-components';
 
-import { GroupType, useEventsQuery, useGroupQuery } from '@/generated/graphql';
+import {
+  EventStatus,
+  GroupType,
+  useEventsQuery,
+  useGroupQuery,
+} from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
 const Events: FC = () => {
@@ -83,14 +88,13 @@ const Events: FC = () => {
         <CollapsedBreadcrumbs steps={steps} />
       </Breadcrumbs>
       {eventsData?.events.map((event) => {
-        const isExpired = new Date(event.endsAt) < new Date();
         const tags = [
           {
             title: `${event.applicationPairs?.length || 0} пар`,
           },
           {
             title: `${event.status}`,
-            warning: isExpired,
+            warning: event.status === EventStatus.Open,
           },
         ];
 

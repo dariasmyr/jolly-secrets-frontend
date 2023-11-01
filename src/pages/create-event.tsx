@@ -8,13 +8,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import TextField from '@mui/material/TextField';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import { useCreateEventMutation } from '@/generated/graphql';
 import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
+
+const today = dayjs(new Date());
 
 const validationSchema = Yup.object().shape({
   eventName: Yup.string().required('Обязательное поле'),
@@ -29,8 +31,9 @@ type FormData = {
 const CreateEvent: FC = () => {
   const authStore = useAuthStore();
   const router = useRouter();
+  // eslint-disable-next-line unicorn/no-null
+  const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [createEvent, { reset }] = useCreateEventMutation();
-  const [endDate, setEndDate] = useState(new Date());
   const { register, handleSubmit, formState } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
   });
@@ -39,9 +42,6 @@ const CreateEvent: FC = () => {
   const handleBackClick = async (): Promise<void> => {
     await router.push(`/events?groupId=${groupId}`);
   };
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
 
   const handleFormSubmit = async (formData: FormData): Promise<void> => {
     if (Object.keys(formState.errors).length > 0) {
@@ -111,14 +111,10 @@ const CreateEvent: FC = () => {
             />,
             <LocalizationProvider key="eventDate" dateAdapter={AdapterDayjs}>
               <DatePicker
-                key="eventDate"
-                label="Дата события"
-                value={dayjs(endDate)}
-                onChange={(newValue): void => {
-                  if (newValue) {
-                    setEndDate(newValue.toDate());
-                  }
-                }}
+                defaultValue={today}
+                disablePast
+                label="Дата окончания события"
+                onChange={(date): void => setEndDate(dayjs(date))}
                 slotProps={{}}
               />
             </LocalizationProvider>,
