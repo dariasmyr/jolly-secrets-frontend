@@ -36,7 +36,7 @@ const Events: FC = () => {
 
   const createEvent = (): void => {
     // eslint-disable-next-line no-alert
-    router.push('/create-event');
+    router.push(`/create-event?groupId=${groupId}`);
   };
 
   useEffect(() => {

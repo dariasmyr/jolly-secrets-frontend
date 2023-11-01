@@ -2,7 +2,6 @@ import { ReactNode } from 'react';
 import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { Page } from '@components/ui/common/page';
 import { Stepper } from '@components/ui/common/stepper';
-import { CardCreateEvent } from '@components/ui/custom/card-create/card-create-event';
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
 import { DialogInputEmail } from '@components/ui/custom/dialog-input-email';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
@@ -261,13 +260,6 @@ export default function IndexPage(): ReactNode {
         ]}
         onDeleteButtonClick={handleClick}
         button="Удалить"
-      />
-      <CardCreateEvent
-        textFields={[
-          { label: 'Название события', isMultiline: false },
-          { label: 'Описание события', isMultiline: true },
-        ]}
-        dateRange={{ endDate: 'Дата окончания события' }}
       />
       <FabAdd onClick={handleClick} />
       <Notification

@@ -7,7 +7,7 @@ import { CardGenerateInvite } from '@components/ui/custom/card-generate-invite';
 import { DialogGenerateInvite } from '@components/ui/custom/dialog-generate-invite';
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextField from '@mui/material/TextField';
-import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/card-create-of-update-group';
+import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/card-create-or-update-group';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
