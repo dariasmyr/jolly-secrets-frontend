@@ -87,6 +87,12 @@ const Events: FC = () => {
       <Breadcrumbs>
         <CollapsedBreadcrumbs steps={steps} />
       </Breadcrumbs>
+      {eventsData?.events.length === 0 && (
+        <Wrapper>
+          <Text>Событий пока нет.</Text>
+          <SubText>Создайте первое событие!</SubText>
+        </Wrapper>
+      )}
       {eventsData?.events.map((event) => {
         const tags = [
           {
@@ -132,10 +138,46 @@ const Header = styled.div`
   margin-right: 24px;
   margin-left: 24px;
 `;
+const Text = styled.div`
+  color: #000;
+  font-feature-settings:
+    'clig' off,
+    'liga' off;
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 160%; /* 32px */
+  letter-spacing: 0.15px;
+  align-self: center;
+  margin-right: 24px;
+  margin-left: 24px;
+`;
+const SubText = styled.div`
+  color: #878787;
+  font-feature-settings:
+    'clig' off,
+    'liga' off;
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 80%;
+  letter-spacing: 0.15px;
+  align-self: center;
+  margin-right: 24px;
+  margin-left: 24px;
+`;
 const Breadcrumbs = styled.div`
   align-self: flex-start;
   margin-right: 24px;
   margin-left: 24px;
+`;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Events;
