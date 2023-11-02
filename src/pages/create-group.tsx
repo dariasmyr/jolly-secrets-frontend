@@ -6,12 +6,18 @@ import { Page } from '@components/ui/common/page';
 import { CardGenerateInvite } from '@components/ui/custom/card-generate-invite';
 import { DialogGenerateInvite } from '@components/ui/custom/dialog-generate-invite';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
 import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/card-create-or-update-group';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { GroupType, useCreateGroupMutation } from '@/generated/graphql';
+import {
+  GroupType,
+  useCreateGroupMutation,
+  useIsGroupNameAvailvableQuery,
+} from '@/generated/graphql';
 import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
 
@@ -28,6 +34,16 @@ type FormData = {
 const CreateGroup: FC = () => {
   const authStore = useAuthStore();
   const router = useRouter();
+  const { refetch: refetch } = useIsGroupNameAvailvableQuery({
+    variables: {
+      name: '',
+    },
+    skip: true,
+  });
+  const [snackbarData, setSnackbarData] = useState({
+    open: false,
+    message: '',
+  });
   const [createGroup, { reset }] = useCreateGroupMutation();
   const [isPrivate, setIsPrivate] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
@@ -59,6 +75,15 @@ const CreateGroup: FC = () => {
       return;
     }
     log.debug('Data', formData);
+    const groupNameResponse = await refetch({
+      name: formData.groupName,
+    });
+
+    if (groupNameResponse.data.isGroupNameAvailable === false) {
+      setSnackbarData({ open: true, message: 'Имя группы уже существует' });
+      return;
+    }
+
     const createGroupResponse = await createGroup({
       variables: {
         name: formData.groupName,
@@ -168,6 +193,11 @@ const CreateGroup: FC = () => {
         generateButtonLabel={'Сгенерировать'}
         groupId={groupId!}
       />
+      <Snackbar open={snackbarData.open} autoHideDuration={6000}>
+        <Alert severity="info" sx={{ width: '100%' }}>
+          {snackbarData.message}
+        </Alert>
+      </Snackbar>
     </Page>
   );
 };

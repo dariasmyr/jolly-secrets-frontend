@@ -366,6 +366,7 @@ type Query {
   group(id: Int!): Group!
   groupInvite(groupId: Float!): [GroupInvite!]!
   groupMember(groupId: Float!): [GroupMember!]!
+  isGroupNameAvailable(name: String!): Boolean!
   messages(chatId: Float!): [Message!]!
   notification(id: Float!): Notification!
   notifications(limit: Float!, offset: Float!): [Notification!]!

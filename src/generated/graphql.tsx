@@ -500,6 +500,7 @@ export type Query = {
   group: Group;
   groupInvite: Array<GroupInvite>;
   groupMember: Array<GroupMember>;
+  isGroupNameAvailable: Scalars['Boolean']['output'];
   messages: Array<Message>;
   notification: Notification;
   notifications: Array<Notification>;
@@ -562,6 +563,11 @@ export type QueryGroupInviteArgs = {
 
 export type QueryGroupMemberArgs = {
   groupId: Scalars['Float']['input'];
+};
+
+
+export type QueryIsGroupNameAvailableArgs = {
+  name: Scalars['String']['input'];
 };
 
 
@@ -667,6 +673,13 @@ export type GroupQueryVariables = Exact<{
 
 
 export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: number, createdAt: any, updatedAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, members?: Array<{ __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole }> | null, events?: Array<{ __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl: string, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any }> | null, groupInvites?: Array<{ __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string }> | null } };
+
+export type IsGroupNameAvailvableQueryVariables = Exact<{
+  name: Scalars['String']['input'];
+}>;
+
+
+export type IsGroupNameAvailvableQuery = { __typename?: 'Query', isGroupNameAvailable: boolean };
 
 export type GenerateUrlGoogleQueryVariables = Exact<{
   state: Scalars['String']['input'];
@@ -1147,6 +1160,39 @@ export function useGroupLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Grou
 export type GroupQueryHookResult = ReturnType<typeof useGroupQuery>;
 export type GroupLazyQueryHookResult = ReturnType<typeof useGroupLazyQuery>;
 export type GroupQueryResult = Apollo.QueryResult<GroupQuery, GroupQueryVariables>;
+export const IsGroupNameAvailvableDocument = gql`
+    query IsGroupNameAvailvable($name: String!) {
+  isGroupNameAvailable(name: $name)
+}
+    `;
+
+/**
+ * __useIsGroupNameAvailvableQuery__
+ *
+ * To run a query within a React component, call `useIsGroupNameAvailvableQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIsGroupNameAvailvableQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIsGroupNameAvailvableQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useIsGroupNameAvailvableQuery(baseOptions: Apollo.QueryHookOptions<IsGroupNameAvailvableQuery, IsGroupNameAvailvableQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IsGroupNameAvailvableQuery, IsGroupNameAvailvableQueryVariables>(IsGroupNameAvailvableDocument, options);
+      }
+export function useIsGroupNameAvailvableLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsGroupNameAvailvableQuery, IsGroupNameAvailvableQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IsGroupNameAvailvableQuery, IsGroupNameAvailvableQueryVariables>(IsGroupNameAvailvableDocument, options);
+        }
+export type IsGroupNameAvailvableQueryHookResult = ReturnType<typeof useIsGroupNameAvailvableQuery>;
+export type IsGroupNameAvailvableLazyQueryHookResult = ReturnType<typeof useIsGroupNameAvailvableLazyQuery>;
+export type IsGroupNameAvailvableQueryResult = Apollo.QueryResult<IsGroupNameAvailvableQuery, IsGroupNameAvailvableQueryVariables>;
 export const GenerateUrlGoogleDocument = gql`
     query generateUrlGoogle($state: String!) {
   generateUrlGoogle(state: $state)
