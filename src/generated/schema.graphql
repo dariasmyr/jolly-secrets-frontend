@@ -363,6 +363,7 @@ type Query {
   events(groupId: Int!): [Event!]!
   generateTelegramBotLink: String!
   generateUrlGoogle(state: String): String!
+  getGroupByEventId(eventId: Int!): Group!
   group(id: Int!): Group!
   groupInvite(groupId: Float!): [GroupInvite!]!
   groupMember(groupId: Float!): [GroupMember!]!

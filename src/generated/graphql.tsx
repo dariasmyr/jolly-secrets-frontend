@@ -497,6 +497,7 @@ export type Query = {
   events: Array<Event>;
   generateTelegramBotLink: Scalars['String']['output'];
   generateUrlGoogle: Scalars['String']['output'];
+  getGroupByEventId: Group;
   group: Group;
   groupInvite: Array<GroupInvite>;
   groupMember: Array<GroupMember>;
@@ -548,6 +549,11 @@ export type QueryEventsArgs = {
 
 export type QueryGenerateUrlGoogleArgs = {
   state?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetGroupByEventIdArgs = {
+  eventId: Scalars['Int']['input'];
 };
 
 
@@ -666,6 +672,13 @@ export type EventsQueryVariables = Exact<{
 
 
 export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', id: number, createdAt: any, pictureUrl: string, name: string, description: string, status: EventStatus, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number }> | null }> };
+
+export type GetGroupByEventIdQueryVariables = Exact<{
+  eventId: Scalars['Int']['input'];
+}>;
+
+
+export type GetGroupByEventIdQuery = { __typename?: 'Query', getGroupByEventId: { __typename?: 'Group', id: number, createdAt: any, updatedAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, members?: Array<{ __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole }> | null, events?: Array<{ __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl: string, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any }> | null, groupInvites?: Array<{ __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string }> | null } };
 
 export type GroupQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -1091,6 +1104,75 @@ export function useEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Eve
 export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
 export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
 export type EventsQueryResult = Apollo.QueryResult<EventsQuery, EventsQueryVariables>;
+export const GetGroupByEventIdDocument = gql`
+    query getGroupByEventId($eventId: Int!) {
+  getGroupByEventId(eventId: $eventId) {
+    id
+    createdAt
+    updatedAt
+    pictureUrl
+    name
+    description
+    type
+    status
+    members {
+      id
+      createdAt
+      updatedAt
+      groupId
+      accountId
+      role
+    }
+    events {
+      id
+      createdAt
+      updatedAt
+      pictureUrl
+      status
+      groupId
+      name
+      description
+      startsAt
+      endsAt
+    }
+    groupInvites {
+      id
+      createdAt
+      updatedAt
+      groupId
+      code
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGroupByEventIdQuery__
+ *
+ * To run a query within a React component, call `useGetGroupByEventIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGroupByEventIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGroupByEventIdQuery({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useGetGroupByEventIdQuery(baseOptions: Apollo.QueryHookOptions<GetGroupByEventIdQuery, GetGroupByEventIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGroupByEventIdQuery, GetGroupByEventIdQueryVariables>(GetGroupByEventIdDocument, options);
+      }
+export function useGetGroupByEventIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGroupByEventIdQuery, GetGroupByEventIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGroupByEventIdQuery, GetGroupByEventIdQueryVariables>(GetGroupByEventIdDocument, options);
+        }
+export type GetGroupByEventIdQueryHookResult = ReturnType<typeof useGetGroupByEventIdQuery>;
+export type GetGroupByEventIdLazyQueryHookResult = ReturnType<typeof useGetGroupByEventIdLazyQuery>;
+export type GetGroupByEventIdQueryResult = Apollo.QueryResult<GetGroupByEventIdQuery, GetGroupByEventIdQueryVariables>;
 export const GroupDocument = gql`
     query Group($id: Int!) {
   group(id: $id) {

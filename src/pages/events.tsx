@@ -1,4 +1,5 @@
 import { FC, useEffect } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { FabAdd } from '@components/ui/common/fab-add';
@@ -89,6 +90,14 @@ const Events: FC = () => {
       </Breadcrumbs>
       {eventsData?.events.length === 0 && (
         <Wrapper>
+          <StyledImage>
+            <Image
+              src={'/assets/sand-clock.png'}
+              width={100}
+              height={100}
+              alt="Wait"
+            />
+          </StyledImage>
           <Text>Событий пока нет.</Text>
           <SubText>Создайте первое событие!</SubText>
         </Wrapper>
@@ -115,6 +124,9 @@ const Events: FC = () => {
             header={event.name}
             text={event.description}
             tags={tags}
+            onClick={(): void => {
+              router.push(`/event?id=${event.id}`);
+            }}
           />
         );
       })}
@@ -161,7 +173,7 @@ const SubText = styled.div`
   font-family: Roboto, sans-serif;
   font-size: 20px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 80%;
   letter-spacing: 0.15px;
   align-self: center;
@@ -178,6 +190,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 50vh;
+`;
+
+const StyledImage = styled.div`
+  opacity: 0.5;
 `;
 
 export default Events;
