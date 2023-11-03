@@ -40,10 +40,6 @@ const Event: FC = () => {
     router.push(`/create-application?eventId=${eventId}`);
   };
 
-  const goBack = (): void => {
-    router.push(`/group/${groupData!.getGroupByEventId!.name}`);
-  };
-
   useEffect(() => {
     if (!authStore.token) {
       router.push('/auth/login');
@@ -124,9 +120,7 @@ const Event: FC = () => {
       />
       <Wrapper>
         {isExpired ? (
-          <ButtonLarge onClick={goBack} disabled={true}>
-            Cобытие завершено
-          </ButtonLarge>
+          <ButtonLarge disabled={true}>Cобытие завершено</ButtonLarge>
         ) : (
           <ButtonLarge onClick={participate}>Участвовать</ButtonLarge>
         )}
