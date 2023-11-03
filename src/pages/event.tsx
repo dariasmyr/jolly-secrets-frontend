@@ -7,6 +7,7 @@ import { EventPage } from '@components/ui/custom/event-page';
 import styled from 'styled-components';
 
 import {
+  EventStatus,
   GroupType,
   useEventQuery,
   useGetGroupByEventIdQuery,
@@ -39,6 +40,10 @@ const Event: FC = () => {
     router.push(`/create-application?eventId=${eventId}`);
   };
 
+  const goBack = (): void => {
+    router.push(`/group/${groupData!.getGroupByEventId!.name}`);
+  };
+
   useEffect(() => {
     if (!authStore.token) {
       router.push('/auth/login');
@@ -53,6 +58,10 @@ const Event: FC = () => {
     return <Page title="Событие">Error: {JSON.stringify(groupError)}</Page>;
   }
 
+  const startDate = new Date(eventData?.event.startsAt).toLocaleDateString();
+  const endDate = new Date(eventData?.event.endsAt).toLocaleDateString();
+
+  const isExpired = eventData?.event.status === EventStatus.Expired;
   const isPrivate = groupData?.getGroupByEventId?.type === GroupType.Private;
 
   const steps = [
@@ -100,7 +109,11 @@ const Event: FC = () => {
       <EventPage
         key={eventData!.event.id.toString()}
         imageUrl={eventData!.event.pictureUrl}
-        preHeader={`До окончания ${daysToExpire} дней`}
+        preHeader={
+          isExpired
+            ? `${startDate} - ${endDate}`
+            : `До завершения ${daysToExpire} дней`
+        }
         header={eventData!.event.name}
         text={eventData!.event.description}
         tags={[
@@ -110,7 +123,13 @@ const Event: FC = () => {
         ]}
       />
       <Wrapper>
-        <ButtonLarge onClick={participate}>Участвовать</ButtonLarge>
+        {isExpired ? (
+          <ButtonLarge onClick={goBack} disabled={true}>
+            Cобытие завершено
+          </ButtonLarge>
+        ) : (
+          <ButtonLarge onClick={participate}>Участвовать</ButtonLarge>
+        )}
       </Wrapper>
     </Page>
   );
