@@ -75,9 +75,9 @@ const Events: FC = () => {
     },
     {
       label: groupData!.group.name,
-      link: `/group/${groupId}`,
+      link: `events?groupId=${groupId}`,
       onClick: async (): Promise<void> => {
-        await router.push(`/group/${groupId}`);
+        await router.push(`events?groupId=${groupId}`);
       },
     },
   ];

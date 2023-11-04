@@ -99,8 +99,8 @@ input CreateChatMemberInput {
 }
 
 input CreateEventApplicationInput {
-  accountId: Float!
-  eventId: Float!
+  accountId: Int!
+  eventId: Int!
   preferences: [CreatePreferenceInput!]!
 }
 
@@ -125,7 +125,7 @@ input CreateOrUpdateGroupInput {
 }
 
 input CreatePreferenceInput {
-  applicationId: Float!
+  applicationId: Int!
   comment: String!
   dislikes: String!
   likes: String!
@@ -181,9 +181,7 @@ type EventApplicationPair {
   chats: [Chat!]!
   createdAt: DateTime!
   event: Event!
-  eventApplicationFirst: EventApplication!
   eventApplicationFirstId: Int!
-  eventApplicationSecond: EventApplication!
   eventApplicationSecondId: Int
   eventId: Int!
   id: Int!
@@ -358,7 +356,7 @@ type Query {
   debug: JSON!
   echo(text: String!): String!
   event(id: Int!): Event!
-  eventApplicationPair(id: Float!): EventApplicationPair!
+  eventApplicationPair(id: Int!): EventApplicationPair!
   eventApplicationPairs(eventId: Float!): [EventApplicationPair!]!
   events(groupId: Int!): [Event!]!
   generateTelegramBotLink: String!

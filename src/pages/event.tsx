@@ -70,9 +70,9 @@ const Event: FC = () => {
     },
     {
       label: groupData!.getGroupByEventId.name,
-      link: `/group/${groupData!.getGroupByEventId!.name}`,
+      link: `events?groupId=${groupData!.getGroupByEventId.id}`,
       onClick: async (): Promise<void> => {
-        await router.push(`/group/${groupData!.getGroupByEventId!.name}`);
+        await router.push(`events?groupId=${groupData!.getGroupByEventId.id}`);
       },
     },
     {

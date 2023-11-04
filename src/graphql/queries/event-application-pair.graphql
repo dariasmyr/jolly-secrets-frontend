@@ -1,0 +1,50 @@
+query eventApplicationPair ($id: Int!) {
+  eventApplicationPair (
+    id: $id
+  ) {
+    id,
+    createdAt,
+    updatedAt,
+    eventId,
+    eventApplicationFirstId,
+    eventApplicationSecondId,
+    chatId,
+    event {
+      id,
+    },
+    applicationFirst {
+      id,
+      createdAt,
+      updatedAt,
+      accountId,
+      status,
+      preferences {
+        id,
+        createdAt,
+        updatedAt,
+        priceRange,
+        likes,
+        dislikes,
+        comment,
+        applicationId,
+      },
+    },
+    applicationSecond {
+      id,
+      createdAt,
+      updatedAt,
+      accountId,
+      status,
+      preferences {
+        id,
+        createdAt,
+        updatedAt,
+        priceRange,
+        likes,
+        dislikes,
+        comment,
+        applicationId,
+      },
+    },
+  },
+}

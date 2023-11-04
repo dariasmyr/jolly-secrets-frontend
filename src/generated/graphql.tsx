@@ -123,8 +123,8 @@ export type CreateChatMemberInput = {
 };
 
 export type CreateEventApplicationInput = {
-  accountId: Scalars['Float']['input'];
-  eventId: Scalars['Float']['input'];
+  accountId: Scalars['Int']['input'];
+  eventId: Scalars['Int']['input'];
   preferences: Array<CreatePreferenceInput>;
 };
 
@@ -149,7 +149,7 @@ export type CreateOrUpdateGroupInput = {
 };
 
 export type CreatePreferenceInput = {
-  applicationId: Scalars['Float']['input'];
+  applicationId: Scalars['Int']['input'];
   comment: Scalars['String']['input'];
   dislikes: Scalars['String']['input'];
   likes: Scalars['String']['input'];
@@ -204,9 +204,7 @@ export type EventApplicationPair = {
   chats: Array<Chat>;
   createdAt: Scalars['DateTime']['output'];
   event: Event;
-  eventApplicationFirst: EventApplication;
   eventApplicationFirstId: Scalars['Int']['output'];
-  eventApplicationSecond: EventApplication;
   eventApplicationSecondId?: Maybe<Scalars['Int']['output']>;
   eventId: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
@@ -533,7 +531,7 @@ export type QueryEventArgs = {
 
 
 export type QueryEventApplicationPairArgs = {
-  id: Scalars['Float']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
@@ -613,6 +611,15 @@ export type UpdateAccountInput = {
   username: Scalars['String']['input'];
 };
 
+export type CreateEventApplicationMutationVariables = Exact<{
+  accountId: Scalars['Int']['input'];
+  eventId: Scalars['Int']['input'];
+  preferences: Array<CreatePreferenceInput> | CreatePreferenceInput;
+}>;
+
+
+export type CreateEventApplicationMutation = { __typename?: 'Mutation', createEventApplication: { __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl: string, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number, createdAt: any, updatedAt: any, eventId: number, eventApplicationFirstId: number, eventApplicationSecondId?: number | null, chatId?: number | null, event: { __typename?: 'Event', id: number }, applicationFirst: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, account: { __typename?: 'Account', id: number }, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null, application?: { __typename?: 'EventApplication', id: number } | null, eventApplication: { __typename?: 'EventApplication', id: number } }> | null } }> | null } };
+
 export type CreateEventMutationVariables = Exact<{
   groupId: Scalars['Int']['input'];
   name: Scalars['String']['input'];
@@ -658,6 +665,13 @@ export type DeleteGroupMutationVariables = Exact<{
 
 
 export type DeleteGroupMutation = { __typename?: 'Mutation', deleteGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
+
+export type EventApplicationPairQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type EventApplicationPairQuery = { __typename?: 'Query', eventApplicationPair: { __typename?: 'EventApplicationPair', id: number, createdAt: any, updatedAt: any, eventId: number, eventApplicationFirstId: number, eventApplicationSecondId?: number | null, chatId?: number | null, event: { __typename?: 'Event', id: number }, applicationFirst: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null }> | null }, applicationSecond?: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null }> | null } | null } };
 
 export type EventQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -747,6 +761,93 @@ export type UpdateGroupMutationVariables = Exact<{
 export type UpdateGroupMutation = { __typename?: 'Mutation', updateGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
 
 
+export const CreateEventApplicationDocument = gql`
+    mutation createEventApplication($accountId: Int!, $eventId: Int!, $preferences: [CreatePreferenceInput!]!) {
+  createEventApplication(
+    input: {accountId: $accountId, eventId: $eventId, preferences: $preferences}
+  ) {
+    id
+    createdAt
+    updatedAt
+    pictureUrl
+    status
+    groupId
+    name
+    description
+    startsAt
+    endsAt
+    group {
+      id
+    }
+    applicationPairs {
+      id
+      createdAt
+      updatedAt
+      eventId
+      eventApplicationFirstId
+      eventApplicationSecondId
+      chatId
+      event {
+        id
+      }
+      applicationFirst {
+        id
+        createdAt
+        updatedAt
+        accountId
+        status
+        account {
+          id
+        }
+        preferences {
+          id
+          createdAt
+          updatedAt
+          priceRange
+          likes
+          dislikes
+          comment
+          applicationId
+          application {
+            id
+          }
+          eventApplication {
+            id
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+export type CreateEventApplicationMutationFn = Apollo.MutationFunction<CreateEventApplicationMutation, CreateEventApplicationMutationVariables>;
+
+/**
+ * __useCreateEventApplicationMutation__
+ *
+ * To run a mutation, you first call `useCreateEventApplicationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventApplicationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventApplicationMutation, { data, loading, error }] = useCreateEventApplicationMutation({
+ *   variables: {
+ *      accountId: // value for 'accountId'
+ *      eventId: // value for 'eventId'
+ *      preferences: // value for 'preferences'
+ *   },
+ * });
+ */
+export function useCreateEventApplicationMutation(baseOptions?: Apollo.MutationHookOptions<CreateEventApplicationMutation, CreateEventApplicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateEventApplicationMutation, CreateEventApplicationMutationVariables>(CreateEventApplicationDocument, options);
+      }
+export type CreateEventApplicationMutationHookResult = ReturnType<typeof useCreateEventApplicationMutation>;
+export type CreateEventApplicationMutationResult = Apollo.MutationResult<CreateEventApplicationMutation>;
+export type CreateEventApplicationMutationOptions = Apollo.BaseMutationOptions<CreateEventApplicationMutation, CreateEventApplicationMutationVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($groupId: Int!, $name: String!, $description: String!, $startsAt: DateTime!, $endsAt: DateTime!) {
   createEvent(
@@ -1008,6 +1109,84 @@ export function useDeleteGroupMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteGroupMutationHookResult = ReturnType<typeof useDeleteGroupMutation>;
 export type DeleteGroupMutationResult = Apollo.MutationResult<DeleteGroupMutation>;
 export type DeleteGroupMutationOptions = Apollo.BaseMutationOptions<DeleteGroupMutation, DeleteGroupMutationVariables>;
+export const EventApplicationPairDocument = gql`
+    query eventApplicationPair($id: Int!) {
+  eventApplicationPair(id: $id) {
+    id
+    createdAt
+    updatedAt
+    eventId
+    eventApplicationFirstId
+    eventApplicationSecondId
+    chatId
+    event {
+      id
+    }
+    applicationFirst {
+      id
+      createdAt
+      updatedAt
+      accountId
+      status
+      preferences {
+        id
+        createdAt
+        updatedAt
+        priceRange
+        likes
+        dislikes
+        comment
+        applicationId
+      }
+    }
+    applicationSecond {
+      id
+      createdAt
+      updatedAt
+      accountId
+      status
+      preferences {
+        id
+        createdAt
+        updatedAt
+        priceRange
+        likes
+        dislikes
+        comment
+        applicationId
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useEventApplicationPairQuery__
+ *
+ * To run a query within a React component, call `useEventApplicationPairQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventApplicationPairQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventApplicationPairQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEventApplicationPairQuery(baseOptions: Apollo.QueryHookOptions<EventApplicationPairQuery, EventApplicationPairQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EventApplicationPairQuery, EventApplicationPairQueryVariables>(EventApplicationPairDocument, options);
+      }
+export function useEventApplicationPairLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EventApplicationPairQuery, EventApplicationPairQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EventApplicationPairQuery, EventApplicationPairQueryVariables>(EventApplicationPairDocument, options);
+        }
+export type EventApplicationPairQueryHookResult = ReturnType<typeof useEventApplicationPairQuery>;
+export type EventApplicationPairLazyQueryHookResult = ReturnType<typeof useEventApplicationPairLazyQuery>;
+export type EventApplicationPairQueryResult = Apollo.QueryResult<EventApplicationPairQuery, EventApplicationPairQueryVariables>;
 export const EventDocument = gql`
     query event($id: Int!) {
   event(id: $id) {
