@@ -2,7 +2,6 @@ import { ReactNode } from 'react';
 import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { Page } from '@components/ui/common/page';
 import { Stepper } from '@components/ui/common/stepper';
-import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
 import { DialogInputEmail } from '@components/ui/custom/dialog-input-email';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
 import { FabAdd } from 'src/components/ui/common/fab-add';
@@ -243,23 +242,6 @@ export default function IndexPage(): ReactNode {
         onTelegramClick={handleClick}
         onGoogleClick={handleClick}
         onCancelClick={handleClick}
-      />
-      <CardCreatePreference
-        selectTitle="Ограничение по цене"
-        priceOptions={[
-          'Без ограничений',
-          '1-10 USD',
-          '10-100 USD',
-          '100-1000 USD',
-        ]}
-        onPriceOptionChange={handleClick}
-        textFields={[
-          { label: 'Я НЕ хочу чтобы мне дарили', multiline: false, warn: true },
-          { label: 'Я хочу чтобы мне дарили', multiline: false, warn: false },
-          { label: 'Комментарий для поиска', multiline: true, warn: false },
-        ]}
-        onDeleteButtonClick={handleClick}
-        button="Удалить"
       />
       <FabAdd onClick={handleClick} />
       <Notification
