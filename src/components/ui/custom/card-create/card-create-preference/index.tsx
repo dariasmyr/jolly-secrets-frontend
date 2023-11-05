@@ -10,7 +10,7 @@ import { Button, ButtonVariant } from 'src/components/ui/common/button';
 interface ICardCreatePreferenceProperties {
   selectTitle: string;
   priceOptions: string[];
-  onPriceOptionChange: (option: string) => void;
+  onPriceOptionChange?: (option: string) => void;
   onDeleteButtonClick: () => void;
   children: ReactNode;
   button: string;
@@ -27,7 +27,7 @@ export const CardCreatePreference = (
             title={properties.selectTitle}
             options={properties.priceOptions}
             defaultOption={properties.priceOptions[0]}
-            onChange={properties.onPriceOptionChange}
+            onChange={properties.onPriceOptionChange ?? ((): void => {})}
           />
           {properties.children}
           <ButtonWrapper>

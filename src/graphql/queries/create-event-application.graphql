@@ -5,18 +5,6 @@ mutation createEventApplication ($accountId: Int!, $eventId: Int!, $preferences:
     preferences: $preferences
   }) {
     id,
-    createdAt,
-    updatedAt,
-    pictureUrl,
-    status,
-    groupId,
-    name,
-    description,
-    startsAt,
-    endsAt,
-    group {
-      id
-    },
     applicationPairs {
       id,
       createdAt,

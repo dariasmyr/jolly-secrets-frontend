@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { router } from 'next/client';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
@@ -16,17 +16,34 @@ import {
 } from '@/generated/graphql';
 import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
-const validationSchema = Yup.object().shape({
-  likes: Yup.string().required('Обязательное поле'),
-  dislikes: Yup.string().required('Обязательное поле'),
-});
 
 type FormData = {
-  likes: string;
-  dislikes: string;
+  preferences: {
+    likes: string;
+    dislikes: string;
+    comment?: string | null;
+    priceRange: PriceRange;
+  }[];
 };
 
+const validationSchema = Yup.object().shape({
+  preferences: Yup.array()
+    .of(
+      Yup.object().shape({
+        // eslint-disable-next-line sonarjs/no-duplicate-string
+        likes: Yup.string().required('Обязательное поле'),
+        dislikes: Yup.string().required('Обязательное поле'),
+        comment: Yup.string().nullable(),
+        priceRange: Yup.mixed<PriceRange>()
+          .oneOf(Object.values(PriceRange))
+          .default(PriceRange.NoMatter),
+      }),
+    )
+    .required('Обязательное поле'),
+});
+
 const CreateApplication: FC = () => {
+  const router = useRouter();
   const authStore = useAuthStore();
   // eslint-disable-next-line unicorn/no-null
   const [createEventApplication, { reset }] =
@@ -38,8 +55,23 @@ const CreateApplication: FC = () => {
     },
   });
 
-  const { register, handleSubmit, formState } = useForm<FormData>({
+  const { register, handleSubmit, formState, control } = useForm<FormData>({
+    defaultValues: {
+      preferences: [
+        {
+          likes: '',
+          dislikes: '',
+          comment: '',
+          priceRange: PriceRange.NoMatter,
+        },
+      ],
+    },
     resolver: yupResolver(validationSchema),
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'preferences',
   });
 
   const handleBackClick = async (): Promise<void> => {
@@ -51,29 +83,32 @@ const CreateApplication: FC = () => {
       log.debug('Error', formState.errors);
       return;
     }
+
     log.debug('Data', formData);
+
+    const preferences = formData.preferences.map((pref) => ({
+      likes: pref.likes,
+      dislikes: pref.dislikes,
+      comment: pref.comment?.trim() || '',
+      priceRange: pref.priceRange,
+    }));
+
     const createEventApplicationResponse = await createEventApplication({
       variables: {
         accountId: Number(authStore.account?.id),
         eventId: Number(eventId),
-        preferences: [
-          {
-            applicationId: 0,
-            likes: formData.likes,
-            dislikes: formData.dislikes,
-            comment: '',
-            priceRange: PriceRange.NoMatter,
-          },
-        ],
+        preferences: preferences,
       },
     });
+
     log.debug(
       'Create event application response',
       createEventApplicationResponse,
     );
+
     if (createEventApplicationResponse.data?.createEventApplication) {
       reset();
-      await router.push(`/events?id=${eventId}`);
+      await router.push(`/event?id=${eventId}`);
     }
   };
 
@@ -84,12 +119,12 @@ const CreateApplication: FC = () => {
   }, [authStore]);
 
   if (eventIsLoading) {
-    return <Page title="Событие">Loading...</Page>;
+    return <Page title="Заявка">Loading...</Page>;
   }
 
   return (
     <Page title={eventData!.event.name} style={{ gap: 16, marginTop: 24 }}>
-      <Header>{eventData?.event.name}</Header>
+      <Header>Я хочу</Header>
       <FormWrapper
         onSubmit={handleSubmit(async (formData) => {
           try {
@@ -99,56 +134,92 @@ const CreateApplication: FC = () => {
           }
         })}
       >
-        <CardCreatePreference
-          selectTitle="Ограничение по цене"
-          priceOptions={[
-            PriceRange.NoMatter,
-            PriceRange.Min_0Max_10,
-            PriceRange.Min_10Max_20,
-            PriceRange.Min_20Max_30,
-          ]}
-          onPriceOptionChange={(option: string): void => {
-            log.debug('Option', option);
-          }}
-          button={'Удалить'}
-          onDeleteButtonClick={(): void => {
-            log.debug('Delete button clicked');
-          }}
-        >
-          {[
-            <TextField
-              key="dislikes"
-              id="field-dislikes"
-              label="Я не хочу чтобы мне дарили"
-              type="text"
-              fullWidth
-              size="small"
-              multiline={false}
-              error={true}
-              helperText={formState.errors.dislikes?.message}
-              {...register('dislikes')}
-            />,
-            <TextField
-              key="likes"
-              id="field-likes"
-              label="Я хочу чтобы мне дарили"
-              type="text"
-              fullWidth
-              size="medium"
-              multiline={true}
-              error={Boolean(formState.errors.likes)}
-              helperText={formState.errors.likes?.message}
-              {...register('likes')}
-            />,
-          ]}
-        </CardCreatePreference>
+        {fields.map((item, index) => (
+          <CardCreatePreference
+            key={item.id}
+            selectTitle="Ограничение по цене"
+            priceOptions={[
+              PriceRange.NoMatter,
+              PriceRange.Min_0Max_10,
+              PriceRange.Min_10Max_20,
+              PriceRange.Min_20Max_30,
+            ]}
+            {...register(`preferences.${index}.priceRange`)}
+            button={'Удалить'}
+            onDeleteButtonClick={(): void => {
+              remove(index);
+            }}
+          >
+            {[
+              <TextField
+                key="dislikes"
+                id={`field-dislikes${index}`}
+                label="Я не хочу чтобы мне дарили"
+                type="text"
+                fullWidth
+                size="small"
+                multiline={false}
+                error={false}
+                helperText={
+                  formState.errors.preferences?.[index]?.dislikes?.message
+                }
+                {...register(`preferences.${index}.dislikes`)}
+              />,
+              <TextField
+                key="likes"
+                id={`field-likes${index}`}
+                label="Я хочу чтобы мне дарили"
+                type="text"
+                fullWidth
+                size="medium"
+                multiline={true}
+                error={Boolean(formState.errors.preferences?.[index]?.likes)}
+                helperText={
+                  formState.errors.preferences?.[index]?.likes?.message
+                }
+                {...register(`preferences.${index}.likes`)}
+              />,
+              <TextField
+                key="comment"
+                id={`field-comment${index}`}
+                label="Комментарий"
+                type="text"
+                fullWidth
+                size="medium"
+                multiline={true}
+                error={Boolean(formState.errors.preferences?.[index]?.comment)}
+                helperText={
+                  formState.errors.preferences?.[index]?.comment?.message
+                }
+                {...register(`preferences.${index}.comment`)}
+              />,
+            ]}
+          </CardCreatePreference>
+        ))}
+        <AddButtonWrapper>
+          <Button
+            variant={ButtonVariant.borderless}
+            onClick={(): void =>
+              append({
+                likes: '',
+                dislikes: '',
+                comment: '',
+                priceRange: PriceRange.NoMatter,
+              })
+            }
+          >
+            + Добавить
+          </Button>
+        </AddButtonWrapper>
+      </FormWrapper>
+      <FullWidthWrapper>
         <Button
           variant={ButtonVariant.primary}
           onClick={handleSubmit(async (formData) => {
             try {
               await handleFormSubmit(formData);
             } catch (submitError) {
-              log.error('Create group error', submitError);
+              log.error('Create application error', submitError);
             }
           })}
         >
@@ -157,7 +228,7 @@ const CreateApplication: FC = () => {
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
           Назад
         </Button>
-      </FormWrapper>
+      </FullWidthWrapper>
     </Page>
   );
 };
@@ -184,6 +255,22 @@ const FormWrapper = styled.form`
   gap: 16px;
   margin-right: 24px;
   margin-left: 24px;
+`;
+
+const FullWidthWrapper = styled.div`
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-right: 24px;
+  margin-left: 24px;
+`;
+
+const AddButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
 `;
 
 export default CreateApplication;

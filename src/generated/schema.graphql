@@ -125,7 +125,6 @@ input CreateOrUpdateGroupInput {
 }
 
 input CreatePreferenceInput {
-  applicationId: Int!
   comment: String!
   dislikes: String!
   likes: String!

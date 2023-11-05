@@ -149,7 +149,6 @@ export type CreateOrUpdateGroupInput = {
 };
 
 export type CreatePreferenceInput = {
-  applicationId: Scalars['Int']['input'];
   comment: Scalars['String']['input'];
   dislikes: Scalars['String']['input'];
   likes: Scalars['String']['input'];
@@ -618,7 +617,7 @@ export type CreateEventApplicationMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventApplicationMutation = { __typename?: 'Mutation', createEventApplication: { __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl: string, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number, createdAt: any, updatedAt: any, eventId: number, eventApplicationFirstId: number, eventApplicationSecondId?: number | null, chatId?: number | null, event: { __typename?: 'Event', id: number }, applicationFirst: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, account: { __typename?: 'Account', id: number }, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null, application?: { __typename?: 'EventApplication', id: number } | null, eventApplication: { __typename?: 'EventApplication', id: number } }> | null } }> | null } };
+export type CreateEventApplicationMutation = { __typename?: 'Mutation', createEventApplication: { __typename?: 'Event', id: number, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number, createdAt: any, updatedAt: any, eventId: number, eventApplicationFirstId: number, eventApplicationSecondId?: number | null, chatId?: number | null, event: { __typename?: 'Event', id: number }, applicationFirst: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, account: { __typename?: 'Account', id: number }, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null, application?: { __typename?: 'EventApplication', id: number } | null, eventApplication: { __typename?: 'EventApplication', id: number } }> | null } }> | null } };
 
 export type CreateEventMutationVariables = Exact<{
   groupId: Scalars['Int']['input'];
@@ -767,18 +766,6 @@ export const CreateEventApplicationDocument = gql`
     input: {accountId: $accountId, eventId: $eventId, preferences: $preferences}
   ) {
     id
-    createdAt
-    updatedAt
-    pictureUrl
-    status
-    groupId
-    name
-    description
-    startsAt
-    endsAt
-    group {
-      id
-    }
     applicationPairs {
       id
       createdAt
