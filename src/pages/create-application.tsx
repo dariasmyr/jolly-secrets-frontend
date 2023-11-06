@@ -1,9 +1,10 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
+import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
@@ -61,20 +62,22 @@ const CreateApplication: FC = () => {
       id: Number(eventId),
     },
   });
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
-  const { register, handleSubmit, formState, control } = useForm<FormData>({
-    defaultValues: {
-      preferences: [
-        {
-          likes: '',
-          dislikes: '',
-          comment: '',
-          priceRange: PriceRange.NoMatter,
-        },
-      ],
-    },
-    resolver: yupResolver(validationSchema),
-  });
+  const { register, handleSubmit, formState, control, trigger } =
+    useForm<FormData>({
+      defaultValues: {
+        preferences: [
+          {
+            likes: '',
+            dislikes: '',
+            comment: '',
+            priceRange: PriceRange.NoMatter,
+          },
+        ],
+      },
+      resolver: yupResolver(validationSchema),
+    });
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -85,12 +88,19 @@ const CreateApplication: FC = () => {
     await router.push(`/event?id=${eventId}`);
   };
 
-  const handleFormSubmit = async (formData: FormData): Promise<void> => {
-    if (Object.keys(formState.errors).length > 0) {
-      log.debug('Error', formState.errors);
-      return;
+  const handleConfirmDialogOpen = async (): Promise<void> => {
+    if (await trigger()) {
+      setOpenConfirmDialog(true);
+    } else {
+      console.log('Form is invalid, please correct errors');
     }
+  };
 
+  const handleConfirmDialogClose = (): void => {
+    setOpenConfirmDialog(false);
+  };
+
+  const handleFormSubmit = async (formData: FormData): Promise<void> => {
     log.debug('Data', formData);
 
     const preferences = formData.preferences.map((pref) => ({
@@ -166,7 +176,7 @@ const CreateApplication: FC = () => {
                 fullWidth
                 size="small"
                 multiline={false}
-                error={false}
+                error={Boolean(formState.errors.preferences?.[index]?.dislikes)}
                 helperText={
                   formState.errors.preferences?.[index]?.dislikes?.message
                 }
@@ -180,8 +190,10 @@ const CreateApplication: FC = () => {
                 fullWidth
                 size="medium"
                 multiline={true}
+                /* eslint-disable-next-line security/detect-object-injection */
                 error={Boolean(formState.errors.preferences?.[index]?.likes)}
                 helperText={
+                  // eslint-disable-next-line security/detect-object-injection
                   formState.errors.preferences?.[index]?.likes?.message
                 }
                 {...register(`preferences.${index}.likes`)}
@@ -220,13 +232,7 @@ const CreateApplication: FC = () => {
         </AddButtonWrapper>
         <Button
           variant={ButtonVariant.primary}
-          onClick={handleSubmit(async (formData) => {
-            try {
-              await handleFormSubmit(formData);
-            } catch (submitError) {
-              log.error('Create application error', submitError);
-            }
-          })}
+          onClick={handleConfirmDialogOpen}
         >
           Создать событие
         </Button>
@@ -234,6 +240,25 @@ const CreateApplication: FC = () => {
           Назад
         </Button>
       </FormWrapper>
+      <DialogConfirmAction
+        isOpen={openConfirmDialog}
+        title="Вы уверены?"
+        description="После подтверждения заявку нельзя будет изменить"
+        cancelButtonText="Отмена"
+        confirmButtonText="Да, создать заявку"
+        onCancelClick={handleConfirmDialogClose}
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        onConfirmClick={(): any =>
+          handleSubmit(async (formData) => {
+            try {
+              handleConfirmDialogClose(); // Важно сначала закрыть диалог
+              await handleFormSubmit(formData);
+            } catch (submitError) {
+              log.error('Create application error', submitError);
+            }
+          })()
+        }
+      />
     </Page>
   );
 };
