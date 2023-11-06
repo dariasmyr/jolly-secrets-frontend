@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { Page } from '@components/ui/common/page';
+import { TabApplications } from '@components/ui/common/tab-applications';
 import { ButtonLarge } from '@components/ui/custom/button-large';
 import { EventPage } from '@components/ui/custom/event-page';
 import styled from 'styled-components';
@@ -10,10 +11,12 @@ import {
   EventStatus,
   GroupType,
   useEventQuery,
+  useGetEventApplicationPairByEventAndAccountQuery,
   useGetGroupByEventIdQuery,
 } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
+// eslint-disable-next-line complexity
 const Event: FC = () => {
   const authStore = useAuthStore();
   const router = useRouter();
@@ -35,6 +38,16 @@ const Event: FC = () => {
     },
   });
 
+  const {
+    data: eventApplicationPairData,
+    error: eventApplicationPairError,
+    loading: eventApplicationPairIsLoading,
+  } = useGetEventApplicationPairByEventAndAccountQuery({
+    variables: {
+      eventId: Number(eventId),
+    },
+  });
+
   const participate = (): void => {
     // eslint-disable-next-line no-alert
     router.push(`/create-application?eventId=${eventId}`);
@@ -46,11 +59,16 @@ const Event: FC = () => {
     }
   }, [authStore]);
 
-  if (groupIsLoading || eventIsLoading) {
+  if (groupIsLoading || eventIsLoading || eventApplicationPairIsLoading) {
     return <Page title="Событие">Loading...</Page>;
   }
 
-  if (groupError || !groupData?.getGroupByEventId) {
+  if (
+    groupError ||
+    eventApplicationPairError ||
+    !eventData?.event ||
+    !groupData?.getGroupByEventId
+  ) {
     return <Page title="Событие">Error: {JSON.stringify(groupError)}</Page>;
   }
 
@@ -118,13 +136,35 @@ const Event: FC = () => {
           },
         ]}
       />
-      <Wrapper>
-        {isExpired ? (
-          <ButtonLarge disabled={true}>Cобытие завершено</ButtonLarge>
-        ) : (
-          <ButtonLarge onClick={participate}>Участвовать</ButtonLarge>
-        )}
-      </Wrapper>
+      {eventApplicationPairData?.getEventApplicationPairByEventAndAccount ===
+        null && (
+        <Wrapper>
+          {isExpired ? (
+            <ButtonLarge disabled={true}>Cобытие завершено</ButtonLarge>
+          ) : (
+            <ButtonLarge onClick={participate}>Участвовать</ButtonLarge>
+          )}
+        </Wrapper>
+      )}
+      {eventApplicationPairData && (
+        <TabApplications
+          tabs={[
+            {
+              label: 'Моя Заявка',
+              value: 'application',
+            },
+            {
+              label: 'Заявка Тайного Санты',
+              value: 'pair',
+            },
+          ]}
+          onTabChange={async (tabValue: string): Promise<void> => {
+            await (tabValue === 'application'
+              ? router.push(`/application/${eventId}`)
+              : router.push(`/pair/${eventId}`));
+          }}
+        />
+      )}
     </Page>
   );
 };

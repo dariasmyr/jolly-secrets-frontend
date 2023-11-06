@@ -494,6 +494,7 @@ export type Query = {
   events: Array<Event>;
   generateTelegramBotLink: Scalars['String']['output'];
   generateUrlGoogle: Scalars['String']['output'];
+  getEventApplicationPairByEventAndAccount: EventApplicationPair;
   getGroupByEventId: Group;
   group: Group;
   groupInvite: Array<GroupInvite>;
@@ -546,6 +547,11 @@ export type QueryEventsArgs = {
 
 export type QueryGenerateUrlGoogleArgs = {
   state?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetEventApplicationPairByEventAndAccountArgs = {
+  eventId: Scalars['Int']['input'];
 };
 
 
@@ -665,12 +671,12 @@ export type DeleteGroupMutationVariables = Exact<{
 
 export type DeleteGroupMutation = { __typename?: 'Mutation', deleteGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
 
-export type EventApplicationPairQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
+export type GetEventApplicationPairByEventAndAccountQueryVariables = Exact<{
+  eventId: Scalars['Int']['input'];
 }>;
 
 
-export type EventApplicationPairQuery = { __typename?: 'Query', eventApplicationPair: { __typename?: 'EventApplicationPair', id: number, createdAt: any, updatedAt: any, eventId: number, eventApplicationFirstId: number, eventApplicationSecondId?: number | null, chatId?: number | null, event: { __typename?: 'Event', id: number }, applicationFirst: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null }> | null }, applicationSecond?: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null }> | null } | null } };
+export type GetEventApplicationPairByEventAndAccountQuery = { __typename?: 'Query', getEventApplicationPairByEventAndAccount: { __typename?: 'EventApplicationPair', id: number, createdAt: any, updatedAt: any, eventId: number, eventApplicationFirstId: number, eventApplicationSecondId?: number | null, chatId?: number | null, event: { __typename?: 'Event', id: number }, applicationFirst: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null }> | null }, applicationSecond?: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null }> | null } | null } };
 
 export type EventQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -1096,9 +1102,9 @@ export function useDeleteGroupMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteGroupMutationHookResult = ReturnType<typeof useDeleteGroupMutation>;
 export type DeleteGroupMutationResult = Apollo.MutationResult<DeleteGroupMutation>;
 export type DeleteGroupMutationOptions = Apollo.BaseMutationOptions<DeleteGroupMutation, DeleteGroupMutationVariables>;
-export const EventApplicationPairDocument = gql`
-    query eventApplicationPair($id: Int!) {
-  eventApplicationPair(id: $id) {
+export const GetEventApplicationPairByEventAndAccountDocument = gql`
+    query getEventApplicationPairByEventAndAccount($eventId: Int!) {
+  getEventApplicationPairByEventAndAccount(eventId: $eventId) {
     id
     createdAt
     updatedAt
@@ -1148,32 +1154,32 @@ export const EventApplicationPairDocument = gql`
     `;
 
 /**
- * __useEventApplicationPairQuery__
+ * __useGetEventApplicationPairByEventAndAccountQuery__
  *
- * To run a query within a React component, call `useEventApplicationPairQuery` and pass it any options that fit your needs.
- * When your component renders, `useEventApplicationPairQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetEventApplicationPairByEventAndAccountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventApplicationPairByEventAndAccountQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useEventApplicationPairQuery({
+ * const { data, loading, error } = useGetEventApplicationPairByEventAndAccountQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      eventId: // value for 'eventId'
  *   },
  * });
  */
-export function useEventApplicationPairQuery(baseOptions: Apollo.QueryHookOptions<EventApplicationPairQuery, EventApplicationPairQueryVariables>) {
+export function useGetEventApplicationPairByEventAndAccountQuery(baseOptions: Apollo.QueryHookOptions<GetEventApplicationPairByEventAndAccountQuery, GetEventApplicationPairByEventAndAccountQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<EventApplicationPairQuery, EventApplicationPairQueryVariables>(EventApplicationPairDocument, options);
+        return Apollo.useQuery<GetEventApplicationPairByEventAndAccountQuery, GetEventApplicationPairByEventAndAccountQueryVariables>(GetEventApplicationPairByEventAndAccountDocument, options);
       }
-export function useEventApplicationPairLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EventApplicationPairQuery, EventApplicationPairQueryVariables>) {
+export function useGetEventApplicationPairByEventAndAccountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEventApplicationPairByEventAndAccountQuery, GetEventApplicationPairByEventAndAccountQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<EventApplicationPairQuery, EventApplicationPairQueryVariables>(EventApplicationPairDocument, options);
+          return Apollo.useLazyQuery<GetEventApplicationPairByEventAndAccountQuery, GetEventApplicationPairByEventAndAccountQueryVariables>(GetEventApplicationPairByEventAndAccountDocument, options);
         }
-export type EventApplicationPairQueryHookResult = ReturnType<typeof useEventApplicationPairQuery>;
-export type EventApplicationPairLazyQueryHookResult = ReturnType<typeof useEventApplicationPairLazyQuery>;
-export type EventApplicationPairQueryResult = Apollo.QueryResult<EventApplicationPairQuery, EventApplicationPairQueryVariables>;
+export type GetEventApplicationPairByEventAndAccountQueryHookResult = ReturnType<typeof useGetEventApplicationPairByEventAndAccountQuery>;
+export type GetEventApplicationPairByEventAndAccountLazyQueryHookResult = ReturnType<typeof useGetEventApplicationPairByEventAndAccountLazyQuery>;
+export type GetEventApplicationPairByEventAndAccountQueryResult = Apollo.QueryResult<GetEventApplicationPairByEventAndAccountQuery, GetEventApplicationPairByEventAndAccountQueryVariables>;
 export const EventDocument = gql`
     query event($id: Int!) {
   event(id: $id) {

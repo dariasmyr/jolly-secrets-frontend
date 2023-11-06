@@ -1,6 +1,6 @@
-query eventApplicationPair ($id: Int!) {
-  eventApplicationPair (
-    id: $id
+query getEventApplicationPairByEventAndAccount ($eventId: Int!) {
+  getEventApplicationPairByEventAndAccount (
+    eventId: $eventId
   ) {
     id,
     createdAt,
