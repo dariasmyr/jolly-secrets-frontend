@@ -6,6 +6,10 @@ import { Page } from '@components/ui/common/page';
 import { Stepper } from '@components/ui/common/stepper';
 import { TabApplications } from '@components/ui/common/tab-applications';
 import { ButtonLarge } from '@components/ui/custom/button-large';
+import {
+  CardPreference,
+  IPreferenceTextProperties,
+} from '@components/ui/custom/card-preference';
 import { EventPage } from '@components/ui/custom/event-page';
 import { StyledImage, SubText, Text } from '@pages/events';
 import styled from 'styled-components';
@@ -110,6 +114,7 @@ const Event: FC = () => {
 
   const daysToExpire = Math.floor(
     (new Date(eventData!.event.endsAt).getTime() - Date.now()) /
+      // eslint-disable-next-line no-magic-numbers
       (1000 * 3600 * 24),
   );
 
@@ -135,6 +140,26 @@ const Event: FC = () => {
     const myApplicationStatus = myApplication?.status;
     const santaApplicationStatus = santaApplication?.status;
 
+    const myApplicationPreferences: IPreferenceTextProperties[] =
+      myApplication && myApplication.preferences
+        ? myApplication.preferences.map((pref) => ({
+            priceRange: { title: 'Price Range', value: pref.priceRange },
+            likes: { title: 'Likes', value: pref.likes },
+            dislikes: { title: 'Dislikes', value: pref.dislikes },
+            comments: { title: 'Comments', value: pref.comment },
+          }))
+        : [];
+
+    const santaApplicationPreferences: IPreferenceTextProperties[] =
+      santaApplication && santaApplication.preferences
+        ? santaApplication.preferences.map((pref) => ({
+            priceRange: { title: 'Price Range', value: pref.priceRange },
+            likes: { title: 'Likes', value: pref.likes },
+            dislikes: { title: 'Dislikes', value: pref.dislikes },
+            comments: { title: 'Comments', value: pref.comment },
+          }))
+        : [];
+
     const applicationStatus =
       tab === 'application' ? myApplicationStatus : santaApplicationStatus;
     console.log('applicationStatus', applicationStatus);
@@ -158,9 +183,11 @@ const Event: FC = () => {
 
     return (
       <div>
-        <Header>
-          {tab === 'application' ? 'Моя Заявка' : 'Заявка Тайного Санты'}
-        </Header>
+        <HeaderWrapper>
+          <Header>
+            {tab === 'application' ? 'Моя Заявка' : 'Заявка Тайного Санты'}
+          </Header>
+        </HeaderWrapper>
         <Stepper
           steps={[
             {
@@ -195,6 +222,14 @@ const Event: FC = () => {
                 applicationStatus === EventApplicationStatus.GiftReceived,
             },
           ]}
+        />
+        <CardPreference
+          header="Предпочтения"
+          preferences={
+            tab === 'application'
+              ? myApplicationPreferences
+              : santaApplicationPreferences
+          }
         />
       </div>
     );
@@ -298,6 +333,12 @@ const ImageWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
 `;
 
 export default Event;

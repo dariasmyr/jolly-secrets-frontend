@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import {
+  CardWrapper,
   Content,
   Header,
   Paper,
@@ -14,21 +15,40 @@ export interface ICardPreferenceProperties {
 }
 
 export interface IPreferenceTextProperties {
-  title: string;
-  value: string;
+  priceRange: { title: string; value: string };
+  likes: { title: string; value: string };
+  dislikes: { title: string; value: string };
+  comments: { title: string; value: string };
 }
 
 export const CardPreference = (
   properties: ICardPreferenceProperties,
 ): ReactElement => {
   return (
+    <div>
+      {properties.preferences.map((preference, index) => (
+        <CardWrapper key={index}>
+          <PreferenceCard
+            key={index}
+            preference={preference}
+            preferenceNumber={index + 1}
+          />
+        </CardWrapper>
+      ))}
+    </div>
+  );
+};
+
+export const PreferenceCard = (properties: {
+  preference: IPreferenceTextProperties;
+  preferenceNumber: number;
+}): ReactElement => {
+  return (
     <Paper>
       <Content>
-        <Header>{properties.header}</Header>
+        <Header>{`Предпочтение №${properties.preferenceNumber}`}</Header>
         <TextWrapper>
-          {properties.preferences.map((preference, index) => (
-            <Preference key={index} {...preference} />
-          ))}
+          <Preference {...properties.preference} />
         </TextWrapper>
       </Content>
     </Paper>
@@ -40,8 +60,14 @@ export const Preference = (
 ): ReactElement => {
   return (
     <TextWrapper>
-      <Value>{properties.value}</Value>
-      <Title>{properties.title}</Title>
+      <Title>{properties.priceRange.title}</Title>
+      <Value>{properties.priceRange.value}</Value>
+      <Title>{properties.likes.title}</Title>
+      <Value>{properties.likes.value}</Value>
+      <Title>{properties.dislikes.title}</Title>
+      <Value>{properties.dislikes.value}</Value>
+      <Title>{properties.comments.title}</Title>
+      <Value>{properties.comments.value}</Value>
     </TextWrapper>
   );
 };

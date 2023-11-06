@@ -176,8 +176,10 @@ const CreateApplication: FC = () => {
                 fullWidth
                 size="small"
                 multiline={false}
+                /* eslint-disable-next-line security/detect-object-injection */
                 error={Boolean(formState.errors.preferences?.[index]?.dislikes)}
                 helperText={
+                  // eslint-disable-next-line security/detect-object-injection
                   formState.errors.preferences?.[index]?.dislikes?.message
                 }
                 {...register(`preferences.${index}.dislikes`)}
@@ -206,8 +208,10 @@ const CreateApplication: FC = () => {
                 fullWidth
                 size="medium"
                 multiline={true}
+                /* eslint-disable-next-line security/detect-object-injection */
                 error={Boolean(formState.errors.preferences?.[index]?.comment)}
                 helperText={
+                  // eslint-disable-next-line security/detect-object-injection
                   formState.errors.preferences?.[index]?.comment?.message
                 }
                 {...register(`preferences.${index}.comment`)}

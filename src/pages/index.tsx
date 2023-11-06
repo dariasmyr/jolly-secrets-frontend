@@ -16,7 +16,6 @@ import {
   CardImage,
   ICardImageProperties,
 } from 'src/components/ui/custom/card-image';
-import { CardPreference } from 'src/components/ui/custom/card-preference';
 import { CardEmailToggle } from 'src/components/ui/custom/card-toggle-email';
 import { DialogChooseAccount } from 'src/components/ui/custom/dialog-choose-account';
 import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
@@ -57,28 +56,6 @@ const testCardImageProperties: ICardImageProperties = {
       },
     ],
   },
-};
-
-const textCardPreferenceProperties = {
-  header: 'Header Text',
-  preferences: [
-    {
-      title: 'Диапазон',
-      value: '1-10 USD',
-    },
-    {
-      title: 'Я не хочу чтобы мне дарили',
-      value: 'Сладости',
-    },
-    {
-      title: 'Я хочу чтобы мне дарили',
-      value: 'Книги',
-    },
-    {
-      title: 'Комментарий для партнёра',
-      value: 'Присылайте мне всё в офис 235',
-    },
-  ],
 };
 
 const textCardEmailToggleProperties = {
@@ -160,10 +137,6 @@ export default function IndexPage(): ReactNode {
         preHeader={testCardImageProperties.preHeader}
         tags={testCardImageProperties.tags}
         menu={testCardImageProperties.menu}
-      />
-      <CardPreference
-        header={textCardPreferenceProperties.header}
-        preferences={textCardPreferenceProperties.preferences}
       />
       <CardGenerateInvite
         title={'Добавить участников'}
