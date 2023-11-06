@@ -8,7 +8,6 @@ import { FabAdd } from 'src/components/ui/common/fab-add';
 import { MenuOptions } from 'src/components/ui/common/menu-options';
 import { Message } from 'src/components/ui/common/message';
 import { MessageField } from 'src/components/ui/common/message-field';
-import { TabApplications } from 'src/components/ui/common/tab-applications';
 import { ButtonLarge } from 'src/components/ui/custom/button-large';
 import { CardChangeName } from 'src/components/ui/custom/card-change-name';
 import { CardDeleteAccount } from 'src/components/ui/custom/card-delete-account';
@@ -87,11 +86,6 @@ const textCardEmailToggleProperties = {
   description: 'При включенной опции уведомления будут приходить на ваш емейл',
 };
 
-const tabs = [
-  { label: 'Моя заявка', value: 'tab1' },
-  { label: 'Заявка Тайного Санты', value: 'tab2' },
-];
-
 const steps = [
   {
     label: 'Подготовка',
@@ -114,9 +108,6 @@ const steps = [
 ];
 
 export default function IndexPage(): ReactNode {
-  const handleTabChange = (tabValue: string): void => {
-    console.log(`Selected tab: ${tabValue}`);
-  };
   const handleClick = (): void => {
     // eslint-disable-next-line no-alert
     alert('click');
@@ -196,7 +187,6 @@ export default function IndexPage(): ReactNode {
         onDeleteButtonClick={handleClick}
         button={'Удалить'}
       />
-      <TabApplications tabs={tabs} onTabChange={handleTabChange} />
       <ButtonLarge onClick={handleClick}>Хочу учавстовать!</ButtonLarge>
       <ButtonLarge disabled>Завершено 01.12.2023</ButtonLarge>
       <MenuOptions

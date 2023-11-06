@@ -1,13 +1,17 @@
-import { FC, useEffect } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { Page } from '@components/ui/common/page';
+import { Stepper } from '@components/ui/common/stepper';
 import { TabApplications } from '@components/ui/common/tab-applications';
 import { ButtonLarge } from '@components/ui/custom/button-large';
 import { EventPage } from '@components/ui/custom/event-page';
+import { StyledImage, SubText, Text } from '@pages/events';
 import styled from 'styled-components';
 
 import {
+  EventApplicationStatus,
   EventStatus,
   GroupType,
   useEventQuery,
@@ -21,6 +25,8 @@ const Event: FC = () => {
   const authStore = useAuthStore();
   const router = useRouter();
   const eventId = router.query.id;
+
+  const [activeTab, setActiveTab] = useState('application');
 
   const { data: eventData, loading: eventIsLoading } = useEventQuery({
     variables: {
@@ -107,6 +113,93 @@ const Event: FC = () => {
       (1000 * 3600 * 24),
   );
 
+  const renderApplication = (tab: string): ReactElement => {
+    const myApplication =
+      eventApplicationPairData!.getEventApplicationPairByEventAndAccount
+        .applicationFirst.accountId === authStore.account!.id
+        ? eventApplicationPairData!.getEventApplicationPairByEventAndAccount
+            .applicationFirst
+        : eventApplicationPairData!.getEventApplicationPairByEventAndAccount
+            .applicationSecond;
+
+    console.log('myApplication', myApplication);
+
+    const santaApplication =
+      eventApplicationPairData!.getEventApplicationPairByEventAndAccount
+        .applicationSecond?.accountId === authStore.account!.id
+        ? eventApplicationPairData!.getEventApplicationPairByEventAndAccount
+            .applicationFirst
+        : eventApplicationPairData!.getEventApplicationPairByEventAndAccount
+            .applicationSecond;
+
+    const myApplicationStatus = myApplication?.status;
+    const santaApplicationStatus = santaApplication?.status;
+
+    const applicationStatus =
+      tab === 'application' ? myApplicationStatus : santaApplicationStatus;
+    console.log('applicationStatus', applicationStatus);
+
+    if (tab === 'secret-santa-application' && !santaApplication) {
+      return (
+        <ImageWrapper>
+          <StyledImage>
+            <Image
+              src={'/assets/sand-clock.png'}
+              width={100}
+              height={100}
+              alt="Wait"
+            />
+          </StyledImage>
+          <Text>Заявки пока нет.</Text>
+          <SubText>Ищем вам Тайного Санту!</SubText>
+        </ImageWrapper>
+      );
+    }
+
+    return (
+      <div>
+        <Header>
+          {tab === 'application' ? 'Моя Заявка' : 'Заявка Тайного Санты'}
+        </Header>
+        <Stepper
+          steps={[
+            {
+              label: 'Поиск тайного санты',
+              description: 'Поиск тайного санты',
+              showDescription: false,
+              completed:
+                applicationStatus !== EventApplicationStatus.LookingForPair,
+            },
+            {
+              label: 'Ожидание отправления',
+              description: 'Ожидание отправления',
+              showDescription: false,
+              completed:
+                applicationStatus !== EventApplicationStatus.Paired &&
+                applicationStatus !== EventApplicationStatus.LookingForPair,
+            },
+            {
+              label: 'Отправлено',
+              description: 'Отправлено',
+              showDescription: false,
+              completed:
+                applicationStatus !== EventApplicationStatus.Paired &&
+                applicationStatus !== EventApplicationStatus.LookingForPair &&
+                applicationStatus !== EventApplicationStatus.GiftSent,
+            },
+            {
+              label: 'Выполнено',
+              description: 'Выполнено',
+              showDescription: false,
+              completed:
+                applicationStatus === EventApplicationStatus.GiftReceived,
+            },
+          ]}
+        />
+      </div>
+    );
+  };
+
   return (
     <Page
       title={groupData!.getGroupByEventId.name}
@@ -146,22 +239,22 @@ const Event: FC = () => {
           )}
         </Wrapper>
       )}
-      {eventApplicationPairData && (
+      {eventApplicationPairData?.getEventApplicationPairByEventAndAccount && (
         <TabApplications
           tabs={[
             {
               label: 'Моя Заявка',
               value: 'application',
+              component: renderApplication(activeTab),
             },
             {
               label: 'Заявка Тайного Санты',
-              value: 'pair',
+              value: 'secret-santa-application',
+              component: renderApplication(activeTab),
             },
           ]}
           onTabChange={async (tabValue: string): Promise<void> => {
-            await (tabValue === 'application'
-              ? router.push(`/application/${eventId}`)
-              : router.push(`/pair/${eventId}`));
+            setActiveTab(tabValue);
           }}
         />
       )}
@@ -198,6 +291,13 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 0px 6px 0px 6px;
   flex: 1;
+`;
+
+const ImageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Event;

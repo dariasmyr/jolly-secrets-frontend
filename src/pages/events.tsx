@@ -150,7 +150,7 @@ const Header = styled.div`
   margin-right: 24px;
   margin-left: 24px;
 `;
-const Text = styled.div`
+export const Text = styled.div`
   color: #000;
   font-feature-settings:
     'clig' off,
@@ -165,7 +165,7 @@ const Text = styled.div`
   margin-right: 24px;
   margin-left: 24px;
 `;
-const SubText = styled.div`
+export const SubText = styled.div`
   color: #878787;
   font-feature-settings:
     'clig' off,
@@ -193,7 +193,7 @@ const Wrapper = styled.div`
   height: 50vh;
 `;
 
-const StyledImage = styled.div`
+export const StyledImage = styled.div`
   opacity: 0.5;
 `;
 

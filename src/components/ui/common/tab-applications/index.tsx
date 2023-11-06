@@ -8,6 +8,7 @@ import Tab from '@mui/material/Tab';
 interface Tab {
   label: string;
   value: string;
+  component: React.ReactNode;
 }
 
 interface ITabApplicationsProperties {
@@ -30,14 +31,23 @@ export const TabApplications = (
   return (
     <Wrapper>
       <TabContext value={activeTab}>
-        <TabList onChange={handleChange} aria-label="lab API tabs example">
+        <TabList
+          variant="fullWidth"
+          onChange={handleChange}
+          aria-label="lab API tabs example"
+        >
           {properties.tabs.map((tab) => (
-            <Tab key={tab.value} label={tab.label} value={tab.value} />
+            <Tab
+              style={{ fontSize: '13px' }}
+              key={tab.value}
+              label={tab.label}
+              value={tab.value}
+            />
           ))}
         </TabList>
         {properties.tabs.map((tab) => (
           <TabPanel key={tab.value} value={tab.value}>
-            {tab.label}
+            {tab.component}
           </TabPanel>
         ))}
       </TabContext>

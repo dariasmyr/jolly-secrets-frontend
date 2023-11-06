@@ -33,7 +33,7 @@ export const Stepper = ({ steps }: StepperProperties): ReactElement => {
             {step.showDescription && (
               <Typography>{step.description}</Typography>
             )}
-            <Box sx={{ mb: 2 }} />
+            <Box sx={{ mb: 0 }} />
           </StepContent>
         </Step>
       ))}
