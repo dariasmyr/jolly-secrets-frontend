@@ -42,6 +42,13 @@ const validationSchema = Yup.object().shape({
     .required('Обязательное поле'),
 });
 
+const PriceRangeDisplay = {
+  [PriceRange.NoMatter]: 'Без ограничений',
+  [PriceRange.Min_0Max_10]: '0-10$',
+  [PriceRange.Min_10Max_20]: '10-20$',
+  [PriceRange.Min_20Max_30]: '20-30$',
+};
+
 const CreateApplication: FC = () => {
   const router = useRouter();
   const authStore = useAuthStore();
@@ -75,7 +82,7 @@ const CreateApplication: FC = () => {
   });
 
   const handleBackClick = async (): Promise<void> => {
-    await router.push(`/events?id=${eventId}`);
+    await router.push(`/event?id=${eventId}`);
   };
 
   const handleFormSubmit = async (formData: FormData): Promise<void> => {
@@ -139,10 +146,10 @@ const CreateApplication: FC = () => {
             key={item.id}
             selectTitle="Ограничение по цене"
             priceOptions={[
-              PriceRange.NoMatter,
-              PriceRange.Min_0Max_10,
-              PriceRange.Min_10Max_20,
-              PriceRange.Min_20Max_30,
+              PriceRangeDisplay[PriceRange.NoMatter],
+              PriceRangeDisplay[PriceRange.Min_0Max_10],
+              PriceRangeDisplay[PriceRange.Min_10Max_20],
+              PriceRangeDisplay[PriceRange.Min_20Max_30],
             ]}
             {...register(`preferences.${index}.priceRange`)}
             button={'Удалить'}
@@ -154,7 +161,7 @@ const CreateApplication: FC = () => {
               <TextField
                 key="dislikes"
                 id={`field-dislikes${index}`}
-                label="Я не хочу чтобы мне дарили"
+                label="Я НЕ хочу чтобы мне дарили"
                 type="text"
                 fullWidth
                 size="small"
@@ -211,8 +218,6 @@ const CreateApplication: FC = () => {
             + Добавить
           </Button>
         </AddButtonWrapper>
-      </FormWrapper>
-      <FullWidthWrapper>
         <Button
           variant={ButtonVariant.primary}
           onClick={handleSubmit(async (formData) => {
@@ -228,7 +233,7 @@ const CreateApplication: FC = () => {
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
           Назад
         </Button>
-      </FullWidthWrapper>
+      </FormWrapper>
     </Page>
   );
 };
@@ -253,15 +258,6 @@ const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
-
-const FullWidthWrapper = styled.div`
-  gap: 16px;
-  display: flex;
-  flex-direction: column;
-  width: 90%;
   margin-right: 24px;
   margin-left: 24px;
 `;
