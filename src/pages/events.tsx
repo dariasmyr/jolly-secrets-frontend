@@ -151,7 +151,7 @@ const Header = styled.div`
   margin-left: 24px;
 `;
 export const Text = styled.div`
-  color: #000;
+  color: #878787;
   font-feature-settings:
     'clig' off,
     'liga' off;

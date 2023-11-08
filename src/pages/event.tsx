@@ -117,6 +117,28 @@ const Event: FC = () => {
       // eslint-disable-next-line no-magic-numbers
       (1000 * 3600 * 24),
   );
+  function pluralize(
+    number: number,
+    one: string,
+    two: string,
+    many: string,
+  ): string {
+    const lastDigit = number % 10;
+    const lastTwoDigits = number % 100;
+
+    if (lastDigit === 1 && lastTwoDigits !== 11) {
+      return one;
+    }
+
+    if (
+      [2, 3, 4].includes(lastDigit) &&
+      ![12, 13, 14].includes(lastTwoDigits)
+    ) {
+      return two;
+    }
+
+    return many;
+  }
 
   const renderApplication = (tab: string): ReactElement => {
     const myApplication =
@@ -254,13 +276,25 @@ const Event: FC = () => {
         preHeader={
           isExpired
             ? `${startDate} - ${endDate}`
-            : `До завершения ${daysToExpire} дней`
+            : `До завершения ${daysToExpire} ${pluralize(
+                daysToExpire,
+                'день',
+                'дня',
+                'дней',
+              )}`
         }
         header={eventData!.event.name}
         text={eventData!.event.description}
         tags={[
           {
-            title: `${eventData!.event.applicationPairs?.length || 0} пар`,
+            title: `${
+              eventData!.event.applicationPairs?.length || 0
+            } ${pluralize(
+              eventData!.event.applicationPairs?.length || 0,
+              'пара',
+              'пары',
+              'пар',
+            )}`,
           },
         ]}
       />

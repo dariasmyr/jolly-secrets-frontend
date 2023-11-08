@@ -257,6 +257,7 @@ const CreateApplication: FC = () => {
             try {
               handleConfirmDialogClose(); // Важно сначала закрыть диалог
               await handleFormSubmit(formData);
+              router.push(`/event?id=${eventId}`);
             } catch (submitError) {
               log.error('Create application error', submitError);
             }

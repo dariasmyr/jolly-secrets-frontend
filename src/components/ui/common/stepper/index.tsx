@@ -21,7 +21,12 @@ interface StepperProperties {
 
 export const Stepper = ({ steps }: StepperProperties): ReactElement => {
   return (
-    <MuiStepper orientation="vertical">
+    <MuiStepper
+      orientation="vertical"
+      sx={{
+        marginLeft: '12px',
+      }}
+    >
       {steps.map((step) => (
         <Step
           key={step.label}
