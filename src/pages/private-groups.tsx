@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FabAdd } from '@components/ui/common/fab-add';
 import { Page } from '@components/ui/common/page';
@@ -52,6 +53,20 @@ const PrivateGroups: FC = () => {
   return (
     <Page title={'Мои группы'} style={{ gap: 16, marginTop: 24 }}>
       <Header>Мои группы</Header>
+      {data?.privateGroups.length === 0 && (
+        <Wrapper>
+          <StyledImage>
+            <Image
+              src={'/assets/sand-clock.png'}
+              width={100}
+              height={100}
+              alt="Wait"
+            />
+          </StyledImage>
+          <Text>Групп пока нет.</Text>
+          <SubText>Создайте первую группу!</SubText>
+        </Wrapper>
+      )}
       {data?.privateGroups.map((group) => {
         const isAdmin = group.members!.some(
           (member) => member.role === GroupMemberRole.Admin,
@@ -155,6 +170,49 @@ const Header = styled.div`
   align-self: flex-start;
   margin-right: 24px;
   margin-left: 24px;
+`;
+
+export const Text = styled.div`
+  color: #000;
+  font-feature-settings:
+    'clig' off,
+    'liga' off;
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 160%; /* 32px */
+  letter-spacing: 0.15px;
+  align-self: center;
+  margin-right: 24px;
+  margin-left: 24px;
+`;
+export const SubText = styled.div`
+  color: #878787;
+  font-feature-settings:
+    'clig' off,
+    'liga' off;
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 80%;
+  letter-spacing: 0.15px;
+  align-self: center;
+  margin-right: 24px;
+  margin-left: 24px;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+`;
+
+export const StyledImage = styled.div`
+  opacity: 0.5;
 `;
 
 export default PrivateGroups;
