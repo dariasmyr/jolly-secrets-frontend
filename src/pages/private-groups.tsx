@@ -31,6 +31,29 @@ const PrivateGroups: FC = () => {
     },
   });
 
+  function pluralize(
+    number: number,
+    one: string,
+    two: string,
+    many: string,
+  ): string {
+    const lastDigit = number % 10;
+    const lastTwoDigits = number % 100;
+
+    if (lastDigit === 1 && lastTwoDigits !== 11) {
+      return one;
+    }
+
+    if (
+      [2, 3, 4].includes(lastDigit) &&
+      ![12, 13, 14].includes(lastTwoDigits)
+    ) {
+      return two;
+    }
+
+    return many;
+  }
+
   const createGroup = (): void => {
     // eslint-disable-next-line no-alert
     router.push('/create-group');
@@ -77,7 +100,12 @@ const PrivateGroups: FC = () => {
         tags = isAdmin
           ? [
               {
-                title: `${group.members?.length} человек`,
+                title: `${group.members!.length} ${pluralize(
+                  group.members!.length,
+                  'человек',
+                  'человека',
+                  'человек',
+                )}`,
               },
               {
                 title: 'Я создатель',
@@ -86,7 +114,12 @@ const PrivateGroups: FC = () => {
             ]
           : [
               {
-                title: `${group.members?.length} человек`,
+                title: `${group.members!.length} ${pluralize(
+                  group.members!.length,
+                  'человек',
+                  'человека',
+                  'человек',
+                )}`,
               },
             ];
         return (
@@ -95,7 +128,13 @@ const PrivateGroups: FC = () => {
             imageUrl={group.pictureUrl}
             preHeader={`${group.events?.filter(
               (event) => event.status === EventStatus.Open,
-            )?.length} активных событий`}
+            )?.length} ${pluralize(
+              group.events!.filter((event) => event.status === EventStatus.Open)
+                ?.length,
+              'активное событие',
+              'активных события',
+              'активных событий',
+            )}`}
             header={group.name}
             text={group.description}
             tags={tags}
@@ -173,7 +212,7 @@ const Header = styled.div`
 `;
 
 export const Text = styled.div`
-  color: #000;
+  color: #878787;
   font-feature-settings:
     'clig' off,
     'liga' off;

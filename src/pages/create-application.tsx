@@ -238,7 +238,7 @@ const CreateApplication: FC = () => {
           variant={ButtonVariant.primary}
           onClick={handleConfirmDialogOpen}
         >
-          Создать событие
+          Создать заявку
         </Button>
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
           Назад
