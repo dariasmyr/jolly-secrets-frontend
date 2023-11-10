@@ -8,6 +8,7 @@ export interface IAppBarProperties {
   title: string;
   onMenuClick?: () => void;
   onAccountClick?: () => void;
+  avatarUrl?: string;
 }
 
 export const AppBar = (properties: IAppBarProperties): ReactElement => {
@@ -44,7 +45,15 @@ export const AppBar = (properties: IAppBarProperties): ReactElement => {
             color="inherit"
             onClick={properties.onAccountClick}
           >
-            <AccountCircle />
+            {properties.avatarUrl ? (
+              <img
+                src={properties.avatarUrl}
+                alt="avatar"
+                style={{ width: '30px', height: '30px', borderRadius: '50%' }}
+              />
+            ) : (
+              <AccountCircle />
+            )}
           </IconButton>
         </div>
       </Toolbar>

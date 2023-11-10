@@ -12,6 +12,7 @@ import {
   GroupMemberRole,
   GroupStatus,
   useDeleteGroupMutation,
+  useGetAccountCountQuery,
   usePublicGroupsQuery,
 } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
@@ -51,22 +52,28 @@ const PublicGroups: FC = () => {
     },
   });
 
+  const {
+    data: accountCountData,
+    error: accountCountError,
+    loading: accountCountLoading,
+  } = useGetAccountCountQuery({});
+
   const createGroup = (): void => {
     // eslint-disable-next-line no-alert
     router.push('/create-group');
   };
 
   useEffect(() => {
-    if (!authStore.token) {
+    if (!authStore.token || !authStore.account?.id) {
       router.push('/auth/login');
     }
   }, [authStore]);
 
-  if (loading) {
+  if (loading || accountCountLoading) {
     return <Page title="Публичные группы">Loading...</Page>;
   }
 
-  if (error) {
+  if (error || accountCountError) {
     return <Page title="Публичные группы">Error: {JSON.stringify(error)}</Page>;
   }
 
@@ -89,7 +96,9 @@ const PublicGroups: FC = () => {
       )}
       {data?.publicGroups.map((group) => {
         const isAdmin = group.members!.some(
-          (member) => member.role === GroupMemberRole.Admin,
+          (member) =>
+            member.role === GroupMemberRole.Admin &&
+            member.accountId === authStore.account!.id,
         );
 
         let tags = [];
@@ -97,22 +106,14 @@ const PublicGroups: FC = () => {
         tags = isAdmin
           ? [
               {
-                title: `${group.members!.length} ${pluralize(
-                  group.members!.length,
-                  'человек',
-                  'человека',
-                  'человек',
-                )}`,
-              },
-              {
                 title: 'Я создатель',
                 warning: true,
               },
             ]
           : [
               {
-                title: `${group.members!.length} ${pluralize(
-                  group.members!.length,
+                title: `${accountCountData?.getAccountCount} ${pluralize(
+                  accountCountData!.getAccountCount!,
                   'человек',
                   'человека',
                   'человек',

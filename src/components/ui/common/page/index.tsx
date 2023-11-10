@@ -68,6 +68,12 @@ export const Page = (properties: IPageProperties): ReactElement => {
   const router = useRouter();
   const authStore = useAuthStore();
 
+  useEffect(() => {
+    if (!authStore.token || !authStore.account?.id) {
+      router.push('/auth/login');
+    }
+  }, [authStore]);
+
   const handleShowMenu = (): void => {
     setShowMenu(true);
   };
@@ -89,7 +95,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
   }, []);
 
   if (!router.isReady) return <div>Loading...</div>;
-
+  console.log(authStore.account);
   return (
     <PageContainer style={properties.style}>
       <AppBar
@@ -99,6 +105,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
           // eslint-disable-next-line no-alert
           alert('Account Clicked');
         }}
+        avatarUrl={authStore.account?.avatarUrl || undefined}
       />
       <MenuContainer open={showMenu} onClick={handleHideMenu}>
         <Menu

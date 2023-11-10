@@ -64,7 +64,7 @@ const Event: FC = () => {
   };
 
   useEffect(() => {
-    if (!authStore.token) {
+    if (!authStore.token || !authStore.account?.id) {
       router.push('/auth/login');
     }
   }, [authStore]);
@@ -140,23 +140,24 @@ const Event: FC = () => {
     return many;
   }
 
+  // eslint-disable-next-line complexity
   const renderApplication = (tab: string): ReactElement => {
     const myApplication =
-      eventApplicationPairData!.getEventApplicationPairByEventAndAccount
+      eventApplicationPairData!.getEventApplicationPairByEventAndAccount!
         .applicationFirst.accountId === authStore.account!.id
-        ? eventApplicationPairData!.getEventApplicationPairByEventAndAccount
+        ? eventApplicationPairData!.getEventApplicationPairByEventAndAccount!
             .applicationFirst
-        : eventApplicationPairData!.getEventApplicationPairByEventAndAccount
+        : eventApplicationPairData!.getEventApplicationPairByEventAndAccount!
             .applicationSecond;
 
     console.log('myApplication', myApplication);
 
     const santaApplication =
-      eventApplicationPairData!.getEventApplicationPairByEventAndAccount
-        .applicationSecond?.accountId === authStore.account!.id
-        ? eventApplicationPairData!.getEventApplicationPairByEventAndAccount
+      eventApplicationPairData!.getEventApplicationPairByEventAndAccount!
+        .applicationSecond!.accountId === authStore.account!.id
+        ? eventApplicationPairData!.getEventApplicationPairByEventAndAccount!
             .applicationFirst
-        : eventApplicationPairData!.getEventApplicationPairByEventAndAccount
+        : eventApplicationPairData!.getEventApplicationPairByEventAndAccount!
             .applicationSecond;
 
     const myApplicationStatus = myApplication?.status;
@@ -224,8 +225,9 @@ const Event: FC = () => {
               description: 'Ожидание отправления',
               showDescription: false,
               completed:
-                applicationStatus !== EventApplicationStatus.Paired &&
-                applicationStatus !== EventApplicationStatus.LookingForPair,
+                applicationStatus !== EventApplicationStatus.LookingForPair &&
+                applicationStatus !== EventApplicationStatus.GiftSent &&
+                applicationStatus !== EventApplicationStatus.GiftReceived,
             },
             {
               label: 'Отправлено',
@@ -234,7 +236,7 @@ const Event: FC = () => {
               completed:
                 applicationStatus !== EventApplicationStatus.Paired &&
                 applicationStatus !== EventApplicationStatus.LookingForPair &&
-                applicationStatus !== EventApplicationStatus.GiftSent,
+                applicationStatus !== EventApplicationStatus.GiftReceived,
             },
             {
               label: 'Выполнено',

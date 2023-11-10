@@ -30,7 +30,6 @@ const PrivateGroups: FC = () => {
       limit: 100,
     },
   });
-
   function pluralize(
     number: number,
     one: string,
@@ -60,7 +59,7 @@ const PrivateGroups: FC = () => {
   };
 
   useEffect(() => {
-    if (!authStore.token) {
+    if (!authStore.token || !authStore.account?.id) {
       router.push('/auth/login');
     }
   }, [authStore]);
@@ -92,7 +91,9 @@ const PrivateGroups: FC = () => {
       )}
       {data?.privateGroups.map((group) => {
         const isAdmin = group.members!.some(
-          (member) => member.role === GroupMemberRole.Admin,
+          (member) =>
+            member.role === GroupMemberRole.Admin &&
+            member.accountId === authStore.account!.id,
         );
 
         let tags = [];

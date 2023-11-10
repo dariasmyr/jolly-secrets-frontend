@@ -13,6 +13,7 @@ query PrivateGroups($offset: Int!, $limit: Int!) {
     members {
       id
       role
+      accountId
     }
   }
 }

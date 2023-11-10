@@ -13,6 +13,7 @@ mutation loginWithGoogle ($code: String!) {
       roles
       status
       username
+      avatarUrl
     }
   }
 }

@@ -13,6 +13,7 @@ query PublicGroups($offset: Int!, $limit: Int!) {
     members {
       id
       role
+      accountId
     }
   }
 }

@@ -142,7 +142,6 @@ type Event {
   createdAt: DateTime!
   description: String!
   endsAt: DateTime!
-  eventApplicationPairs: [EventApplicationPair!]!
   group: Group!
   groupId: Int!
   id: Int!
@@ -349,18 +348,19 @@ enum PriceRange {
 }
 
 type Query {
+  applicationPair(id: Int!): EventApplicationPair!
+  applicationPairs(eventId: Float!): [EventApplicationPair!]!
   chat(id: Float!): [Chat!]!
   chatMembers(chatId: Float!): [ChatMember!]!
   currentSession: AccountSession!
   debug: JSON!
   echo(text: String!): String!
   event(id: Int!): Event!
-  eventApplicationPair(id: Int!): EventApplicationPair!
-  eventApplicationPairs(eventId: Float!): [EventApplicationPair!]!
   events(groupId: Int!): [Event!]!
   generateTelegramBotLink: String!
   generateUrlGoogle(state: String): String!
-  getEventApplicationPairByEventAndAccount(eventId: Int!): EventApplicationPair!
+  getAccountCount: Int!
+  getEventApplicationPairByEventAndAccount(eventId: Int!): EventApplicationPair
   getGroupByEventId(eventId: Int!): Group!
   group(id: Int!): Group!
   groupInvite(groupId: Float!): [GroupInvite!]!

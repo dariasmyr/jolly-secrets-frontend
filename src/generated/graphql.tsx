@@ -162,7 +162,6 @@ export type Event = {
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   endsAt: Scalars['DateTime']['output'];
-  eventApplicationPairs: Array<EventApplicationPair>;
   group: Group;
   groupId: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
@@ -483,18 +482,19 @@ export enum PriceRange {
 
 export type Query = {
   __typename?: 'Query';
+  applicationPair: EventApplicationPair;
+  applicationPairs: Array<EventApplicationPair>;
   chat: Array<Chat>;
   chatMembers: Array<ChatMember>;
   currentSession: AccountSession;
   debug: Scalars['JSON']['output'];
   echo: Scalars['String']['output'];
   event: Event;
-  eventApplicationPair: EventApplicationPair;
-  eventApplicationPairs: Array<EventApplicationPair>;
   events: Array<Event>;
   generateTelegramBotLink: Scalars['String']['output'];
   generateUrlGoogle: Scalars['String']['output'];
-  getEventApplicationPairByEventAndAccount: EventApplicationPair;
+  getAccountCount: Scalars['Int']['output'];
+  getEventApplicationPairByEventAndAccount?: Maybe<EventApplicationPair>;
   getGroupByEventId: Group;
   group: Group;
   groupInvite: Array<GroupInvite>;
@@ -507,6 +507,16 @@ export type Query = {
   publicGroups: Array<Group>;
   testTranslation: Scalars['String']['output'];
   whoami: Account;
+};
+
+
+export type QueryApplicationPairArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type QueryApplicationPairsArgs = {
+  eventId: Scalars['Float']['input'];
 };
 
 
@@ -527,16 +537,6 @@ export type QueryEchoArgs = {
 
 export type QueryEventArgs = {
   id: Scalars['Int']['input'];
-};
-
-
-export type QueryEventApplicationPairArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type QueryEventApplicationPairsArgs = {
-  eventId: Scalars['Float']['input'];
 };
 
 
@@ -676,7 +676,7 @@ export type GetEventApplicationPairByEventAndAccountQueryVariables = Exact<{
 }>;
 
 
-export type GetEventApplicationPairByEventAndAccountQuery = { __typename?: 'Query', getEventApplicationPairByEventAndAccount: { __typename?: 'EventApplicationPair', id: number, createdAt: any, updatedAt: any, eventId: number, eventApplicationFirstId: number, eventApplicationSecondId?: number | null, chatId?: number | null, event: { __typename?: 'Event', id: number }, applicationFirst: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null }> | null }, applicationSecond?: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null }> | null } | null } };
+export type GetEventApplicationPairByEventAndAccountQuery = { __typename?: 'Query', getEventApplicationPairByEventAndAccount?: { __typename?: 'EventApplicationPair', id: number, createdAt: any, updatedAt: any, eventId: number, eventApplicationFirstId: number, eventApplicationSecondId?: number | null, chatId?: number | null, event: { __typename?: 'Event', id: number }, applicationFirst: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null }> | null }, applicationSecond?: { __typename?: 'EventApplication', id: number, createdAt: any, updatedAt: any, accountId: number, status: EventApplicationStatus, preferences?: Array<{ __typename?: 'Preference', id: number, createdAt: any, updatedAt: any, priceRange: PriceRange, likes: string, dislikes: string, comment: string, applicationId?: number | null }> | null } | null } | null };
 
 export type EventQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -691,6 +691,11 @@ export type EventsQueryVariables = Exact<{
 
 
 export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', id: number, createdAt: any, pictureUrl: string, name: string, description: string, status: EventStatus, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number }> | null }> };
+
+export type GetAccountCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAccountCountQuery = { __typename?: 'Query', getAccountCount: number };
 
 export type GetGroupByEventIdQueryVariables = Exact<{
   eventId: Scalars['Int']['input'];
@@ -725,7 +730,7 @@ export type LoginWithGoogleMutationVariables = Exact<{
 }>;
 
 
-export type LoginWithGoogleMutation = { __typename?: 'Mutation', loginWithGoogle: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, username: string } } };
+export type LoginWithGoogleMutation = { __typename?: 'Mutation', loginWithGoogle: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, username: string, avatarUrl?: string | null } } };
 
 export type GenerateTelegramBotLinkQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -737,7 +742,7 @@ export type LoginWithTelegramMutationVariables = Exact<{
 }>;
 
 
-export type LoginWithTelegramMutation = { __typename?: 'Mutation', loginWithTelegram: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, username: string } } };
+export type LoginWithTelegramMutation = { __typename?: 'Mutation', loginWithTelegram: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, username: string, avatarUrl?: string | null } } };
 
 export type PrivateGroupsQueryVariables = Exact<{
   offset: Scalars['Int']['input'];
@@ -745,7 +750,7 @@ export type PrivateGroupsQueryVariables = Exact<{
 }>;
 
 
-export type PrivateGroupsQuery = { __typename?: 'Query', privateGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null }> };
+export type PrivateGroupsQuery = { __typename?: 'Query', privateGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole, accountId: number }> | null }> };
 
 export type PublicGroupsQueryVariables = Exact<{
   offset: Scalars['Int']['input'];
@@ -753,7 +758,7 @@ export type PublicGroupsQueryVariables = Exact<{
 }>;
 
 
-export type PublicGroupsQuery = { __typename?: 'Query', publicGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null }> };
+export type PublicGroupsQuery = { __typename?: 'Query', publicGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole, accountId: number }> | null }> };
 
 export type UpdateGroupMutationVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -1276,6 +1281,38 @@ export function useEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Eve
 export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
 export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
 export type EventsQueryResult = Apollo.QueryResult<EventsQuery, EventsQueryVariables>;
+export const GetAccountCountDocument = gql`
+    query getAccountCount {
+  getAccountCount
+}
+    `;
+
+/**
+ * __useGetAccountCountQuery__
+ *
+ * To run a query within a React component, call `useGetAccountCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAccountCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAccountCountQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAccountCountQuery(baseOptions?: Apollo.QueryHookOptions<GetAccountCountQuery, GetAccountCountQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAccountCountQuery, GetAccountCountQueryVariables>(GetAccountCountDocument, options);
+      }
+export function useGetAccountCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAccountCountQuery, GetAccountCountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAccountCountQuery, GetAccountCountQueryVariables>(GetAccountCountDocument, options);
+        }
+export type GetAccountCountQueryHookResult = ReturnType<typeof useGetAccountCountQuery>;
+export type GetAccountCountLazyQueryHookResult = ReturnType<typeof useGetAccountCountLazyQuery>;
+export type GetAccountCountQueryResult = Apollo.QueryResult<GetAccountCountQuery, GetAccountCountQueryVariables>;
 export const GetGroupByEventIdDocument = gql`
     query getGroupByEventId($eventId: Int!) {
   getGroupByEventId(eventId: $eventId) {
@@ -1490,6 +1527,7 @@ export const LoginWithGoogleDocument = gql`
       roles
       status
       username
+      avatarUrl
     }
   }
 }
@@ -1562,6 +1600,7 @@ export const LoginWithTelegramDocument = gql`
       roles
       status
       username
+      avatarUrl
     }
   }
 }
@@ -1608,6 +1647,7 @@ export const PrivateGroupsDocument = gql`
     members {
       id
       role
+      accountId
     }
   }
 }
@@ -1657,6 +1697,7 @@ export const PublicGroupsDocument = gql`
     members {
       id
       role
+      accountId
     }
   }
 }
