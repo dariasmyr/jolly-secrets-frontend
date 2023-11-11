@@ -164,7 +164,7 @@ const Event: FC = () => {
 
     const santaApplication =
       eventApplicationPairData!.getEventApplicationPairByEventAndAccount!
-        .applicationSecond!.accountId === authStore.account!.id
+        .applicationSecond?.accountId === authStore.account!.id
         ? eventApplicationPairData!.getEventApplicationPairByEventAndAccount!
             .applicationFirst
         : eventApplicationPairData!.getEventApplicationPairByEventAndAccount!
@@ -214,49 +214,6 @@ const Event: FC = () => {
       );
     }
 
-    if (tab === 'application' && !myApplication) {
-      return (
-        <div>
-          <Button
-            variant={ButtonVariant.primary}
-            onClick={handleGiftReceivedClick}
-          >
-            Я получил подарок
-          </Button>
-          <DialogConfirmAction
-            isOpen={isGiftReceivedDialogOpen}
-            onCancelClick={(): void => setGiftReceivedDialogOpen(false)}
-            title="Подтвердите действие"
-            description={
-              "Ваш статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
-            }
-            onConfirmClick={(): void => {
-              // изменение статуса заявки на 'Выполнено'
-            }}
-            cancelButtonText={'Отмена'}
-            confirmButtonText={'Подтверждаю'}
-          />
-          <Button
-            variant={ButtonVariant.warning}
-            onClick={handleGiftNotReceivedClick}
-          >
-            Я не получил подарок
-          </Button>
-          <DialogConfirmAction
-            isOpen={isGiftNotReceivedDialogOpen}
-            onCancelClick={(): void => setGiftNotReceivedDialogOpen(false)}
-            title="Подтвердите действие"
-            description="Вам очень жаль и статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
-            onConfirmClick={(): void => {
-              // изменение статуса заявки на 'Выполнено'
-            }}
-            cancelButtonText={'Отмена'}
-            confirmButtonText={'Подтверждаю'}
-          />
-        </div>
-      );
-    }
-
     return (
       <div>
         <HeaderWrapper>
@@ -300,7 +257,42 @@ const Event: FC = () => {
             },
           ]}
         />
-
+        {tab === 'application' && myApplication && (
+          <>
+            <Button
+              variant={ButtonVariant.primary}
+              onClick={handleGiftReceivedClick}
+            >
+              Я получил подарок
+            </Button>
+            <DialogConfirmAction
+              isOpen={isGiftReceivedDialogOpen}
+              onCancelClick={(): void => setGiftReceivedDialogOpen(false)}
+              title="Подтвердите действие"
+              description={
+                "Ваш статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
+              }
+              onConfirmClick={(): void => {}}
+              cancelButtonText={'Отмена'}
+              confirmButtonText={'Подтверждаю'}
+            />
+            <Button
+              variant={ButtonVariant.warning}
+              onClick={handleGiftNotReceivedClick}
+            >
+              Я не получил подарок
+            </Button>
+            <DialogConfirmAction
+              isOpen={isGiftNotReceivedDialogOpen}
+              onCancelClick={(): void => setGiftNotReceivedDialogOpen(false)}
+              title="Подтвердите действие"
+              description="Нам очень жаль, статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
+              onConfirmClick={(): void => {}}
+              cancelButtonText={'Отмена'}
+              confirmButtonText={'Подтверждаю'}
+            />
+          </>
+        )}
         <CardPreference
           header="Предпочтения"
           preferences={
@@ -352,6 +344,10 @@ const Event: FC = () => {
               'пар',
             )}`,
           },
+          {
+            title: `${eventData!.event.status}`,
+            warning: eventData!.event.status === EventStatus.Open,
+          },
         ]}
       />
       {eventApplicationPairData?.getEventApplicationPairByEventAndAccount ===
@@ -364,24 +360,30 @@ const Event: FC = () => {
           )}
         </Wrapper>
       )}
-      {eventApplicationPairData?.getEventApplicationPairByEventAndAccount && (
-        <TabApplications
-          tabs={[
-            {
-              label: 'Моя Заявка',
-              value: 'application',
-              component: renderApplication(activeTab),
-            },
-            {
-              label: 'Заявка Тайного Санты',
-              value: 'secret-santa-application',
-              component: renderApplication(activeTab),
-            },
-          ]}
-          onTabChange={async (tabValue: string): Promise<void> => {
-            setActiveTab(tabValue);
-          }}
-        />
+      {isExpired ? (
+        <Wrapper>
+          <ButtonLarge disabled={true}>Cобытие завершено</ButtonLarge>
+        </Wrapper>
+      ) : (
+        eventApplicationPairData?.getEventApplicationPairByEventAndAccount && (
+          <TabApplications
+            tabs={[
+              {
+                label: 'Моя Заявка',
+                value: 'application',
+                component: renderApplication(activeTab),
+              },
+              {
+                label: 'Заявка Тайного Санты',
+                value: 'secret-santa-application',
+                component: renderApplication(activeTab),
+              },
+            ]}
+            onTabChange={async (tabValue: string): Promise<void> => {
+              setActiveTab(tabValue);
+            }}
+          />
+        )
       )}
     </Page>
   );

@@ -40,6 +40,29 @@ const Events: FC = () => {
     },
   });
 
+  function pluralize(
+    number: number,
+    one: string,
+    two: string,
+    many: string,
+  ): string {
+    const lastDigit = number % 10;
+    const lastTwoDigits = number % 100;
+
+    if (lastDigit === 1 && lastTwoDigits !== 11) {
+      return one;
+    }
+
+    if (
+      [2, 3, 4].includes(lastDigit) &&
+      ![12, 13, 14].includes(lastTwoDigits)
+    ) {
+      return two;
+    }
+
+    return many;
+  }
+
   const createEvent = (): void => {
     // eslint-disable-next-line no-alert
     router.push(`/create-event?groupId=${groupId}`);
@@ -105,7 +128,12 @@ const Events: FC = () => {
       {eventsData?.events.map((event) => {
         const tags = [
           {
-            title: `${event.applicationPairs?.length || 0} пар`,
+            title: `${event.applicationPairs?.length || 0} ${pluralize(
+              event.applicationPairs?.length || 0,
+              'пара',
+              'пары',
+              'пар',
+            )}`,
           },
           {
             title: `${event.status}`,
