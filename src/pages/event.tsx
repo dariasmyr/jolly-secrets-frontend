@@ -2,6 +2,7 @@ import { FC, ReactElement, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
+import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { Stepper } from '@components/ui/common/stepper';
 import { TabApplications } from '@components/ui/common/tab-applications';
@@ -10,6 +11,7 @@ import {
   CardPreference,
   IPreferenceTextProperties,
 } from '@components/ui/custom/card-preference';
+import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { EventPage } from '@components/ui/custom/event-page';
 import { StyledImage, SubText, Text } from '@pages/events';
 import styled from 'styled-components';
@@ -31,6 +33,14 @@ const Event: FC = () => {
   const eventId = router.query.id;
 
   const [activeTab, setActiveTab] = useState('application');
+
+  const [isGiftReceivedDialogOpen, setGiftReceivedDialogOpen] = useState(false);
+  const [isGiftNotReceivedDialogOpen, setGiftNotReceivedDialogOpen] =
+    useState(false);
+
+  const handleGiftReceivedClick = (): void => setGiftReceivedDialogOpen(true);
+  const handleGiftNotReceivedClick = (): void =>
+    setGiftNotReceivedDialogOpen(true);
 
   const { data: eventData, loading: eventIsLoading } = useEventQuery({
     variables: {
@@ -163,23 +173,23 @@ const Event: FC = () => {
     const myApplicationStatus = myApplication?.status;
     const santaApplicationStatus = santaApplication?.status;
 
-    const myApplicationPreferences: IPreferenceTextProperties[] =
+    const applicationPreferences: IPreferenceTextProperties[] =
       myApplication && myApplication.preferences
         ? myApplication.preferences.map((pref) => ({
-            priceRange: { title: 'Price Range', value: pref.priceRange },
-            likes: { title: 'Likes', value: pref.likes },
-            dislikes: { title: 'Dislikes', value: pref.dislikes },
-            comments: { title: 'Comments', value: pref.comment },
+            priceRange: { title: 'Ценовой диапазон', value: pref.priceRange },
+            likes: { title: 'Я хочу', value: pref.likes },
+            dislikes: { title: 'Я НЕ хочу', value: pref.dislikes },
+            comments: { title: 'Комментарии', value: pref.comment },
           }))
         : [];
 
     const santaApplicationPreferences: IPreferenceTextProperties[] =
       santaApplication && santaApplication.preferences
         ? santaApplication.preferences.map((pref) => ({
-            priceRange: { title: 'Price Range', value: pref.priceRange },
-            likes: { title: 'Likes', value: pref.likes },
-            dislikes: { title: 'Dislikes', value: pref.dislikes },
-            comments: { title: 'Comments', value: pref.comment },
+            priceRange: { title: 'Ценовой диапазон', value: pref.priceRange },
+            likes: { title: 'Я хочу', value: pref.likes },
+            dislikes: { title: 'Я НЕ хочу', value: pref.dislikes },
+            comments: { title: 'Комментарии', value: pref.comment },
           }))
         : [];
 
@@ -201,6 +211,49 @@ const Event: FC = () => {
           <Text>Заявки пока нет.</Text>
           <SubText>Ищем вам Тайного Санту!</SubText>
         </ImageWrapper>
+      );
+    }
+
+    if (tab === 'application' && !myApplication) {
+      return (
+        <div>
+          <Button
+            variant={ButtonVariant.primary}
+            onClick={handleGiftReceivedClick}
+          >
+            Я получил подарок
+          </Button>
+          <DialogConfirmAction
+            isOpen={isGiftReceivedDialogOpen}
+            onCancelClick={(): void => setGiftReceivedDialogOpen(false)}
+            title="Подтвердите действие"
+            description={
+              "Ваш статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
+            }
+            onConfirmClick={(): void => {
+              // изменение статуса заявки на 'Выполнено'
+            }}
+            cancelButtonText={'Отмена'}
+            confirmButtonText={'Подтверждаю'}
+          />
+          <Button
+            variant={ButtonVariant.warning}
+            onClick={handleGiftNotReceivedClick}
+          >
+            Я не получил подарок
+          </Button>
+          <DialogConfirmAction
+            isOpen={isGiftNotReceivedDialogOpen}
+            onCancelClick={(): void => setGiftNotReceivedDialogOpen(false)}
+            title="Подтвердите действие"
+            description="Вам очень жаль и статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
+            onConfirmClick={(): void => {
+              // изменение статуса заявки на 'Выполнено'
+            }}
+            cancelButtonText={'Отмена'}
+            confirmButtonText={'Подтверждаю'}
+          />
+        </div>
       );
     }
 
@@ -247,11 +300,12 @@ const Event: FC = () => {
             },
           ]}
         />
+
         <CardPreference
           header="Предпочтения"
           preferences={
             tab === 'application'
-              ? myApplicationPreferences
+              ? applicationPreferences
               : santaApplicationPreferences
           }
         />

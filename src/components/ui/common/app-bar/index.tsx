@@ -49,7 +49,12 @@ export const AppBar = (properties: IAppBarProperties): ReactElement => {
               <img
                 src={properties.avatarUrl}
                 alt="avatar"
-                style={{ width: '30px', height: '30px', borderRadius: '50%' }}
+                style={{
+                  width: '30px',
+                  height: '30px',
+                  borderRadius: '50%',
+                  backgroundColor: 'white',
+                }}
               />
             ) : (
               <AccountCircle />
