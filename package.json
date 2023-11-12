@@ -36,6 +36,7 @@
     "@sentry/nextjs": "^7.74.1",
     "@vercel/og": "^0.5.20",
     "apollo3-cache-persist": "^0.14.1",
+    "axios": "^1.6.1",
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
     "env-cmd": "^10.1.0",

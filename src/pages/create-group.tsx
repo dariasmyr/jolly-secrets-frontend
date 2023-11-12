@@ -1,4 +1,6 @@
-import { FC, useEffect, useState } from 'react';
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable unicorn/no-null */
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
@@ -9,12 +11,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
+import axios from 'axios';
 import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/card-create-or-update-group';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import {
   GroupType,
+  PriceRange,
   useCreateGroupMutation,
   useIsGroupNameAvailvableQuery,
 } from '@/generated/graphql';
@@ -50,10 +54,39 @@ const CreateGroup: FC = () => {
   const { register, handleSubmit, formState } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
   });
-  // eslint-disable-next-line unicorn/no-null
   const [groupId, setGroupId] = useState<number | null>(null);
   const [groupCreated, setGroupCreated] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const uploadFileReference = useRef<HTMLInputElement>(null);
+  const handleImageChange = async (
+    event: ChangeEvent<HTMLInputElement>,
+  ): Promise<void> => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      setError(null);
 
+      const formData = new FormData();
+      formData.append('files', file);
+
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_REST_API_URL}/upload`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        );
+
+        const fileUrl = response.data[0].path;
+        setImageUrl(fileUrl);
+      } catch {
+        setError('An error occurred while uploading the image.');
+      }
+    }
+  };
   const handleBackClick = async (): Promise<void> => {
     await router.push(isPrivate ? '/private-groups' : '/public-groups');
   };
@@ -65,8 +98,12 @@ const CreateGroup: FC = () => {
     setShowDialog(false);
   };
 
-  const handleAccessLevelChange = (level: string): void => {
-    setIsPrivate(level === GroupType.Private);
+  const handleAccessLevelChange = (option: {
+    value: GroupType | PriceRange;
+    label: string;
+  }): void => {
+    console.log('Is private', option.value === 'PRIVATE');
+    setIsPrivate(option.value === 'PRIVATE');
   };
 
   const handleFormSubmit = async (formData: FormData): Promise<void> => {
@@ -89,6 +126,7 @@ const CreateGroup: FC = () => {
         name: formData.groupName,
         description: formData.groupDescription,
         type: isPrivate ? GroupType.Private : GroupType.Public,
+        pictureUrl: imageUrl,
       },
     });
     log.debug('Create group response', createGroupResponse);
@@ -124,11 +162,52 @@ const CreateGroup: FC = () => {
       >
         <CardCreateOrUpdateGroup
           accessLevelTitle="Уровень доступа"
-          accessLevelOptions={['Публичная', 'Приватная']}
-          defaultOption={'Публичная'}
+          accessLevelOptions={[
+            { value: GroupType.Public, label: 'Публичная' },
+            { value: GroupType.Private, label: 'Приватная' },
+          ]}
+          defaultOption={{ value: GroupType.Public, label: 'Публичная' }}
           onAccessLevelChange={handleAccessLevelChange}
         >
           {[
+            <div
+              key="image"
+              onClick={(): void => uploadFileReference.current?.click()}
+            >
+              <input
+                ref={uploadFileReference}
+                style={{ display: 'none' }}
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              {error && <div style={{ color: 'red' }}>{error}</div>}
+              <div
+                style={{
+                  border: '2px dashed lightgray',
+                  width: '100%',
+                  height: '200px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {imageUrl ? (
+                  <img
+                    src={process.env.NEXT_PUBLIC_REST_API_URL + imageUrl}
+                    alt="Uploaded"
+                    style={{ maxWidth: '100%', maxHeight: '100%' }}
+                  />
+                ) : (
+                  <Button
+                    variant={ButtonVariant.borderless}
+                    onClick={(): void => uploadFileReference.current?.click()}
+                  >
+                    Выбрать обложку
+                  </Button>
+                )}
+              </div>
+            </div>,
             <TextField
               key="groupName"
               id="field-groupName"
@@ -169,6 +248,7 @@ const CreateGroup: FC = () => {
             try {
               await handleFormSubmit(formData);
               if (isPrivate) {
+                console.log('Show dialog');
                 handleClickOpenDialog();
               }
             } catch (submitError) {

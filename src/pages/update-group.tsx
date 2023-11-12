@@ -14,6 +14,7 @@ import * as Yup from 'yup';
 
 import {
   GroupType,
+  PriceRange,
   useGroupQuery,
   useUpdateGroupMutation,
 } from '@/generated/graphql';
@@ -65,12 +66,12 @@ const UpdateGroup: FC = () => {
     setShowGenerateInviteDialog(false);
   };
 
-  const handleAccessLevelChange = (level: string): void => {
-    if (level === 'Приватная' && !isPrivate) {
-      setShowConfirmDialog(true);
-    } else {
-      setIsPrivate(level === 'Приватная');
-    }
+  const handleAccessLevelChange = (option: {
+    value: GroupType | PriceRange;
+    label: string;
+  }): void => {
+    console.log('Is private', option.value === 'PRIVATE');
+    setIsPrivate(option.value === 'PRIVATE');
   };
 
   const handleFormSubmit = async (formData: FormData): Promise<void> => {
@@ -123,11 +124,14 @@ const UpdateGroup: FC = () => {
       >
         <CardCreateOrUpdateGroup
           accessLevelTitle="Уровень доступа"
-          accessLevelOptions={['Публичная', 'Приватная']}
+          accessLevelOptions={[
+            { value: GroupType.Public, label: 'Публичная' },
+            { value: GroupType.Private, label: 'Приватная' },
+          ]}
           defaultOption={
             groupData?.group.type === GroupType.Private
-              ? 'Приватная'
-              : 'Публичная'
+              ? { value: GroupType.Private, label: 'Приватная' }
+              : { value: GroupType.Public, label: 'Публичная' }
           }
           onAccessLevelChange={handleAccessLevelChange}
         >

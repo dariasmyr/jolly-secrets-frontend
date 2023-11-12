@@ -3,11 +3,22 @@ import { Card } from '@components/ui/common/card';
 import { SelectOptions } from '@components/ui/common/select-options';
 import { Wrapper } from '@components/ui/custom/card-create/styled-components';
 
+import { GroupType, PriceRange } from '@/generated/graphql';
+
 interface ICardFieldsProperties {
   accessLevelTitle: string;
-  accessLevelOptions: string[];
-  defaultOption: string;
-  onAccessLevelChange: (option: string) => void;
+  accessLevelOptions: {
+    value: GroupType;
+    label: string;
+  }[];
+  defaultOption: {
+    value: GroupType;
+    label: string;
+  };
+  onAccessLevelChange: (option: {
+    value: GroupType | PriceRange;
+    label: string;
+  }) => void;
   children: ReactNode;
 }
 

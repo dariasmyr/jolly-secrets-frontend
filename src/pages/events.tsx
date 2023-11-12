@@ -147,7 +147,11 @@ const Events: FC = () => {
         return (
           <CardImage
             key={event.id}
-            imageUrl={event.pictureUrl}
+            imageUrl={
+              event.pictureUrl
+                ? process.env.NEXT_PUBLIC_REST_API_URL + event.pictureUrl
+                : '/assets/hover.jpg'
+            }
             preHeader={`${startDate} - ${endDate}`}
             header={event.name}
             text={event.description}

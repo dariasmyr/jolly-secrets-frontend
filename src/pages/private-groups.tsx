@@ -126,7 +126,11 @@ const PrivateGroups: FC = () => {
         return (
           <CardImage
             key={group.id}
-            imageUrl={group.pictureUrl}
+            imageUrl={
+              group.pictureUrl
+                ? process.env.NEXT_PUBLIC_REST_API_URL + group.pictureUrl
+                : '/assets/hover.jpg'
+            }
             preHeader={`${group.events?.filter(
               (event) => event.status === EventStatus.Open,
             )?.length} ${pluralize(

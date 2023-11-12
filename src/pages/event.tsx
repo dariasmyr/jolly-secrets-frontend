@@ -320,7 +320,11 @@ const Event: FC = () => {
       </Breadcrumbs>
       <EventPage
         key={eventData!.event.id.toString()}
-        imageUrl={eventData!.event.pictureUrl}
+        imageUrl={
+          eventData!.event.pictureUrl
+            ? process.env.NEXT_PUBLIC_REST_API_URL + eventData!.event.pictureUrl
+            : '/assets/hover.jpg'
+        }
         preHeader={
           isExpired
             ? `${startDate} - ${endDate}`

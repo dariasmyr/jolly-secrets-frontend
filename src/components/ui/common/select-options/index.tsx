@@ -1,25 +1,41 @@
-import React, { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+import { GroupType, PriceRange } from '@/generated/graphql';
+
 export interface ISelectProperties {
   title: string;
-  options: string[];
-  defaultOption: string;
-  onChange: (option: string) => void;
+  options: {
+    value: GroupType | PriceRange;
+    label: string;
+  }[];
+  defaultOption: {
+    value: GroupType | PriceRange;
+    label: string;
+  };
+  onChange: (option: { value: GroupType | PriceRange; label: string }) => void;
 }
 
 export const SelectOptions = (properties: ISelectProperties): ReactElement => {
   const { options, defaultOption, onChange, title } = properties;
-  const [selectedOption, setSelectedOption] = React.useState<string>(
-    defaultOption || options[0],
+  const [selectedOption, setSelectedOption] = useState<GroupType | PriceRange>(
+    defaultOption.value,
   );
 
   const handleChange = (event: SelectChangeEvent): void => {
-    setSelectedOption(event.target.value);
-    onChange(event.target.value);
+    const selectedValue: GroupType = event.target.value as GroupType;
+    setSelectedOption(selectedValue);
+
+    const selectedObject = options.find(
+      (option) => option.value === selectedValue,
+    );
+
+    if (selectedObject) {
+      onChange(selectedObject);
+    }
   };
 
   return (
@@ -34,8 +50,8 @@ export const SelectOptions = (properties: ISelectProperties): ReactElement => {
           onChange={handleChange}
         >
           {options.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
             </MenuItem>
           ))}
         </Select>

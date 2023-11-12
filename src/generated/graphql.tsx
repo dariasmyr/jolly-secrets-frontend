@@ -133,6 +133,7 @@ export type CreateEventInput = {
   endsAt: Scalars['DateTime']['input'];
   groupId: Scalars['Int']['input'];
   name: Scalars['String']['input'];
+  pictureUrl?: InputMaybe<Scalars['String']['input']>;
   startsAt: Scalars['DateTime']['input'];
 };
 
@@ -145,6 +146,7 @@ export type CreateMessageInput = {
 export type CreateOrUpdateGroupInput = {
   description: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  pictureUrl?: InputMaybe<Scalars['String']['input']>;
   type: GroupType;
 };
 
@@ -254,7 +256,7 @@ export type Group = {
   id: Scalars['Int']['output'];
   members?: Maybe<Array<GroupMember>>;
   name: Scalars['String']['output'];
-  pictureUrl: Scalars['String']['output'];
+  pictureUrl?: Maybe<Scalars['String']['output']>;
   status: GroupStatus;
   type: GroupType;
   updatedAt: Scalars['DateTime']['output'];
@@ -631,6 +633,7 @@ export type CreateEventMutationVariables = Exact<{
   description: Scalars['String']['input'];
   startsAt: Scalars['DateTime']['input'];
   endsAt: Scalars['DateTime']['input'];
+  pictureUrl?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -654,10 +657,11 @@ export type CreateGroupMutationVariables = Exact<{
   name: Scalars['String']['input'];
   description: Scalars['String']['input'];
   type: GroupType;
+  pictureUrl?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type CreateGroupMutation = { __typename?: 'Mutation', createGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
+export type CreateGroupMutation = { __typename?: 'Mutation', createGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
 
 export type DebugQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -669,7 +673,7 @@ export type DeleteGroupMutationVariables = Exact<{
 }>;
 
 
-export type DeleteGroupMutation = { __typename?: 'Mutation', deleteGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
+export type DeleteGroupMutation = { __typename?: 'Mutation', deleteGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
 
 export type GetEventApplicationPairByEventAndAccountQueryVariables = Exact<{
   eventId: Scalars['Int']['input'];
@@ -702,14 +706,14 @@ export type GetGroupByEventIdQueryVariables = Exact<{
 }>;
 
 
-export type GetGroupByEventIdQuery = { __typename?: 'Query', getGroupByEventId: { __typename?: 'Group', id: number, createdAt: any, updatedAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, members?: Array<{ __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole }> | null, events?: Array<{ __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl: string, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any }> | null, groupInvites?: Array<{ __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string }> | null } };
+export type GetGroupByEventIdQuery = { __typename?: 'Query', getGroupByEventId: { __typename?: 'Group', id: number, createdAt: any, updatedAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, members?: Array<{ __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole }> | null, events?: Array<{ __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl: string, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any }> | null, groupInvites?: Array<{ __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string }> | null } };
 
 export type GroupQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: number, createdAt: any, updatedAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, members?: Array<{ __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole }> | null, events?: Array<{ __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl: string, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any }> | null, groupInvites?: Array<{ __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string }> | null } };
+export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: number, createdAt: any, updatedAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, members?: Array<{ __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole }> | null, events?: Array<{ __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl: string, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any }> | null, groupInvites?: Array<{ __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string }> | null } };
 
 export type IsGroupNameAvailvableQueryVariables = Exact<{
   name: Scalars['String']['input'];
@@ -750,7 +754,7 @@ export type PrivateGroupsQueryVariables = Exact<{
 }>;
 
 
-export type PrivateGroupsQuery = { __typename?: 'Query', privateGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole, accountId: number }> | null }> };
+export type PrivateGroupsQuery = { __typename?: 'Query', privateGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole, accountId: number }> | null }> };
 
 export type PublicGroupsQueryVariables = Exact<{
   offset: Scalars['Int']['input'];
@@ -758,7 +762,7 @@ export type PublicGroupsQueryVariables = Exact<{
 }>;
 
 
-export type PublicGroupsQuery = { __typename?: 'Query', publicGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole, accountId: number }> | null }> };
+export type PublicGroupsQuery = { __typename?: 'Query', publicGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole, accountId: number }> | null }> };
 
 export type UpdateGroupMutationVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -768,7 +772,7 @@ export type UpdateGroupMutationVariables = Exact<{
 }>;
 
 
-export type UpdateGroupMutation = { __typename?: 'Mutation', updateGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl: string, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
+export type UpdateGroupMutation = { __typename?: 'Mutation', updateGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
 
 
 export const CreateEventApplicationDocument = gql`
@@ -847,9 +851,9 @@ export type CreateEventApplicationMutationHookResult = ReturnType<typeof useCrea
 export type CreateEventApplicationMutationResult = Apollo.MutationResult<CreateEventApplicationMutation>;
 export type CreateEventApplicationMutationOptions = Apollo.BaseMutationOptions<CreateEventApplicationMutation, CreateEventApplicationMutationVariables>;
 export const CreateEventDocument = gql`
-    mutation CreateEvent($groupId: Int!, $name: String!, $description: String!, $startsAt: DateTime!, $endsAt: DateTime!) {
+    mutation CreateEvent($groupId: Int!, $name: String!, $description: String!, $startsAt: DateTime!, $endsAt: DateTime!, $pictureUrl: String) {
   createEvent(
-    input: {groupId: $groupId, name: $name, description: $description, startsAt: $startsAt, endsAt: $endsAt}
+    input: {groupId: $groupId, name: $name, description: $description, startsAt: $startsAt, endsAt: $endsAt, pictureUrl: $pictureUrl}
   ) {
     id
     createdAt
@@ -888,6 +892,7 @@ export type CreateEventMutationFn = Apollo.MutationFunction<CreateEventMutation,
  *      description: // value for 'description'
  *      startsAt: // value for 'startsAt'
  *      endsAt: // value for 'endsAt'
+ *      pictureUrl: // value for 'pictureUrl'
  *   },
  * });
  */
@@ -982,8 +987,10 @@ export type CreateGroupMemberMutationHookResult = ReturnType<typeof useCreateGro
 export type CreateGroupMemberMutationResult = Apollo.MutationResult<CreateGroupMemberMutation>;
 export type CreateGroupMemberMutationOptions = Apollo.BaseMutationOptions<CreateGroupMemberMutation, CreateGroupMemberMutationVariables>;
 export const CreateGroupDocument = gql`
-    mutation CreateGroup($name: String!, $description: String!, $type: GroupType!) {
-  createGroup(input: {name: $name, description: $description, type: $type}) {
+    mutation CreateGroup($name: String!, $description: String!, $type: GroupType!, $pictureUrl: String) {
+  createGroup(
+    input: {name: $name, description: $description, type: $type, pictureUrl: $pictureUrl}
+  ) {
     id
     createdAt
     pictureUrl
@@ -1019,6 +1026,7 @@ export type CreateGroupMutationFn = Apollo.MutationFunction<CreateGroupMutation,
  *      name: // value for 'name'
  *      description: // value for 'description'
  *      type: // value for 'type'
+ *      pictureUrl: // value for 'pictureUrl'
  *   },
  * });
  */

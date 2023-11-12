@@ -32,9 +32,16 @@ const nextConfig = {
   },
   i18n,
   images: {
+    domains: ['localhost'],
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: '**',
+        port: '',
+        pathname: '**',
+      },
+      {
+        protocol: 'http',
         hostname: '**',
         port: '',
         pathname: '**',

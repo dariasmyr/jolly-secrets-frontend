@@ -1,4 +1,6 @@
-import { FC, useEffect, useState } from 'react';
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable unicorn/no-null */
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
@@ -8,6 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import TextField from '@mui/material/TextField';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
 import styled from 'styled-components';
 import * as Yup from 'yup';
@@ -31,13 +34,43 @@ type FormData = {
 const CreateEvent: FC = () => {
   const authStore = useAuthStore();
   const router = useRouter();
-  // eslint-disable-next-line unicorn/no-null
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [createEvent, { reset }] = useCreateEventMutation();
   const { register, handleSubmit, formState } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
   });
   const groupId = router.query.groupId;
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const uploadFileReference = useRef<HTMLInputElement>(null);
+  const handleImageChange = async (
+    event: ChangeEvent<HTMLInputElement>,
+  ): Promise<void> => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      setError(null);
+
+      const formData = new FormData();
+      formData.append('files', file);
+
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_REST_API_URL}/upload`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        );
+
+        const fileUrl = response.data[0].path;
+        setImageUrl(fileUrl);
+      } catch {
+        setError('An error occurred while uploading the image.');
+      }
+    }
+  };
 
   const handleBackClick = async (): Promise<void> => {
     await router.push(`/events?groupId=${groupId}`);
@@ -56,6 +89,7 @@ const CreateEvent: FC = () => {
         description: formData.eventDescription,
         startsAt: today,
         endsAt: endDate,
+        pictureUrl: imageUrl,
       },
     });
     log.debug('Create event response', createEventResponse);
@@ -85,6 +119,42 @@ const CreateEvent: FC = () => {
       >
         <CardCreateEvent>
           {[
+            <div key="image">
+              <input
+                ref={uploadFileReference}
+                style={{ display: 'none' }}
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              {error && <div style={{ color: 'red' }}>{error}</div>}
+              <div
+                onClick={(): void => uploadFileReference.current?.click()}
+                style={{
+                  border: '2px dashed lightgray',
+                  width: '100%',
+                  height: '200px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {imageUrl ? (
+                  <img
+                    src={process.env.NEXT_PUBLIC_REST_API_URL + imageUrl}
+                    alt="Uploaded"
+                    style={{ maxWidth: '100%', maxHeight: '100%' }}
+                  />
+                ) : (
+                  <Button
+                    variant={ButtonVariant.borderless}
+                    onClick={(): void => uploadFileReference.current?.click()}
+                  >
+                    Выбрать обложку
+                  </Button>
+                )}
+              </div>
+            </div>,
             <TextField
               key="eventName"
               id="field-eventName"

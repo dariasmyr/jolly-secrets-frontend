@@ -43,12 +43,12 @@ const validationSchema = Yup.object().shape({
     .required('Обязательное поле'),
 });
 
-const PriceRangeDisplay = {
-  [PriceRange.NoMatter]: 'Без ограничений',
-  [PriceRange.Min_0Max_10]: '0-10$',
-  [PriceRange.Min_10Max_20]: '10-20$',
-  [PriceRange.Min_20Max_30]: '20-30$',
-};
+const PriceRangeDisplay = [
+  { value: PriceRange.NoMatter, label: 'Без ограничений' },
+  { value: PriceRange.Min_0Max_10, label: '0-10$' },
+  { value: PriceRange.Min_10Max_20, label: '10-20$' },
+  { value: PriceRange.Min_20Max_30, label: '20-30$' },
+];
 
 const CreateApplication: FC = () => {
   const router = useRouter();
@@ -155,12 +155,7 @@ const CreateApplication: FC = () => {
           <CardCreatePreference
             key={item.id}
             selectTitle="Ограничение по цене"
-            priceOptions={[
-              PriceRangeDisplay[PriceRange.NoMatter],
-              PriceRangeDisplay[PriceRange.Min_0Max_10],
-              PriceRangeDisplay[PriceRange.Min_10Max_20],
-              PriceRangeDisplay[PriceRange.Min_20Max_30],
-            ]}
+            priceOptions={PriceRangeDisplay}
             {...register(`preferences.${index}.priceRange`)}
             button={'Удалить'}
             onDeleteButtonClick={(): void => {

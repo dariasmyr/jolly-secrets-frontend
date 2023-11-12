@@ -1,6 +1,6 @@
-mutation CreateGroup($name: String!, $description: String!, $type: GroupType!) {
+mutation CreateGroup($name: String!, $description: String!, $type: GroupType!, $pictureUrl: String) {
   createGroup(
-    input: { name: $name, description: $description, type: $type }
+    input: { name: $name, description: $description, type: $type, pictureUrl: $pictureUrl }
   ) {
     id
     createdAt

@@ -7,10 +7,18 @@ import {
 } from '@components/ui/custom/card-create/styled-components';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
 
+import { GroupType, PriceRange } from '@/generated/graphql';
+
 interface ICardCreatePreferenceProperties {
   selectTitle: string;
-  priceOptions: string[];
-  onPriceOptionChange?: (option: string) => void;
+  priceOptions: {
+    value: GroupType | PriceRange;
+    label: string;
+  }[];
+  onPriceOptionChange?: (option: {
+    value: GroupType | PriceRange;
+    label: string;
+  }) => void;
   onDeleteButtonClick: () => void;
   children: ReactNode;
   button: string;

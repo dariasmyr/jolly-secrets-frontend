@@ -1,6 +1,6 @@
-mutation CreateEvent($groupId: Int!, $name: String!, $description: String!, $startsAt: DateTime!, $endsAt: DateTime!) {
+mutation CreateEvent($groupId: Int!, $name: String!, $description: String!, $startsAt: DateTime!, $endsAt: DateTime!, $pictureUrl: String) {
   createEvent(
-    input: {groupId: $groupId, name: $name, description: $description, startsAt: $startsAt, endsAt: $endsAt }
+    input: {groupId: $groupId, name: $name, description: $description, startsAt: $startsAt, endsAt: $endsAt, pictureUrl: $pictureUrl }
   ) {
     id
     createdAt
