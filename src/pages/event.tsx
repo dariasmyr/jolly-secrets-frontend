@@ -356,13 +356,13 @@ const Event: FC = () => {
       />
       {eventApplicationPairData?.getEventApplicationPairByEventAndAccount ===
         null && (
-        <Wrapper>
+        <ButtonLargeWrapper>
           {isExpired ? (
             <ButtonLarge disabled={true}>Cобытие завершено</ButtonLarge>
           ) : (
             <ButtonLarge onClick={participate}>Участвовать</ButtonLarge>
           )}
-        </Wrapper>
+        </ButtonLargeWrapper>
       )}
       {isExpired ? (
         <Wrapper>
@@ -418,10 +418,8 @@ const Breadcrumbs = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   width: 100%;
   padding: 0px 6px 0px 6px;
-  flex: 1;
 `;
 
 const ImageWrapper = styled.div`
@@ -435,6 +433,16 @@ const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
+`;
+
+const ButtonLargeWrapper = styled.div`
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
 `;
 
 export default Event;
