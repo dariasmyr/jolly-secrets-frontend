@@ -258,12 +258,12 @@ const Event: FC = () => {
           ]}
         />
         {tab === 'application' && myApplication && (
-          <>
+          <ButtonWrapper>
             <Button
               variant={ButtonVariant.primary}
               onClick={handleGiftReceivedClick}
             >
-              Я получил подарок
+              подарок у меня
             </Button>
             <DialogConfirmAction
               isOpen={isGiftReceivedDialogOpen}
@@ -280,7 +280,7 @@ const Event: FC = () => {
               variant={ButtonVariant.warning}
               onClick={handleGiftNotReceivedClick}
             >
-              Я не получил подарок
+              подарок не пришел
             </Button>
             <DialogConfirmAction
               isOpen={isGiftNotReceivedDialogOpen}
@@ -291,7 +291,7 @@ const Event: FC = () => {
               cancelButtonText={'Отмена'}
               confirmButtonText={'Подтверждаю'}
             />
-          </>
+          </ButtonWrapper>
         )}
         <CardPreference
           header="Предпочтения"
@@ -364,30 +364,24 @@ const Event: FC = () => {
           )}
         </ButtonLargeWrapper>
       )}
-      {isExpired ? (
-        <Wrapper>
-          <ButtonLarge disabled={true}>Cобытие завершено</ButtonLarge>
-        </Wrapper>
-      ) : (
-        eventApplicationPairData?.getEventApplicationPairByEventAndAccount && (
-          <TabApplications
-            tabs={[
-              {
-                label: 'Моя Заявка',
-                value: 'application',
-                component: renderApplication(activeTab),
-              },
-              {
-                label: 'Заявка Тайного Санты',
-                value: 'secret-santa-application',
-                component: renderApplication(activeTab),
-              },
-            ]}
-            onTabChange={async (tabValue: string): Promise<void> => {
-              setActiveTab(tabValue);
-            }}
-          />
-        )
+      {eventApplicationPairData?.getEventApplicationPairByEventAndAccount && (
+        <TabApplications
+          tabs={[
+            {
+              label: 'Моя Заявка',
+              value: 'application',
+              component: renderApplication(activeTab),
+            },
+            {
+              label: 'Заявка Тайного Санты',
+              value: 'secret-santa-application',
+              component: renderApplication(activeTab),
+            },
+          ]}
+          onTabChange={async (tabValue: string): Promise<void> => {
+            setActiveTab(tabValue);
+          }}
+        />
       )}
     </Page>
   );
@@ -415,13 +409,6 @@ const Breadcrumbs = styled.div`
   margin-left: 24px;
 `;
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 0px 6px 0px 6px;
-`;
-
 const ImageWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -443,6 +430,13 @@ const ButtonLargeWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding: 0 16px;
+`;
+
+const ButtonWrapper = styled.div`
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  margin: 16px;
 `;
 
 export default Event;

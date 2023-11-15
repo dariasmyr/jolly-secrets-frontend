@@ -46,7 +46,7 @@ export const TabApplications = (
           ))}
         </TabList>
         {properties.tabs.map((tab) => (
-          <TabPanel key={tab.value} value={tab.value}>
+          <TabPanel key={tab.value} value={tab.value} sx={{ padding: 0 }}>
             {tab.component}
           </TabPanel>
         ))}
