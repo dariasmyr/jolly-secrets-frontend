@@ -420,6 +420,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
+  margin-top: 16px;
 `;
 
 const ButtonLargeWrapper = styled.div`
@@ -436,7 +437,7 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
   display: flex;
   justify-content: space-between;
-  margin: 16px;
+  margin: 10px;
 `;
 
 export default Event;
