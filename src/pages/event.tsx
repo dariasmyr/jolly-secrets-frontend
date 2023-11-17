@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable unicorn/no-null */
 import { FC, ReactElement, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -23,6 +25,7 @@ import {
   useEventQuery,
   useGetEventApplicationPairByEventAndAccountQuery,
   useGetGroupByEventIdQuery,
+  useSetEventApplicationStatusMutation,
 } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
@@ -33,6 +36,9 @@ const Event: FC = () => {
   const eventId = router.query.id;
 
   const [activeTab, setActiveTab] = useState('application');
+
+  const [setEventApplicationStatus, { reset }] =
+    useSetEventApplicationStatusMutation();
 
   const [isGiftReceivedDialogOpen, setGiftReceivedDialogOpen] = useState(false);
   const [isGiftNotReceivedDialogOpen, setGiftNotReceivedDialogOpen] =
@@ -193,9 +199,8 @@ const Event: FC = () => {
           }))
         : [];
 
-    const applicationStatus =
+    const tabApplicationStatus =
       tab === 'application' ? myApplicationStatus : santaApplicationStatus;
-    console.log('applicationStatus', applicationStatus);
 
     if (tab === 'secret-santa-application' && !santaApplication) {
       return (
@@ -213,7 +218,6 @@ const Event: FC = () => {
         </ImageWrapper>
       );
     }
-
     return (
       <div>
         <HeaderWrapper>
@@ -228,32 +232,33 @@ const Event: FC = () => {
               description: 'Поиск тайного санты',
               showDescription: false,
               completed:
-                applicationStatus !== EventApplicationStatus.LookingForPair,
+                tabApplicationStatus !== EventApplicationStatus.LookingForPair,
             },
             {
               label: 'Ожидание отправления',
               description: 'Ожидание отправления',
               showDescription: false,
               completed:
-                applicationStatus !== EventApplicationStatus.LookingForPair &&
-                applicationStatus !== EventApplicationStatus.GiftSent &&
-                applicationStatus !== EventApplicationStatus.GiftReceived,
+                tabApplicationStatus !==
+                  EventApplicationStatus.LookingForPair &&
+                tabApplicationStatus !== EventApplicationStatus.Paired,
             },
             {
               label: 'Отправлено',
               description: 'Отправлено',
               showDescription: false,
               completed:
-                applicationStatus !== EventApplicationStatus.Paired &&
-                applicationStatus !== EventApplicationStatus.LookingForPair &&
-                applicationStatus !== EventApplicationStatus.GiftReceived,
+                tabApplicationStatus !==
+                  EventApplicationStatus.LookingForPair &&
+                tabApplicationStatus !== EventApplicationStatus.Paired &&
+                tabApplicationStatus !== EventApplicationStatus.GiftSent,
             },
             {
               label: 'Выполнено',
               description: 'Выполнено',
               showDescription: false,
               completed:
-                applicationStatus === EventApplicationStatus.GiftReceived,
+                tabApplicationStatus === EventApplicationStatus.GiftReceived,
             },
           ]}
         />
@@ -272,7 +277,16 @@ const Event: FC = () => {
               description={
                 "Ваш статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
               }
-              onConfirmClick={(): void => {}}
+              onConfirmClick={async (): Promise<void> => {
+                await setEventApplicationStatus({
+                  variables: {
+                    eventApplicationId: myApplication.id,
+                    status: EventApplicationStatus.GiftReceived,
+                  },
+                });
+                setGiftReceivedDialogOpen(false);
+                reset();
+              }}
               cancelButtonText={'Отмена'}
               confirmButtonText={'Подтверждаю'}
             />
@@ -287,7 +301,16 @@ const Event: FC = () => {
               onCancelClick={(): void => setGiftNotReceivedDialogOpen(false)}
               title="Подтвердите действие"
               description="Нам очень жаль, статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
-              onConfirmClick={(): void => {}}
+              onConfirmClick={async (): Promise<void> => {
+                await setEventApplicationStatus({
+                  variables: {
+                    eventApplicationId: myApplication.id,
+                    status: EventApplicationStatus.GiftNotReceived,
+                  },
+                });
+                setGiftNotReceivedDialogOpen(false);
+                reset();
+              }}
               cancelButtonText={'Отмена'}
               confirmButtonText={'Подтверждаю'}
             />

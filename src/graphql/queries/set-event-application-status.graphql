@@ -1,0 +1,6 @@
+mutation setEventApplicationStatus ($eventApplicationId: Int!, $status: EventApplicationStatus!) {
+  setEventApplicationStatus (eventApplicationId: $eventApplicationId, status: $status) {
+    id
+    status
+  }
+}

@@ -168,7 +168,7 @@ export type Event = {
   groupId: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
-  pictureUrl: Scalars['String']['output'];
+  pictureUrl?: Maybe<Scalars['String']['output']>;
   startsAt: Scalars['DateTime']['output'];
   status: EventStatus;
   updatedAt: Scalars['DateTime']['output'];
@@ -338,7 +338,7 @@ export type Mutation = {
   loginWithTelegram: AuthResponse;
   logout: Scalars['Boolean']['output'];
   mergeProfileToAccount: Account;
-  setEventApplicationStatus: Event;
+  setEventApplicationStatus: EventApplication;
   setNotificationAsRead: Notification;
   updateAccount: Account;
   updateGroup: Group;
@@ -429,8 +429,8 @@ export type MutationMergeProfileToAccountArgs = {
 
 
 export type MutationSetEventApplicationStatusArgs = {
-  eventApplicationId: Scalars['Float']['input'];
-  status: Scalars['String']['input'];
+  eventApplicationId: Scalars['Int']['input'];
+  status: EventApplicationStatus;
 };
 
 
@@ -637,7 +637,7 @@ export type CreateEventMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', id: number, createdAt: any, pictureUrl: string, name: string, description: string, status: EventStatus, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number }> | null } };
+export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, status: EventStatus, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number }> | null } };
 
 export type CreateGroupInviteMutationVariables = Exact<{
   groupId: Scalars['Int']['input'];
@@ -687,14 +687,14 @@ export type EventQueryVariables = Exact<{
 }>;
 
 
-export type EventQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: number, createdAt: any, pictureUrl: string, name: string, description: string, status: EventStatus, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number }> | null } };
+export type EventQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, status: EventStatus, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number }> | null } };
 
 export type EventsQueryVariables = Exact<{
   groupId: Scalars['Int']['input'];
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', id: number, createdAt: any, pictureUrl: string, name: string, description: string, status: EventStatus, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number }> | null }> };
+export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, status: EventStatus, startsAt: any, endsAt: any, group: { __typename?: 'Group', id: number }, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number }> | null }> };
 
 export type GetAccountCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -706,14 +706,14 @@ export type GetGroupByEventIdQueryVariables = Exact<{
 }>;
 
 
-export type GetGroupByEventIdQuery = { __typename?: 'Query', getGroupByEventId: { __typename?: 'Group', id: number, createdAt: any, updatedAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, members?: Array<{ __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole }> | null, events?: Array<{ __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl: string, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any }> | null, groupInvites?: Array<{ __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string }> | null } };
+export type GetGroupByEventIdQuery = { __typename?: 'Query', getGroupByEventId: { __typename?: 'Group', id: number, createdAt: any, updatedAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, members?: Array<{ __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole }> | null, events?: Array<{ __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl?: string | null, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any }> | null, groupInvites?: Array<{ __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string }> | null } };
 
 export type GroupQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: number, createdAt: any, updatedAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, members?: Array<{ __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole }> | null, events?: Array<{ __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl: string, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any }> | null, groupInvites?: Array<{ __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string }> | null } };
+export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: number, createdAt: any, updatedAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, members?: Array<{ __typename?: 'GroupMember', id: number, createdAt: any, updatedAt: any, groupId: number, accountId: number, role: GroupMemberRole }> | null, events?: Array<{ __typename?: 'Event', id: number, createdAt: any, updatedAt: any, pictureUrl?: string | null, status: EventStatus, groupId: number, name: string, description: string, startsAt: any, endsAt: any }> | null, groupInvites?: Array<{ __typename?: 'GroupInvite', id: number, createdAt: any, updatedAt: any, groupId: number, code: string }> | null } };
 
 export type IsGroupNameAvailvableQueryVariables = Exact<{
   name: Scalars['String']['input'];
@@ -763,6 +763,14 @@ export type PublicGroupsQueryVariables = Exact<{
 
 
 export type PublicGroupsQuery = { __typename?: 'Query', publicGroups: Array<{ __typename?: 'Group', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole, accountId: number }> | null }> };
+
+export type SetEventApplicationStatusMutationVariables = Exact<{
+  eventApplicationId: Scalars['Int']['input'];
+  status: EventApplicationStatus;
+}>;
+
+
+export type SetEventApplicationStatusMutation = { __typename?: 'Mutation', setEventApplicationStatus: { __typename?: 'EventApplication', id: number, status: EventApplicationStatus } };
 
 export type UpdateGroupMutationVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -1739,6 +1747,44 @@ export function usePublicGroupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type PublicGroupsQueryHookResult = ReturnType<typeof usePublicGroupsQuery>;
 export type PublicGroupsLazyQueryHookResult = ReturnType<typeof usePublicGroupsLazyQuery>;
 export type PublicGroupsQueryResult = Apollo.QueryResult<PublicGroupsQuery, PublicGroupsQueryVariables>;
+export const SetEventApplicationStatusDocument = gql`
+    mutation setEventApplicationStatus($eventApplicationId: Int!, $status: EventApplicationStatus!) {
+  setEventApplicationStatus(
+    eventApplicationId: $eventApplicationId
+    status: $status
+  ) {
+    id
+    status
+  }
+}
+    `;
+export type SetEventApplicationStatusMutationFn = Apollo.MutationFunction<SetEventApplicationStatusMutation, SetEventApplicationStatusMutationVariables>;
+
+/**
+ * __useSetEventApplicationStatusMutation__
+ *
+ * To run a mutation, you first call `useSetEventApplicationStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetEventApplicationStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setEventApplicationStatusMutation, { data, loading, error }] = useSetEventApplicationStatusMutation({
+ *   variables: {
+ *      eventApplicationId: // value for 'eventApplicationId'
+ *      status: // value for 'status'
+ *   },
+ * });
+ */
+export function useSetEventApplicationStatusMutation(baseOptions?: Apollo.MutationHookOptions<SetEventApplicationStatusMutation, SetEventApplicationStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetEventApplicationStatusMutation, SetEventApplicationStatusMutationVariables>(SetEventApplicationStatusDocument, options);
+      }
+export type SetEventApplicationStatusMutationHookResult = ReturnType<typeof useSetEventApplicationStatusMutation>;
+export type SetEventApplicationStatusMutationResult = Apollo.MutationResult<SetEventApplicationStatusMutation>;
+export type SetEventApplicationStatusMutationOptions = Apollo.BaseMutationOptions<SetEventApplicationStatusMutation, SetEventApplicationStatusMutationVariables>;
 export const UpdateGroupDocument = gql`
     mutation UpdateGroup($id: Int!, $name: String!, $description: String!, $type: GroupType!) {
   updateGroup(
