@@ -43,7 +43,7 @@ const validationSchema = Yup.object().shape({
     .required('Обязательное поле'),
 });
 
-const PriceRangeDisplay = [
+export const PriceRangeDisplay = [
   { value: PriceRange.NoMatter, label: 'Без ограничений' },
   { value: PriceRange.Min_0Max_10, label: '0-10$' },
   { value: PriceRange.Min_10Max_20, label: '10-20$' },

@@ -1,9 +1,20 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable unicorn/no-null */
 import { FC, ReactElement, useEffect, useState } from 'react';
-import Image from 'next/image';
+import /**
+ * Image class represents an image object with details such as width, height,
+ * and source URL.
+ *
+ * @class
+ */
+Image from 'next/image';
 import { useRouter } from 'next/router';
-import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
+import /**
+ * Represents a utility class for handling and processing breadcrumbs in a collapsed format.
+ *
+ * @class
+ */
+CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { Stepper } from '@components/ui/common/stepper';
@@ -15,13 +26,21 @@ import {
 } from '@components/ui/custom/card-preference';
 import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { EventPage } from '@components/ui/custom/event-page';
+import { PriceRangeDisplay } from '@pages/create-application';
 import { StyledImage, SubText, Text } from '@pages/events';
-import styled from 'styled-components';
+import /**
+ * Calculates the square of a given number.
+ *
+ * @param {number} num - The number whose square is to be calculated.
+ * @returns {number} The square of the given number.
+ */
+styled from 'styled-components';
 
 import {
   EventApplicationStatus,
   EventStatus,
   GroupType,
+  PriceRange,
   useEventQuery,
   useGetEventApplicationPairByEventAndAccountQuery,
   useGetGroupByEventIdQuery,
@@ -47,6 +66,10 @@ const Event: FC = () => {
   const handleGiftReceivedClick = (): void => setGiftReceivedDialogOpen(true);
   const handleGiftNotReceivedClick = (): void =>
     setGiftNotReceivedDialogOpen(true);
+
+  const [isGiftSentDialogOpen, setGiftSentDialogOpen] = useState(false);
+
+  const handleGiftSentClick = (): void => setGiftSentDialogOpen(true);
 
   const { data: eventData, loading: eventIsLoading } = useEventQuery({
     variables: {
@@ -77,6 +100,17 @@ const Event: FC = () => {
   const participate = (): void => {
     // eslint-disable-next-line no-alert
     router.push(`/create-application?eventId=${eventId}`);
+  };
+
+  const renderPriceRange = (priceRange: PriceRange): string => {
+    const label = PriceRangeDisplay.find((item) => item.value === priceRange);
+    return label ? label.label : '';
+  };
+
+  const goToChat = (): void => {
+    router.push(
+      `/chat?eventApplicationPairId=${eventApplicationPairData?.getEventApplicationPairByEventAndAccount?.id}`,
+    );
   };
 
   useEffect(() => {
@@ -128,10 +162,13 @@ const Event: FC = () => {
     },
   ];
 
-  const daysToExpire = Math.floor(
-    (new Date(eventData!.event.endsAt).getTime() - Date.now()) /
-      // eslint-disable-next-line no-magic-numbers
-      (1000 * 3600 * 24),
+  const daysToExpire = Math.max(
+    Math.floor(
+      (new Date(eventData!.event.endsAt).getTime() - Date.now()) /
+        // eslint-disable-next-line no-magic-numbers
+        (1000 * 3600 * 24),
+    ),
+    0,
   );
   function pluralize(
     number: number,
@@ -156,7 +193,7 @@ const Event: FC = () => {
     return many;
   }
 
-  // eslint-disable-next-line complexity
+  // eslint-disable-next-line complexity,sonarjs/cognitive-complexity
   const renderApplication = (tab: string): ReactElement => {
     const myApplication =
       eventApplicationPairData!.getEventApplicationPairByEventAndAccount!
@@ -176,13 +213,18 @@ const Event: FC = () => {
         : eventApplicationPairData!.getEventApplicationPairByEventAndAccount!
             .applicationSecond;
 
+    console.log('santaApplication', santaApplication);
+
     const myApplicationStatus = myApplication?.status;
     const santaApplicationStatus = santaApplication?.status;
 
     const applicationPreferences: IPreferenceTextProperties[] =
       myApplication && myApplication.preferences
         ? myApplication.preferences.map((pref) => ({
-            priceRange: { title: 'Ценовой диапазон', value: pref.priceRange },
+            priceRange: {
+              title: 'Ценовой диапазон',
+              value: renderPriceRange(pref.priceRange),
+            },
             likes: { title: 'Я хочу', value: pref.likes },
             dislikes: { title: 'Я НЕ хочу', value: pref.dislikes },
             comments: { title: 'Комментарии', value: pref.comment },
@@ -192,7 +234,10 @@ const Event: FC = () => {
     const santaApplicationPreferences: IPreferenceTextProperties[] =
       santaApplication && santaApplication.preferences
         ? santaApplication.preferences.map((pref) => ({
-            priceRange: { title: 'Ценовой диапазон', value: pref.priceRange },
+            priceRange: {
+              title: 'Ценовой диапазон',
+              value: renderPriceRange(pref.priceRange),
+            },
             likes: { title: 'Я хочу', value: pref.likes },
             dislikes: { title: 'Я НЕ хочу', value: pref.dislikes },
             comments: { title: 'Комментарии', value: pref.comment },
@@ -202,6 +247,7 @@ const Event: FC = () => {
     const tabApplicationStatus =
       tab === 'application' ? myApplicationStatus : santaApplicationStatus;
 
+    // eslint-disable-next-line sonarjs/no-duplicate-string
     if (tab === 'secret-santa-application' && !santaApplication) {
       return (
         <ImageWrapper>
@@ -239,81 +285,126 @@ const Event: FC = () => {
               description: 'Ожидание отправления',
               showDescription: false,
               completed:
-                tabApplicationStatus !==
-                  EventApplicationStatus.LookingForPair &&
-                tabApplicationStatus !== EventApplicationStatus.Paired,
+                tabApplicationStatus === EventApplicationStatus.Paired ||
+                tabApplicationStatus === EventApplicationStatus.GiftSent ||
+                tabApplicationStatus === EventApplicationStatus.GiftReceived ||
+                tabApplicationStatus === EventApplicationStatus.GiftNotReceived,
             },
             {
               label: 'Отправлено',
-              description: 'Отправлено',
-              showDescription: false,
+              description:
+                'Отправляйте подарок Тайному Санте. Узнайте адрес в тайном чате!',
+              showDescription: true,
               completed:
-                tabApplicationStatus !==
-                  EventApplicationStatus.LookingForPair &&
-                tabApplicationStatus !== EventApplicationStatus.Paired &&
-                tabApplicationStatus !== EventApplicationStatus.GiftSent,
+                tabApplicationStatus === EventApplicationStatus.GiftSent ||
+                tabApplicationStatus === EventApplicationStatus.GiftReceived ||
+                tabApplicationStatus === EventApplicationStatus.GiftNotReceived,
             },
             {
               label: 'Выполнено',
               description: 'Выполнено',
               showDescription: false,
               completed:
-                tabApplicationStatus === EventApplicationStatus.GiftReceived,
+                tabApplicationStatus === EventApplicationStatus.GiftReceived ||
+                tabApplicationStatus === EventApplicationStatus.GiftNotReceived,
             },
           ]}
         />
         {tab === 'application' && myApplication && (
           <ButtonWrapper>
+            {(myApplicationStatus === EventApplicationStatus.Paired ||
+              myApplicationStatus === EventApplicationStatus.GiftSent) && (
+              <>
+                <Button
+                  variant={ButtonVariant.primary}
+                  onClick={handleGiftReceivedClick}
+                >
+                  подарок у меня
+                </Button>
+                <DialogConfirmAction
+                  isOpen={isGiftReceivedDialogOpen}
+                  onCancelClick={(): void => setGiftReceivedDialogOpen(false)}
+                  title="Подтвердите действие"
+                  description={
+                    "Ваш статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
+                  }
+                  onConfirmClick={async (): Promise<void> => {
+                    console.log('myApplication.id', myApplication.id);
+                    await setEventApplicationStatus({
+                      variables: {
+                        eventApplicationId: myApplication.id,
+                        status: EventApplicationStatus.GiftReceived,
+                      },
+                    });
+                    setGiftReceivedDialogOpen(false);
+                    reset();
+                  }}
+                  cancelButtonText={'Отмена'}
+                  /* eslint-disable-next-line sonarjs/no-duplicate-string */
+                  confirmButtonText={'Подтверждаю'}
+                />
+                <Button
+                  variant={ButtonVariant.warning}
+                  onClick={handleGiftNotReceivedClick}
+                >
+                  подарок не пришел
+                </Button>
+                <DialogConfirmAction
+                  isOpen={isGiftNotReceivedDialogOpen}
+                  onCancelClick={(): void =>
+                    setGiftNotReceivedDialogOpen(false)
+                  }
+                  title="Подтвердите действие"
+                  description="Нам очень жаль, статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
+                  onConfirmClick={async (): Promise<void> => {
+                    await setEventApplicationStatus({
+                      variables: {
+                        eventApplicationId: myApplication.id,
+                        status: EventApplicationStatus.GiftNotReceived,
+                      },
+                    });
+                    setGiftNotReceivedDialogOpen(false);
+                    reset();
+                  }}
+                  cancelButtonText={'Отмена'}
+                  confirmButtonText={'Подтверждаю'}
+                />
+              </>
+            )}
+          </ButtonWrapper>
+        )}
+        {tab === 'secret-santa-application' && santaApplication && (
+          <ButtonWrapper>
             <Button
               variant={ButtonVariant.primary}
-              onClick={handleGiftReceivedClick}
-            >
-              подарок у меня
-            </Button>
-            <DialogConfirmAction
-              isOpen={isGiftReceivedDialogOpen}
-              onCancelClick={(): void => setGiftReceivedDialogOpen(false)}
-              title="Подтвердите действие"
-              description={
-                "Ваш статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
+              onClick={handleGiftSentClick}
+              disabled={
+                santaApplicationStatus === EventApplicationStatus.GiftSent
               }
-              onConfirmClick={async (): Promise<void> => {
-                await setEventApplicationStatus({
-                  variables: {
-                    eventApplicationId: myApplication.id,
-                    status: EventApplicationStatus.GiftReceived,
-                  },
-                });
-                setGiftReceivedDialogOpen(false);
-                reset();
-              }}
-              cancelButtonText={'Отмена'}
-              confirmButtonText={'Подтверждаю'}
-            />
-            <Button
-              variant={ButtonVariant.warning}
-              onClick={handleGiftNotReceivedClick}
             >
-              подарок не пришел
+              Я отправил подарок
             </Button>
             <DialogConfirmAction
-              isOpen={isGiftNotReceivedDialogOpen}
-              onCancelClick={(): void => setGiftNotReceivedDialogOpen(false)}
+              isOpen={isGiftSentDialogOpen}
+              onCancelClick={(): void => setGiftSentDialogOpen(false)}
               title="Подтвердите действие"
-              description="Нам очень жаль, статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
+              description="Статус заявки будет изменен на 'Подарок отправлен'. Вы уверены?"
               onConfirmClick={async (): Promise<void> => {
                 await setEventApplicationStatus({
                   variables: {
-                    eventApplicationId: myApplication.id,
-                    status: EventApplicationStatus.GiftNotReceived,
+                    eventApplicationId: santaApplication.id,
+                    status: EventApplicationStatus.GiftSent,
                   },
                 });
-                setGiftNotReceivedDialogOpen(false);
+                setGiftSentDialogOpen(false);
                 reset();
               }}
               cancelButtonText={'Отмена'}
               confirmButtonText={'Подтверждаю'}
             />
+            <Button variant={ButtonVariant.secondary} onClick={goToChat}>
+              Написать санте
+            </Button>
           </ButtonWrapper>
         )}
         <CardPreference
@@ -410,6 +501,22 @@ const Event: FC = () => {
   );
 };
 
+/**
+ * Variable representing the styled header div.
+ *
+ * @type {Object}
+ * @property {string} color - The text color of the header.
+ * @property {string} font-feature-settings - The font feature settings of the header.
+ * @property {string} font-family - The font family of the header.
+ * @property {string} font-size - The font size of the header.
+ * @property {string} font-style - The font style of the header.
+ * @property {number} font-weight - The font weight of the header.
+ * @property {string} line-height - The line height of the header.
+ * @property {string} letter-spacing - The letter spacing of the header.
+ * @property {string} align-self - The alignment of the header.
+ * @property {string} margin-right - The right margin of the header.
+ * @property {string} margin-left - The left margin of the header.
+ */
 const Header = styled.div`
   color: #000;
   font-feature-settings:
@@ -426,12 +533,27 @@ const Header = styled.div`
   margin-left: 24px;
 `;
 
+/**
+ * Represents the Breadcrumbs component.
+ *
+ * @component
+ * @example
+ * <Breadcrumbs>
+ *   ...
+ * </Breadcrumbs>
+ */
 const Breadcrumbs = styled.div`
   align-self: flex-start;
   margin-right: 24px;
   margin-left: 24px;
 `;
 
+/**
+ * Represents an image wrapper that applies styling to a div element.
+ * @class
+ * @constructor
+ * @param {string} props - The properties to be applied to the image wrapper.
+ */
 const ImageWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -439,6 +561,16 @@ const ImageWrapper = styled.div`
   align-items: center;
 `;
 
+/**
+ * A styled div component used as a wrapper for header elements.
+ *
+ * @component
+ * @example
+ * // Usage:
+ * <HeaderWrapper>
+ *   {children}
+ * </HeaderWrapper>
+ */
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -446,6 +578,11 @@ const HeaderWrapper = styled.div`
   margin-top: 16px;
 `;
 
+/**
+ * A styled wrapper component for a large button.
+ *
+ * @component
+ */
 const ButtonLargeWrapper = styled.div`
   position: fixed;
   bottom: 20px;
@@ -456,6 +593,11 @@ const ButtonLargeWrapper = styled.div`
   padding: 0 16px;
 `;
 
+/**
+ * Represents a styled wrapper component for a button.
+ *
+ * @component
+ */
 const ButtonWrapper = styled.div`
   flex-direction: row;
   display: flex;

@@ -96,9 +96,7 @@ const PublicGroups: FC = () => {
       )}
       {data?.publicGroups.map((group) => {
         const isAdmin = group.members!.some(
-          (member) =>
-            member.role === GroupMemberRole.Admin &&
-            member.accountId === authStore.account!.id,
+          (member) => member.role === GroupMemberRole.Admin,
         );
 
         let tags = [];

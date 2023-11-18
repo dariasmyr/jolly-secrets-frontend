@@ -51,6 +51,9 @@ export const Value = styled.p`
   font-weight: 400;
   line-height: 24px; /* 150% */
   letter-spacing: 0.15px;
+  width: 120%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 `;
 
 export const Title = styled.p`
