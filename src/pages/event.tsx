@@ -293,7 +293,7 @@ const Event: FC = () => {
             {
               label: 'Отправлено',
               description:
-                'Отправляйте подарок Тайному Санте. Узнайте адрес в тайном чате!',
+                'Время отправлять подарки! Узнайте адреса друг друга в тайном чате!',
               showDescription: true,
               completed:
                 tabApplicationStatus === EventApplicationStatus.GiftSent ||

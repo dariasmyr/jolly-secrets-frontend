@@ -7,6 +7,8 @@ import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { CardCreateEvent } from '@components/ui/custom/card-create/card-create-event';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -34,7 +36,7 @@ type FormData = {
 const CreateEvent: FC = () => {
   const authStore = useAuthStore();
   const router = useRouter();
-  const [endDate, setEndDate] = useState<Dayjs | null>(null);
+  const [endDate, setEndDate] = useState<Dayjs | null>(dayjs(today));
   const [createEvent, { reset }] = useCreateEventMutation();
   const { register, handleSubmit, formState } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
@@ -43,6 +45,10 @@ const CreateEvent: FC = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const uploadFileReference = useRef<HTMLInputElement>(null);
+  const [snackbarData, setSnackbarData] = useState({
+    open: false,
+    message: '',
+  });
   const handleImageChange = async (
     event: ChangeEvent<HTMLInputElement>,
   ): Promise<void> => {
@@ -81,7 +87,15 @@ const CreateEvent: FC = () => {
       log.debug('Error', formState.errors);
       return;
     }
-    log.debug('Data', formData);
+
+    if (endDate?.isSame(dayjs(today), 'date')) {
+      setSnackbarData({
+        open: true,
+        message: 'Дата окончания не может быть равна текущей дате',
+      });
+      return;
+    }
+
     const createEventResponse = await createEvent({
       variables: {
         groupId: Number(groupId),
@@ -146,10 +160,7 @@ const CreateEvent: FC = () => {
                     style={{ maxWidth: '100%', maxHeight: '100%' }}
                   />
                 ) : (
-                  <Button
-                    variant={ButtonVariant.borderless}
-                    onClick={(): void => uploadFileReference.current?.click()}
-                  >
+                  <Button variant={ButtonVariant.borderless}>
                     Выбрать обложку
                   </Button>
                 )}
@@ -206,6 +217,11 @@ const CreateEvent: FC = () => {
           Назад
         </Button>
       </FormWrapper>
+      <Snackbar open={snackbarData.open} autoHideDuration={6000}>
+        <Alert severity="info" sx={{ width: '100%' }}>
+          {snackbarData.message}
+        </Alert>
+      </Snackbar>
     </Page>
   );
 };

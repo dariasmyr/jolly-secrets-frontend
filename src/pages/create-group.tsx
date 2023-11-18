@@ -199,10 +199,7 @@ const CreateGroup: FC = () => {
                     style={{ maxWidth: '100%', maxHeight: '100%' }}
                   />
                 ) : (
-                  <Button
-                    variant={ButtonVariant.borderless}
-                    onClick={(): void => uploadFileReference.current?.click()}
-                  >
+                  <Button variant={ButtonVariant.borderless}>
                     Выбрать обложку
                   </Button>
                 )}
