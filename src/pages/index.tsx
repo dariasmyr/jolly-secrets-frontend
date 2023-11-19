@@ -16,7 +16,6 @@ import {
   CardImage,
   ICardImageProperties,
 } from 'src/components/ui/custom/card-image';
-import { CardEmailToggle } from 'src/components/ui/custom/card-toggle-email';
 import { DialogChooseAccount } from 'src/components/ui/custom/dialog-choose-account';
 import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
 import { Notification } from 'src/components/ui/custom/notification';
@@ -56,11 +55,6 @@ const testCardImageProperties: ICardImageProperties = {
       },
     ],
   },
-};
-
-const textCardEmailToggleProperties = {
-  title: 'Email',
-  description: 'При включенной опции уведомления будут приходить на ваш емейл',
 };
 
 const steps = [
@@ -143,10 +137,6 @@ export default function IndexPage(): ReactNode {
         description={'Нажми на кнопку чтобы сгенерировать приглашение.'}
         onGenerateInviteClick={handleClick}
         button={'Добавить участников'}
-      />
-      <CardEmailToggle
-        title={textCardEmailToggleProperties.title}
-        description={textCardEmailToggleProperties.description}
       />
       <CardChangeName
         label="Имя пользователя"

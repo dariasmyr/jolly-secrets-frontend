@@ -45,9 +45,10 @@ const Settings: FC = () => {
 
   const { data } = useWhoamiQuery({});
 
-  const [updateAccount, { reset }] = useUpdateAccountMutation();
+  const [updateAccount, { reset: accountReset }] = useUpdateAccountMutation();
 
-  const [enableNotifications] = useEnableNotificationsMutation();
+  const [enableNotifications, { reset: emailReset }] =
+    useEnableNotificationsMutation();
 
   const [disableNotifications] = useEnableNotificationsMutation();
 
@@ -95,7 +96,7 @@ const Settings: FC = () => {
         open: true,
         message: 'Данные успешно обновлены',
       });
-      reset();
+      accountReset();
     }
   };
 
@@ -104,11 +105,8 @@ const Settings: FC = () => {
     if (state) {
       setDialogOpen(true);
     } else {
-      await disableNotifications();
-      const { data: updatedData } = await useWhoamiQuery({});
-      // eslint-disable-next-line unicorn/no-null
-      setEmail(updatedData?.whoami?.email || null);
-      setNotifEnabled(Boolean(updatedData?.whoami?.email)); // Updated here
+      await disableNotifications({});
+      emailReset();
       setSnackbarData({
         open: true,
         message: 'Уведомления отключены',
