@@ -1,0 +1,11 @@
+query whoami {
+  whoami {
+    id
+    createdAt
+    email
+    roles
+    status
+    avatarUrl
+    username
+  }
+}

@@ -16,7 +16,8 @@ export const Header = styled.p`
 `;
 
 export const HeaderWrapper = styled.div`
-  display: inline-flex;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  width: 327px;
+  width: 100%;
 `;

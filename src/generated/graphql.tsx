@@ -440,7 +440,7 @@ export type MutationSetNotificationAsReadArgs = {
 
 
 export type MutationUpdateAccountArgs = {
-  input: UpdateAccountInput;
+  username: Scalars['String']['input'];
 };
 
 
@@ -614,10 +614,6 @@ export type QueryTestTranslationArgs = {
   username: Scalars['String']['input'];
 };
 
-export type UpdateAccountInput = {
-  username: Scalars['String']['input'];
-};
-
 export type CreateEventApplicationMutationVariables = Exact<{
   accountId: Scalars['Int']['input'];
   eventId: Scalars['Int']['input'];
@@ -674,6 +670,18 @@ export type DeleteGroupMutationVariables = Exact<{
 
 
 export type DeleteGroupMutation = { __typename?: 'Mutation', deleteGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
+
+export type DisableNotificationsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DisableNotificationsMutation = { __typename?: 'Mutation', disableNotifications: { __typename?: 'Account', id: number, createdAt: any, updatedAt: any, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string } };
+
+export type EnableNotificationsMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type EnableNotificationsMutation = { __typename?: 'Mutation', enableNotifications: { __typename?: 'Account', id: number, createdAt: any, updatedAt: any, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string } };
 
 export type GetEventApplicationPairByEventAndAccountQueryVariables = Exact<{
   eventId: Scalars['Int']['input'];
@@ -772,6 +780,13 @@ export type SetEventApplicationStatusMutationVariables = Exact<{
 
 export type SetEventApplicationStatusMutation = { __typename?: 'Mutation', setEventApplicationStatus: { __typename?: 'EventApplication', id: number, status: EventApplicationStatus } };
 
+export type UpdateAccountMutationVariables = Exact<{
+  username: Scalars['String']['input'];
+}>;
+
+
+export type UpdateAccountMutation = { __typename?: 'Mutation', updateAccount: { __typename?: 'Account', id: number, createdAt: any, updatedAt: any, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string } };
+
 export type UpdateGroupMutationVariables = Exact<{
   id: Scalars['Int']['input'];
   name: Scalars['String']['input'];
@@ -781,6 +796,11 @@ export type UpdateGroupMutationVariables = Exact<{
 
 
 export type UpdateGroupMutation = { __typename?: 'Mutation', updateGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
+
+export type WhoamiQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type WhoamiQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', id: number, createdAt: any, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string } };
 
 
 export const CreateEventApplicationDocument = gql`
@@ -1123,6 +1143,85 @@ export function useDeleteGroupMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteGroupMutationHookResult = ReturnType<typeof useDeleteGroupMutation>;
 export type DeleteGroupMutationResult = Apollo.MutationResult<DeleteGroupMutation>;
 export type DeleteGroupMutationOptions = Apollo.BaseMutationOptions<DeleteGroupMutation, DeleteGroupMutationVariables>;
+export const DisableNotificationsDocument = gql`
+    mutation disableNotifications {
+  disableNotifications {
+    id
+    createdAt
+    updatedAt
+    email
+    roles
+    status
+    avatarUrl
+    username
+  }
+}
+    `;
+export type DisableNotificationsMutationFn = Apollo.MutationFunction<DisableNotificationsMutation, DisableNotificationsMutationVariables>;
+
+/**
+ * __useDisableNotificationsMutation__
+ *
+ * To run a mutation, you first call `useDisableNotificationsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDisableNotificationsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [disableNotificationsMutation, { data, loading, error }] = useDisableNotificationsMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDisableNotificationsMutation(baseOptions?: Apollo.MutationHookOptions<DisableNotificationsMutation, DisableNotificationsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DisableNotificationsMutation, DisableNotificationsMutationVariables>(DisableNotificationsDocument, options);
+      }
+export type DisableNotificationsMutationHookResult = ReturnType<typeof useDisableNotificationsMutation>;
+export type DisableNotificationsMutationResult = Apollo.MutationResult<DisableNotificationsMutation>;
+export type DisableNotificationsMutationOptions = Apollo.BaseMutationOptions<DisableNotificationsMutation, DisableNotificationsMutationVariables>;
+export const EnableNotificationsDocument = gql`
+    mutation enableNotifications($email: String!) {
+  enableNotifications(email: $email) {
+    id
+    createdAt
+    updatedAt
+    email
+    roles
+    status
+    avatarUrl
+    username
+  }
+}
+    `;
+export type EnableNotificationsMutationFn = Apollo.MutationFunction<EnableNotificationsMutation, EnableNotificationsMutationVariables>;
+
+/**
+ * __useEnableNotificationsMutation__
+ *
+ * To run a mutation, you first call `useEnableNotificationsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEnableNotificationsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [enableNotificationsMutation, { data, loading, error }] = useEnableNotificationsMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useEnableNotificationsMutation(baseOptions?: Apollo.MutationHookOptions<EnableNotificationsMutation, EnableNotificationsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EnableNotificationsMutation, EnableNotificationsMutationVariables>(EnableNotificationsDocument, options);
+      }
+export type EnableNotificationsMutationHookResult = ReturnType<typeof useEnableNotificationsMutation>;
+export type EnableNotificationsMutationResult = Apollo.MutationResult<EnableNotificationsMutation>;
+export type EnableNotificationsMutationOptions = Apollo.BaseMutationOptions<EnableNotificationsMutation, EnableNotificationsMutationVariables>;
 export const GetEventApplicationPairByEventAndAccountDocument = gql`
     query getEventApplicationPairByEventAndAccount($eventId: Int!) {
   getEventApplicationPairByEventAndAccount(eventId: $eventId) {
@@ -1785,6 +1884,46 @@ export function useSetEventApplicationStatusMutation(baseOptions?: Apollo.Mutati
 export type SetEventApplicationStatusMutationHookResult = ReturnType<typeof useSetEventApplicationStatusMutation>;
 export type SetEventApplicationStatusMutationResult = Apollo.MutationResult<SetEventApplicationStatusMutation>;
 export type SetEventApplicationStatusMutationOptions = Apollo.BaseMutationOptions<SetEventApplicationStatusMutation, SetEventApplicationStatusMutationVariables>;
+export const UpdateAccountDocument = gql`
+    mutation updateAccount($username: String!) {
+  updateAccount(username: $username) {
+    id
+    createdAt
+    updatedAt
+    email
+    roles
+    status
+    avatarUrl
+    username
+  }
+}
+    `;
+export type UpdateAccountMutationFn = Apollo.MutationFunction<UpdateAccountMutation, UpdateAccountMutationVariables>;
+
+/**
+ * __useUpdateAccountMutation__
+ *
+ * To run a mutation, you first call `useUpdateAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAccountMutation, { data, loading, error }] = useUpdateAccountMutation({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useUpdateAccountMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAccountMutation, UpdateAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAccountMutation, UpdateAccountMutationVariables>(UpdateAccountDocument, options);
+      }
+export type UpdateAccountMutationHookResult = ReturnType<typeof useUpdateAccountMutation>;
+export type UpdateAccountMutationResult = Apollo.MutationResult<UpdateAccountMutation>;
+export type UpdateAccountMutationOptions = Apollo.BaseMutationOptions<UpdateAccountMutation, UpdateAccountMutationVariables>;
 export const UpdateGroupDocument = gql`
     mutation UpdateGroup($id: Int!, $name: String!, $description: String!, $type: GroupType!) {
   updateGroup(
@@ -1837,3 +1976,43 @@ export function useUpdateGroupMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpdateGroupMutationHookResult = ReturnType<typeof useUpdateGroupMutation>;
 export type UpdateGroupMutationResult = Apollo.MutationResult<UpdateGroupMutation>;
 export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<UpdateGroupMutation, UpdateGroupMutationVariables>;
+export const WhoamiDocument = gql`
+    query whoami {
+  whoami {
+    id
+    createdAt
+    email
+    roles
+    status
+    avatarUrl
+    username
+  }
+}
+    `;
+
+/**
+ * __useWhoamiQuery__
+ *
+ * To run a query within a React component, call `useWhoamiQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWhoamiQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWhoamiQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useWhoamiQuery(baseOptions?: Apollo.QueryHookOptions<WhoamiQuery, WhoamiQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WhoamiQuery, WhoamiQueryVariables>(WhoamiDocument, options);
+      }
+export function useWhoamiLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WhoamiQuery, WhoamiQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WhoamiQuery, WhoamiQueryVariables>(WhoamiDocument, options);
+        }
+export type WhoamiQueryHookResult = ReturnType<typeof useWhoamiQuery>;
+export type WhoamiLazyQueryHookResult = ReturnType<typeof useWhoamiLazyQuery>;
+export type WhoamiQueryResult = Apollo.QueryResult<WhoamiQuery, WhoamiQueryVariables>;

@@ -1,37 +1,12 @@
 import { ReactElement } from 'react';
 import { Card } from '@components/ui/common/card';
-import { Description, Wrapper } from '@components/ui/common/styled-components';
-import {
-  Header,
-  HeaderWrapper,
-} from '@components/ui/custom/card-toggle-email/styled-components';
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import { Avatar, Switch } from '@mui/material';
 
 export interface ICardEmailToggleProperties {
-  title: string;
-  description: string;
+  content: ReactElement;
 }
-
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 export const CardEmailToggle = (
   properties: ICardEmailToggleProperties,
 ): ReactElement => {
-  return (
-    <Card
-      content={
-        <Wrapper>
-          <HeaderWrapper>
-            <Avatar variant="rounded">
-              <AlternateEmailIcon />
-            </Avatar>
-            <Header>{properties.title}</Header>
-            <Switch {...label} defaultChecked />
-          </HeaderWrapper>
-          <Description>{properties.description}</Description>
-        </Wrapper>
-      }
-    />
-  );
+  return <Card content={properties.content} />;
 };

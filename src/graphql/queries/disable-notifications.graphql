@@ -1,0 +1,12 @@
+mutation disableNotifications {
+    disableNotifications {
+        id
+        createdAt
+        updatedAt
+        email
+        roles
+        status
+        avatarUrl
+        username
+    }
+}

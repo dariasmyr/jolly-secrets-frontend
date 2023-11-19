@@ -190,6 +190,7 @@ export default function IndexPage(): ReactNode {
         onConfirmClick={handleClick}
       />
       <DialogInputEmail
+        initialEmail={''}
         isOpen={false}
         title="Укажите почту"
         onCancelClick={handleClick}

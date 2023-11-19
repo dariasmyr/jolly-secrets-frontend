@@ -1,0 +1,12 @@
+mutation updateAccount ($username: String!) {
+  updateAccount (username: $username) {
+    id
+    createdAt
+    updatedAt
+    email
+    roles
+    status
+    avatarUrl
+    username
+  }
+}

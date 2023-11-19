@@ -8,6 +8,7 @@ interface DialogInputEmailProperties {
   title: string;
   onCancelClick: () => void;
   onSaveClick: (email: string) => void;
+  initialEmail: string | null;
 }
 
 export const DialogInputEmail = (
@@ -20,7 +21,7 @@ export const DialogInputEmail = (
   }
 
   function handleSave(): void {
-    properties.onSaveClick(inputValue);
+    properties.onSaveClick('email');
   }
 
   return (
