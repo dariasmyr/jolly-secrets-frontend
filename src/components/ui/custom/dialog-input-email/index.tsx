@@ -15,13 +15,22 @@ export const DialogInputEmail = (
   properties: DialogInputEmailProperties,
 ): ReactElement => {
   const [inputValue, setInputValue] = useState('');
+  const [isValidEmail, setIsValidEmail] = useState(true); // Добавляем состояние для отслеживания валидности email
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    setInputValue(event.target.value);
+    const value = event.target.value;
+    setInputValue(value);
+
+    const isValid = /\S+@\S+\.\S+/.test(value);
+    setIsValidEmail(isValid);
   }
 
   function handleSave(): void {
-    properties.onSaveClick(inputValue);
+    if (isValidEmail) {
+      properties.onSaveClick(inputValue);
+    } else {
+      console.error('Неверный формат email');
+    }
   }
 
   return (
@@ -41,6 +50,8 @@ export const DialogInputEmail = (
             fullWidth
             value={inputValue}
             onChange={handleChange}
+            error={!isValidEmail}
+            helperText={isValidEmail ? '' : 'Введите корректный email'}
           />
         </div>
       }
