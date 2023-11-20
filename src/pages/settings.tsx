@@ -111,11 +111,6 @@ const Settings: FC = () => {
       setValueName('username', data?.whoami?.username);
     }
 
-    if (authStore.account?.status === 'DELETED') {
-      console.log('Account deleted');
-      authStore.clear();
-    }
-
     const email = data?.whoami?.email || null;
     const username = data?.whoami?.username || null;
     const isNotificationsEnabled =

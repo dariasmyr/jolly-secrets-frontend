@@ -1,0 +1,12 @@
+query notifications ($offset: Int!, $limit: Int!) {
+    notifications (offset: $offset, limit: $limit) {
+        id
+        createdAt
+        updatedAt
+        accountId
+        accountId
+        title
+        message
+        read
+    }
+}

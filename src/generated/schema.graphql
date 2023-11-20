@@ -371,7 +371,7 @@ type Query {
   isGroupNameAvailable(name: String!): Boolean!
   messages(chatId: Float!): [Message!]!
   notification(id: Float!): Notification!
-  notifications(limit: Float!, offset: Float!): [Notification!]!
+  notifications(limit: Int!, offset: Int!): [Notification!]!
   privateGroups(limit: Int!, offset: Int!): [Group!]!
   publicGroups(limit: Int!, offset: Int!): [Group!]!
   testTranslation(username: String!): String!

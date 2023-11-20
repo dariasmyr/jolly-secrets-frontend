@@ -589,8 +589,8 @@ export type QueryNotificationArgs = {
 
 
 export type QueryNotificationsArgs = {
-  limit: Scalars['Float']['input'];
-  offset: Scalars['Float']['input'];
+  limit: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
 };
 
 
@@ -754,6 +754,14 @@ export type LoginWithTelegramMutationVariables = Exact<{
 
 
 export type LoginWithTelegramMutation = { __typename?: 'Mutation', loginWithTelegram: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, username: string, avatarUrl?: string | null } } };
+
+export type NotificationsQueryVariables = Exact<{
+  offset: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
+}>;
+
+
+export type NotificationsQuery = { __typename?: 'Query', notifications: Array<{ __typename?: 'Notification', id: number, createdAt: any, updatedAt: any, accountId: number, title: string, message: string, read: boolean }> };
 
 export type PrivateGroupsQueryVariables = Exact<{
   offset: Scalars['Int']['input'];
@@ -1792,6 +1800,49 @@ export function useLoginWithTelegramMutation(baseOptions?: Apollo.MutationHookOp
 export type LoginWithTelegramMutationHookResult = ReturnType<typeof useLoginWithTelegramMutation>;
 export type LoginWithTelegramMutationResult = Apollo.MutationResult<LoginWithTelegramMutation>;
 export type LoginWithTelegramMutationOptions = Apollo.BaseMutationOptions<LoginWithTelegramMutation, LoginWithTelegramMutationVariables>;
+export const NotificationsDocument = gql`
+    query notifications($offset: Int!, $limit: Int!) {
+  notifications(offset: $offset, limit: $limit) {
+    id
+    createdAt
+    updatedAt
+    accountId
+    accountId
+    title
+    message
+    read
+  }
+}
+    `;
+
+/**
+ * __useNotificationsQuery__
+ *
+ * To run a query within a React component, call `useNotificationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNotificationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNotificationsQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useNotificationsQuery(baseOptions: Apollo.QueryHookOptions<NotificationsQuery, NotificationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NotificationsQuery, NotificationsQueryVariables>(NotificationsDocument, options);
+      }
+export function useNotificationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NotificationsQuery, NotificationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NotificationsQuery, NotificationsQueryVariables>(NotificationsDocument, options);
+        }
+export type NotificationsQueryHookResult = ReturnType<typeof useNotificationsQuery>;
+export type NotificationsLazyQueryHookResult = ReturnType<typeof useNotificationsLazyQuery>;
+export type NotificationsQueryResult = Apollo.QueryResult<NotificationsQuery, NotificationsQueryVariables>;
 export const PrivateGroupsDocument = gql`
     query PrivateGroups($offset: Int!, $limit: Int!) {
   privateGroups(offset: $offset, limit: $limit) {
