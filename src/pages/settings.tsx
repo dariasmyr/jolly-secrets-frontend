@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import {
+  useDisableNotificationsMutation,
   useEnableNotificationsMutation,
   useUpdateAccountMutation,
   useWhoamiQuery,
@@ -50,7 +51,7 @@ const Settings: FC = () => {
   const [enableNotifications, { reset: emailReset }] =
     useEnableNotificationsMutation();
 
-  const [disableNotifications] = useEnableNotificationsMutation();
+  const [disableNotifications] = useDisableNotificationsMutation();
 
   const [snackbarData, setSnackbarData] = useState({
     open: false,
@@ -77,7 +78,7 @@ const Settings: FC = () => {
     }
     // eslint-disable-next-line unicorn/no-null
     setEmail(data?.whoami?.email || null);
-    setNotifEnabled(Boolean(data?.whoami?.email)); // Обновить здесь
+    setNotifEnabled(Boolean(data?.whoami?.email));
   }, [authStore, data]);
 
   const handleFormSubmit = async (formData: FormData): Promise<void> => {
@@ -111,6 +112,8 @@ const Settings: FC = () => {
         open: true,
         message: 'Уведомления отключены',
       });
+      // eslint-disable-next-line unicorn/no-null
+      setEmail(null);
     }
   };
 
@@ -171,7 +174,9 @@ const Settings: FC = () => {
             <Description>
               При включенной опции уведомления будут приходить на ваш емейл
             </Description>
-            {email && <Description>{`Текущий адрес: ${email}`}</Description>}
+            {notifEnabled && email && (
+              <Description>{`Текущий адрес: ${email}`}</Description>
+            )}
           </Wrapper>
         }
       />
@@ -188,7 +193,10 @@ const Settings: FC = () => {
         isOpen={isDialogOpen}
         title={'Введите вашу почту'}
         initialEmail={email}
-        onCancelClick={(): void => setDialogOpen(false)}
+        onCancelClick={(): void => {
+          setDialogOpen(false);
+          setNotifEnabled(false);
+        }}
         onSaveClick={(inputEmail): void => {
           setEmail(inputEmail);
           enableNotifications({

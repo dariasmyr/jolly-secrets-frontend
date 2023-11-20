@@ -21,7 +21,7 @@ export const DialogInputEmail = (
   }
 
   function handleSave(): void {
-    properties.onSaveClick('email');
+    properties.onSaveClick(inputValue);
   }
 
   return (
