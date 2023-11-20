@@ -13,6 +13,7 @@ type Account {
   externalProfiles: [ExternalProfile!]
   groupMembers: [GroupMember!]
   id: Int!
+  isNotificationsEnabled: Boolean!
   messages: [Message!]
   notifications: [Notification!]
   roles: [AccountRole!]
@@ -307,7 +308,7 @@ type Mutation {
   deletePreference(id: Float!): Preference!
   disableNotifications: Account!
   echo(text: String!): String!
-  enableNotifications(email: String!): Account!
+  enableNotifications: Account!
   loginWithGoogle(code: String!): AuthResponse!
   loginWithTelegram(token: String!): AuthResponse!
   logout(sessionIds: [Float!]!): Boolean!

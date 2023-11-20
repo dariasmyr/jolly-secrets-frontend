@@ -3,7 +3,6 @@ query whoami {
     id
     createdAt
     email
-    publicName
     isNotificationsEnabled
     roles
     status

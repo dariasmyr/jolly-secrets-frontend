@@ -31,6 +31,7 @@ export type Account = {
   externalProfiles?: Maybe<Array<ExternalProfile>>;
   groupMembers?: Maybe<Array<GroupMember>>;
   id: Scalars['Int']['output'];
+  isNotificationsEnabled: Scalars['Boolean']['output'];
   messages?: Maybe<Array<Message>>;
   notifications?: Maybe<Array<Notification>>;
   roles?: Maybe<Array<AccountRole>>;
@@ -400,11 +401,6 @@ export type MutationEchoArgs = {
 };
 
 
-export type MutationEnableNotificationsArgs = {
-  email: Scalars['String']['input'];
-};
-
-
 export type MutationLoginWithGoogleArgs = {
   code: Scalars['String']['input'];
 };
@@ -679,14 +675,12 @@ export type DeleteGroupMutation = { __typename?: 'Mutation', deleteGroup: { __ty
 export type DisableNotificationsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DisableNotificationsMutation = { __typename?: 'Mutation', disableNotifications: { __typename?: 'Account', id: number, createdAt: any, updatedAt: any, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string } };
+export type DisableNotificationsMutation = { __typename?: 'Mutation', disableNotifications: { __typename?: 'Account', id: number, createdAt: any, updatedAt: any, email?: string | null, isNotificationsEnabled: boolean, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string } };
 
-export type EnableNotificationsMutationVariables = Exact<{
-  email: Scalars['String']['input'];
-}>;
+export type EnableNotificationsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EnableNotificationsMutation = { __typename?: 'Mutation', enableNotifications: { __typename?: 'Account', id: number, createdAt: any, updatedAt: any, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string } };
+export type EnableNotificationsMutation = { __typename?: 'Mutation', enableNotifications: { __typename?: 'Account', id: number, createdAt: any, updatedAt: any, email?: string | null, isNotificationsEnabled: boolean, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string } };
 
 export type GetEventApplicationPairByEventAndAccountQueryVariables = Exact<{
   eventId: Scalars['Int']['input'];
@@ -805,7 +799,7 @@ export type UpdateGroupMutation = { __typename?: 'Mutation', updateGroup: { __ty
 export type WhoamiQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type WhoamiQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', id: number, createdAt: any, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string } };
+export type WhoamiQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', id: number, createdAt: any, email?: string | null, isNotificationsEnabled: boolean, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string, externalProfiles?: Array<{ __typename?: 'ExternalProfile', provider: ExternalProfileProvider }> | null } };
 
 
 export const CreateEventApplicationDocument = gql`
@@ -1201,6 +1195,7 @@ export const DisableNotificationsDocument = gql`
     createdAt
     updatedAt
     email
+    isNotificationsEnabled
     roles
     status
     avatarUrl
@@ -1234,12 +1229,13 @@ export type DisableNotificationsMutationHookResult = ReturnType<typeof useDisabl
 export type DisableNotificationsMutationResult = Apollo.MutationResult<DisableNotificationsMutation>;
 export type DisableNotificationsMutationOptions = Apollo.BaseMutationOptions<DisableNotificationsMutation, DisableNotificationsMutationVariables>;
 export const EnableNotificationsDocument = gql`
-    mutation enableNotifications($email: String!) {
-  enableNotifications(email: $email) {
+    mutation enableNotifications {
+  enableNotifications {
     id
     createdAt
     updatedAt
     email
+    isNotificationsEnabled
     roles
     status
     avatarUrl
@@ -1262,7 +1258,6 @@ export type EnableNotificationsMutationFn = Apollo.MutationFunction<EnableNotifi
  * @example
  * const [enableNotificationsMutation, { data, loading, error }] = useEnableNotificationsMutation({
  *   variables: {
- *      email: // value for 'email'
  *   },
  * });
  */
@@ -2033,10 +2028,14 @@ export const WhoamiDocument = gql`
     id
     createdAt
     email
+    isNotificationsEnabled
     roles
     status
     avatarUrl
     username
+    externalProfiles {
+      provider
+    }
   }
 }
     `;

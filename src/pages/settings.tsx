@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable unicorn/no-null */
 import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
@@ -18,6 +20,7 @@ import * as Yup from 'yup';
 
 import { DialogConfirmAction } from '@/components/ui/custom/dialog-confirm-action';
 import {
+  AccountStatus,
   useDeleteAccountMutation,
   useDisableNotificationsMutation,
   useEnableNotificationsMutation,
@@ -27,17 +30,20 @@ import {
 import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
 
-const validationSchema = Yup.object().shape({
-  publicName: Yup.string().required('Обязательное поле'),
-  deleteAccount: Yup.string().oneOf(
+const usernameValidationSchema = Yup.object().shape({
+  username: Yup.string().required('Обязательное поле'),
+});
+
+const deletionValidationSchema = Yup.object().shape({
+  deleteAccountPhrase: Yup.string().oneOf(
     ['Удалить аккаунт'],
     'Введите "Удалить аккаунт"',
   ),
 });
 
 type FormData = {
-  publicName: string;
-  deleteAccount?: string;
+  username: string;
+  deleteAccountPhrase?: string;
 };
 
 const Settings: FC = () => {
@@ -46,12 +52,29 @@ const Settings: FC = () => {
 
   const { data } = useWhoamiQuery({});
 
-  const { register, handleSubmit, formState, setValue } = useForm<FormData>({
-    resolver: yupResolver(validationSchema),
+  const {
+    register: registerName,
+    handleSubmit: handleSubmitName,
+    formState: formStateName,
+    setValue: setValueName,
+  } = useForm({
+    resolver: yupResolver(usernameValidationSchema),
     defaultValues: {
-      deleteAccount: '',
+      username: '',
     },
   });
+
+  const {
+    register: registerDelete,
+    handleSubmit: handleSubmitDelete,
+    formState: formStateDelete,
+  } = useForm({
+    resolver: yupResolver(deletionValidationSchema),
+    defaultValues: {
+      deleteAccountPhrase: '',
+    },
+  });
+
   const [updateAccount, { reset: accountReset }] = useUpdateAccountMutation();
   const [deleteAccount, { reset: deleteReset }] = useDeleteAccountMutation();
 
@@ -66,13 +89,17 @@ const Settings: FC = () => {
   });
 
   const [contact, setContact] = useState<string | null>(
-    // if account has email - set contact as email, if not - set contact as telegram uername
-    // eslint-disable-next-line unicorn/no-null
-    data?.whoami?.email || data?.whoami?.username || null,
+    data?.whoami?.externalProfiles?.some(
+      (profile) => profile.provider === 'GOOGLE',
+    )
+      ? data?.whoami?.email || null
+      : data?.whoami?.username || null,
   );
   const [notifEnabled, setNotifEnabled] = useState(Boolean(contact));
 
   const [isDialogOpen, setDialogOpen] = useState(false);
+
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -80,15 +107,25 @@ const Settings: FC = () => {
     if (!authStore.token || !authStore.account?.id) {
       router.push('/auth/login');
     }
-    if (data?.whoami?.publicName) {
-      setValue('publicName', data?.whoami?.publicName);
+    if (data?.whoami?.username) {
+      setValueName('username', data?.whoami?.username);
+    }
+
+    if (authStore.account?.status === 'DELETED') {
+      console.log('Account deleted');
+      authStore.clear();
     }
 
     const email = data?.whoami?.email || null;
     const username = data?.whoami?.username || null;
-    const isNotificationsEnabled = data?.whoami?.isNotificationsEnabled;
+    const isNotificationsEnabled =
+      data?.whoami?.isNotificationsEnabled || false;
 
-    if (data?.whoami?.externalProfiles.providers === 'GOOGLE') {
+    if (
+      data?.whoami?.externalProfiles?.some(
+        (profile) => profile.provider === 'GOOGLE',
+      )
+    ) {
       setContact(email);
       setNotifEnabled(isNotificationsEnabled);
     } else {
@@ -97,14 +134,16 @@ const Settings: FC = () => {
     }
   }, [authStore, data]);
 
-  const handlePublicNameSubmit = async (formData: FormData): Promise<void> => {
-    if (Object.keys(formState.errors).length > 0) {
-      log.debug('Error', formState.errors);
+  const handleUsernameSubmit = async (username: string): Promise<void> => {
+    const isValid = await usernameValidationSchema.isValid({ username });
+
+    if (!isValid) {
+      log.debug('Validation error');
       return;
     }
     const updateAccountResponse = await updateAccount({
       variables: {
-        publicName: formData.publicName,
+        username: username,
       },
     });
 
@@ -114,20 +153,16 @@ const Settings: FC = () => {
         message: 'Данные успешно обновлены',
       });
       accountReset();
+      authStore.setAccount({
+        ...authStore.account,
+        username: username,
+      });
     }
   };
 
-  const handleDeleteAccountSubmit = async (): Promise<void> => {
-    if (Object.keys(formState.errors).length > 0) {
-      log.debug('Error', formState.errors);
-      return;
-    }
-    const deleteAccountResponse = await deleteAccount({});
-
-    if (deleteAccountResponse.data?.deleteAccount) {
-      deleteReset();
-    }
-  };
+  const isGoogleProfile = data?.whoami?.externalProfiles?.some(
+    (profile) => profile.provider === 'GOOGLE',
+  );
 
   const handleNotifSwitch = async (state: boolean): Promise<void> => {
     setNotifEnabled(state);
@@ -140,8 +175,32 @@ const Settings: FC = () => {
         open: true,
         message: 'Уведомления отключены',
       });
-      // eslint-disable-next-line unicorn/no-null
       setContact(null);
+    }
+  };
+
+  const handleConfirmDialogOpen = (): void => {
+    setOpenConfirmDialog(true);
+  };
+
+  const handleConfirmDialogClose = (): void => {
+    setOpenConfirmDialog(false);
+  };
+
+  const handleDeleteAccountSubmit = async (): Promise<void> => {
+    handleConfirmDialogClose();
+    const deleteAccountResponse = await deleteAccount({});
+    if (deleteAccountResponse.data?.deleteAccount) {
+      deleteReset();
+      if (
+        deleteAccountResponse.data.deleteAccount.status ===
+        AccountStatus.Deleted
+      ) {
+        authStore.setAccount({
+          ...authStore.account,
+          status: AccountStatus.Deleted,
+        });
+      }
     }
   };
 
@@ -151,30 +210,40 @@ const Settings: FC = () => {
       <Card
         content={
           <FormWrapper
-            onSubmit={handleSubmit(async (formData) => {
+            onSubmit={handleSubmitName(async (formData: FormData) => {
               try {
-                await handlePublicNameSubmit(formData);
+                await handleUsernameSubmit(formData.username);
               } catch (submitError) {
-                log.error('Update public name error', submitError);
+                log.error('Update account error', submitError);
               }
             })}
           >
             <TextField
-              key="publicName"
-              id="field-publicName"
-              label="Текущее имя"
+              key="username"
+              id="field-userName"
+              label="Имя"
+              InputLabelProps={{
+                shrink: true,
+              }}
               type="text"
               fullWidth
               size="small"
               multiline={false}
-              error={Boolean(formState.errors.publicName)}
-              helperText={formState.errors.publicName?.message}
-              {...register('publicName')}
+              error={Boolean(formStateName.errors.username)}
+              helperText={formStateName.errors.username?.message}
+              {...registerName('username')}
+              defaultValue={data?.whoami?.username || ''}
             />
             <Button
               variant={ButtonVariant.primary}
               onClick={(): Promise<void> =>
-                handleSubmit(handlePublicNameSubmit)()
+                handleSubmitName(async (formData: FormData): Promise<void> => {
+                  try {
+                    await handleUsernameSubmit(formData.username);
+                  } catch (submitError) {
+                    log.error('Update account error', submitError);
+                  }
+                })()
               }
             >
               Сохранить
@@ -191,7 +260,7 @@ const Settings: FC = () => {
                 <Avatar variant="rounded">
                   <AlternateEmailIcon />
                 </Avatar>
-                <Header>Email</Header>
+                <Header>Email/Telegram</Header>
               </div>
               <Switch
                 {...label}
@@ -207,7 +276,7 @@ const Settings: FC = () => {
             </Description>
             {notifEnabled &&
               contact &&
-              (data?.whoami?.externalProfiles.providers === 'GOOGLE' ? (
+              (isGoogleProfile ? (
                 <Description>{`Текущий адрес: ${contact}`}</Description>
               ) : (
                 <Description>{`Текущий Telegram ID: ${contact}`}</Description>
@@ -219,7 +288,7 @@ const Settings: FC = () => {
       <Card
         content={
           <FormWrapper
-            onSubmit={handleSubmit(async () => {
+            onSubmit={handleSubmitDelete(async () => {
               try {
                 await handleDeleteAccountSubmit();
               } catch (submitError) {
@@ -234,18 +303,32 @@ const Settings: FC = () => {
               key="deleteAccount"
               id="field-deleteAccount"
               type="text"
+              label="Удалить аккаунт"
+              InputLabelProps={{
+                shrink: true,
+              }}
               fullWidth
               size="small"
               multiline={false}
-              error={Boolean(formState.errors.deleteAccount)}
-              helperText={formState.errors.deleteAccount?.message}
-              {...register('deleteAccount')}
+              error={Boolean(formStateDelete.errors.deleteAccountPhrase)}
+              helperText={formStateDelete.errors.deleteAccountPhrase?.message}
+              {...registerDelete('deleteAccountPhrase')}
             />
             <Button
               variant={ButtonVariant.primary}
-              onClick={(): Promise<void> =>
-                handleSubmit(handleDeleteAccountSubmit)()
-              }
+              onClick={handleSubmitDelete(async (): Promise<void> => {
+                try {
+                  const isValid =
+                    await deletionValidationSchema.isValid(formStateDelete);
+                  if (!isValid) {
+                    log.debug('Validation error');
+                    return;
+                  }
+                  handleConfirmDialogOpen();
+                } catch (submitError) {
+                  log.error('Delete account error', submitError);
+                }
+              })}
             >
               Удалить аккаунт
             </Button>
@@ -273,12 +356,23 @@ const Settings: FC = () => {
         }}
         onConfirmClick={(): void => {
           setContact(contact);
-          enableNotifications({
-            variables: {
-              contact: contact,
-            },
-          });
+          enableNotifications({});
           setDialogOpen(false);
+        }}
+      />
+      <DialogConfirmAction
+        isOpen={openConfirmDialog}
+        title={'Подтвердите удаление аккаунта'}
+        description={
+          'Вы уверены, что хотите удалить свой аккаунт? Это действие не может быть отменено.'
+        }
+        cancelButtonText={'Отмена'}
+        confirmButtonText={'Да, включить'}
+        onCancelClick={(): void => {
+          handleConfirmDialogClose();
+        }}
+        onConfirmClick={(): void => {
+          handleDeleteAccountSubmit();
         }}
       />
     </Page>

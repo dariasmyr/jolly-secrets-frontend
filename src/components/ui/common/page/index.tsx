@@ -102,8 +102,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
         title={properties.title}
         onMenuClick={handleShowMenu}
         onAccountClick={(): void => {
-          // eslint-disable-next-line no-alert
-          alert('Account Clicked');
+          router.push('/settings');
         }}
         avatarUrl={authStore.account?.avatarUrl || undefined}
       />

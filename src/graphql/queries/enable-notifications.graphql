@@ -4,7 +4,6 @@ mutation enableNotifications {
     createdAt
     updatedAt
     email
-    publicName
     isNotificationsEnabled
     roles
     status
