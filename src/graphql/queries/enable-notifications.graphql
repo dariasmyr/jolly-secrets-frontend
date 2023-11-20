@@ -1,9 +1,11 @@
-mutation enableNotifications ($email: String!) {
-  enableNotifications (email: $email) {
+mutation enableNotifications {
+  enableNotifications {
     id
     createdAt
     updatedAt
     email
+    publicName
+    isNotificationsEnabled
     roles
     status
     avatarUrl
