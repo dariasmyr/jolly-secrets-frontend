@@ -3,9 +3,14 @@ query whoami {
     id
     createdAt
     email
+    publicName
+    isNotificationsEnabled
     roles
     status
     avatarUrl
     username
+    externalProfiles {
+      provider
+    }
   }
 }
