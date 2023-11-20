@@ -1,0 +1,19 @@
+mutation deleteAccount {
+    deleteAccount {
+        id
+        createdAt
+        updatedAt
+        email
+        roles
+        status
+        avatarUrl
+        username
+        sessions {
+            id
+            accountId
+            ipAddr
+            userAgent
+            expiresAt
+        }
+    }
+}

@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import {
+  useDeleteAccountMutation,
   useDisableNotificationsMutation,
   useEnableNotificationsMutation,
   useUpdateAccountMutation,
@@ -28,25 +29,31 @@ import { useAuthStore } from '@/store/auth.store';
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required('Обязательное поле'),
+  deleteAccount: Yup.string().oneOf(
+    ['Удалить аккаунт'],
+    'Введите "Удалить аккаунт"',
+  ),
 });
 
 type FormData = {
   userName: string;
+  deleteAccount?: string;
 };
 
 const Settings: FC = () => {
   const authStore = useAuthStore();
   const router = useRouter();
-  const { register, handleSubmit, formState, setValue } = useForm<FormData>({
-    resolver: yupResolver(validationSchema),
-    defaultValues: {
-      userName: 'Ваше имя',
-    },
-  });
 
   const { data } = useWhoamiQuery({});
 
+  const { register, handleSubmit, formState, setValue } = useForm<FormData>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      deleteAccount: '',
+    },
+  });
   const [updateAccount, { reset: accountReset }] = useUpdateAccountMutation();
+  const [deleteAccount, { reset: deleteReset }] = useDeleteAccountMutation();
 
   const [enableNotifications, { reset: emailReset }] =
     useEnableNotificationsMutation();
@@ -62,7 +69,6 @@ const Settings: FC = () => {
     // eslint-disable-next-line unicorn/no-null
     data?.whoami?.email || null,
   );
-
   const [notifEnabled, setNotifEnabled] = useState(Boolean(email));
 
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -81,7 +87,7 @@ const Settings: FC = () => {
     setNotifEnabled(Boolean(data?.whoami?.email));
   }, [authStore, data]);
 
-  const handleFormSubmit = async (formData: FormData): Promise<void> => {
+  const handleUserNameSubmit = async (formData: FormData): Promise<void> => {
     if (Object.keys(formState.errors).length > 0) {
       log.debug('Error', formState.errors);
       return;
@@ -98,6 +104,18 @@ const Settings: FC = () => {
         message: 'Данные успешно обновлены',
       });
       accountReset();
+    }
+  };
+
+  const handleDeleteAccountSubmit = async (): Promise<void> => {
+    if (Object.keys(formState.errors).length > 0) {
+      log.debug('Error', formState.errors);
+      return;
+    }
+    const deleteAccountResponse = await deleteAccount({});
+
+    if (deleteAccountResponse.data?.deleteAccount) {
+      deleteReset();
     }
   };
 
@@ -125,16 +143,16 @@ const Settings: FC = () => {
           <FormWrapper
             onSubmit={handleSubmit(async (formData) => {
               try {
-                await handleFormSubmit(formData);
+                await handleUserNameSubmit(formData);
               } catch (submitError) {
-                log.error('Create event error', submitError);
+                log.error('Update username error', submitError);
               }
             })}
           >
             <TextField
               key="userName"
               id="field-userName"
-              label="Название события"
+              label="Текущее имя"
               type="text"
               fullWidth
               size="small"
@@ -145,7 +163,9 @@ const Settings: FC = () => {
             />
             <Button
               variant={ButtonVariant.primary}
-              onClick={handleSubmit(handleFormSubmit)}
+              onClick={(): Promise<void> =>
+                handleSubmit(handleUserNameSubmit)()
+              }
             >
               Сохранить
             </Button>
@@ -178,6 +198,43 @@ const Settings: FC = () => {
               <Description>{`Текущий адрес: ${email}`}</Description>
             )}
           </Wrapper>
+        }
+      />
+      <Header>Удаление аккаунта</Header>
+      <Card
+        content={
+          <FormWrapper
+            onSubmit={handleSubmit(async () => {
+              try {
+                await handleDeleteAccountSubmit();
+              } catch (submitError) {
+                log.error('Delete account error', submitError);
+              }
+            })}
+          >
+            <Description>
+              Чтобы удалить аккаунт напишите “Удалить аккаунт”
+            </Description>
+            <TextField
+              key="deleteAccount"
+              id="field-deleteAccount"
+              type="text"
+              fullWidth
+              size="small"
+              multiline={false}
+              error={Boolean(formState.errors.deleteAccount)}
+              helperText={formState.errors.deleteAccount?.message}
+              {...register('deleteAccount')}
+            />
+            <Button
+              variant={ButtonVariant.primary}
+              onClick={(): Promise<void> =>
+                handleSubmit(handleDeleteAccountSubmit)()
+              }
+            >
+              Удалить аккаунт
+            </Button>
+          </FormWrapper>
         }
       />
       <Snackbar

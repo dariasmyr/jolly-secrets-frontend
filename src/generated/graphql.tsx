@@ -664,6 +664,11 @@ export type DebugQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type DebugQuery = { __typename?: 'Query', debug: any };
 
+export type DeleteAccountMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount: { __typename?: 'Account', id: number, createdAt: any, updatedAt: any, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string, sessions?: Array<{ __typename?: 'AccountSession', id: number, accountId: number, ipAddr: string, userAgent?: string | null, expiresAt: any }> | null } };
+
 export type DeleteGroupMutationVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
@@ -1097,6 +1102,52 @@ export function useDebugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Debu
 export type DebugQueryHookResult = ReturnType<typeof useDebugQuery>;
 export type DebugLazyQueryHookResult = ReturnType<typeof useDebugLazyQuery>;
 export type DebugQueryResult = Apollo.QueryResult<DebugQuery, DebugQueryVariables>;
+export const DeleteAccountDocument = gql`
+    mutation deleteAccount {
+  deleteAccount {
+    id
+    createdAt
+    updatedAt
+    email
+    roles
+    status
+    avatarUrl
+    username
+    sessions {
+      id
+      accountId
+      ipAddr
+      userAgent
+      expiresAt
+    }
+  }
+}
+    `;
+export type DeleteAccountMutationFn = Apollo.MutationFunction<DeleteAccountMutation, DeleteAccountMutationVariables>;
+
+/**
+ * __useDeleteAccountMutation__
+ *
+ * To run a mutation, you first call `useDeleteAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAccountMutation, { data, loading, error }] = useDeleteAccountMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeleteAccountMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAccountMutation, DeleteAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAccountMutation, DeleteAccountMutationVariables>(DeleteAccountDocument, options);
+      }
+export type DeleteAccountMutationHookResult = ReturnType<typeof useDeleteAccountMutation>;
+export type DeleteAccountMutationResult = Apollo.MutationResult<DeleteAccountMutation>;
+export type DeleteAccountMutationOptions = Apollo.BaseMutationOptions<DeleteAccountMutation, DeleteAccountMutationVariables>;
 export const DeleteGroupDocument = gql`
     mutation DeleteGroup($id: Int!) {
   deleteGroup(id: $id) {
