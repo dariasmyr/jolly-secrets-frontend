@@ -1,12 +1,14 @@
 mutation disableNotifications {
     disableNotifications {
-        id
-        createdAt
-        updatedAt
-        email
-        roles
-        status
-        avatarUrl
-        username
+    id
+    createdAt
+    updatedAt
+    email
+    publicName
+    isNotificationsEnabled
+    roles
+    status
+    avatarUrl
+    username
     }
 }
