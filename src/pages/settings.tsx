@@ -7,7 +7,6 @@ import { Page } from '@components/ui/common/page';
 import { Description, Wrapper } from '@components/ui/common/styled-components';
 import { CardEmailToggle } from '@components/ui/custom/card-toggle-email';
 import { HeaderWrapper } from '@components/ui/custom/card-toggle-email/styled-components';
-import { DialogInputEmail } from '@components/ui/custom/dialog-input-email';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import { Avatar, Switch } from '@mui/material';
@@ -17,6 +16,7 @@ import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import { DialogConfirmAction } from '@/components/ui/custom/dialog-confirm-action';
 import {
   useDeleteAccountMutation,
   useDisableNotificationsMutation,
@@ -28,7 +28,7 @@ import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
 
 const validationSchema = Yup.object().shape({
-  userName: Yup.string().required('Обязательное поле'),
+  publicName: Yup.string().required('Обязательное поле'),
   deleteAccount: Yup.string().oneOf(
     ['Удалить аккаунт'],
     'Введите "Удалить аккаунт"',
@@ -36,7 +36,7 @@ const validationSchema = Yup.object().shape({
 });
 
 type FormData = {
-  userName: string;
+  publicName: string;
   deleteAccount?: string;
 };
 
@@ -55,7 +55,7 @@ const Settings: FC = () => {
   const [updateAccount, { reset: accountReset }] = useUpdateAccountMutation();
   const [deleteAccount, { reset: deleteReset }] = useDeleteAccountMutation();
 
-  const [enableNotifications, { reset: emailReset }] =
+  const [enableNotifications, { reset: notificationsReset }] =
     useEnableNotificationsMutation();
 
   const [disableNotifications] = useDisableNotificationsMutation();
@@ -65,11 +65,12 @@ const Settings: FC = () => {
     message: '',
   });
 
-  const [email, setEmail] = useState<string | null>(
+  const [contact, setContact] = useState<string | null>(
+    // if account has email - set contact as email, if not - set contact as telegram uername
     // eslint-disable-next-line unicorn/no-null
-    data?.whoami?.email || null,
+    data?.whoami?.email || data?.whoami?.username || null,
   );
-  const [notifEnabled, setNotifEnabled] = useState(Boolean(email));
+  const [notifEnabled, setNotifEnabled] = useState(Boolean(contact));
 
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -79,22 +80,31 @@ const Settings: FC = () => {
     if (!authStore.token || !authStore.account?.id) {
       router.push('/auth/login');
     }
-    if (data?.whoami?.username) {
-      setValue('userName', data?.whoami?.username);
+    if (data?.whoami?.publicName) {
+      setValue('publicName', data?.whoami?.publicName);
     }
-    // eslint-disable-next-line unicorn/no-null
-    setEmail(data?.whoami?.email || null);
-    setNotifEnabled(Boolean(data?.whoami?.email));
+
+    const email = data?.whoami?.email || null;
+    const username = data?.whoami?.username || null;
+    const isNotificationsEnabled = data?.whoami?.isNotificationsEnabled;
+
+    if (data?.whoami?.externalProfiles.providers === 'GOOGLE') {
+      setContact(email);
+      setNotifEnabled(isNotificationsEnabled);
+    } else {
+      setContact(username);
+      setNotifEnabled(isNotificationsEnabled);
+    }
   }, [authStore, data]);
 
-  const handleUserNameSubmit = async (formData: FormData): Promise<void> => {
+  const handlePublicNameSubmit = async (formData: FormData): Promise<void> => {
     if (Object.keys(formState.errors).length > 0) {
       log.debug('Error', formState.errors);
       return;
     }
     const updateAccountResponse = await updateAccount({
       variables: {
-        username: formData.userName,
+        publicName: formData.publicName,
       },
     });
 
@@ -125,13 +135,13 @@ const Settings: FC = () => {
       setDialogOpen(true);
     } else {
       await disableNotifications({});
-      emailReset();
+      notificationsReset();
       setSnackbarData({
         open: true,
         message: 'Уведомления отключены',
       });
       // eslint-disable-next-line unicorn/no-null
-      setEmail(null);
+      setContact(null);
     }
   };
 
@@ -143,28 +153,28 @@ const Settings: FC = () => {
           <FormWrapper
             onSubmit={handleSubmit(async (formData) => {
               try {
-                await handleUserNameSubmit(formData);
+                await handlePublicNameSubmit(formData);
               } catch (submitError) {
-                log.error('Update username error', submitError);
+                log.error('Update public name error', submitError);
               }
             })}
           >
             <TextField
-              key="userName"
-              id="field-userName"
+              key="publicName"
+              id="field-publicName"
               label="Текущее имя"
               type="text"
               fullWidth
               size="small"
               multiline={false}
-              error={Boolean(formState.errors.userName)}
-              helperText={formState.errors.userName?.message}
-              {...register('userName')}
+              error={Boolean(formState.errors.publicName)}
+              helperText={formState.errors.publicName?.message}
+              {...register('publicName')}
             />
             <Button
               variant={ButtonVariant.primary}
               onClick={(): Promise<void> =>
-                handleSubmit(handleUserNameSubmit)()
+                handleSubmit(handlePublicNameSubmit)()
               }
             >
               Сохранить
@@ -192,11 +202,16 @@ const Settings: FC = () => {
               />
             </HeaderWrapper>
             <Description>
-              При включенной опции уведомления будут приходить на ваш емейл
+              При включенной опции уведомления будут приходить на ваш емейл или
+              в телеграмм
             </Description>
-            {notifEnabled && email && (
-              <Description>{`Текущий адрес: ${email}`}</Description>
-            )}
+            {notifEnabled &&
+              contact &&
+              (data?.whoami?.externalProfiles.providers === 'GOOGLE' ? (
+                <Description>{`Текущий адрес: ${contact}`}</Description>
+              ) : (
+                <Description>{`Текущий Telegram ID: ${contact}`}</Description>
+              ))}
           </Wrapper>
         }
       />
@@ -246,19 +261,21 @@ const Settings: FC = () => {
           {snackbarData.message}
         </Alert>
       </Snackbar>
-      <DialogInputEmail
+      <DialogConfirmAction
         isOpen={isDialogOpen}
-        title={'Введите вашу почту'}
-        initialEmail={email}
+        title={'Уверены?'}
+        description={'Вы уверены что ходите включить уведомления?'}
+        cancelButtonText={'Отмена'}
+        confirmButtonText={'Да, включить'}
         onCancelClick={(): void => {
           setDialogOpen(false);
           setNotifEnabled(false);
         }}
-        onSaveClick={(inputEmail): void => {
-          setEmail(inputEmail);
+        onConfirmClick={(): void => {
+          setContact(contact);
           enableNotifications({
             variables: {
-              email: inputEmail,
+              contact: contact,
             },
           });
           setDialogOpen(false);
