@@ -24,6 +24,9 @@ export const Text = styled.p`
   font-weight: 400;
   line-height: 150%; /* 24px */
   letter-spacing: 0.15px;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 `;
 
 export const ContentWrapper = styled.div`
@@ -31,6 +34,8 @@ export const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: start;
   gap: 8px;
+  width: 100%;
+  overflow: auto;
 `;
 
 export const Wrapper = styled.div`
@@ -38,4 +43,5 @@ export const Wrapper = styled.div`
   flex-direction: row;
   align-items: start;
   gap: 8px;
+  width: 100%;
 `;
