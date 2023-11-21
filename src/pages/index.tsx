@@ -18,7 +18,6 @@ import {
 } from 'src/components/ui/custom/card-image';
 import { DialogChooseAccount } from 'src/components/ui/custom/dialog-choose-account';
 import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
-import { Notification } from 'src/components/ui/custom/notification';
 
 const testCardImageProperties: ICardImageProperties = {
   imageUrl: 'https://source.unsplash.com/random/368×200/?fruit',
@@ -198,11 +197,6 @@ export default function IndexPage(): ReactNode {
         onCancelClick={handleClick}
       />
       <FabAdd onClick={handleClick} />
-      <Notification
-        sender="Тайный Санта"
-        date="9 часов назад"
-        text="Мы нашли вам тайного санту. Скорее посмотрите, что он написал. Просто нажмите на это сообщение!"
-      />
       <MessageField onClick={handleClick} />
       <Message text={'Привет, как дела?'} isOutgoing={true} />
       <Message
