@@ -1,9 +1,12 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable unicorn/no-null */
 import { FC, useEffect } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Page } from '@components/ui/common/page';
 import { Notification } from '@components/ui/custom/notification';
+import { StyledImage, SubText, Text } from '@pages/events';
+import styled from 'styled-components';
 
 import { useNotificationsQuery } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
@@ -35,6 +38,20 @@ const Notifications: FC = () => {
 
   return (
     <Page title={'Уведомления'} style={{ gap: 16, marginTop: 24 }}>
+      {data?.notifications?.length === 0 && (
+        <Wrapper>
+          <StyledImage>
+            <Image
+              src={'/assets/sand-clock.png'}
+              width={100}
+              height={100}
+              alt="Wait"
+            />
+          </StyledImage>
+          <Text>Уведомлений пока нет.</Text>
+          <SubText>Ожидаем...</SubText>
+        </Wrapper>
+      )}
       {data?.notifications?.map((notification) => {
         return (
           <Notification
@@ -48,5 +65,13 @@ const Notifications: FC = () => {
     </Page>
   );
 };
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+`;
 
 export default Notifications;
