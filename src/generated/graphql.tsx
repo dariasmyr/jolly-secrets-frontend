@@ -807,7 +807,7 @@ export type UpdateGroupMutation = { __typename?: 'Mutation', updateGroup: { __ty
 export type WhoamiQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type WhoamiQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', id: number, createdAt: any, email?: string | null, isNotificationsEnabled: boolean, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string, externalProfiles?: Array<{ __typename?: 'ExternalProfile', provider: ExternalProfileProvider }> | null } };
+export type WhoamiQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', id: number, createdAt: any, email?: string | null, isNotificationsEnabled: boolean, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string, externalProfiles?: Array<{ __typename?: 'ExternalProfile', provider: ExternalProfileProvider, externalId: string }> | null } };
 
 
 export const CreateEventApplicationDocument = gql`
@@ -2086,6 +2086,7 @@ export const WhoamiDocument = gql`
     username
     externalProfiles {
       provider
+      externalId
     }
   }
 }

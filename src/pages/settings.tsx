@@ -103,6 +103,11 @@ const Settings: FC = () => {
 
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
+  const telegramId =
+    data?.whoami?.externalProfiles?.find(
+      (profile) => profile.provider === 'TELEGRAM',
+    )?.externalId || null;
+
   useEffect(() => {
     if (!authStore.token || !authStore.account?.id) {
       router.push('/auth/login');
@@ -274,7 +279,7 @@ const Settings: FC = () => {
               (isGoogleProfile ? (
                 <Description>{`Текущий адрес: ${contact}`}</Description>
               ) : (
-                <Description>{`Текущий Telegram ID: ${contact}`}</Description>
+                <Description>{`Текущий Telegram ID: ${telegramId}`}</Description>
               ))}
           </Wrapper>
         }
