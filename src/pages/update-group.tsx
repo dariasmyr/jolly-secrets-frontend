@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
+import { Header } from '@components/ui/common/page/styled-components';
 import { CardGenerateInvite } from '@components/ui/custom/card-generate-invite';
 import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { DialogGenerateInvite } from '@components/ui/custom/dialog-generate-invite';
@@ -214,22 +215,6 @@ const UpdateGroup: FC = () => {
     </Page>
   );
 };
-
-const Header = styled.div`
-  color: #000;
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-  font-family: Roboto, sans-serif;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 160%; /* 32px */
-  letter-spacing: 0.15px;
-  align-self: flex-start;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
 
 const FormWrapper = styled.form`
   display: flex;

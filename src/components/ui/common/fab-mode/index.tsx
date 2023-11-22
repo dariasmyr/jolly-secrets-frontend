@@ -1,18 +1,19 @@
-import { ReactElement, useContext } from 'react';
+import { ReactElement } from 'react';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import Fab from '@mui/material/Fab';
 import Tooltip from '@mui/material/Tooltip';
-import { ThemeContext } from '@pages/_app.context';
 import styled from 'styled-components';
 
+import { useThemeStore } from '@/store/theme.store';
+
 export function FabMode(): ReactElement {
-  const { darkMode, toggleDarkMode } = useContext(ThemeContext);
+  const { darkMode, toggleDarkMode } = useThemeStore();
 
   return (
     <Tooltip title="Сменить тему">
       <FabModeStyled
-        color="primary"
+        color="warning"
         aria-label="theme"
         onClick={toggleDarkMode}
       >

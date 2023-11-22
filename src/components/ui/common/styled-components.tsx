@@ -24,7 +24,7 @@ export const ButtonWrapper = styled.div`
   justify-content: center;
 `;
 
-export const Header = styled.p`
+export const CardHeader = styled.p`
   font-feature-settings:
     'clig' off,
     'liga' off;

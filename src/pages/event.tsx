@@ -36,6 +36,7 @@ import /**
  */
 styled from 'styled-components';
 
+import { Header } from '@/components/ui/common/page/styled-components';
 import {
   EventApplicationStatus,
   EventStatus,
@@ -517,21 +518,6 @@ const Event: FC = () => {
  * @property {string} margin-right - The right margin of the header.
  * @property {string} margin-left - The left margin of the header.
  */
-const Header = styled.div`
-  color: #000;
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-  font-family: Roboto, sans-serif;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 160%; /* 32px */
-  letter-spacing: 0.15px;
-  align-self: flex-start;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
 
 /**
  * Represents the Breadcrumbs component.

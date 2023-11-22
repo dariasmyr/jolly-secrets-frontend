@@ -7,6 +7,7 @@ import { Page } from '@components/ui/common/page';
 import { CardImage } from '@components/ui/custom/card-image';
 import styled from 'styled-components';
 
+import { Header } from '@/components/ui/common/page/styled-components';
 import {
   EventStatus,
   GroupType,
@@ -166,22 +167,6 @@ const Events: FC = () => {
     </Page>
   );
 };
-
-const Header = styled.div`
-  color: #000;
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-  font-family: Roboto, sans-serif;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 160%; /* 32px */
-  letter-spacing: 0.15px;
-  align-self: flex-start;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
 export const Text = styled.div`
   color: #878787;
   font-feature-settings:

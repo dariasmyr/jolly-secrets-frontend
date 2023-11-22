@@ -77,3 +77,18 @@ export const MenuContainer = styled.div<IMenuProperties>`
   visibility: ${({ open }): string => (open ? 'visible' : 'hidden')};
   transition: visibility 0.2s ease-in-out;
 `;
+
+export const Header = styled.div`
+  font-feature-settings:
+    'clig' off,
+    'liga' off;
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 160%; /* 32px */
+  letter-spacing: 0.15px;
+  align-self: flex-start;
+  margin-right: 24px;
+  margin-left: 24px;
+`;

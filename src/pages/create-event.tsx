@@ -17,6 +17,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import { Header } from '@/components/ui/common/page/styled-components';
 import { useCreateEventMutation } from '@/generated/graphql';
 import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
@@ -225,22 +226,6 @@ const CreateEvent: FC = () => {
     </Page>
   );
 };
-
-const Header = styled.div`
-  color: #000;
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-  font-family: Roboto, sans-serif;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 160%; /* 32px */
-  letter-spacing: 0.15px;
-  align-self: flex-start;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
 
 const FormWrapper = styled.form`
   display: flex;

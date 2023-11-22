@@ -2,8 +2,8 @@ import { ReactElement } from 'react';
 import { Card } from '@components/ui/common/card';
 import {
   ButtonWrapper,
+  CardHeader,
   Description,
-  Header,
   Wrapper,
 } from '@components/ui/common/styled-components';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
@@ -22,7 +22,7 @@ export const CardGenerateInvite = (
     <Card
       content={
         <Wrapper>
-          <Header>{properties.title}</Header>
+          <CardHeader>{properties.title}</CardHeader>
           <Description>{properties.description}</Description>
           <ButtonWrapper>
             <Button

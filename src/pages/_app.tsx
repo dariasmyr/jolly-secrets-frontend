@@ -10,13 +10,12 @@ import { ThemeProvider as StyledComponentProvider } from 'styled-components';
 import { useApolloClient } from '@/services/apollo-client.service';
 import { log } from '@/services/log';
 import { useSettingsStore } from '@/store/settings.store';
+import { useThemeStore } from '@/store/theme.store';
 import { themeMui, themeMuiDark, themeStyled } from '@/theme';
 
 import '../styles/global.css';
 
 import nextI18NextConfig from '../../next-i18next.config';
-
-import { ThemeContext } from './_app.context';
 
 import { ThemeProvider as MaterialUiProvider } from '@mui/material/styles';
 
@@ -32,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
   const { debugMode } = useSettingsStore();
   const apolloClient = useApolloClient();
   const [rendered, setRendered] = useState(false);
-  const [darkMode, setDarkMode] = useState(false); // State for tracking dark mode
+  const { darkMode } = useThemeStore();
 
   useEffect(() => {
     setRendered(true);
@@ -48,10 +47,6 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
     };
   }, []);
 
-  const toggleDarkMode = (): void => {
-    setDarkMode(!darkMode);
-  };
-
   if (!apolloClient) {
     return <div>ApolloClient is not initialized</div>;
   }
@@ -63,34 +58,27 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
   const selectedTheme = darkMode ? themeMuiDark : themeMui;
 
   return (
-    <ThemeContext.Provider
-      value={{
-        darkMode: darkMode,
-        toggleDarkMode: toggleDarkMode,
-      }}
-    >
-      <StyledComponentProvider theme={themeStyled}>
-        <MaterialUiProvider theme={selectedTheme}>
-          <CssBaseline />
-          <StyledEngineProvider injectFirst>
-            <ApolloProvider client={apolloClient}>
-              <Component {...pageProps} />
-            </ApolloProvider>
-          </StyledEngineProvider>
-        </MaterialUiProvider>
-        {debugMode && (
-          <Script
-            src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"
-            onLoad={(): void => {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              // eslint-disable-next-line no-new
-              new window.VConsole();
-            }}
-          />
-        )}
-      </StyledComponentProvider>
-    </ThemeContext.Provider>
+    <StyledComponentProvider theme={themeStyled}>
+      <MaterialUiProvider theme={selectedTheme}>
+        <CssBaseline />
+        <StyledEngineProvider injectFirst>
+          <ApolloProvider client={apolloClient}>
+            <Component {...pageProps} />
+          </ApolloProvider>
+        </StyledEngineProvider>
+      </MaterialUiProvider>
+      {debugMode && (
+        <Script
+          src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"
+          onLoad={(): void => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            // eslint-disable-next-line no-new
+            new window.VConsole();
+          }}
+        />
+      )}
+    </StyledComponentProvider>
   );
 }
 

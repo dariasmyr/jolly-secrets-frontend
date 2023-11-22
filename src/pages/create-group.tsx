@@ -16,6 +16,7 @@ import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/ca
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
+import { Header } from '@/components/ui/common/page/styled-components';
 import {
   GroupType,
   PriceRange,
@@ -278,22 +279,6 @@ const CreateGroup: FC = () => {
     </Page>
   );
 };
-
-const Header = styled.div`
-  color: #000;
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-  font-family: Roboto, sans-serif;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 160%; /* 32px */
-  letter-spacing: 0.15px;
-  align-self: flex-start;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
 
 const FormWrapper = styled.form`
   display: flex;
