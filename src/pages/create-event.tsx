@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
+import { FormWrapper } from '@components/ui/common/styled-components';
 import { CardCreateEvent } from '@components/ui/custom/card-create/card-create-event';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Alert from '@mui/material/Alert';
@@ -14,7 +15,6 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
-import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import { Header } from '@/components/ui/common/page/styled-components';
@@ -226,13 +226,5 @@ const CreateEvent: FC = () => {
     </Page>
   );
 };
-
-const FormWrapper = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
 
 export default CreateEvent;

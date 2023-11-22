@@ -52,3 +52,50 @@ export const Description = styled.p`
   line-height: 150%; /* 24px */
   letter-spacing: 0.15px;
 `;
+
+export const FormWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-right: 24px;
+  margin-left: 24px;
+`;
+
+export const Breadcrumbs = styled.div`
+  align-self: flex-start;
+  margin-right: 24px;
+  margin-left: 24px;
+`;
+
+export const Text = styled.div`
+  font-feature-settings:
+    'clig' off,
+    'liga' off;
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 160%; /* 32px */
+  letter-spacing: 0.15px;
+  align-self: center;
+  margin-right: 24px;
+  margin-left: 24px;
+`;
+export const SubText = styled.div`
+  font-feature-settings:
+    'clig' off,
+    'liga' off;
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 80%;
+  letter-spacing: 0.15px;
+  align-self: center;
+  margin-right: 24px;
+  margin-left: 24px;
+`;
+
+export const StyledImage = styled.div`
+  opacity: 0.5;
+`;

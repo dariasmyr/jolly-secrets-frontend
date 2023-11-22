@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
+import { FormWrapper } from '@components/ui/common/styled-components';
 import { CardGenerateInvite } from '@components/ui/custom/card-generate-invite';
 import { DialogGenerateInvite } from '@components/ui/custom/dialog-generate-invite';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,7 +14,6 @@ import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/card-create-or-update-group';
-import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import { Header } from '@/components/ui/common/page/styled-components';
@@ -279,13 +279,5 @@ const CreateGroup: FC = () => {
     </Page>
   );
 };
-
-const FormWrapper = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
 
 export default CreateGroup;

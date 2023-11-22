@@ -5,9 +5,13 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Page } from '@components/ui/common/page';
 import { Notification } from '@components/ui/custom/notification';
-import { StyledImage, SubText, Text } from '@pages/events';
 import styled from 'styled-components';
 
+import {
+  StyledImage,
+  SubText,
+  Text,
+} from '@/components/ui/common/styled-components';
 import { useNotificationsQuery } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 

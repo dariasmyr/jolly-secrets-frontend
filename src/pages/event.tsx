@@ -1,23 +1,17 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable unicorn/no-null */
 import { FC, ReactElement, useEffect, useState } from 'react';
-import /**
- * Image class represents an image object with details such as width, height,
- * and source URL.
- *
- * @class
- */
-Image from 'next/image';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
-import /**
- * Represents a utility class for handling and processing breadcrumbs in a collapsed format.
- *
- * @class
- */
-CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
+import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { Stepper } from '@components/ui/common/stepper';
+import {
+  Breadcrumbs,
+  SubText,
+  Text,
+} from '@components/ui/common/styled-components';
 import { TabApplications } from '@components/ui/common/tab-applications';
 import { ButtonLarge } from '@components/ui/custom/button-large';
 import {
@@ -27,14 +21,8 @@ import {
 import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { EventPage } from '@components/ui/custom/event-page';
 import { PriceRangeDisplay } from '@pages/create-application';
-import { StyledImage, SubText, Text } from '@pages/events';
-import /**
- * Calculates the square of a given number.
- *
- * @param {number} num - The number whose square is to be calculated.
- * @returns {number} The square of the given number.
- */
-styled from 'styled-components';
+import { StyledImage } from '@pages/events';
+import styled from 'styled-components';
 
 import { Header } from '@/components/ui/common/page/styled-components';
 import {
@@ -502,44 +490,6 @@ const Event: FC = () => {
   );
 };
 
-/**
- * Variable representing the styled header div.
- *
- * @type {Object}
- * @property {string} color - The text color of the header.
- * @property {string} font-feature-settings - The font feature settings of the header.
- * @property {string} font-family - The font family of the header.
- * @property {string} font-size - The font size of the header.
- * @property {string} font-style - The font style of the header.
- * @property {number} font-weight - The font weight of the header.
- * @property {string} line-height - The line height of the header.
- * @property {string} letter-spacing - The letter spacing of the header.
- * @property {string} align-self - The alignment of the header.
- * @property {string} margin-right - The right margin of the header.
- * @property {string} margin-left - The left margin of the header.
- */
-
-/**
- * Represents the Breadcrumbs component.
- *
- * @component
- * @example
- * <Breadcrumbs>
- *   ...
- * </Breadcrumbs>
- */
-const Breadcrumbs = styled.div`
-  align-self: flex-start;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
-
-/**
- * Represents an image wrapper that applies styling to a div element.
- * @class
- * @constructor
- * @param {string} props - The properties to be applied to the image wrapper.
- */
 const ImageWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -547,16 +497,6 @@ const ImageWrapper = styled.div`
   align-items: center;
 `;
 
-/**
- * A styled div component used as a wrapper for header elements.
- *
- * @component
- * @example
- * // Usage:
- * <HeaderWrapper>
- *   {children}
- * </HeaderWrapper>
- */
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -564,11 +504,6 @@ const HeaderWrapper = styled.div`
   margin-top: 16px;
 `;
 
-/**
- * A styled wrapper component for a large button.
- *
- * @component
- */
 const ButtonLargeWrapper = styled.div`
   position: fixed;
   bottom: 20px;
@@ -579,11 +514,6 @@ const ButtonLargeWrapper = styled.div`
   padding: 0 16px;
 `;
 
-/**
- * Represents a styled wrapper component for a button.
- *
- * @component
- */
 const ButtonWrapper = styled.div`
   flex-direction: row;
   display: flex;

@@ -3,6 +3,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
+import { FormWrapper } from '@components/ui/common/styled-components';
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
 import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -263,14 +264,6 @@ const CreateApplication: FC = () => {
     </Page>
   );
 };
-
-const FormWrapper = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
 
 const AddButtonWrapper = styled.div`
   width: 100%;

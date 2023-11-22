@@ -9,6 +9,11 @@ import styled from 'styled-components';
 
 import { Header } from '@/components/ui/common/page/styled-components';
 import {
+  StyledImage,
+  SubText,
+  Text,
+} from '@/components/ui/common/styled-components';
+import {
   EventStatus,
   GroupMemberRole,
   GroupStatus,
@@ -195,36 +200,6 @@ const PublicGroups: FC = () => {
     </Page>
   );
 };
-export const Text = styled.div`
-  color: #878787;
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-  font-family: Roboto, sans-serif;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 160%; /* 32px */
-  letter-spacing: 0.15px;
-  align-self: center;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
-export const SubText = styled.div`
-  color: #878787;
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-  font-family: Roboto, sans-serif;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 80%;
-  letter-spacing: 0.15px;
-  align-self: center;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -232,10 +207,6 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 50vh;
-`;
-
-export const StyledImage = styled.div`
-  opacity: 0.5;
 `;
 
 export default PublicGroups;

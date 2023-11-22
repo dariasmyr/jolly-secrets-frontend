@@ -4,13 +4,13 @@ import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { Header } from '@components/ui/common/page/styled-components';
+import { FormWrapper } from '@components/ui/common/styled-components';
 import { CardGenerateInvite } from '@components/ui/custom/card-generate-invite';
 import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { DialogGenerateInvite } from '@components/ui/custom/dialog-generate-invite';
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextField from '@mui/material/TextField';
 import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/card-create-or-update-group';
-import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import {
@@ -215,13 +215,5 @@ const UpdateGroup: FC = () => {
     </Page>
   );
 };
-
-const FormWrapper = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-right: 24px;
-  margin-left: 24px;
-`;
 
 export default UpdateGroup;
