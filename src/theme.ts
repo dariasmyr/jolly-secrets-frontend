@@ -4,58 +4,58 @@ export const themeMui = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#a04028',
+      main: '#0856cf',
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#77574f',
-      contrastText: '#ffffff',
+      main: '#dce2f9',
+      contrastText: '#151b2c',
     },
     warning: {
-      main: '#f7e1a6',
-      contrastText: '#000000',
+      main: '#735471',
+      contrastText: '#ffffff',
     },
     error: {
-      main: '#ba1a1a',
+      main: '#fefbff',
       contrastText: '#ffffff',
     },
     info: {
-      main: '#a28f5c',
-      contrastText: '#fff',
+      main: '#585e71',
+      contrastText: '#ffffff',
     },
     background: {
-      default: '#FFFBFF',
-      paper: '#FAF1F4',
+      default: '#fefbff',
+      paper: '#fefbff',
     },
   },
 });
 
 export const themeMuiDark = createTheme({
   palette: {
-    mode: 'dark', // Set mode to 'dark'
+    mode: 'dark',
     primary: {
-      main: '#a04028',
-      contrastText: '#ffffff',
+      main: '#b2c5ff',
+      contrastText: '#002b72',
     },
     secondary: {
-      main: '#77574f',
-      contrastText: '#ffffff',
+      main: '#404659',
+      contrastText: '#dce2f9',
     },
     warning: {
-      main: '#f7e1a6',
-      contrastText: '#000000',
+      main: '#e1bbdd',
+      contrastText: '#412741',
     },
     error: {
-      main: '#ba1a1a',
-      contrastText: '#ffffff',
+      main: '#ffb4ab',
+      contrastText: '#690005',
     },
     info: {
-      main: '#a28f5c',
-      contrastText: '#fff',
+      main: '#c0c6dd',
+      contrastText: '#2a3042',
     },
     background: {
-      default: '#121212',
-      paper: '#1E1E1E',
+      default: '#1b1b1f',
+      paper: '#e4e2e6',
     },
   },
 });

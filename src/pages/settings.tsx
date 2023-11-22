@@ -1,21 +1,21 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable unicorn/no-null */
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Card } from '@components/ui/common/card';
+import { FabMode } from '@components/ui/common/fab-mode';
 import { Page } from '@components/ui/common/page';
 import { Description, Wrapper } from '@components/ui/common/styled-components';
 import { CardEmailToggle } from '@components/ui/custom/card-toggle-email';
 import { HeaderWrapper } from '@components/ui/custom/card-toggle-email/styled-components';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import { Avatar, FormControlLabel, Switch } from '@mui/material';
+import { Avatar, Switch } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
-import { ThemeContext } from '@pages/_app.context';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
@@ -50,8 +50,6 @@ type FormData = {
 const Settings: FC = () => {
   const authStore = useAuthStore();
   const router = useRouter();
-  const { darkMode, toggleDarkMode } = useContext(ThemeContext);
-
   const { data } = useWhoamiQuery({});
 
   const {
@@ -337,21 +335,7 @@ const Settings: FC = () => {
           </FormWrapper>
         }
       />
-      <Header>Внешний вид</Header>
-      <Card
-        content={
-          <FormControlLabel
-            control={
-              <Switch
-                checked={darkMode}
-                onChange={toggleDarkMode}
-                color="primary"
-              />
-            }
-            label={`Переключиться на ${darkMode ? 'светлую' : 'темную'} тему`}
-          />
-        }
-      />
+      <FabMode />
       <Snackbar
         open={snackbarData.open}
         autoHideDuration={3000}
