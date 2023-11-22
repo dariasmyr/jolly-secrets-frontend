@@ -1,0 +1,11 @@
+mutation setNotificationAsRead ($id: Int!) {
+  setNotificationAsRead(id: $id) {
+    id
+    createdAt
+    updatedAt
+    accountId
+    title
+    message
+    read
+  }
+}

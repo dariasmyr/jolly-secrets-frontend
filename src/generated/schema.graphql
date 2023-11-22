@@ -314,7 +314,7 @@ type Mutation {
   logout(sessionIds: [Float!]!): Boolean!
   mergeProfileToAccount(accountIdToLeave: Float!, accountIdToRemove: Float!, externalId: String!, provider: String!): Account!
   setEventApplicationStatus(eventApplicationId: Int!, status: EventApplicationStatus!): EventApplication!
-  setNotificationAsRead(id: Float!): Notification!
+  setNotificationAsRead(id: Int!): Notification!
   updateAccount(username: String!): Account!
   updateGroup(id: Int!, input: CreateOrUpdateGroupInput!): Group!
 }
