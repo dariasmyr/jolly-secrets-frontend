@@ -10,7 +10,7 @@ import { ThemeProvider as StyledComponentProvider } from 'styled-components';
 import { useApolloClient } from '@/services/apollo-client.service';
 import { log } from '@/services/log';
 import { useSettingsStore } from '@/store/settings.store';
-import { themeMui, themeStyled } from '@/theme';
+import { themeMui, themeMuiDark, themeStyled } from '@/theme';
 
 import '../styles/global.css';
 
@@ -30,6 +30,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
   const { debugMode } = useSettingsStore();
   const apolloClient = useApolloClient();
   const [rendered, setRendered] = useState(false);
+  const [darkMode, setDarkMode] = useState(false); // State for tracking dark mode
 
   useEffect(() => {
     setRendered(true);
@@ -45,6 +46,10 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
     };
   }, []);
 
+  const toggleDarkMode = (): void => {
+    setDarkMode(!darkMode);
+  };
+
   if (!apolloClient) {
     return <div>ApolloClient is not initialized</div>;
   }
@@ -52,9 +57,13 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
   if (!rendered) {
     return <div>Loading...</div>;
   }
+
+  // Select the appropriate theme based on the darkMode state
+  const selectedTheme = darkMode ? themeMuiDark : themeMui;
+
   return (
     <StyledComponentProvider theme={themeStyled}>
-      <MaterialUiProvider theme={themeMui}>
+      <MaterialUiProvider theme={selectedTheme}>
         <CssBaseline />
         <StyledEngineProvider injectFirst>
           <ApolloProvider client={apolloClient}>
@@ -73,6 +82,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
           }}
         />
       )}
+      <button onClick={toggleDarkMode}>Toggle Dark Mode</button>
     </StyledComponentProvider>
   );
 }
