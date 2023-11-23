@@ -68,7 +68,7 @@ export const Title = styled.p`
   font-weight: 400;
   line-height: 12px; /* 100% */
   letter-spacing: 0.15px;
-  color: ${themeMui.palette.info.contrastText};
+  color: ${themeMui.palette.primary.main};
 `;
 
 export const CardWrapper = styled.div`

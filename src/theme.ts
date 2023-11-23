@@ -54,8 +54,8 @@ export const themeMuiDark = createTheme({
       contrastText: '#c3c6cf',
     },
     background: {
-      default: '#1a1c1e',
-      paper: '#43474e',
+      default: '#1A1C1E',
+      paper: '#202529',
     },
   },
 });

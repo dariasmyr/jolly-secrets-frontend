@@ -7,6 +7,7 @@ import { FormWrapper } from '@components/ui/common/styled-components';
 import { CardCreatePreference } from '@components/ui/custom/card-create/card-create-preference';
 import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { CircularProgress } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
 import * as Yup from 'yup';
@@ -56,7 +57,7 @@ const CreateApplication: FC = () => {
   const router = useRouter();
   const authStore = useAuthStore();
   // eslint-disable-next-line unicorn/no-null
-  const [createEventApplication, { reset }] =
+  const [createEventApplication, { reset, loading }] =
     useCreateEventApplicationMutation();
   const eventId = router.query.eventId;
   const { data: eventData, loading: eventIsLoading } = useEventQuery({
@@ -144,6 +145,24 @@ const CreateApplication: FC = () => {
   return (
     <Page title={eventData!.event.name} style={{ gap: 16, marginTop: 24 }}>
       <Header>Я хочу</Header>
+      {loading && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            background: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+          }}
+        >
+          <CircularProgress color="inherit" size={60} />
+        </div>
+      )}
       <FormWrapper
         onSubmit={handleSubmit(async (formData) => {
           try {

@@ -495,6 +495,7 @@ const ImageWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
 `;
 
 const HeaderWrapper = styled.div`

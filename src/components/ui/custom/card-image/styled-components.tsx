@@ -10,7 +10,7 @@ export const ImageWrapper = styled(Image)`
 `;
 
 export const PreHeader = styled.p`
-  color: ${themeMui.palette.info.contrastText};
+  color: ${themeMui.palette.primary.light};
 
   font-feature-settings:
     'clig' off,
