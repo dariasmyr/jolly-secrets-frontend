@@ -174,6 +174,7 @@ const CreateEvent: FC = () => {
               type="text"
               fullWidth
               size="small"
+              variant="standard"
               multiline={false}
               error={Boolean(formState.errors.eventName)}
               helperText={formState.errors.eventName?.message}
@@ -186,6 +187,7 @@ const CreateEvent: FC = () => {
               type="text"
               fullWidth
               size="medium"
+              variant="standard"
               multiline={true}
               error={Boolean(formState.errors.eventDescription)}
               helperText={formState.errors.eventDescription?.message}

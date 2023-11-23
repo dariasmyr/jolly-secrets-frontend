@@ -213,6 +213,7 @@ const CreateGroup: FC = () => {
               type="text"
               fullWidth
               size="small"
+              variant="standard"
               multiline={false}
               error={Boolean(formState.errors.groupName)}
               helperText={formState.errors.groupName?.message}
@@ -225,6 +226,7 @@ const CreateGroup: FC = () => {
               type="text"
               fullWidth
               size="medium"
+              variant="standard"
               multiline={true}
               error={Boolean(formState.errors.groupDescription)}
               helperText={formState.errors.groupDescription?.message}

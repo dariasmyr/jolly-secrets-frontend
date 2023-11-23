@@ -172,6 +172,7 @@ const CreateApplication: FC = () => {
                 type="text"
                 fullWidth
                 size="small"
+                variant="standard"
                 multiline={false}
                 /* eslint-disable-next-line security/detect-object-injection */
                 error={Boolean(formState.errors.preferences?.[index]?.dislikes)}
@@ -188,6 +189,7 @@ const CreateApplication: FC = () => {
                 type="text"
                 fullWidth
                 size="medium"
+                variant="standard"
                 multiline={true}
                 /* eslint-disable-next-line security/detect-object-injection */
                 error={Boolean(formState.errors.preferences?.[index]?.likes)}
@@ -204,6 +206,7 @@ const CreateApplication: FC = () => {
                 type="text"
                 fullWidth
                 size="medium"
+                variant="standard"
                 multiline={true}
                 /* eslint-disable-next-line security/detect-object-injection */
                 error={Boolean(formState.errors.preferences?.[index]?.comment)}
