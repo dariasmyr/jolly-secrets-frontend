@@ -4,28 +4,28 @@ export const themeMui = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#006397',
+      main: '#215fa6',
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#d4e4f6',
-      contrastText: '#0d1d2a',
+      main: '#d9e3f8',
+      contrastText: '#121c2b',
     },
     warning: {
-      main: '#eddcff',
-      contrastText: '#221534',
+      main: '#f7d8ff',
+      contrastText: '#27132f',
     },
     error: {
       main: '#ba1a1a',
       contrastText: '#ffffff',
     },
     info: {
-      main: '#dee3eb',
-      contrastText: '#42474e',
+      main: '#e0e2ec',
+      contrastText: '#43474e',
     },
     background: {
-      default: '#fcfcff',
-      paper: '#EFF4FA',
+      default: '#fdfbff',
+      paper: '#e0e2ec',
     },
   },
 });
@@ -34,28 +34,28 @@ export const themeMuiDark = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#92ccff',
-      contrastText: '#003351',
+      main: '#a6c8ff',
+      contrastText: '#00305f',
     },
     secondary: {
-      main: '#b8c8da',
-      contrastText: '#23323f',
+      main: '#bdc7dc',
+      contrastText: '#273141',
     },
     warning: {
-      main: '#d1bfe7',
-      contrastText: '#372a4a',
+      main: '#dabde2',
+      contrastText: '#273141',
     },
     error: {
       main: '#ffb4ab',
       contrastText: '#690005',
     },
     info: {
-      main: '#394857',
-      contrastText: '#d4e4f6',
+      main: '#3d4758',
+      contrastText: '#d9e3f8',
     },
     background: {
       default: '#1a1c1e',
-      paper: '#202529',
+      paper: '#43474e',
     },
   },
 });
