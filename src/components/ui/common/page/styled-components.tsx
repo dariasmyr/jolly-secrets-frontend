@@ -4,6 +4,8 @@ interface IMenuProperties {
   open: boolean;
 }
 
+import { themeMui } from '@/theme';
+
 export const LogoContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -12,7 +14,7 @@ export const LogoContainer = styled.div`
 
 export const MenuItemContainer = styled.div<{ isActive?: boolean }>`
   background-color: ${({ isActive }): string =>
-    isActive ? '#e0e0e0' : 'transparent'};
+    isActive ? themeMui.palette.secondary.main : 'transparent'};
   display: flex;
   align-items: flex-start;
   padding: 8px 16px 8px 16px;
@@ -28,7 +30,7 @@ export const IconContainer = styled.div`
 `;
 
 export const MenuOptionText = styled.div`
-  color: #000;
+  color: ${themeMui.palette.secondary.contrastText};
   font-feature-settings:
     'clig' off,
     'liga' off;
@@ -51,7 +53,7 @@ export const Menu = styled.div<IMenuProperties>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: #ffffff;
+  background-color: ${themeMui.palette.background.default};
   padding: 56px 0 0 0;
   width: 80%;
   max-width: 400px;

@@ -11,6 +11,10 @@ export const themeMui = createTheme({
       main: '#d7e3f8',
       contrastText: '#111c2b',
     },
+    success: {
+      main: '#0060a9',
+      contrastText: '#ffffff',
+    },
     warning: {
       main: '#f5d9ff',
       contrastText: '#261431',
@@ -40,6 +44,10 @@ export const themeMuiDark = createTheme({
     secondary: {
       main: '#3c4758',
       contrastText: '#d7e3f8',
+    },
+    success: {
+      main: '#a2c9ff',
+      contrastText: '#00315b',
     },
     warning: {
       main: '#543f5e',

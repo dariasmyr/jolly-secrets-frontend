@@ -28,7 +28,7 @@ import { useAuthStore } from '@/store/auth.store';
 
 const Logo: React.FC = () => (
   <LogoContainer>
-    <Image src={'/assets/logo1.png'} width={320} height={150} alt="Logo" />
+    <Image src={'/assets/logo4.png'} width={300} height={180} alt="Logo" />
   </LogoContainer>
 );
 
@@ -36,7 +36,7 @@ const PrimaryIcon = ({
   children,
 }: {
   children: ReactElement;
-}): ReactElement => <SvgIcon color="primary">{children}</SvgIcon>;
+}): ReactElement => <SvgIcon color="success">{children}</SvgIcon>;
 
 export interface IPageProperties {
   title: string;

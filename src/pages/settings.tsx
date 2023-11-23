@@ -342,7 +342,7 @@ const Settings: FC = () => {
         autoHideDuration={3000}
         onClose={(): void => setSnackbarData({ ...snackbarData, open: false })}
       >
-        <Alert severity="info" sx={{ width: '100%' }}>
+        <Alert severity="warning" sx={{ width: '100%' }}>
           {snackbarData.message}
         </Alert>
       </Snackbar>

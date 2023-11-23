@@ -272,7 +272,7 @@ const CreateGroup: FC = () => {
         groupId={groupId!}
       />
       <Snackbar open={snackbarData.open} autoHideDuration={6000}>
-        <Alert severity="info" sx={{ width: '100%' }}>
+        <Alert severity="warning" sx={{ width: '100%' }}>
           {snackbarData.message}
         </Alert>
       </Snackbar>

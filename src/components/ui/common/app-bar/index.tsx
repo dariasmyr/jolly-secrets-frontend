@@ -15,6 +15,7 @@ export const AppBar = (properties: IAppBarProperties): ReactElement => {
   return (
     <MuiAppBar
       position="static"
+      elevation={0}
       sx={{
         position: 'fixed',
         top: 0,

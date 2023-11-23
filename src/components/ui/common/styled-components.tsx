@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const Paper = styled(MuiPaper)`
   width: 368px;
-  border-radius: 15px;
+  border-radius: 30px;
 `;
 
 export const Content = styled.div`
