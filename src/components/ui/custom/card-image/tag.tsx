@@ -10,7 +10,7 @@ export const Tag = (properties: ITagProperties): ReactElement => {
   return (
     <Chip
       label={properties.title}
-      color={properties.warning ? 'warning' : 'default'}
+      color={properties.warning ? 'warning' : 'info'}
     />
   );
 };

@@ -11,6 +11,7 @@ export enum ButtonVariant {
   borderless = 'borderless',
   outlined = 'outlined',
   warning = 'warning',
+  error = 'error',
 }
 
 const VariantMap: Record<
@@ -25,6 +26,7 @@ const VariantMap: Record<
   [ButtonVariant.borderless]: 'text',
   [ButtonVariant.outlined]: 'outlined',
   [ButtonVariant.warning]: 'contained',
+  [ButtonVariant.error]: 'contained',
 };
 
 const ColorMap: Record<
@@ -36,7 +38,8 @@ const ColorMap: Record<
     | 'success'
     | 'error'
     | 'info'
-    | 'warning',
+    | 'warning'
+    | 'error',
     ButtonPropsVariantOverrides
   >
 > = {
@@ -45,6 +48,7 @@ const ColorMap: Record<
   [ButtonVariant.borderless]: 'primary',
   [ButtonVariant.outlined]: 'primary',
   [ButtonVariant.warning]: 'warning',
+  [ButtonVariant.error]: 'error',
 };
 
 export function Button({
@@ -58,12 +62,26 @@ export function Button({
   variant: ButtonVariant;
   textColor?: string;
 }>): ReactElement {
+  const borderRadius = 50;
+  const fontWeight = 600;
+  const fontFamily = 'Roboto, sans-serif';
+  const fontStyle = 'bold';
+
   return (
     <MaterialButton
       variant={VariantMap[variant]}
       color={ColorMap[variant]}
       onClick={onClick}
       disabled={disabled}
+      style={{
+        borderRadius,
+        textTransform: 'none',
+        fontSize: 16,
+        boxShadow: 'none',
+        fontWeight,
+        fontFamily,
+        fontStyle,
+      }}
     >
       {children}
     </MaterialButton>

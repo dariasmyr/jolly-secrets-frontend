@@ -21,13 +21,14 @@ export const CardDeleteAccount = (
           <Description>{properties.description}</Description>
           <TextField
             fullWidth
+            variant="standard"
             placeholder={properties.placeholder}
             size="small"
             color="error"
           />
           <Button
             onClick={properties.onDeleteButtonClick}
-            variant={ButtonVariant.warning}
+            variant={ButtonVariant.error}
           >
             {properties.button}
           </Button>

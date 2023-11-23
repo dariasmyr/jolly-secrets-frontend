@@ -46,6 +46,7 @@ export const DialogInputEmail = (
             margin="dense"
             id="name"
             label={'Ваша почта'}
+            variant="standard"
             type="text"
             fullWidth
             value={inputValue}

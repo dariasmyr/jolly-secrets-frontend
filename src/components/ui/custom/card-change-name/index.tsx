@@ -37,6 +37,7 @@ export const CardChangeName = (
             size="small"
             color="primary"
             value={name}
+            variant="standard"
             onChange={handleNameChange}
           />
           <Button onClick={handleSaveClick} variant={ButtonVariant.primary}>

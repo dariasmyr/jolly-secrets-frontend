@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 
-import { themeMui } from '@/theme';
-
 export const Wrapper = styled.div`
   width: 368px;
 `;
@@ -11,45 +9,6 @@ export const ImageWrapper = styled(Image)`
   width: 368px;
   height: 200px;
   border-radius: 4px 5px 0 0;
-`;
-
-export const PreHeader = styled.p`
-  color: ${themeMui.palette.primary.main};
-
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-
-  font-family: Roboto, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: bold;
-`;
-
-export const Header = styled.p`
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-
-  font-family: Roboto, sans-serif;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 160%; /* 32px */
-  letter-spacing: 0.15px;
-`;
-
-export const Text = styled.p`
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-
-  font-family: Roboto, sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 24px */
-  letter-spacing: 0.15px;
 `;
 
 export const Content = styled.div`

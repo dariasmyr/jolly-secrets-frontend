@@ -3,15 +3,17 @@ import {
   IMenuProperties,
   MenuOptions,
 } from '@components/ui/common/menu-options';
+import {
+  Header,
+  PreHeader,
+  Text,
+} from '@components/ui/custom/card-image/styled-components';
 import { Tag } from '@components/ui/custom/card-image/tag';
 import {
   Content,
-  Header,
   HeaderWrapper,
   ImageWrapper,
-  PreHeader,
   TagContainer,
-  Text,
   Wrapper,
 } from '@components/ui/custom/event-page/styled-components';
 

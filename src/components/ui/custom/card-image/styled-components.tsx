@@ -1,12 +1,7 @@
 import Image from 'next/image';
-import { Paper as MuiPaper } from '@mui/material';
 import styled from 'styled-components';
 
 import { themeMui } from '@/theme';
-
-export const Paper = styled(MuiPaper)`
-  width: 368px;
-`;
 
 export const ImageWrapper = styled(Image)`
   width: 368px;
@@ -15,7 +10,7 @@ export const ImageWrapper = styled(Image)`
 `;
 
 export const PreHeader = styled.p`
-  color: ${themeMui.palette.primary.main};
+  color: ${themeMui.palette.info.contrastText};
 
   font-feature-settings:
     'clig' off,
@@ -35,9 +30,10 @@ export const Header = styled.p`
   font-family: Roboto, sans-serif;
   font-size: 20px;
   font-style: normal;
-  font-weight: bold;
+  font-weight: semi-bold;
   line-height: 160%; /* 32px */
   letter-spacing: 0.15px;
+  margin-bottom: 10px;
 `;
 
 export const Text = styled.p`
@@ -46,7 +42,7 @@ export const Text = styled.p`
     'liga' off;
 
   font-family: Roboto, sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 150%; /* 24px */

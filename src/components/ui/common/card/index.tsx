@@ -7,7 +7,7 @@ export interface ICardProperties {
 
 export const Card = (properties: ICardProperties): ReactElement => {
   return (
-    <Paper>
+    <Paper elevation={0}>
       <Content>{properties.content}</Content>
     </Paper>
   );

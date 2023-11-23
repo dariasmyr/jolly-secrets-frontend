@@ -42,7 +42,7 @@ export function FabAdd({ onClick }: IFabAddProperties): ReactElement {
     <Tooltip open={open} onClose={handleClose} onOpen={handleOpen} title="Add">
       <FabWrapper
         className={isVisible ? 'show' : 'hide'}
-        color="primary"
+        color="warning"
         aria-label="add"
         onClick={onClick}
       >

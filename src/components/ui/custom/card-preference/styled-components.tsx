@@ -23,7 +23,7 @@ export const Header = styled.p`
   font-family: Roboto, sans-serif;
   font-size: 18px;
   font-style: normal;
-  font-weight: bold;
+  font-weight: semi-bold;
   line-height: 160%; /* 32px */
   letter-spacing: 0.15px;
   margin-bottom: 20px;
@@ -45,7 +45,7 @@ export const Value = styled.p`
     'liga' off;
 
   font-family: Roboto, sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 24px; /* 150% */

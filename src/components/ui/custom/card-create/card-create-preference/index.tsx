@@ -41,7 +41,7 @@ export const CardCreatePreference = (
           <ButtonWrapper>
             <Button
               onClick={properties.onDeleteButtonClick}
-              variant={ButtonVariant.warning}
+              variant={ButtonVariant.error}
             >
               {properties.button}
             </Button>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const Paper = styled(MuiPaper)`
   width: 368px;
+  border-radius: 15px;
 `;
 
 export const Content = styled.div`
@@ -32,7 +33,7 @@ export const CardHeader = styled.p`
   font-family: Roboto, sans-serif;
   font-size: 20px;
   font-style: normal;
-  font-weight: bold;
+  font-weight: semi-bold;
   line-height: 160%; /* 32px */
   letter-spacing: 0.15px;
   margin-left: 1px;
@@ -45,7 +46,7 @@ export const Description = styled.p`
     'clig' off,
     'liga' off;
   font-family: Roboto, sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 150%; /* 24px */

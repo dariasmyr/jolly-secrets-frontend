@@ -3,12 +3,12 @@ import {
   IMenuProperties,
   MenuOptions,
 } from '@components/ui/common/menu-options';
+import { Paper } from '@components/ui/common/styled-components';
 import {
   Content,
   Header,
   HeaderWrapper,
   ImageWrapper,
-  Paper,
   PreHeader,
   TagContainer,
   Text,
@@ -32,7 +32,7 @@ export interface ICardImageProperties {
 
 export const CardImage = (properties: ICardImageProperties): ReactElement => {
   return (
-    <Paper>
+    <Paper elevation={0}>
       <ImageWrapper
         onClick={properties.onClick}
         src={properties.imageUrl}

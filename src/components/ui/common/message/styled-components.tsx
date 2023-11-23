@@ -24,7 +24,7 @@ export const StyledMessage = styled(MessageBase)<{ isOutgoing: boolean }>`
   background-color: ${(properties): string =>
     properties.isOutgoing
       ? themeMui.palette.primary.main
-      : themeMui.palette.secondary.main};
+      : themeMui.palette.background.paper};
   color: ${(properties): string =>
     properties.isOutgoing
       ? themeMui.palette.primary.contrastText
