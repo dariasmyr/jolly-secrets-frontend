@@ -40,11 +40,12 @@ export const SelectOptions = (properties: ISelectProperties): ReactElement => {
 
   return (
     <div>
-      <FormControl fullWidth>
+      <FormControl fullWidth sx={{ marginTop: '16px' }}>
         <InputLabel id="select-label">{title}</InputLabel>
         <Select
           labelId="select-label"
           id="select"
+          variant={'standard'}
           value={selectedOption}
           label={title}
           onChange={handleChange}

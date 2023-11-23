@@ -6,7 +6,6 @@ import {
   Text,
   Wrapper,
 } from '@components/ui/custom/notification/styled-components';
-import Avatar from '@mui/material/Avatar';
 import { formatDistance, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
@@ -28,7 +27,15 @@ export const Notification = (
     <Card
       content={
         <Wrapper>
-          <Avatar>H</Avatar>
+          <img
+            src={'/assets/secret_santa.png'}
+            alt="avatar"
+            style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+            }}
+          />
           <ContentWrapper>
             <Header>{`${properties.sender} • ${formattedDate}`}</Header>
             <Text>{properties.text}</Text>

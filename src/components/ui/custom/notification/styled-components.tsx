@@ -7,7 +7,7 @@ export const Header = styled.p`
   font-family: Roboto, sans-serif;
   font-size: 14px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 157%; /* 21.98px */
   letter-spacing: 0.1px;
 `;
@@ -20,7 +20,7 @@ export const Text = styled.p`
   font-family: Roboto, sans-serif;
   font-size: 16px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 150%; /* 24px */
   letter-spacing: 0.15px;
   width: 100%;

@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { FabAdd } from '@components/ui/common/fab-add';
 import { Page } from '@components/ui/common/page';
 import { CardImage } from '@components/ui/custom/card-image';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
 import styled from 'styled-components';
 
@@ -50,6 +52,11 @@ const PublicGroups: FC = () => {
   // eslint-disable-next-line unicorn/no-null
   const [groupToDelete, setGroupToDelete] = useState<number | null>(null);
   const [deleteGroup] = useDeleteGroupMutation();
+
+  const [snackbarData, setSnackbarData] = useState({
+    open: false,
+    message: '',
+  });
 
   const { data, error, loading, refetch } = usePublicGroupsQuery({
     variables: {
@@ -102,7 +109,9 @@ const PublicGroups: FC = () => {
       )}
       {data?.publicGroups.map((group) => {
         const isAdmin = group.members!.some(
-          (member) => member.role === GroupMemberRole.Admin,
+          (member) =>
+            member.role === GroupMemberRole.Admin &&
+            member.accountId === authStore.account?.id,
         );
 
         let tags = [];
@@ -187,16 +196,28 @@ const PublicGroups: FC = () => {
             variables: { id: groupToDelete },
           });
           if (deletedGroup?.deleteGroup.status === GroupStatus.Closed) {
-            console.log('Группа удалена успешно');
             // eslint-disable-next-line unicorn/no-null
             setGroupToDelete(null);
             await refetch();
             setDialogOpen(false);
+            setSnackbarData({
+              open: true,
+              message: 'Группа удалена',
+            });
           } else {
             console.log('Ошибка при удалении группы');
           }
         }}
       />
+      <Snackbar
+        open={snackbarData.open}
+        autoHideDuration={3000}
+        onClose={(): void => setSnackbarData({ ...snackbarData, open: false })}
+      >
+        <Alert severity="warning" sx={{ width: '100%' }}>
+          {snackbarData.message}
+        </Alert>
+      </Snackbar>
     </Page>
   );
 };

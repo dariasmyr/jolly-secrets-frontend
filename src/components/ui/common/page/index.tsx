@@ -36,7 +36,7 @@ const PrimaryIcon = ({
   children,
 }: {
   children: ReactElement;
-}): ReactElement => <SvgIcon color="success">{children}</SvgIcon>;
+}): ReactElement => <SvgIcon color="primary">{children}</SvgIcon>;
 
 export interface IPageProperties {
   title: string;

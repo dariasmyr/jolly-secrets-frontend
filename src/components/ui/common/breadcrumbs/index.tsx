@@ -54,7 +54,7 @@ const CollapsedBreadcrumbs: React.FC<CollapsedBreadcrumbsProperties> = ({
       </Breadcrumbs>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
-          You clicked on {currentLabel}.
+          Вы перешли в {currentLabel}.
         </Alert>
       </Snackbar>
     </div>

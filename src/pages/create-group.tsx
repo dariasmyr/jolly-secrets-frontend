@@ -103,7 +103,6 @@ const CreateGroup: FC = () => {
     value: GroupType | PriceRange;
     label: string;
   }): void => {
-    console.log('Is private', option.value === 'PRIVATE');
     setIsPrivate(option.value === 'PRIVATE');
   };
 
@@ -112,7 +111,6 @@ const CreateGroup: FC = () => {
       log.debug('Error', formState.errors);
       return;
     }
-    log.debug('Data', formData);
     const groupNameResponse = await refetch({
       name: formData.groupName,
     });

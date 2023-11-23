@@ -229,6 +229,7 @@ const Settings: FC = () => {
               type="text"
               fullWidth
               size="small"
+              variant="standard"
               multiline={false}
               error={Boolean(formStateName.errors.username)}
               helperText={formStateName.errors.username?.message}
@@ -310,13 +311,15 @@ const Settings: FC = () => {
               }}
               fullWidth
               size="small"
+              variant="standard"
+              color={'error'}
               multiline={false}
               error={Boolean(formStateDelete.errors.deleteAccountPhrase)}
               helperText={formStateDelete.errors.deleteAccountPhrase?.message}
               {...registerDelete('deleteAccountPhrase')}
             />
             <Button
-              variant={ButtonVariant.primary}
+              variant={ButtonVariant.error}
               onClick={handleSubmitDelete(async (): Promise<void> => {
                 try {
                   const isValid =

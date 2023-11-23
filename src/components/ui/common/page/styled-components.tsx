@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
+import { themeMui } from '@/theme';
+
 interface IMenuProperties {
   open: boolean;
 }
-
-import { themeMui } from '@/theme';
 
 export const LogoContainer = styled.div`
   display: flex;
@@ -85,9 +85,9 @@ export const Header = styled.div`
     'clig' off,
     'liga' off;
   font-family: Roboto, sans-serif;
-  font-size: 20px;
+  font-size: 22px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 160%; /* 32px */
   letter-spacing: 0.15px;
   align-self: flex-start;

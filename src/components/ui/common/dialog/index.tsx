@@ -31,7 +31,12 @@ const DialogActions = styled(OrigDialogActions)<{ buttonCount: number }>`
 
 export const Dialog = (properties: IDialogProperties): ReactElement => {
   return properties.open ? (
-    <MUIDialog open={properties.open}>
+    <MUIDialog
+      open={properties.open}
+      sx={{
+        borderRadius: '16px',
+      }}
+    >
       <DialogTitle>{properties.title}</DialogTitle>
       <DialogContent>{properties.content}</DialogContent>
       <DialogActions buttonCount={properties.buttons.length}>

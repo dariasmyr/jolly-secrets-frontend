@@ -14,7 +14,7 @@ export const ButtonLarge = styled.button<IButtonLargeProperties>`
   background-color: ${(properties): string =>
     properties.disabled
       ? themeMui.palette.info.main
-      : themeMui.palette.success.main};
+      : themeMui.palette.primary.main};
   border: 1px solid #e0e0e0;
   display: flex;
   justify-content: center;
@@ -28,7 +28,7 @@ export const ButtonLarge = styled.button<IButtonLargeProperties>`
   color: ${(properties): string =>
     properties.disabled
       ? themeMui.palette.info.contrastText
-      : themeMui.palette.success.contrastText};
+      : themeMui.palette.primary.contrastText};
   cursor: ${(properties): string =>
     properties.disabled ? 'not-allowed' : 'pointer'};
   transition: all 0.2s ease-in-out;
@@ -38,12 +38,12 @@ export const ButtonLarge = styled.button<IButtonLargeProperties>`
     background-color: ${(properties): string =>
       properties.disabled
         ? themeMui.palette.info.main
-        : themeMui.palette.success.dark};
+        : themeMui.palette.primary.dark};
   }
   &:active {
     background-color: ${(properties): string =>
       properties.disabled
         ? themeMui.palette.info.main
-        : themeMui.palette.success.main};
+        : themeMui.palette.primary.main};
   }
 `;

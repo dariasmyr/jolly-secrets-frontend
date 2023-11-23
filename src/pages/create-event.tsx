@@ -195,6 +195,7 @@ const CreateEvent: FC = () => {
             />,
             <LocalizationProvider key="eventDate" dateAdapter={AdapterDayjs}>
               <DatePicker
+                sx={{ marginTop: '16px' }}
                 defaultValue={today}
                 disablePast
                 label="Дата окончания события"

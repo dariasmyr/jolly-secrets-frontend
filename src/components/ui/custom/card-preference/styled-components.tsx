@@ -1,6 +1,8 @@
 import { Paper as MuiPaper } from '@mui/material';
 import styled from 'styled-components';
 
+import { themeMui } from '@/theme';
+
 export const Paper = styled(MuiPaper)`
   width: 368px;
   margin-top: 16px;
@@ -66,6 +68,7 @@ export const Title = styled.p`
   font-weight: 400;
   line-height: 12px; /* 100% */
   letter-spacing: 0.15px;
+  color: ${themeMui.palette.info.contrastText};
 `;
 
 export const CardWrapper = styled.div`

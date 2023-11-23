@@ -1,6 +1,8 @@
 import { Paper as MuiPaper } from '@mui/material';
 import styled from 'styled-components';
 
+import { themeMui } from '@/theme';
+
 export const Paper = styled(MuiPaper)`
   width: 368px;
   border-radius: 30px;
@@ -74,19 +76,20 @@ export const Text = styled.div`
   font-family: Roboto, sans-serif;
   font-size: 20px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 160%; /* 32px */
   letter-spacing: 0.15px;
   align-self: center;
   margin-right: 24px;
   margin-left: 24px;
+  color: ${themeMui.palette.info.contrastText};
 `;
 export const SubText = styled.div`
   font-feature-settings:
     'clig' off,
     'liga' off;
   font-family: Roboto, sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 80%;
@@ -94,6 +97,7 @@ export const SubText = styled.div`
   align-self: center;
   margin-right: 24px;
   margin-left: 24px;
+  color: ${themeMui.palette.info.contrastText};
 `;
 
 export const StyledImage = styled.div`
