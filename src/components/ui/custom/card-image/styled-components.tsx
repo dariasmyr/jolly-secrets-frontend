@@ -6,7 +6,7 @@ import { themeMui } from '@/theme';
 export const ImageWrapper = styled(Image)`
   width: 368px;
   height: 200px;
-  border-radius: 30px 30px 0 0;
+  border-radius: 20px 20px 0 0;
 `;
 
 export const PreHeader = styled.p`

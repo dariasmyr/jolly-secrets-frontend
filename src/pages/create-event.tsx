@@ -218,7 +218,7 @@ const CreateEvent: FC = () => {
           Создать событие
         </Button>
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
-          Назад
+          К списку событий
         </Button>
       </FormWrapper>
       <Snackbar open={snackbarData.open} autoHideDuration={6000}>

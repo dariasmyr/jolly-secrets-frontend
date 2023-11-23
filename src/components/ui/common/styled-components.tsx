@@ -5,7 +5,7 @@ import { themeMui } from '@/theme';
 
 export const Paper = styled(MuiPaper)`
   width: 368px;
-  border-radius: 30px;
+  border-radius: 20px;
 `;
 
 export const Content = styled.div`

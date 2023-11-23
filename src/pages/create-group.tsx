@@ -240,25 +240,26 @@ const CreateGroup: FC = () => {
             button={'Пригласить'}
           />
         )}
-        <Button
-          variant={ButtonVariant.primary}
-          onClick={handleSubmit(async (formData) => {
-            try {
-              await handleFormSubmit(formData);
-              if (isPrivate) {
-                console.log('Show dialog');
-                handleClickOpenDialog();
+        {!groupCreated && (
+          <Button
+            variant={ButtonVariant.primary}
+            onClick={handleSubmit(async (formData) => {
+              try {
+                await handleFormSubmit(formData);
+                if (isPrivate) {
+                  console.log('Show dialog');
+                  handleClickOpenDialog();
+                }
+              } catch (submitError) {
+                log.error('Create group error', submitError);
               }
-            } catch (submitError) {
-              log.error('Create group error', submitError);
-            }
-          })}
-          disabled={groupCreated}
-        >
-          Создать группу
-        </Button>
+            })}
+          >
+            Создать группу
+          </Button>
+        )}
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
-          Назад
+          К списку групп
         </Button>
       </FormWrapper>
       <DialogGenerateInvite
@@ -266,9 +267,9 @@ const CreateGroup: FC = () => {
         title="Скопируй и отправь другу"
         onCancelClick={handleClickCloseDialog}
         cancelButtonLabel={'Закрыть'}
-        linkLabel={'Ссылка на приглашение'}
+        linkLabel={'Ссылка - приглашение'}
         clipboardMessage={'Ссылка скопирована'}
-        generateButtonLabel={'Сгенерировать'}
+        generateButtonLabel={'Пригласить еще'}
         groupId={groupId!}
       />
       <Snackbar open={snackbarData.open} autoHideDuration={6000}>
