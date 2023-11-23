@@ -41,7 +41,6 @@ export const CardHeader = styled.p`
 
 export const Description = styled.p`
   width: 327px;
-  color: #8d96a8;
   font-feature-settings:
     'clig' off,
     'liga' off;

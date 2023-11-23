@@ -40,7 +40,6 @@ export const TextWrapper = styled.div`
 `;
 
 export const Value = styled.p`
-  color: #323232;
   font-feature-settings:
     'clig' off,
     'liga' off;
@@ -57,7 +56,6 @@ export const Value = styled.p`
 `;
 
 export const Title = styled.p`
-  color: #737373;
   font-feature-settings:
     'clig' off,
     'liga' off;

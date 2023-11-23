@@ -40,7 +40,6 @@ export const Header = styled.p`
 `;
 
 export const Text = styled.p`
-  color: var(--text-secondary, rgba(0, 0, 0, 0.6));
   font-feature-settings:
     'clig' off,
     'liga' off;

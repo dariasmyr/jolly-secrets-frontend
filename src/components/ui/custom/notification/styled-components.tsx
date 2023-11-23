@@ -4,7 +4,6 @@ export const Header = styled.p`
   font-feature-settings:
     'clig' off,
     'liga' off;
-  color: var(--text-primary, rgba(0, 0, 0, 0.87));
   font-family: Roboto, sans-serif;
   font-size: 14px;
   font-style: normal;
