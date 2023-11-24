@@ -1,0 +1,17 @@
+{  
+  "preference": {
+    "page_title": "Aplication",
+    "header": "I want",
+    "select_title": "Price range",
+    "delete": "Delete",
+    "dislikes": "I do NOT wish",
+    "likes": "I wish",
+    "comment": "Comment"
+  },
+  "dialog": {
+    "title": "Are you sure?",
+    "description": "After confirmation, the application cannot be changed",
+    "cancel": "Cancel",
+    "confirm": "Yes, create application"
+  }
+}
