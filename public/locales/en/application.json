@@ -1,17 +1,65 @@
-{  
-  "preference": {
-    "page_title": "Aplication",
-    "header": "I want",
-    "select_title": "Price range",
-    "delete": "Delete",
-    "dislikes": "I do NOT wish",
-    "likes": "I wish",
-    "comment": "Comment"
+{
+  "application": {
+    "my_application": "My Application",
+    "secret_santa_application": "Secret Santa's Application",
+    "preference": {
+      "price_range": "Price range",
+      "delete": "Delete",
+      "dislikes": "I do NOT wish",
+      "likes": "I wish",
+      "comment": "Comment"
+    }
   },
-  "dialog": {
-    "title": "Are you sure?",
-    "description": "After confirmation, the application cannot be changed",
-    "cancel": "Cancel",
-    "confirm": "Yes, create application"
+  "create_application": {
+    "page_title": "Application",
+    "header": "I wish",
+    "dialog": {
+      "title": "Are you sure?",
+      "description": "After confirmation, the application cannot be changed",
+      "cancel": "Cancel",
+      "confirm": "Yes, create a request"
+    }
+  },
+  "application_not_found": {
+    "title": "There is no application yet.",
+    "description": "Looking for your Secret Santa!"
+  },
+  "status": {
+    "looking_for_pair": {
+      "label": "Looking for a Secret Santa",
+      "description": "Your application is on the draw, we are looking for a Secret Santa for you!"
+    },
+    "paired": {
+      "label": "Paired, sending gifts...",
+      "description": "It's time to send gifts! Find out each other's addresses in a secret chat!"
+    },
+    "gift_sent": {
+      "label": "Your gift is sent",
+      "description": "Your gift has been sent! It's yout turn!"
+    },
+    "gift_received": {
+      "label": "Done",
+      "description": "Your application has been successfully closed"
+    }
+  },
+  "resolve": {
+    "gift_received": {
+      "title": "Gift received",
+      "dialog": {
+        "title": "Confirm your action",
+        "description": "We hope you enjoy the gift! After confirmation, your application will be closed.",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
+    },
+    "gift_not_received": {
+      "title": "Gift not received",
+      "dialog": {
+        "title": "Confirm the action",
+        "description": "We are very sorry :(After confirmation, your application will be closed.",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
+    }
   }
 }
