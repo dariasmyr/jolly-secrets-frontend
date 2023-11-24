@@ -14,6 +14,9 @@ import Snackbar from '@mui/material/Snackbar';
 import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
 import styled from 'styled-components';
 
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 import { Header } from '@/components/ui/common/page/styled-components';
 import {
   EventStatus,
@@ -25,6 +28,8 @@ import {
 import { useAuthStore } from '@/store/auth.store';
 
 const PrivateGroups: FC = () => {
+  const { t } = useTranslation(['common', 'auth']);
+  const locale = localeDetectorService.detect();
   const authStore = useAuthStore();
   const router = useRouter();
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -86,8 +91,8 @@ const PrivateGroups: FC = () => {
   }
 
   return (
-    <Page title={'Мои группы'} style={{ gap: 16, marginTop: 24 }}>
-      <Header>Мои группы</Header>
+    <Page title={t('groups:private')} style={{ gap: 16, marginTop: 24 }}>
+      <Header>{t('groups:private')}</Header>
       {data?.privateGroups.length === 0 && (
         <Wrapper>
           <StyledImage>
@@ -98,8 +103,8 @@ const PrivateGroups: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>Групп пока нет.</Text>
-          <SubText>Создайте первую группу!</SubText>
+          <Text>{t('groups:no_groups_title')}</Text>
+          <SubText>{t('groups:no_groups_description')}</SubText>
         </Wrapper>
       )}
       {data?.privateGroups.map((group) => {
@@ -116,13 +121,13 @@ const PrivateGroups: FC = () => {
               {
                 title: `${group.members!.length} ${pluralize(
                   group.members!.length,
-                  'человек',
-                  'человека',
-                  'человек',
+                  {t('groups:one_member')}
+                  {t('groups:two_members')}
+                  {t('groups:many_members')}
                 )}`,
               },
               {
-                title: 'Я создатель',
+                title: {t('groups:creator')},
                 warning: true,
               },
             ]
@@ -130,9 +135,9 @@ const PrivateGroups: FC = () => {
               {
                 title: `${group.members!.length} ${pluralize(
                   group.members!.length,
-                  'человек',
-                  'человека',
-                  'человек',
+                  {t('groups:one_member')}
+                  {t('groups:two_members')}
+                  {t('groups:many_members')}
                 )}`,
               },
             ];
@@ -149,9 +154,9 @@ const PrivateGroups: FC = () => {
             )?.length} ${pluralize(
               group.events!.filter((event) => event.status === EventStatus.Open)
                 ?.length,
-              'активное событие',
-              'активных события',
-              'активных событий',
+              {t('events:one_еvent')}
+                  {t('events:two_еvents')}
+                  {t('events:many_еvents')}
             )}`}
             header={group.name}
             text={group.description}
@@ -161,13 +166,13 @@ const PrivateGroups: FC = () => {
                 ? {
                     options: [
                       {
-                        title: 'Изменить',
+                        title: {t('group:change:title')},
                         onClick: (): void => {
                           router.push(`/update-group?id=${group.id}`);
                         },
                       },
                       {
-                        title: 'Удалить',
+                        title: {t('group:delete:title')},
                         onClick: (): void => {
                           setGroupToDelete(group.id);
                           setDialogOpen(true);
@@ -186,10 +191,10 @@ const PrivateGroups: FC = () => {
       <FabAdd onClick={createGroup} />
       <DialogConfirmAction
         isOpen={isDialogOpen}
-        title="Удалить группу"
-        description="Вы уверены, что хотите удалить эту группу? Это действие не может быть отменено."
-        cancelButtonText="Отмена"
-        confirmButtonText="Удалить"
+        title={t('group:delete:dialog:title')}
+        description={t('group:delete:dialog:description')}
+        cancelButtonText={t('group:delete:dialog:cancel')}
+        confirmButtonText={t('group:delete:dialog:confirm')}
         onCancelClick={(): void => setDialogOpen(false)}
         onConfirmClick={async (): Promise<void> => {
           if (!groupToDelete) {
@@ -206,7 +211,7 @@ const PrivateGroups: FC = () => {
             setDialogOpen(false);
             setSnackbarData({
               open: true,
-              message: 'Группа удалена',
+              message: {t('group:delete:success')},
             });
           } else {
             console.log('Ошибка при удалении группы');
