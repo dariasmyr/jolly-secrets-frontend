@@ -12,6 +12,10 @@ import {
 import { CardImage } from '@components/ui/custom/card-image';
 import styled from 'styled-components';
 
+import { useTranslation } from 'next-i18next';
+import localeDetectorService from '@/services/locale-detector.service';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 import { Header } from '@/components/ui/common/page/styled-components';
 import {
   EventStatus,
@@ -22,6 +26,8 @@ import {
 import { useAuthStore } from '@/store/auth.store';
 
 const Events: FC = () => {
+  const { t } = useTranslation(['common', 'auth']);
+  const locale = localeDetectorService.detect();
   const authStore = useAuthStore();
   const router = useRouter();
   const groupId = router.query.groupId;
@@ -81,12 +87,12 @@ const Events: FC = () => {
   }, [authStore]);
 
   if (groupIsLoading || eventsIsLoading) {
-    return <Page title="События">Loading...</Page>;
+    return <Page title={t('event:header')}>Loading...</Page>;
   }
 
   if (groupError || eventsError) {
     return (
-      <Page title="События">
+      <Page title={t('event:header')}>
         Error: {JSON.stringify(groupError || eventsError)}
       </Page>
     );
@@ -96,7 +102,7 @@ const Events: FC = () => {
 
   const steps = [
     {
-      label: isPrivate ? 'Мои группы' : 'Публичные группы',
+      label: isPrivate ? {t('groups:private')} : {t('groups:public')},
       link: isPrivate ? '/private-groups' : '/public-groups',
       onClick: async (): Promise<void> => {
         await router.push(isPrivate ? '/private-groups' : '/public-groups');
@@ -127,8 +133,8 @@ const Events: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>Событий пока нет.</Text>
-          <SubText>Создайте первое событие!</SubText>
+          <Text>{t('events:no_events_title')}</Text>
+          <SubText>{t('events:no_events_description')}</SubText>
         </Wrapper>
       )}
       {eventsData?.events.map((event) => {
@@ -136,9 +142,9 @@ const Events: FC = () => {
           {
             title: `${event.applicationPairs?.length || 0} ${pluralize(
               event.applicationPairs?.length || 0,
-              'пара',
-              'пары',
-              'пар',
+              {t('event:one_pair')},
+              {t('event:two_pairs')},
+                 {t('event:many_pairs')},
             )}`,
           },
           {
