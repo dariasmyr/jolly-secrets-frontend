@@ -3,6 +3,7 @@
     "my_application": "🎁My Application",
     "secret_santa_application": "🎅Secret Santa's Application",
     "preference": {
+      "no_matter": "No matter",
       "title": "Preferences",
       "price_range": "💸Price range",
       "delete": "Delete",
