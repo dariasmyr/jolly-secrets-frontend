@@ -1,0 +1,31 @@
+{
+  "event": {
+    "header": "Event",
+    "untill_ending": "Until expired",
+    "one_day": "day",
+    "two_days": "days",
+    "many_days": "days",
+    "one_pair": "pair",
+    "two_pairs": "pairs",
+    "many_pairs": "pairs",
+    "expired": "Event expired",
+    "participate": "Participate"
+  },
+  "events": {
+    "header": "Events",
+    "no_events_title": "There are no events yet",
+    "no_events_description": "Create the first event!",
+    "one_еvent": "active event",
+    "two_еvents": "active events",
+    "many_еvents": "active events"
+  },
+  "create_event": {
+    "date_is_same": "The end date cannot be equal to the current date",
+    "header": "Event creation",
+    "choose_cover": "Choose cover image",
+    "event_name": "Event name",
+    "event_description": "Event description",
+    "end_date": "Event expiration date",
+    "back": "To event list"
+  }
+}
