@@ -3,6 +3,7 @@
     "my_application": "🎁My Application",
     "secret_santa_application": "🎅Secret Santa's Application",
     "preference": {
+      "title": "Preferences",
       "price_range": "💸Price range",
       "delete": "Delete",
       "dislikes": "❌I do NOT wish",
@@ -60,6 +61,16 @@
         "cancel": "Cancel ❌",
         "confirm": "Confirm ✔️"
       }
-    }
+    },
+    "gift_sent": {
+      "title": "I've sent gift",
+      "dialog": {
+        "title": "Confirm the action",
+        "description": "After confirmation, the status of the application cannot be changed. 🚩",
+        "cancel": "Cancel ❌",
+        "confirm": "Confirm ✔️"
+      }
+    },
+    "write_to_santa": "Chat with Santa"
   }
 }
