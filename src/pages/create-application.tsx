@@ -274,7 +274,7 @@ const CreateApplication: FC = () => {
         onConfirmClick={(): any =>
           handleSubmit(async (formData) => {
             try {
-              handleConfirmDialogClose(); // Важно сначала закрыть диалог
+              handleConfirmDialogClose();
               await handleFormSubmit(formData);
               router.push(`/event?id=${eventId}`);
             } catch (submitError) {
