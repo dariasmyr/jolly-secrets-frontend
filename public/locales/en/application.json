@@ -21,7 +21,8 @@
       "description": "After confirmation, the application cannot be changed",
       "cancel": "❌Cancel",
       "confirm": "✔️Yes, create a request"
-    }
+    },
+    "action":"Create application"
   },
   "application_not_found": {
     "title": "🔍There is no application yet.",
