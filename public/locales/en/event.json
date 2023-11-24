@@ -26,6 +26,7 @@
     "event_name": "Event name",
     "event_description": "Event description",
     "end_date": "Event expiration date",
-    "back": "To event list"
+    "back": "To event list",
+    "action": "Create event"
   }
 }
