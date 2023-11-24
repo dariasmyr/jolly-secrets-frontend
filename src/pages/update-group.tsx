@@ -13,6 +13,9 @@ import TextField from '@mui/material/TextField';
 import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/card-create-or-update-group';
 import * as Yup from 'yup';
 
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 import {
   GroupType,
   PriceRange,
@@ -33,6 +36,8 @@ type FormData = {
 };
 
 const UpdateGroup: FC = () => {
+  const { t } = useTranslation(['common', 'auth']);
+  const locale = localeDetectorService.detect();
   const authStore = useAuthStore();
   const router = useRouter();
   const { data: groupData, loading: groupIsLoading } = useGroupQuery({
@@ -112,8 +117,8 @@ const UpdateGroup: FC = () => {
   }
 
   return (
-    <Page title={'Изменить группы'} style={{ gap: 16, marginTop: 24 }}>
-      <Header>Изменить группу</Header>
+    <Page title={t('groups:change:title')} style={{ gap: 16, marginTop: 24 }}>
+      <Header>{t('groups:change:title')}</Header>
       <FormWrapper
         onSubmit={handleSubmit(async (formData) => {
           try {
@@ -124,15 +129,15 @@ const UpdateGroup: FC = () => {
         })}
       >
         <CardCreateOrUpdateGroup
-          accessLevelTitle="Уровень доступа"
+          accessLevelTitle={t('create_or_update_group:change:access_level:title')}
           accessLevelOptions={[
-            { value: GroupType.Public, label: 'Публичная' },
-            { value: GroupType.Private, label: 'Приватная' },
+            { value: GroupType.Public, label: {t('create_or_update_group:change:access_level:public')} },
+            { value: GroupType.Private, label: {t('create_or_update_group:change:access_level:private')} },
           ]}
           defaultOption={
             groupData?.group.type === GroupType.Private
-              ? { value: GroupType.Private, label: 'Приватная' }
-              : { value: GroupType.Public, label: 'Публичная' }
+              ? { value: GroupType.Private, label: {t('create_or_update_group:change:access_level:public')} }
+              : { value: GroupType.Public, label: {t('create_or_update_group:change:access_level:private')} }
           }
           onAccessLevelChange={handleAccessLevelChange}
         >
