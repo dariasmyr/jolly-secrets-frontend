@@ -15,6 +15,8 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/card-create-or-update-group';
 import * as Yup from 'yup';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Header } from '@/components/ui/common/page/styled-components';
 import {
@@ -37,6 +39,8 @@ type FormData = {
 };
 
 const CreateGroup: FC = () => {
+  const { t } = useTranslation(['common', 'auth']);
+  const locale = localeDetectorService.detect();
   const authStore = useAuthStore();
   const router = useRouter();
   const { refetch: refetch } = useIsGroupNameAvailvableQuery({
@@ -116,7 +120,7 @@ const CreateGroup: FC = () => {
     });
 
     if (groupNameResponse.data.isGroupNameAvailable === false) {
-      setSnackbarData({ open: true, message: 'Имя группы уже существует' });
+      setSnackbarData({ open: true, message: {t('create_or_update_group:duplicate_name')} });
       return;
     }
 
@@ -148,8 +152,8 @@ const CreateGroup: FC = () => {
   }, [authStore]);
 
   return (
-    <Page title={'Cоздание группы'} style={{ gap: 16, marginTop: 24 }}>
-      <Header>Создание группы</Header>
+    <Page title={t('create_or_update_group:create_header')} style={{ gap: 16, marginTop: 24 }}>
+      <Header>{t('create_or_update_group:create_header')}</Header>
       <FormWrapper
         onSubmit={handleSubmit(async (formData) => {
           try {
@@ -160,12 +164,12 @@ const CreateGroup: FC = () => {
         })}
       >
         <CardCreateOrUpdateGroup
-          accessLevelTitle="Уровень доступа"
+          accessLevelTitle={t('create_or_update_group:access_level:title')}
           accessLevelOptions={[
-            { value: GroupType.Public, label: 'Публичная' },
-            { value: GroupType.Private, label: 'Приватная' },
+            { value: GroupType.Public, label: {t('create_or_update_group:access_level:public')} },
+            { value: GroupType.Private, label: {t('create_or_update_group:access_level:private')} },
           ]}
-          defaultOption={{ value: GroupType.Public, label: 'Публичная' }}
+          defaultOption={{ value: GroupType.Public, label: {t('create_or_update_group:access_level:public')} }}
           onAccessLevelChange={handleAccessLevelChange}
         >
           {[
@@ -199,7 +203,7 @@ const CreateGroup: FC = () => {
                   />
                 ) : (
                   <Button variant={ButtonVariant.borderless}>
-                    Выбрать обложку
+                    {t('create_or_update_group:choose_cover')}
                   </Button>
                 )}
               </div>
@@ -207,7 +211,7 @@ const CreateGroup: FC = () => {
             <TextField
               key="groupName"
               id="field-groupName"
-              label="Название группы"
+              label= {t('create_or_update_group:group_name')}
               type="text"
               fullWidth
               size="small"
@@ -220,7 +224,7 @@ const CreateGroup: FC = () => {
             <TextField
               key="groupDescription"
               id="field-groupDescription"
-              label="Описание группы"
+              label={t('create_or_update_group:group_description')}
               type="text"
               fullWidth
               size="medium"
@@ -234,10 +238,10 @@ const CreateGroup: FC = () => {
         </CardCreateOrUpdateGroup>
         {groupCreated && isPrivate && (
           <CardGenerateInvite
-            title={'Участники'}
-            description={'Нажми на кнопку чтобы сгенерировать приглашение.'}
+            title={t('create_or_update_group:invite:title')}
+            description={t('create_or_update_group:invite:description')}
             onGenerateInviteClick={handleClickOpenDialog}
-            button={'Пригласить'}
+            button={t('create_or_update_group:invite:action')}
           />
         )}
         {!groupCreated && (
@@ -255,21 +259,21 @@ const CreateGroup: FC = () => {
               }
             })}
           >
-            Создать группу
+            {t('create_or_update_group:create_action')}
           </Button>
         )}
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
-          К списку групп
+          {t('create_or_update_group:back')}
         </Button>
       </FormWrapper>
       <DialogGenerateInvite
         isOpen={showDialog}
         title="Скопируй и отправь другу"
         onCancelClick={handleClickCloseDialog}
-        cancelButtonLabel={'Закрыть'}
-        linkLabel={'Ссылка - приглашение'}
-        clipboardMessage={'Ссылка скопирована'}
-        generateButtonLabel={'Пригласить еще'}
+        cancelButtonLabel={t('create_or_update_group:invite:dialog:cancel')}
+        linkLabel={t('create_or_update_group:invite:dialog:label')}
+        clipboardMessage={t('create_or_update_group:invite:dialog:success')}
+        generateButtonLabel={t('create_or_update_group:invite:dialog:generate')}
         groupId={groupId!}
       />
       <Snackbar open={snackbarData.open} autoHideDuration={6000}>
