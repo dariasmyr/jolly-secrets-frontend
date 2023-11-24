@@ -26,9 +26,10 @@
     "two_events": "active events",
     "many_events": "active events"
   },
-  "create_group": {
+  "create_or_update_group": {
     "duplicate_name": "Group name already exists",
-    "header": "Create group",
+    "create_header": "Create group",
+    "update_header": "Update group",
     "choose_cover": "Choose cover",
     "group_name": "Event name",
     "group_description": "Event description",
@@ -44,13 +45,20 @@
       "dialog": {
         "title": "Copy and send to a friend",
         "label": "Link - invitation",
-        "cancel": "Close ❌",
+        "cancel": "Cancel ❌",
         "success": "Link copied",
         "generate": "Invite more 📝"
       },
       "success": "Group successfully created"
     },
-    "action": "Create group",
+    "create_action": "Create group",
+    "update_action": "Change group",
+    "confirm_dialog": {
+        "title": "Make the group private?",
+        "description": "The invitation will be generated after confirmation.",
+        "cancel": "Cancel ❌",
+        "confirm": "OK"
+      },
     "back": "Back to group list"
   }
 }
