@@ -4,6 +4,10 @@ import { useRouter } from 'next/router';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import styled from 'styled-components';
+import { useTranslation } from 'next-i18next';
+import localeDetectorService from '@/services/locale-detector.service';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 
 import {
   useGenerateTelegramBotLinkQuery,
@@ -11,6 +15,8 @@ import {
 } from '@/generated/graphql';
 
 const Login: FC = () => {
+  const { t } = useTranslation(['common', 'auth']);
+  const locale = localeDetectorService.detect();
   const { data: tgLinkData, error: tgLinkError } =
     useGenerateTelegramBotLinkQuery();
   const { data: googleLinkData, error: googleLinkError } =
@@ -48,21 +54,21 @@ const Login: FC = () => {
   return (
     <PageWrapper>
       <Image src={'/assets/logo1.png'} width={230} height={100} alt="Logo" />
-      <Title>Давайте познакомимся</Title>
+      <Title>{t('login:title')}</Title>
       <FormControlLabel
         control={<Checkbox defaultChecked />}
         label={
           <p>
-            Я согласен(на) с <a href="#">правилами использования</a>
+            t('login:confirm_with')} <a href="#">{t('login:terms_of_use')}</a>
           </p>
         }
       />
       <Button variant={ButtonVariant.primary} onClick={handleLoginViaGoogle}>
-        ВОЙТИ ЧЕРЕЗ GOOGLE
+        {t('login:google')}
       </Button>
       <div>или</div>
       <Button variant={ButtonVariant.primary} onClick={handleLoginViaTelegram}>
-        ВОЙТИ ЧЕРЕЗ TELEGRAM
+        {t('login:telegram')}
       </Button>
     </PageWrapper>
   );
