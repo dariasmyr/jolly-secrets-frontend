@@ -9,6 +9,10 @@ import Snackbar from '@mui/material/Snackbar';
 import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
 import styled from 'styled-components';
 
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+
 import { Header } from '@/components/ui/common/page/styled-components';
 import {
   StyledImage,
@@ -46,6 +50,8 @@ function pluralize(
 }
 
 const PublicGroups: FC = () => {
+  const { t } = useTranslation(['common', 'auth']);
+  const locale = localeDetectorService.detect();
   const authStore = useAuthStore();
   const router = useRouter();
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -83,16 +89,16 @@ const PublicGroups: FC = () => {
   }, [authStore]);
 
   if (loading || accountCountLoading) {
-    return <Page title="Публичные группы">Loading...</Page>;
+    return <Page title={t('groups:public')}>Loading...</Page>;
   }
 
   if (error || accountCountError) {
-    return <Page title="Публичные группы">Error: {JSON.stringify(error)}</Page>;
+    return <Page title={t('groups:public')}>Error: {JSON.stringify(error)}</Page>;
   }
 
   return (
-    <Page title={'Публичные группы'} style={{ gap: 16, marginTop: 24 }}>
-      <Header>Публичные группы</Header>
+    <Page title={t('groups:public')} style={{ gap: 16, marginTop: 24 }}>
+      <Header>{t('groups:public')}</Header>
       {data?.publicGroups.length === 0 && (
         <Wrapper>
           <StyledImage>
@@ -103,8 +109,8 @@ const PublicGroups: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>Групп пока нет.</Text>
-          <SubText>Создайте первую группу!</SubText>
+          <Text>{t('groups:no_groups_title')}</Text>
+          <SubText>{t('groups:no_groups_description')}</SubText>
         </Wrapper>
       )}
       {data?.publicGroups.map((group) => {
@@ -127,9 +133,9 @@ const PublicGroups: FC = () => {
               {
                 title: `${accountCountData?.getAccountCount} ${pluralize(
                   accountCountData!.getAccountCount!,
-                  'человек',
-                  'человека',
-                  'человек',
+                  {t('groups:one_member')}
+                  {t('groups:two_members')}
+                  {t('groups:many_members')}
                 )}`,
               },
             ];
@@ -146,9 +152,9 @@ const PublicGroups: FC = () => {
             )?.length} ${pluralize(
               group.events!.filter((event) => event.status === EventStatus.Open)
                 ?.length,
-              'активное событие',
-              'активных события',
-              'активных событий',
+              {t('events:one_еvent')}
+                  {t('events:two_еvents')}
+                  {t('events:many_еvents')}
             )}`}
             header={group.name}
             text={group.description}
@@ -158,13 +164,13 @@ const PublicGroups: FC = () => {
                 ? {
                     options: [
                       {
-                        title: 'Изменить',
+                        title: {t('group:change:title')},
                         onClick: (): void => {
                           router.push(`/update-group?id=${group.id}`);
                         },
                       },
                       {
-                        title: 'Удалить',
+                        title: {t('group:delete:title')},
                         onClick: (): void => {
                           setGroupToDelete(group.id);
                           setDialogOpen(true);
@@ -183,10 +189,10 @@ const PublicGroups: FC = () => {
       <FabAdd onClick={createGroup} />
       <DialogConfirmAction
         isOpen={isDialogOpen}
-        title="Удалить группу"
-        description="Вы уверены, что хотите удалить эту группу? Это действие не может быть отменено."
-        cancelButtonText="Отмена"
-        confirmButtonText="Удалить"
+        title={t('group:delete:dialog:title')}
+        description={t('group:delete:dialog:description')}
+        cancelButtonText={t('group:delete:dialog:cancel')}
+        confirmButtonText={t('group:delete:dialog:confirm')}
         onCancelClick={(): void => setDialogOpen(false)}
         onConfirmClick={async (): Promise<void> => {
           if (!groupToDelete) {
@@ -202,7 +208,7 @@ const PublicGroups: FC = () => {
             setDialogOpen(false);
             setSnackbarData({
               open: true,
-              message: 'Группа удалена',
+              message: {t('group:delete:success')},
             });
           } else {
             console.log('Ошибка при удалении группы');
