@@ -13,7 +13,7 @@
   },
   "events": {
     "header": "События",
-    "no_events_title": "Событий пока нет.",
+    "no_events_title": "Событий пока нет",
     "no_events_description": "Создайте первое событие!",
     "one_еvent": "активное событие",
     "two_еvents": "активных события",
