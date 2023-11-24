@@ -15,7 +15,12 @@ import {
 import { useNotificationsQuery } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 const Notifications: FC = () => {
+  const { t } = useTranslation(['common', 'auth']);
+  const locale = localeDetectorService.detect();
   const authStore = useAuthStore();
   const router = useRouter();
 
@@ -41,7 +46,7 @@ const Notifications: FC = () => {
   }
 
   return (
-    <Page title={'Уведомления'} style={{ gap: 16, marginTop: 24 }}>
+    <Page title={t('notifications:title')} style={{ gap: 16, marginTop: 24 }}>
       {data?.notifications?.length === 0 && (
         <Wrapper>
           <StyledImage>
@@ -52,8 +57,8 @@ const Notifications: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>Уведомлений пока нет.</Text>
-          <SubText>Ожидаем...</SubText>
+          <Text>{t('notifications_not_found:title')}</Text>
+          <SubText>{t('notifications_not_found:description')}</SubText>
         </Wrapper>
       )}
       {data?.notifications?.map((notification) => {
