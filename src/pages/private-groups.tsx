@@ -83,11 +83,11 @@ const PrivateGroups: FC = () => {
   }, [authStore]);
 
   if (loading) {
-    return <Page title="Мои группы">Loading...</Page>;
+    return <Page title={t('groups:private')}>Loading...</Page>;
   }
 
   if (error) {
-    return <Page title="Мои группы">Error: {JSON.stringify(error)}</Page>;
+    return <Page title={t('groups:private')}>Error: {JSON.stringify(error)}</Page>;
   }
 
   return (
