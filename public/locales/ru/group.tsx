@@ -24,7 +24,8 @@
     "many_members": "человек",
     "one_event": "активное событие",
     "two_events": "активных события",
-    "many_events": "активных событий"
+    "many_events": "активных событий",
+    "creator":"Я создатель"
   },
   "create_or_update_group": {
     "duplicate_name": "Имя группы уже существует",
