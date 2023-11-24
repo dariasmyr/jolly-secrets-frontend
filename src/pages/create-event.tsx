@@ -16,6 +16,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
 import * as Yup from 'yup';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Header } from '@/components/ui/common/page/styled-components';
 import { useCreateEventMutation } from '@/generated/graphql';
@@ -35,6 +37,8 @@ type FormData = {
 };
 
 const CreateEvent: FC = () => {
+  const { t } = useTranslation(['common', 'auth']);
+  const locale = localeDetectorService.detect();
   const authStore = useAuthStore();
   const router = useRouter();
   const [endDate, setEndDate] = useState<Dayjs | null>(dayjs(today));
@@ -92,7 +96,7 @@ const CreateEvent: FC = () => {
     if (endDate?.isSame(dayjs(today), 'date')) {
       setSnackbarData({
         open: true,
-        message: 'Дата окончания не может быть равна текущей дате',
+        message: {t('event:create_event:date_is_same')},
       });
       return;
     }
@@ -121,8 +125,8 @@ const CreateEvent: FC = () => {
   }, [authStore]);
 
   return (
-    <Page title={'Cоздание события'} style={{ gap: 16, marginTop: 24 }}>
-      <Header>Создание события</Header>
+    <Page title={{t('event:create_event:header')}} style={{ gap: 16, marginTop: 24 }}>
+      <Header>  {t('event:create_event:header')}</Header>
       <FormWrapper
         onSubmit={handleSubmit(async (formData) => {
           try {
@@ -162,7 +166,7 @@ const CreateEvent: FC = () => {
                   />
                 ) : (
                   <Button variant={ButtonVariant.borderless}>
-                    Выбрать обложку
+                    {t('event:create_event:choose_cover')}
                   </Button>
                 )}
               </div>
@@ -170,7 +174,7 @@ const CreateEvent: FC = () => {
             <TextField
               key="eventName"
               id="field-eventName"
-              label="Название события"
+              label={t('event:create_event:event_name')}
               type="text"
               fullWidth
               size="small"
@@ -183,7 +187,7 @@ const CreateEvent: FC = () => {
             <TextField
               key="eventDescription"
               id="field-eventDescription"
-              label="Описание cобытия"
+              label={t('event:create_event:event_description')}
               type="text"
               fullWidth
               size="medium"
@@ -198,7 +202,7 @@ const CreateEvent: FC = () => {
                 sx={{ marginTop: '16px' }}
                 defaultValue={today}
                 disablePast
-                label="Дата окончания события"
+                label={t('event:create_event:end_date')}
                 onChange={(date): void => setEndDate(dayjs(date))}
                 slotProps={{}}
               />
@@ -215,10 +219,10 @@ const CreateEvent: FC = () => {
             }
           })}
         >
-          Создать событие
+          {t('event:create_event:action')}
         </Button>
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
-          К списку событий
+          {t('event:create_event:back')}
         </Button>
       </FormWrapper>
       <Snackbar open={snackbarData.open} autoHideDuration={6000}>
