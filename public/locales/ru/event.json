@@ -1,0 +1,31 @@
+{
+  "event": {
+    "header": "Событие",
+    "untill_ending": "До завершения",
+    "one_day": "день",
+    "two_days": "дня",
+    "many_days": "дней",
+    "one_pair": "пар",
+    "two_pairs": "пары",
+    "many_pairs": "пар",
+    "expired": "Событие завершено",
+    "participate": "Участвовать"
+  },
+  "events": {
+    "header": "События",
+    "no_events_title": "Событий пока нет.",
+    "no_events_description": "Создайте первое событие!",
+    "one_еvent": "активное событие",
+    "two_еvents": "активных события",
+    "many_еvents": "активных событий"
+  },
+  "create_event": {
+    "date_is_same": "Дата окончания не может быть равна текущей дате",
+    "header": "Создание события",
+    "choose_cover": "Выбрать обложку",
+    "event_name": "Название события",
+    "event_description": "Описание cобытия",
+    "end_date": "Дата окончания события",
+    "back": "К списку событий"
+  }
+}
