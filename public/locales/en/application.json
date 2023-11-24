@@ -9,7 +9,8 @@
       "delete": "Delete",
       "dislikes": "❌I do NOT wish",
       "likes": "✔️I wish",
-      "comment": "Comment"
+      "comment": "Comment",
+      "add":"+ Add"
     }
   },
   "create_application": {
