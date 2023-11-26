@@ -13,6 +13,8 @@ export const MessageBase = styled.div`
   line-height: 18px;
   letter-spacing: 0.16px;
   color: var(--text-primary, rgba(0, 0, 0, 0.87));
+  white-space: nowrap;
+  overflow: auto;
 `;
 
 export const StyledMessage = styled(MessageBase)<{ isOutgoing: boolean }>`
@@ -32,10 +34,21 @@ export const StyledMessage = styled(MessageBase)<{ isOutgoing: boolean }>`
 `;
 
 export const MessageWrapper = styled.div<{ isOutgoing: boolean }>`
-  width: 100%;
-  max-width: 390px;
   display: flex;
+  flex-direction: column;
   justify-content: ${(properties): string =>
     properties.isOutgoing ? 'flex-end' : 'flex-start'};
+  align-items: ${(properties): string =>
+    properties.isOutgoing ? 'flex-end' : 'flex-start'};
   padding: 10px;
+`;
+
+export const TimeContainer = styled.div`
+  font-family: Roboto, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0.16px;
+  color: var(--text-secondary, rgba(0, 0, 0, 0.6));
 `;

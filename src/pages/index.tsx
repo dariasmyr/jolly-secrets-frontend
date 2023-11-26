@@ -6,7 +6,6 @@ import { DialogInputEmail } from '@components/ui/custom/dialog-input-email';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
 import { FabAdd } from 'src/components/ui/common/fab-add';
 import { MenuOptions } from 'src/components/ui/common/menu-options';
-import { Message } from 'src/components/ui/common/message';
 import { MessageField } from 'src/components/ui/common/message-field';
 import { ButtonLarge } from 'src/components/ui/custom/button-large';
 import { CardChangeName } from 'src/components/ui/custom/card-change-name';
@@ -198,14 +197,6 @@ export default function IndexPage(): ReactNode {
       />
       <FabAdd onClick={handleClick} />
       <MessageField onClick={handleClick} />
-      <Message text={'Привет, как дела?'} isOutgoing={true} />
-      <Message
-        text={
-          'Привет, у меня все хорошо! Это очень длинное сообщение, которое должно занимать несколько строк!'
-        }
-        isOutgoing={false}
-      />
-      <Message text={'Пtot l,otybt ly nfrjt j'} isOutgoing={true} />
       <Stepper steps={steps} />
     </Page>
   );

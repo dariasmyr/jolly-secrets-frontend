@@ -98,7 +98,7 @@ const Event: FC = () => {
 
   const goToChat = (): void => {
     router.push(
-      `/chat?eventApplicationPairId=${eventApplicationPairData?.getEventApplicationPairByEventAndAccount?.id}`,
+      `/chat?id=${eventApplicationPairData?.getEventApplicationPairByEventAndAccount?.chatId}`,
     );
   };
 

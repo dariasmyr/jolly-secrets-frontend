@@ -353,7 +353,7 @@ enum PriceRange {
 type Query {
   applicationPair(id: Int!): EventApplicationPair!
   applicationPairs(eventId: Float!): [EventApplicationPair!]!
-  chat(id: Float!): [Chat!]!
+  chat(id: Int!): Chat!
   chatMembers(chatId: Float!): [ChatMember!]!
   currentSession: AccountSession!
   debug: JSON!
@@ -369,7 +369,7 @@ type Query {
   groupInvite(groupId: Float!): [GroupInvite!]!
   groupMember(groupId: Float!): [GroupMember!]!
   isGroupNameAvailable(name: String!): Boolean!
-  messages(chatId: Float!): [Message!]!
+  messages(chatId: Int!): [Message!]!
   notification(id: Float!): Notification!
   notifications(limit: Int!, offset: Int!): [Notification!]!
   privateGroups(limit: Int!, offset: Int!): [Group!]!

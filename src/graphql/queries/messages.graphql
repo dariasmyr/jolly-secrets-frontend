@@ -1,0 +1,17 @@
+query messages ($chatId: Int!) {
+  messages(chatId: $chatId) {
+    id
+    createdAt
+    updatedAt
+    accountId
+    chatId
+    text
+    chat {
+      id
+      eventApplicationPair {
+        id
+        eventId
+      }
+    }
+  }
+}
