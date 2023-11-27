@@ -482,9 +482,9 @@ const Event: FC = () => {
             ? `${startDate} - ${endDate}`
             : `${t('event:untill_ending')} ${daysToExpire} ${pluralize(
                 daysToExpire,
-                t('event:event,one_day'),
-                t('event:event,two_days'),
-                t('event:event,many_days'),
+                t('event:event.one_day'),
+                t('event:event.two_days'),
+                t('event:event.many_days'),
               )}`
         }
         header={eventData!.event.name}
@@ -495,9 +495,9 @@ const Event: FC = () => {
               eventData!.event.applicationPairs?.length || 0
             } ${pluralize(
               eventData!.event.applicationPairs?.length || 0,
-              t('event:event,one_pair'),
-              t('event:event,two_pairs'),
-              t('event:event,many_pairs'),
+              t('event:event.one_pair'),
+              t('event:event.two_pairs'),
+              t('event:event.many_pairs'),
             )}`,
           },
           {
