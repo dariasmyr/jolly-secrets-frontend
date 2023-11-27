@@ -122,7 +122,7 @@ const CreateGroup: FC = () => {
     if (groupNameResponse.data.isGroupNameAvailable === false) {
       setSnackbarData({
         open: true,
-        message: t('create_or_update_group:duplicate_name'),
+        message: t('group:create_or_update_group.duplicate_name'),
       });
       return;
     }
@@ -156,10 +156,10 @@ const CreateGroup: FC = () => {
 
   return (
     <Page
-      title={t('create_or_update_group:create_header')}
+      title={t('group:create_or_update_group.create_header')}
       style={{ gap: 16, marginTop: 24 }}
     >
-      <Header>{t('create_or_update_group:create_header')}</Header>
+      <Header>{t('group:create_or_update_group.create_header')}</Header>
       <FormWrapper
         onSubmit={handleSubmit(async (formData) => {
           try {
@@ -170,20 +170,22 @@ const CreateGroup: FC = () => {
         })}
       >
         <CardCreateOrUpdateGroup
-          accessLevelTitle={t('create_or_update_group:access_level:title')}
+          accessLevelTitle={t(
+            'group:create_or_update_group.access_level.title',
+          )}
           accessLevelOptions={[
             {
               value: GroupType.Public,
-              label: t('create_or_update_group:access_level:public'),
+              label: t('group:create_or_update_group.access_level.public'),
             },
             {
               value: GroupType.Private,
-              label: t('create_or_update_group:access_level:private'),
+              label: t('group:create_or_update_group.access_level.private'),
             },
           ]}
           defaultOption={{
             value: GroupType.Public,
-            label: t('create_or_update_group:access_level:public'),
+            label: t('group:create_or_update_group.access_level.public'),
           }}
           onAccessLevelChange={handleAccessLevelChange}
         >
@@ -218,7 +220,7 @@ const CreateGroup: FC = () => {
                   />
                 ) : (
                   <Button variant={ButtonVariant.borderless}>
-                    {t('create_or_update_group:choose_cover')}
+                    {t('group:create_or_update_group.choose_cover')}
                   </Button>
                 )}
               </div>
@@ -226,7 +228,7 @@ const CreateGroup: FC = () => {
             <TextField
               key="groupName"
               id="field-groupName"
-              label={t('create_or_update_group:group_name')}
+              label={t('group:create_or_update_group.group_name')}
               type="text"
               fullWidth
               size="small"
@@ -239,7 +241,7 @@ const CreateGroup: FC = () => {
             <TextField
               key="groupDescription"
               id="field-groupDescription"
-              label={t('create_or_update_group:group_description')}
+              label={t('group:create_or_update_group.group_description')}
               type="text"
               fullWidth
               size="medium"
@@ -253,10 +255,10 @@ const CreateGroup: FC = () => {
         </CardCreateOrUpdateGroup>
         {groupCreated && isPrivate && (
           <CardGenerateInvite
-            title={t('create_or_update_group:invite:title')}
-            description={t('create_or_update_group:invite:description')}
+            title={t('group:create_or_update_group.invite.title')}
+            description={t('group:create_or_update_group.invite.description')}
             onGenerateInviteClick={handleClickOpenDialog}
-            button={t('create_or_update_group:invite:action')}
+            button={t('group:create_or_update_group.invite.action')}
           />
         )}
         {!groupCreated && (
@@ -274,21 +276,27 @@ const CreateGroup: FC = () => {
               }
             })}
           >
-            {t('create_or_update_group:create_action')}
+            {t('group:create_or_update_group.create_action')}
           </Button>
         )}
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
-          {t('create_or_update_group:back')}
+          {t('group:create_or_update_group.back')}
         </Button>
       </FormWrapper>
       <DialogGenerateInvite
         isOpen={showDialog}
-        title="Скопируй и отправь другу"
+        title={t('group:create_or_update_group.invite.dialog.title')}
         onCancelClick={handleClickCloseDialog}
-        cancelButtonLabel={t('create_or_update_group:invite:dialog:cancel')}
-        linkLabel={t('create_or_update_group:invite:dialog:label')}
-        clipboardMessage={t('create_or_update_group:invite:dialog:success')}
-        generateButtonLabel={t('create_or_update_group:invite:dialog:generate')}
+        cancelButtonLabel={t(
+          'group:create_or_update_group.invite.dialog.cancel',
+        )}
+        linkLabel={t('group:create_or_update_group.invite.dialog.label')}
+        clipboardMessage={t(
+          'group:create_or_update_group.invite.dialog.success',
+        )}
+        generateButtonLabel={t(
+          'group:create_or_update_group.invite.dialog.generate',
+        )}
         groupId={groupId!}
       />
       <Snackbar open={snackbarData.open} autoHideDuration={6000}>

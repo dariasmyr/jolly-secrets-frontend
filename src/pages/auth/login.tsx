@@ -52,21 +52,22 @@ const Login: FC = () => {
   return (
     <PageWrapper>
       <Image src={'/assets/logo1.png'} width={230} height={100} alt="Logo" />
-      <Title>{t('login:title')}</Title>
+      <Title>{t('auth:login:title')}</Title>
       <FormControlLabel
         control={<Checkbox defaultChecked />}
         label={
           <p>
-            {t('login:confirm_with')} <a href="#">{t('login:terms_of_use')}</a>
+            {t('auth:login:confirm_with')}{' '}
+            <a href="#">{t('auth:login:terms_of_use')}</a>
           </p>
         }
       />
       <Button variant={ButtonVariant.primary} onClick={handleLoginViaGoogle}>
-        {t('login:google')}
+        {t('auth:login:google')}
       </Button>
-      <div>или</div>
+      <p>{t('auth:login:or')}</p>
       <Button variant={ButtonVariant.primary} onClick={handleLoginViaTelegram}>
-        {t('login:telegram')}
+        {t('auth:login:telegram')}
       </Button>
     </PageWrapper>
   );
