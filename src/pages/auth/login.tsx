@@ -1,13 +1,12 @@
 import { FC } from 'react';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import styled from 'styled-components';
-import { useTranslation } from 'next-i18next';
-import localeDetectorService from '@/services/locale-detector.service';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
 
 import {
   useGenerateTelegramBotLinkQuery,
@@ -16,7 +15,6 @@ import {
 
 const Login: FC = () => {
   const { t } = useTranslation(['common', 'auth']);
-  const locale = localeDetectorService.detect();
   const { data: tgLinkData, error: tgLinkError } =
     useGenerateTelegramBotLinkQuery();
   const { data: googleLinkData, error: googleLinkError } =
@@ -59,7 +57,7 @@ const Login: FC = () => {
         control={<Checkbox defaultChecked />}
         label={
           <p>
-            t('login:confirm_with')} <a href="#">{t('login:terms_of_use')}</a>
+            {t('login:confirm_with')} <a href="#">{t('login:terms_of_use')}</a>
           </p>
         }
       />
@@ -72,6 +70,14 @@ const Login: FC = () => {
       </Button>
     </PageWrapper>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['common', 'auth'])),
+    },
+  };
 };
 
 const Title = styled.div`

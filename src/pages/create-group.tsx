@@ -2,7 +2,10 @@
 /* eslint-disable unicorn/no-null */
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { FormWrapper } from '@components/ui/common/styled-components';
@@ -15,8 +18,6 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/card-create-or-update-group';
 import * as Yup from 'yup';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Header } from '@/components/ui/common/page/styled-components';
 import {
@@ -29,8 +30,8 @@ import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
 
 const validationSchema = Yup.object().shape({
-  groupName: Yup.string().required('Обязательное поле'),
-  groupDescription: Yup.string().required('Обязательное поле'),
+  groupName: Yup.string().required('Required field'),
+  groupDescription: Yup.string().required('Required field'),
 });
 
 type FormData = {
@@ -40,7 +41,6 @@ type FormData = {
 
 const CreateGroup: FC = () => {
   const { t } = useTranslation(['common', 'auth']);
-  const locale = localeDetectorService.detect();
   const authStore = useAuthStore();
   const router = useRouter();
   const { refetch: refetch } = useIsGroupNameAvailvableQuery({
@@ -120,7 +120,10 @@ const CreateGroup: FC = () => {
     });
 
     if (groupNameResponse.data.isGroupNameAvailable === false) {
-      setSnackbarData({ open: true, message: {t('create_or_update_group:duplicate_name')} });
+      setSnackbarData({
+        open: true,
+        message: t('create_or_update_group:duplicate_name'),
+      });
       return;
     }
 
@@ -152,7 +155,10 @@ const CreateGroup: FC = () => {
   }, [authStore]);
 
   return (
-    <Page title={t('create_or_update_group:create_header')} style={{ gap: 16, marginTop: 24 }}>
+    <Page
+      title={t('create_or_update_group:create_header')}
+      style={{ gap: 16, marginTop: 24 }}
+    >
       <Header>{t('create_or_update_group:create_header')}</Header>
       <FormWrapper
         onSubmit={handleSubmit(async (formData) => {
@@ -166,10 +172,19 @@ const CreateGroup: FC = () => {
         <CardCreateOrUpdateGroup
           accessLevelTitle={t('create_or_update_group:access_level:title')}
           accessLevelOptions={[
-            { value: GroupType.Public, label: {t('create_or_update_group:access_level:public')} },
-            { value: GroupType.Private, label: {t('create_or_update_group:access_level:private')} },
+            {
+              value: GroupType.Public,
+              label: t('create_or_update_group:access_level:public'),
+            },
+            {
+              value: GroupType.Private,
+              label: t('create_or_update_group:access_level:private'),
+            },
           ]}
-          defaultOption={{ value: GroupType.Public, label: {t('create_or_update_group:access_level:public')} }}
+          defaultOption={{
+            value: GroupType.Public,
+            label: t('create_or_update_group:access_level:public'),
+          }}
           onAccessLevelChange={handleAccessLevelChange}
         >
           {[
@@ -211,7 +226,7 @@ const CreateGroup: FC = () => {
             <TextField
               key="groupName"
               id="field-groupName"
-              label= {t('create_or_update_group:group_name')}
+              label={t('create_or_update_group:group_name')}
               type="text"
               fullWidth
               size="small"
@@ -283,6 +298,14 @@ const CreateGroup: FC = () => {
       </Snackbar>
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['group', 'common'])),
+    },
+  };
 };
 
 export default CreateGroup;

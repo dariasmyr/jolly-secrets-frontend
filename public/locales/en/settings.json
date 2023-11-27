@@ -6,7 +6,7 @@
     "label": "Name",
     "confirm_phrase": "Delete account",
     "wrong_phrase": "Enter 'Delete account'",
-    "delete": "Delete account",
+    "action": "Delete",
     "dialog": {
       "title": "Are you sure?",
       "description": "Are you sure you want to delete your account? The account cannot be recovered.",
@@ -26,7 +26,6 @@
     "description": "With notifications enabled, you will receive them via email or Telegram",
     "current_email": "Current address:",
     "current_telegram": "Current Telegram ID:",
-    "confirm_phrase": "Delete account",
     "disable_message": "Notifications disabled",
     "dialog": {
       "title": "Are you sure?",

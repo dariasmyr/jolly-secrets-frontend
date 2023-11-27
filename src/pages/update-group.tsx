@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { Header } from '@components/ui/common/page/styled-components';
@@ -13,9 +16,6 @@ import TextField from '@mui/material/TextField';
 import { CardCreateOrUpdateGroup } from 'src/components/ui/custom/card-create/card-create-or-update-group';
 import * as Yup from 'yup';
 
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
 import {
   GroupType,
   PriceRange,
@@ -26,8 +26,8 @@ import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
 
 const validationSchema = Yup.object().shape({
-  groupName: Yup.string().required('Обязательное поле'),
-  groupDescription: Yup.string().required('Обязательное поле'),
+  groupName: Yup.string().required('Required field'),
+  groupDescription: Yup.string().required('Required field'),
 });
 
 type FormData = {
@@ -36,8 +36,7 @@ type FormData = {
 };
 
 const UpdateGroup: FC = () => {
-  const { t } = useTranslation(['common', 'auth']);
-  const locale = localeDetectorService.detect();
+  const { t } = useTranslation(['common', 'group']);
   const authStore = useAuthStore();
   const router = useRouter();
   const { data: groupData, loading: groupIsLoading } = useGroupQuery({
@@ -117,8 +116,11 @@ const UpdateGroup: FC = () => {
   }
 
   return (
-    <Page title={t('groups:change:title')} style={{ gap: 16, marginTop: 24 }}>
-      <Header>{t('groups:change:title')}</Header>
+    <Page
+      title={t('group:group.change.title')}
+      style={{ gap: 16, marginTop: 24 }}
+    >
+      <Header>{t('group:group.change.title')}</Header>
       <FormWrapper
         onSubmit={handleSubmit(async (formData) => {
           try {
@@ -129,15 +131,33 @@ const UpdateGroup: FC = () => {
         })}
       >
         <CardCreateOrUpdateGroup
-          accessLevelTitle={t('create_or_update_group:change:access_level:title')}
+          accessLevelTitle={t(
+            'group:create_or_update_group.access_level.title',
+          )}
           accessLevelOptions={[
-            { value: GroupType.Public, label: {t('create_or_update_group:change:access_level:public')} },
-            { value: GroupType.Private, label: {t('create_or_update_group:change:access_level:private')} },
+            {
+              value: GroupType.Public,
+              label: t('group:create_or_update_group.access_level.public'),
+            },
+            {
+              value: GroupType.Private,
+              label: t('group:create_or_update_group.access_level.private'),
+            },
           ]}
           defaultOption={
             groupData?.group.type === GroupType.Private
-              ? { value: GroupType.Private, label: {t('create_or_update_group:change:access_level:public')} }
-              : { value: GroupType.Public, label: {t('create_or_update_group:change:access_level:private')} }
+              ? {
+                  value: GroupType.Private,
+                  label: t(
+                    'group:create_or_update_group.change.access_level.public',
+                  ),
+                }
+              : {
+                  value: GroupType.Public,
+                  label: t(
+                    'group:create_or_update_group.change.access_level.private',
+                  ),
+                }
           }
           onAccessLevelChange={handleAccessLevelChange}
         >
@@ -145,7 +165,7 @@ const UpdateGroup: FC = () => {
             <TextField
               key="groupName"
               id="field-groupName"
-              label="Название группы"
+              label={t('group:create_or_update_group.group_name')}
               type="text"
               fullWidth
               size="small"
@@ -158,7 +178,7 @@ const UpdateGroup: FC = () => {
             <TextField
               key="groupDescription"
               id="field-groupDescription"
-              label="Описание группы"
+              label={t('group:create_or_update_group.group_description')}
               type="text"
               fullWidth
               size="medium"
@@ -172,10 +192,10 @@ const UpdateGroup: FC = () => {
         </CardCreateOrUpdateGroup>
         {isPrivate && (
           <CardGenerateInvite
-            title={'Участники'}
-            description={'Нажми на кнопку чтобы сгенерировать приглашение.'}
+            title={t('group:create_or_update_group.invite.title')}
+            description={t('group:create_or_update_group.invite.description')}
             onGenerateInviteClick={handleClickOpenDialog}
-            button={'Пригласить'}
+            button={t('group:create_or_update_group.invite.action')}
           />
         )}
         <Button
@@ -188,28 +208,40 @@ const UpdateGroup: FC = () => {
             }
           })}
         >
-          Изменить группу
+          {t('group:create_or_update_group.update_action')}
         </Button>
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
-          Назад
+          {t('group:create_or_update_group.back')}
         </Button>
       </FormWrapper>
       <DialogGenerateInvite
         isOpen={showGenerateInviteDialog}
-        title="Скопируй и отправь другу"
+        title={t('group:create_or_update_group.invite.dialog.title')}
         onCancelClick={handleClickCloseDialog}
-        cancelButtonLabel={'Закрыть'}
-        linkLabel={'Ссылка на приглашение'}
-        clipboardMessage={'Ссылка скопирована'}
-        generateButtonLabel={'Сгенерировать'}
+        cancelButtonLabel={t(
+          'group:create_or_update_group.invite.dialog.cancel',
+        )}
+        linkLabel={t('group:create_or_update_group.invite.dialog.label')}
+        clipboardMessage={t(
+          'group:create_or_update_group.invite.dialog.success',
+        )}
+        generateButtonLabel={t(
+          'group:create_or_update_group.invite.dialog.generate',
+        )}
         groupId={Number(groupId)}
       />
       <DialogConfirmAction
         isOpen={showConfirmDialog}
-        title="Сделать группу приватной?"
-        description="Приглашение будет сгенерировано после подтверждения."
-        cancelButtonText="Отмена"
-        confirmButtonText="ОК"
+        title={t('group:create_or_update_group.confirm_dialog.title')}
+        description={t(
+          'group:create_or_update_group.confirm_dialog.description',
+        )}
+        cancelButtonText={t(
+          'group:create_or_update_group.confirm_dialog.cancel',
+        )}
+        confirmButtonText={t(
+          'group:create_or_update_group.confirm_dialog.confirm',
+        )}
         onCancelClick={(): void => setShowConfirmDialog(false)}
         onConfirmClick={(): void => {
           setShowConfirmDialog(false);
@@ -219,6 +251,14 @@ const UpdateGroup: FC = () => {
       />
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['group', 'common'])),
+    },
+  };
 };
 
 export default UpdateGroup;

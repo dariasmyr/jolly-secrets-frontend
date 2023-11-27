@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { FormWrapper } from '@components/ui/common/styled-components';
@@ -11,8 +14,6 @@ import { CircularProgress } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Header } from '@/components/ui/common/page/styled-components';
 import {
@@ -37,27 +38,34 @@ const validationSchema = Yup.object().shape({
     .of(
       Yup.object().shape({
         // eslint-disable-next-line sonarjs/no-duplicate-string
-        likes: Yup.string().required('Обязательное поле'),
-        dislikes: Yup.string().required('Обязательное поле'),
+        likes: Yup.string().required('Required field'),
+        dislikes: Yup.string().required('Required field'),
         comment: Yup.string().nullable(),
         priceRange: Yup.mixed<PriceRange>()
           .oneOf(Object.values(PriceRange))
           .default(PriceRange.NoMatter),
       }),
     )
-    .required({t('common:required_field')}),
+    .required('Required field'),
 });
 
-export const PriceRangeDisplay = [
-  { value: PriceRange.NoMatter, label: {t('application:preference:no_matter')} },
-  { value: PriceRange.Min_0Max_10, label: '0-10$' },
-  { value: PriceRange.Min_10Max_20, label: '10-20$' },
-  { value: PriceRange.Min_20Max_30, label: '20-30$' },
-];
+export const priceRangeDisplay = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: any,
+): { value: PriceRange; label: string }[] => {
+  return [
+    {
+      value: PriceRange.NoMatter,
+      label: t('application:preference:no_matter'),
+    },
+    { value: PriceRange.Min_0Max_10, label: '0-10$' },
+    { value: PriceRange.Min_10Max_20, label: '10-20$' },
+    { value: PriceRange.Min_20Max_30, label: '20-30$' },
+  ];
+};
 
 const CreateApplication: FC = () => {
-  const { t } = useTranslation(['common', 'auth']);
-  const locale = localeDetectorService.detect();
+  const { t } = useTranslation(['application', 'group', 'event', 'common']);
   const router = useRouter();
   const authStore = useAuthStore();
   // eslint-disable-next-line unicorn/no-null
@@ -143,7 +151,11 @@ const CreateApplication: FC = () => {
   }, [authStore]);
 
   if (eventIsLoading) {
-    return <Page title={t('application:create_application:page_title')}>Loading...</Page>;
+    return (
+      <Page title={t('application:create_application:page_title')}>
+        Loading...
+      </Page>
+    );
   }
 
   return (
@@ -179,8 +191,8 @@ const CreateApplication: FC = () => {
         {fields.map((item, index) => (
           <CardCreatePreference
             key={item.id}
-            selectTitle="Ограничение по цене"
-            priceOptions={PriceRangeDisplay}
+            selectTitle={t('application:preference:price_range')}
+            priceOptions={priceRangeDisplay(t)}
             {...register(`preferences.${index}.priceRange`)}
             button={'Удалить'}
             onDeleteButtonClick={(): void => {
@@ -289,6 +301,19 @@ const CreateApplication: FC = () => {
       />
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'application',
+        'group',
+        'event',
+        'common',
+      ])),
+    },
+  };
 };
 
 const AddButtonWrapper = styled.div`

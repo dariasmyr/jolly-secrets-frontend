@@ -1,7 +1,7 @@
 {
   "group": {
     "change": {
-      "title": "Change"
+      "title": "Change group",
     },
     "delete": {
       "title": "Delete",
@@ -19,13 +19,13 @@
     "public": "Public groups",
     "no_groups_title": "No groups yet",
     "no_groups_description": "Create your first group!",
-    "one_member": "person",
-    "two_members": "people",
-    "many_members": "people",
+    "one_member": "member",
+    "two_members": "members",
+    "many_members": "members",
     "one_event": "active event",
     "two_events": "active events",
     "many_events": "active events",
-      "creator":"Я создатель"
+    "creator":"I am the creator"
   },
   "create_or_update_group": {
     "duplicate_name": "Group name already exists",

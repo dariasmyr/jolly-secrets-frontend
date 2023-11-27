@@ -1,6 +1,9 @@
 import { FC, useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { FabAdd } from '@components/ui/common/fab-add';
 import { Page } from '@components/ui/common/page';
@@ -12,10 +15,6 @@ import {
 import { CardImage } from '@components/ui/custom/card-image';
 import styled from 'styled-components';
 
-import { useTranslation } from 'next-i18next';
-import localeDetectorService from '@/services/locale-detector.service';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
 import { Header } from '@/components/ui/common/page/styled-components';
 import {
   EventStatus,
@@ -26,8 +25,7 @@ import {
 import { useAuthStore } from '@/store/auth.store';
 
 const Events: FC = () => {
-  const { t } = useTranslation(['common', 'auth']);
-  const locale = localeDetectorService.detect();
+  const { t } = useTranslation(['common', 'event', 'group']);
   const authStore = useAuthStore();
   const router = useRouter();
   const groupId = router.query.groupId;
@@ -87,12 +85,12 @@ const Events: FC = () => {
   }, [authStore]);
 
   if (groupIsLoading || eventsIsLoading) {
-    return <Page title={t('event:header')}>Loading...</Page>;
+    return <Page title={t('event:event.header')}>Loading...</Page>;
   }
 
   if (groupError || eventsError) {
     return (
-      <Page title={t('event:header')}>
+      <Page title={t('event:event.header')}>
         Error: {JSON.stringify(groupError || eventsError)}
       </Page>
     );
@@ -102,7 +100,7 @@ const Events: FC = () => {
 
   const steps = [
     {
-      label: isPrivate ? {t('groups:private')} : {t('groups:public')},
+      label: isPrivate ? t('group:groups.private') : t('group:groups.public'),
       link: isPrivate ? '/private-groups' : '/public-groups',
       onClick: async (): Promise<void> => {
         await router.push(isPrivate ? '/private-groups' : '/public-groups');
@@ -133,8 +131,8 @@ const Events: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>{t('events:no_events_title')}</Text>
-          <SubText>{t('events:no_events_description')}</SubText>
+          <Text>{t('event:events.no_events_title')}</Text>
+          <SubText>{t('event:events.no_events_description')}</SubText>
         </Wrapper>
       )}
       {eventsData?.events.map((event) => {
@@ -142,9 +140,9 @@ const Events: FC = () => {
           {
             title: `${event.applicationPairs?.length || 0} ${pluralize(
               event.applicationPairs?.length || 0,
-              {t('event:one_pair')},
-              {t('event:two_pairs')},
-                 {t('event:many_pairs')},
+              t('event:event.one_pair'),
+              t('event:event.two_pairs'),
+              t('event:event.many_pairs'),
             )}`,
           },
           {
@@ -177,6 +175,18 @@ const Events: FC = () => {
       <FabAdd onClick={createEvent} />
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'common',
+        'group',
+        'event',
+      ])),
+    },
+  };
 };
 
 const Wrapper = styled.div`

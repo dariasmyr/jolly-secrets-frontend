@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { FabAdd } from '@components/ui/common/fab-add';
 import { Page } from '@components/ui/common/page';
 import { CardImage } from '@components/ui/custom/card-image';
@@ -8,10 +11,6 @@ import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
 import styled from 'styled-components';
-
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
 
 import { Header } from '@/components/ui/common/page/styled-components';
 import {
@@ -50,8 +49,7 @@ function pluralize(
 }
 
 const PublicGroups: FC = () => {
-  const { t } = useTranslation(['common', 'auth']);
-  const locale = localeDetectorService.detect();
+  const { t } = useTranslation(['common', 'group', 'events']);
   const authStore = useAuthStore();
   const router = useRouter();
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -89,16 +87,21 @@ const PublicGroups: FC = () => {
   }, [authStore]);
 
   if (loading || accountCountLoading) {
-    return <Page title={t('groups:public')}>Loading...</Page>;
+    // eslint-disable-next-line sonarjs/no-duplicate-string
+    return <Page title={t('group:groups.public')}>Loading...</Page>;
   }
 
   if (error || accountCountError) {
-    return <Page title={t('groups:public')}>Error: {JSON.stringify(error)}</Page>;
+    return (
+      <Page title={t('group:groups.public')}>
+        Error: {JSON.stringify(error)}
+      </Page>
+    );
   }
 
   return (
-    <Page title={t('groups:public')} style={{ gap: 16, marginTop: 24 }}>
-      <Header>{t('groups:public')}</Header>
+    <Page title={t('group:groups.public')} style={{ gap: 16, marginTop: 24 }}>
+      <Header>{t('group:groups.public')}</Header>
       {data?.publicGroups.length === 0 && (
         <Wrapper>
           <StyledImage>
@@ -109,8 +112,8 @@ const PublicGroups: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>{t('groups:no_groups_title')}</Text>
-          <SubText>{t('groups:no_groups_description')}</SubText>
+          <Text>{t('group:groups.no_groups_title')}</Text>
+          <SubText>{t('group:groups.no_groups_description')}</SubText>
         </Wrapper>
       )}
       {data?.publicGroups.map((group) => {
@@ -125,7 +128,7 @@ const PublicGroups: FC = () => {
         tags = isAdmin
           ? [
               {
-                title: 'Я создатель',
+                title: t('group:groups.creator'),
                 warning: true,
               },
             ]
@@ -133,9 +136,9 @@ const PublicGroups: FC = () => {
               {
                 title: `${accountCountData?.getAccountCount} ${pluralize(
                   accountCountData!.getAccountCount!,
-                  {t('groups:one_member')}
-                  {t('groups:two_members')}
-                  {t('groups:many_members')}
+                  t('group:groups.one_member'),
+                  t('group:groups.two_members'),
+                  t('group:groups.many_members'),
                 )}`,
               },
             ];
@@ -152,9 +155,9 @@ const PublicGroups: FC = () => {
             )?.length} ${pluralize(
               group.events!.filter((event) => event.status === EventStatus.Open)
                 ?.length,
-              {t('events:one_еvent')}
-                  {t('events:two_еvents')}
-                  {t('events:many_еvents')}
+              t('event:events.one_еvent'),
+              t('event:events.two_еvents'),
+              t('event:events.many_еvents'),
             )}`}
             header={group.name}
             text={group.description}
@@ -164,13 +167,13 @@ const PublicGroups: FC = () => {
                 ? {
                     options: [
                       {
-                        title: {t('group:change:title')},
+                        title: t('group:group.change.title'),
                         onClick: (): void => {
                           router.push(`/update-group?id=${group.id}`);
                         },
                       },
                       {
-                        title: {t('group:delete:title')},
+                        title: t('group:group.delete.title'),
                         onClick: (): void => {
                           setGroupToDelete(group.id);
                           setDialogOpen(true);
@@ -189,10 +192,10 @@ const PublicGroups: FC = () => {
       <FabAdd onClick={createGroup} />
       <DialogConfirmAction
         isOpen={isDialogOpen}
-        title={t('group:delete:dialog:title')}
-        description={t('group:delete:dialog:description')}
-        cancelButtonText={t('group:delete:dialog:cancel')}
-        confirmButtonText={t('group:delete:dialog:confirm')}
+        title={t('group:group.delete.dialog.title')}
+        description={t('group:group.delete.dialog.description')}
+        cancelButtonText={t('group:group.delete.dialog.cancel')}
+        confirmButtonText={t('group:group.delete.dialog.confirm')}
         onCancelClick={(): void => setDialogOpen(false)}
         onConfirmClick={async (): Promise<void> => {
           if (!groupToDelete) {
@@ -208,10 +211,8 @@ const PublicGroups: FC = () => {
             setDialogOpen(false);
             setSnackbarData({
               open: true,
-              message: {t('group:delete:success')},
+              message: t('group:group.delete.success'),
             });
-          } else {
-            console.log('Ошибка при удалении группы');
           }
         }}
       />
@@ -235,5 +236,17 @@ const Wrapper = styled.div`
   align-items: center;
   height: 50vh;
 `;
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'group',
+        'common',
+        'event',
+      ])),
+    },
+  };
+};
 
 export default PublicGroups;

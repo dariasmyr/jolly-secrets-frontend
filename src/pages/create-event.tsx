@@ -2,7 +2,10 @@
 /* eslint-disable unicorn/no-null */
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { FormWrapper } from '@components/ui/common/styled-components';
@@ -16,8 +19,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
 import * as Yup from 'yup';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Header } from '@/components/ui/common/page/styled-components';
 import { useCreateEventMutation } from '@/generated/graphql';
@@ -27,8 +28,8 @@ import { useAuthStore } from '@/store/auth.store';
 const today = dayjs(new Date());
 
 const validationSchema = Yup.object().shape({
-  eventName: Yup.string().required('Обязательное поле'),
-  eventDescription: Yup.string().required('Обязательное поле'),
+  eventName: Yup.string().required('Required field'),
+  eventDescription: Yup.string().required('Required field'),
 });
 
 type FormData = {
@@ -37,8 +38,7 @@ type FormData = {
 };
 
 const CreateEvent: FC = () => {
-  const { t } = useTranslation(['common', 'auth']);
-  const locale = localeDetectorService.detect();
+  const { t } = useTranslation(['common', 'event', 'group']);
   const authStore = useAuthStore();
   const router = useRouter();
   const [endDate, setEndDate] = useState<Dayjs | null>(dayjs(today));
@@ -96,7 +96,7 @@ const CreateEvent: FC = () => {
     if (endDate?.isSame(dayjs(today), 'date')) {
       setSnackbarData({
         open: true,
-        message: {t('event:create_event:date_is_same')},
+        message: t('event:event.create_event.date_is_same'),
       });
       return;
     }
@@ -125,8 +125,11 @@ const CreateEvent: FC = () => {
   }, [authStore]);
 
   return (
-    <Page title={{t('event:create_event:header')}} style={{ gap: 16, marginTop: 24 }}>
-      <Header>  {t('event:create_event:header')}</Header>
+    <Page
+      title={t('event:event.create_event.header')}
+      style={{ gap: 16, marginTop: 24 }}
+    >
+      <Header> {t('event:event.create_event.header')}</Header>
       <FormWrapper
         onSubmit={handleSubmit(async (formData) => {
           try {
@@ -166,7 +169,7 @@ const CreateEvent: FC = () => {
                   />
                 ) : (
                   <Button variant={ButtonVariant.borderless}>
-                    {t('event:create_event:choose_cover')}
+                    {t('event:event.create_event.choose_cover')}
                   </Button>
                 )}
               </div>
@@ -174,7 +177,7 @@ const CreateEvent: FC = () => {
             <TextField
               key="eventName"
               id="field-eventName"
-              label={t('event:create_event:event_name')}
+              label={t('event:event.create_event.event_name')}
               type="text"
               fullWidth
               size="small"
@@ -187,7 +190,7 @@ const CreateEvent: FC = () => {
             <TextField
               key="eventDescription"
               id="field-eventDescription"
-              label={t('event:create_event:event_description')}
+              label={t('event:event.create_event.event_description')}
               type="text"
               fullWidth
               size="medium"
@@ -202,7 +205,7 @@ const CreateEvent: FC = () => {
                 sx={{ marginTop: '16px' }}
                 defaultValue={today}
                 disablePast
-                label={t('event:create_event:end_date')}
+                label={t('event:event.create_event.end_date')}
                 onChange={(date): void => setEndDate(dayjs(date))}
                 slotProps={{}}
               />
@@ -219,10 +222,10 @@ const CreateEvent: FC = () => {
             }
           })}
         >
-          {t('event:create_event:action')}
+          {t('event:event.create_event.action')}
         </Button>
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
-          {t('event:create_event:back')}
+          {t('event:event.create_event.back')}
         </Button>
       </FormWrapper>
       <Snackbar open={snackbarData.open} autoHideDuration={6000}>
@@ -232,6 +235,18 @@ const CreateEvent: FC = () => {
       </Snackbar>
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'common',
+        'group',
+        'event',
+      ])),
+    },
+  };
 };
 
 export default CreateEvent;

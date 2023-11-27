@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { FabAdd } from '@components/ui/common/fab-add';
 import { Page } from '@components/ui/common/page';
 import {
@@ -14,9 +17,6 @@ import Snackbar from '@mui/material/Snackbar';
 import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
 import styled from 'styled-components';
 
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
 import { Header } from '@/components/ui/common/page/styled-components';
 import {
   EventStatus,
@@ -28,8 +28,7 @@ import {
 import { useAuthStore } from '@/store/auth.store';
 
 const PrivateGroups: FC = () => {
-  const { t } = useTranslation(['common', 'auth']);
-  const locale = localeDetectorService.detect();
+  const { t } = useTranslation(['common', 'auth', 'group', 'events']);
   const authStore = useAuthStore();
   const router = useRouter();
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -83,16 +82,21 @@ const PrivateGroups: FC = () => {
   }, [authStore]);
 
   if (loading) {
-    return <Page title={t('groups:private')}>Loading...</Page>;
+    // eslint-disable-next-line sonarjs/no-duplicate-string
+    return <Page title={t('group:groups.private')}>Loading...</Page>;
   }
 
   if (error) {
-    return <Page title={t('groups:private')}>Error: {JSON.stringify(error)}</Page>;
+    return (
+      <Page title={t('group:groups.private')}>
+        Error: {JSON.stringify(error)}
+      </Page>
+    );
   }
 
   return (
-    <Page title={t('groups:private')} style={{ gap: 16, marginTop: 24 }}>
-      <Header>{t('groups:private')}</Header>
+    <Page title={t('group:groups.private')} style={{ gap: 16, marginTop: 24 }}>
+      <Header>{t('group:groups.private')}</Header>
       {data?.privateGroups.length === 0 && (
         <Wrapper>
           <StyledImage>
@@ -103,8 +107,8 @@ const PrivateGroups: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>{t('groups:no_groups_title')}</Text>
-          <SubText>{t('groups:no_groups_description')}</SubText>
+          <Text>{t('group:groups.no_groups_title')}</Text>
+          <SubText>{t('group:groups.no_groups_description')}</SubText>
         </Wrapper>
       )}
       {data?.privateGroups.map((group) => {
@@ -121,13 +125,13 @@ const PrivateGroups: FC = () => {
               {
                 title: `${group.members!.length} ${pluralize(
                   group.members!.length,
-                  {t('groups:one_member')}
-                  {t('groups:two_members')}
-                  {t('groups:many_members')}
+                  t('group:groups.one_member'),
+                  t('group:groups.two_members'),
+                  t('group:groups.many_members'),
                 )}`,
               },
               {
-                title: {t('groups:creator')},
+                title: t('group:groups.creator'),
                 warning: true,
               },
             ]
@@ -135,9 +139,9 @@ const PrivateGroups: FC = () => {
               {
                 title: `${group.members!.length} ${pluralize(
                   group.members!.length,
-                  {t('groups:one_member')}
-                  {t('groups:two_members')}
-                  {t('groups:many_members')}
+                  t('group:groups.one_member'),
+                  t('group:groups.two_members'),
+                  t('group:groups.many_members'),
                 )}`,
               },
             ];
@@ -154,9 +158,9 @@ const PrivateGroups: FC = () => {
             )?.length} ${pluralize(
               group.events!.filter((event) => event.status === EventStatus.Open)
                 ?.length,
-              {t('events:one_еvent')}
-                  {t('events:two_еvents')}
-                  {t('events:many_еvents')}
+              t('event:events.one_еvent'),
+              t('event:events.two_еvents'),
+              t('event:events.many_еvents'),
             )}`}
             header={group.name}
             text={group.description}
@@ -166,13 +170,13 @@ const PrivateGroups: FC = () => {
                 ? {
                     options: [
                       {
-                        title: {t('group:change:title')},
+                        title: t('group:group.change:title'),
                         onClick: (): void => {
                           router.push(`/update-group?id=${group.id}`);
                         },
                       },
                       {
-                        title: {t('group:delete:title')},
+                        title: t('group:group.delete.title'),
                         onClick: (): void => {
                           setGroupToDelete(group.id);
                           setDialogOpen(true);
@@ -191,10 +195,10 @@ const PrivateGroups: FC = () => {
       <FabAdd onClick={createGroup} />
       <DialogConfirmAction
         isOpen={isDialogOpen}
-        title={t('group:delete:dialog:title')}
-        description={t('group:delete:dialog:description')}
-        cancelButtonText={t('group:delete:dialog:cancel')}
-        confirmButtonText={t('group:delete:dialog:confirm')}
+        title={t('group:group.delete.dialog.title')}
+        description={t('group:group.delete.dialog.description')}
+        cancelButtonText={t('group:group.delete.dialog:cancel')}
+        confirmButtonText={t('group:group.delete.dialog.confirm')}
         onCancelClick={(): void => setDialogOpen(false)}
         onConfirmClick={async (): Promise<void> => {
           if (!groupToDelete) {
@@ -204,17 +208,14 @@ const PrivateGroups: FC = () => {
             variables: { id: groupToDelete },
           });
           if (deletedGroup?.deleteGroup.status === GroupStatus.Closed) {
-            console.log('Группа удалена успешно');
             // eslint-disable-next-line unicorn/no-null
             setGroupToDelete(null);
             await refetch();
             setDialogOpen(false);
             setSnackbarData({
               open: true,
-              message: {t('group:delete:success')},
+              message: t('group:group.delete.success'),
             });
-          } else {
-            console.log('Ошибка при удалении группы');
           }
         }}
       />
@@ -229,6 +230,18 @@ const PrivateGroups: FC = () => {
       </Snackbar>
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'group',
+        'common',
+        'event',
+      ])),
+    },
+  };
 };
 
 const Wrapper = styled.div`
