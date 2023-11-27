@@ -21,6 +21,10 @@ import {
 } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
+export const EventStatusDisplay = [
+  { value: EventStatus.Open, label: 'Активно' },
+  { value: EventStatus.Expired, label: 'Неактивно' },
+];
 const Events: FC = () => {
   const authStore = useAuthStore();
   const router = useRouter();
@@ -132,6 +136,9 @@ const Events: FC = () => {
         </Wrapper>
       )}
       {eventsData?.events.map((event) => {
+        const eventStatus = EventStatusDisplay.find(
+          (status) => status.value === event.status,
+        );
         const tags = [
           {
             title: `${event.applicationPairs?.length || 0} ${pluralize(
@@ -142,7 +149,7 @@ const Events: FC = () => {
             )}`,
           },
           {
-            title: `${event.status}`,
+            title: `${eventStatus?.label}`,
             warning: event.status === EventStatus.Open,
           },
         ];

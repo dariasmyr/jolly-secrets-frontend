@@ -41,6 +41,6 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: start;
-  gap: 8px;
+  gap: 5px;
   width: 100%;
 `;

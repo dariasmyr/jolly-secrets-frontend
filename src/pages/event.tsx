@@ -21,7 +21,7 @@ import {
 import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { EventPage } from '@components/ui/custom/event-page';
 import { PriceRangeDisplay } from '@pages/create-application';
-import { StyledImage } from '@pages/events';
+import { EventStatusDisplay, StyledImage } from '@pages/events';
 import styled from 'styled-components';
 
 import { Header } from '@/components/ui/common/page/styled-components';
@@ -151,6 +151,10 @@ const Event: FC = () => {
     },
   ];
 
+  const eventStatus = EventStatusDisplay.find(
+    (status) => status.value === eventData!.event.status,
+  );
+
   const daysToExpire = Math.max(
     Math.floor(
       (new Date(eventData!.event.endsAt).getTime() - Date.now()) /
@@ -257,21 +261,23 @@ const Event: FC = () => {
       <div>
         <HeaderWrapper>
           <Header>
-            {tab === 'application' ? 'Моя Заявка' : 'Заявка Тайного Санты'}
+            {tab === 'application' ? '🎁Моя Заявка' : '🎅Заявка Тайного Санты'}
           </Header>
         </HeaderWrapper>
         <Stepper
           steps={[
             {
-              label: 'Поиск тайного санты',
-              description: 'Поиск тайного санты',
+              label: '🎅Поиск Тайного Санты',
+              description:
+                'Ваша Заявка на жеребьевке, подыскиваем вам Тайного Санту!',
               showDescription: false,
               completed:
                 tabApplicationStatus !== EventApplicationStatus.LookingForPair,
             },
             {
-              label: 'Ожидание отправления',
-              description: 'Ожидание отправления',
+              label: '🤝Ожидание отправления',
+              description:
+                'Время отправлять подарки! Узнайте адреса друг друга в тайном чате!📬🎁',
               showDescription: false,
               completed:
                 tabApplicationStatus === EventApplicationStatus.Paired ||
@@ -280,9 +286,8 @@ const Event: FC = () => {
                 tabApplicationStatus === EventApplicationStatus.GiftNotReceived,
             },
             {
-              label: 'Отправлено',
-              description:
-                'Время отправлять подарки! Узнайте адреса друг друга в тайном чате!',
+              label: '🎁Отправлено',
+              description: 'Ваш подарок отправлен! Дело за вами!📮✨',
               showDescription: true,
               completed:
                 tabApplicationStatus === EventApplicationStatus.GiftSent ||
@@ -290,8 +295,8 @@ const Event: FC = () => {
                 tabApplicationStatus === EventApplicationStatus.GiftNotReceived,
             },
             {
-              label: 'Выполнено',
-              description: 'Выполнено',
+              label: '🎉Выполнено',
+              description: 'Ваша заявка успешно закрыта🎁🎊',
               showDescription: false,
               completed:
                 tabApplicationStatus === EventApplicationStatus.GiftReceived ||
@@ -308,14 +313,14 @@ const Event: FC = () => {
                   variant={ButtonVariant.primary}
                   onClick={handleGiftReceivedClick}
                 >
-                  подарок у меня
+                  Подарок у меня
                 </Button>
                 <DialogConfirmAction
                   isOpen={isGiftReceivedDialogOpen}
                   onCancelClick={(): void => setGiftReceivedDialogOpen(false)}
                   title="Подтвердите действие"
                   description={
-                    "Ваш статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
+                    'Надеемся, вам понравится подарок! После подтверждения ваша заявка будет закрыта. 😊👍'
                   }
                   onConfirmClick={async (): Promise<void> => {
                     console.log('myApplication.id', myApplication.id);
@@ -328,15 +333,15 @@ const Event: FC = () => {
                     setGiftReceivedDialogOpen(false);
                     reset();
                   }}
-                  cancelButtonText={'Отмена'}
+                  cancelButtonText={'Отмена ❌'}
                   /* eslint-disable-next-line sonarjs/no-duplicate-string */
-                  confirmButtonText={'Подтверждаю'}
+                  confirmButtonText={'Подтверждаю ✔️'}
                 />
                 <Button
                   variant={ButtonVariant.warning}
                   onClick={handleGiftNotReceivedClick}
                 >
-                  подарок не пришел
+                  Подарок не пришел
                 </Button>
                 <DialogConfirmAction
                   isOpen={isGiftNotReceivedDialogOpen}
@@ -344,7 +349,7 @@ const Event: FC = () => {
                     setGiftNotReceivedDialogOpen(false)
                   }
                   title="Подтвердите действие"
-                  description="Нам очень жаль, статус заявки будет изменен навсегда на 'Выполнено'. Вы уверены?"
+                  description="Нам очень жаль 😢 После подтверждения ваша заявка будет закрыта. 🚫"
                   onConfirmClick={async (): Promise<void> => {
                     await setEventApplicationStatus({
                       variables: {
@@ -355,8 +360,8 @@ const Event: FC = () => {
                     setGiftNotReceivedDialogOpen(false);
                     reset();
                   }}
-                  cancelButtonText={'Отмена'}
-                  confirmButtonText={'Подтверждаю'}
+                  cancelButtonText={'Отмена ❌'}
+                  confirmButtonText={'Подтверждаю ✔️'}
                 />
               </>
             )}
@@ -452,7 +457,7 @@ const Event: FC = () => {
             )}`,
           },
           {
-            title: `${eventData!.event.status}`,
+            title: `${eventStatus?.label}`,
             warning: eventData!.event.status === EventStatus.Open,
           },
         ]}
