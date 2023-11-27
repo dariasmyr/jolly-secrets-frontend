@@ -108,14 +108,13 @@ const ChatContainer = styled.div`
   align-items: stretch;
   height: 100%;
   width: 100%;
-  padding: 16px;
+  padding: 10px;
 `;
 
 const MessageContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 16px;
 `;
 
 export default Chat;

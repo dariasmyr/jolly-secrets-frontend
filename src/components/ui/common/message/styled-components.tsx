@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { themeMui } from '@/theme';
 
 export const MessageBase = styled.div`
-  display: flex;
+  display: block;
   padding: 6px 8px;
   align-items: center;
   font-family: Roboto, sans-serif;
@@ -13,8 +13,7 @@ export const MessageBase = styled.div`
   line-height: 18px;
   letter-spacing: 0.16px;
   color: var(--text-primary, rgba(0, 0, 0, 0.87));
-  width: 100%;
-  word-wrap: break-word;
+  white-space: pre-wrap;
   overflow-wrap: break-word;
 `;
 
