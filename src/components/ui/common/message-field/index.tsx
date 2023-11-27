@@ -15,16 +15,18 @@ export const MessageField = (
 ): ReactElement => {
   const [message, setMessage] = useState('');
 
-  const handleMessageChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ): void => {
-    setMessage(event.target.value);
+  const handleSendMessage = async (): Promise<void> => {
+    if (message.trim() === '') {
+      return;
   };
 
-  const handleSendClick = (): void => {
-    properties.onClick(message);
+    if (message.length > 200) {
+return;
+       }
+      
+  await onClick(message);
     setMessage('');
-  };
+    };
 
   return (
     <Container>
