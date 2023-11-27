@@ -9,7 +9,10 @@ import { formatDistance, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import styled from 'styled-components';
 
-import { useMessagesQuery } from '@/generated/graphql';
+import {
+  useCreateMessageMutation,
+  useMessagesQuery,
+} from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
 const formattedDate: (date: string) => string = (date) => {
@@ -23,11 +26,17 @@ const Chat: FC = () => {
   const authStore = useAuthStore();
   const router = useRouter();
   const chatId = router.query.id;
+  const [createMessage, { reset }] = useCreateMessageMutation({
+    onCompleted: () => {
+      refetch();
+    },
+  });
 
   const {
     data: messagesData,
     error: messagesError,
     loading: messagesAreLoading,
+    refetch,
   } = useMessagesQuery({
     variables: {
       chatId: Number(chatId),
@@ -76,8 +85,17 @@ const Chat: FC = () => {
         })}
       </ChatContainer>
       <MessageField
-        onClick={(): void => {
-          console.log('click');
+        onClick={async (text): Promise<void> => {
+          const createMessageResponse = await createMessage({
+            variables: {
+              chatId: Number(chatId),
+              accountId: Number(authStore.account?.id),
+              text: text,
+            },
+          });
+          if (createMessageResponse.data?.createMessage) {
+            reset();
+          }
         }}
       ></MessageField>
     </Page>

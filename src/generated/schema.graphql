@@ -115,8 +115,8 @@ input CreateEventInput {
 }
 
 input CreateMessageInput {
-  accountId: Float!
-  chatId: Float!
+  accountId: Int!
+  chatId: Int!
   text: String!
 }
 
