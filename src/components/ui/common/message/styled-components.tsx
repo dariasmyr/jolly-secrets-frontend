@@ -13,8 +13,9 @@ export const MessageBase = styled.div`
   line-height: 18px;
   letter-spacing: 0.16px;
   color: var(--text-primary, rgba(0, 0, 0, 0.87));
-  white-space: nowrap;
-  overflow: auto;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 `;
 
 export const StyledMessage = styled(MessageBase)<{ isOutgoing: boolean }>`
