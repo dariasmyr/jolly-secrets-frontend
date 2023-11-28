@@ -52,7 +52,7 @@ type FormData = {
 };
 
 const Settings: FC = () => {
-  const { t } = useTranslation(['common', 'settings']);
+  const { t } = useTranslation(['common', 'settings', 'menu']);
   const authStore = useAuthStore();
   const router = useRouter();
   const { data } = useWhoamiQuery({});
@@ -389,7 +389,11 @@ const Settings: FC = () => {
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'en', ['settings', 'common'])),
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'settings',
+        'common',
+        'menu',
+      ])),
     },
   };
 };

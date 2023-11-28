@@ -40,7 +40,7 @@ type FormData = {
 };
 
 const CreateGroup: FC = () => {
-  const { t } = useTranslation(['common', 'auth']);
+  const { t } = useTranslation(['common', 'auth', 'menu']);
   const authStore = useAuthStore();
   const router = useRouter();
   const { refetch: refetch } = useIsGroupNameAvailvableQuery({
@@ -311,7 +311,11 @@ const CreateGroup: FC = () => {
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'en', ['group', 'common'])),
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'group',
+        'common',
+        'menu',
+      ])),
     },
   };
 };

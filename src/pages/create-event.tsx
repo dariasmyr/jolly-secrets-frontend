@@ -38,7 +38,7 @@ type FormData = {
 };
 
 const CreateEvent: FC = () => {
-  const { t } = useTranslation(['common', 'event', 'group']);
+  const { t } = useTranslation(['common', 'event', 'group', 'menu']);
   const authStore = useAuthStore();
   const router = useRouter();
   const [endDate, setEndDate] = useState<Dayjs | null>(dayjs(today));
@@ -244,6 +244,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         'common',
         'group',
         'event',
+        'menu',
       ])),
     },
   };

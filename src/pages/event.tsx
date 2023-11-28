@@ -42,7 +42,13 @@ import { useAuthStore } from '@/store/auth.store';
 
 // eslint-disable-next-line complexity
 const Event: FC = () => {
-  const { t } = useTranslation(['application', 'group', 'event', 'common']);
+  const { t } = useTranslation([
+    'application',
+    'group',
+    'event',
+    'common',
+    'menu',
+  ]);
   const authStore = useAuthStore();
   const router = useRouter();
   const eventId = router.query.id;
@@ -559,6 +565,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         'group',
         'event',
         'common',
+        'menu',
       ])),
     },
   };

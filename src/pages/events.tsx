@@ -30,7 +30,7 @@ export const eventStatusDisplay = (t: (argument0: string) => any): any => [
   { value: EventStatus.Expired, label: t('event:event.inactive') },
 ];
 const Events: FC = () => {
-  const { t } = useTranslation(['common', 'event', 'group']);
+  const { t } = useTranslation(['common', 'event', 'group', 'menu']);
   const authStore = useAuthStore();
   const router = useRouter();
   const groupId = router.query.groupId;
@@ -192,6 +192,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         'common',
         'group',
         'event',
+        'menu',
       ])),
     },
   };

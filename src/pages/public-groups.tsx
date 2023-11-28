@@ -49,7 +49,7 @@ function pluralize(
 }
 
 const PublicGroups: FC = () => {
-  const { t } = useTranslation(['common', 'group', 'event']);
+  const { t } = useTranslation(['common', 'group', 'event', 'menu']);
   const authStore = useAuthStore();
   const router = useRouter();
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -244,6 +244,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         'group',
         'common',
         'event',
+        'menu',
       ])),
     },
   };

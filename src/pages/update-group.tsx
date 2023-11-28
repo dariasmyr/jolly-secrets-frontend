@@ -36,7 +36,7 @@ type FormData = {
 };
 
 const UpdateGroup: FC = () => {
-  const { t } = useTranslation(['common', 'group']);
+  const { t } = useTranslation(['common', 'group', 'menu']);
   const authStore = useAuthStore();
   const router = useRouter();
   const { data: groupData, loading: groupIsLoading } = useGroupQuery({
@@ -256,7 +256,11 @@ const UpdateGroup: FC = () => {
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'en', ['group', 'common'])),
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'group',
+        'common',
+        'menu',
+      ])),
     },
   };
 };

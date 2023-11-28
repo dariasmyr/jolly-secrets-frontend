@@ -1,0 +1,10 @@
+{
+  "menu": {
+    "public_groups": "Main",
+    "my_groups": "My groups",
+    "settings": "Settigns",
+    "notifications": "Notifications",
+    "logout": "Logout"
+  }
+}
+

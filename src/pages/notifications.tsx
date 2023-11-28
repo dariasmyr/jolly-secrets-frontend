@@ -19,7 +19,7 @@ import { useNotificationsQuery } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
 const Notifications: FC = () => {
-  const { t } = useTranslation(['notifications']);
+  const { t } = useTranslation(['notifications', 'menu']);
   const authStore = useAuthStore();
   const router = useRouter();
 
@@ -82,7 +82,10 @@ const Notifications: FC = () => {
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'en', ['notifications'])),
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'notifications',
+        'menu',
+      ])),
     },
   };
 };

@@ -65,7 +65,13 @@ export const priceRangeDisplay = (
 };
 
 const CreateApplication: FC = () => {
-  const { t } = useTranslation(['application', 'group', 'event', 'common']);
+  const { t } = useTranslation([
+    'application',
+    'group',
+    'event',
+    'common',
+    'menu',
+  ]);
   const router = useRouter();
   const authStore = useAuthStore();
   // eslint-disable-next-line unicorn/no-null
@@ -311,6 +317,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         'group',
         'event',
         'common',
+        'menu',
       ])),
     },
   };

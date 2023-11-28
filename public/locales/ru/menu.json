@@ -1,0 +1,10 @@
+{
+  "menu": {
+    "public_groups": "Главная",
+    "my_groups": "Мои группы",
+    "settings": "Настройки",
+    "notifications": "Уведомления",
+    "logout": "Выход"
+  }
+}
+

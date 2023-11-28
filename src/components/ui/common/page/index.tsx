@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { AppBar } from '@components/ui/common/app-bar';
 import {
   IconContainer,
@@ -65,6 +66,7 @@ const MenuItem = (properties: MenuItemProperties): ReactElement => {
 };
 
 export const Page = (properties: IPageProperties): ReactElement => {
+  const { t } = useTranslation(['menu']);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const router = useRouter();
   const authStore = useAuthStore();
@@ -127,7 +129,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
                 <HomeIcon />
               </PrimaryIcon>
             }
-            name={'Главная'}
+            name={t('menu:menu.public_groups')}
             onClick={async (): Promise<void> => {
               await router.push('/public-groups');
             }}
@@ -139,7 +141,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
                 <GroupIcon />
               </PrimaryIcon>
             }
-            name={'Мои группы'}
+            name={t('menu:menu.my_groups')}
             onClick={async (): Promise<void> => {
               await router.push('/private-groups');
             }}
@@ -151,7 +153,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
                 <SettingsIcon />
               </PrimaryIcon>
             }
-            name={'Настройки'}
+            name={t('menu:menu.settings')}
             onClick={async (): Promise<void> => {
               await router.push('/settings');
             }}
@@ -163,7 +165,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
                 <NotificationsIcon />
               </PrimaryIcon>
             }
-            name={'Уведомления'}
+            name={t('menu:menu.notifications')}
             onClick={async (): Promise<void> => {
               await router.push('/notifications');
             }}
@@ -175,7 +177,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
                 <LogoutIcon />
               </PrimaryIcon>
             }
-            name={'Выход'}
+            name={t('menu:menu.logout')}
             onClick={async (): Promise<void> => {
               authStore.clear();
             }}
