@@ -1,7 +1,10 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable unicorn/no-null */
 import { FC, useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Message } from '@components/ui/common/message';
 import { MessageField } from '@components/ui/common/message-field';
 import { Page } from '@components/ui/common/page';
@@ -23,6 +26,7 @@ const formattedDate: (date: string) => string = (date) => {
 };
 
 const Chat: FC = () => {
+  const { t } = useTranslation(['chat']);
   const authStore = useAuthStore();
   const router = useRouter();
   const chatId = router.query.id;
@@ -50,12 +54,13 @@ const Chat: FC = () => {
   }, [authStore]);
 
   if (messagesAreLoading) {
-    return <Page title="Чат с Тайным Сантой">Loading...</Page>;
+    // eslint-disable-next-line sonarjs/no-duplicate-string
+    return <Page title={t('chat:chat.title')}>Loading...</Page>;
   }
 
   if (messagesError) {
     return (
-      <Page title="Чат с Тайным Сантой">
+      <Page title={t('chat:chat.title')}>
         Error: {JSON.stringify(messagesError)}
       </Page>
     );
@@ -63,7 +68,7 @@ const Chat: FC = () => {
 
   return (
     <Page
-      title={'Чат с Тайным Сантой'}
+      title={t('chat:chat.title')}
       style={{
         gap: 16,
         marginTop: 24,
@@ -97,9 +102,18 @@ const Chat: FC = () => {
             reset();
           }
         }}
+        placeholder={t('chat:chat.placeholder')}
       ></MessageField>
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['chat'])),
+    },
+  };
 };
 
 const ChatContainer = styled.div`

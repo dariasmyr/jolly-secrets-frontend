@@ -6,7 +6,6 @@ import { DialogInputEmail } from '@components/ui/custom/dialog-input-email';
 import { Button, ButtonVariant } from 'src/components/ui/common/button';
 import { FabAdd } from 'src/components/ui/common/fab-add';
 import { MenuOptions } from 'src/components/ui/common/menu-options';
-import { MessageField } from 'src/components/ui/common/message-field';
 import { ButtonLarge } from 'src/components/ui/custom/button-large';
 import { CardChangeName } from 'src/components/ui/custom/card-change-name';
 import { CardDeleteAccount } from 'src/components/ui/custom/card-delete-account';
@@ -196,7 +195,6 @@ export default function IndexPage(): ReactNode {
         onCancelClick={handleClick}
       />
       <FabAdd onClick={handleClick} />
-      <MessageField onClick={handleClick} />
       <Stepper steps={steps} />
     </Page>
   );

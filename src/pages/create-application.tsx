@@ -56,7 +56,7 @@ export const priceRangeDisplay = (
   return [
     {
       value: PriceRange.NoMatter,
-      label: t('application:preference:no_matter'),
+      label: t('application:application.preference.no_matter'),
     },
     { value: PriceRange.Min_0Max_10, label: '0-10$' },
     { value: PriceRange.Min_10Max_20, label: '10-20$' },

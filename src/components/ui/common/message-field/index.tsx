@@ -8,10 +8,12 @@ import {
 
 interface IMessageFieldProperties {
   onClick: (message: string) => void;
+  placeholder: string;
 }
 
 export const MessageField = ({
   onClick,
+  placeholder,
 }: IMessageFieldProperties): ReactElement => {
   const [message, setMessage] = useState('');
 
@@ -35,7 +37,7 @@ export const MessageField = ({
       <ContentWrapper>
         <TextArea
           maxLength={200}
-          placeholder="Напишите сообщение..."
+          placeholder={placeholder}
           value={message}
           onChange={handleMessageChange}
         />

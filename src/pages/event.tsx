@@ -225,6 +225,8 @@ const Event: FC = () => {
     const applicationPreferences: IPreferenceTextProperties[] =
       myApplication && myApplication.preferences
         ? myApplication.preferences.map((pref) => ({
+            // eslint-disable-next-line sonarjs/no-duplicate-string
+            title: t('application:application.preference.title'),
             priceRange: {
               title: t('application:application.preference.price_range'),
               value: renderPriceRange(pref.priceRange),
@@ -247,6 +249,7 @@ const Event: FC = () => {
     const santaApplicationPreferences: IPreferenceTextProperties[] =
       santaApplication && santaApplication.preferences
         ? santaApplication.preferences.map((pref) => ({
+            title: t('application:application.preference.title'),
             priceRange: {
               title: t('application:application.preference.price_range'),
               value: renderPriceRange(pref.priceRange),

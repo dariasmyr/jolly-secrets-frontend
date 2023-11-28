@@ -15,6 +15,7 @@ export interface ICardPreferenceProperties {
 }
 
 export interface IPreferenceTextProperties {
+  title: string;
   priceRange: { title: string; value: string };
   likes: { title: string; value: string };
   dislikes: { title: string; value: string };
@@ -46,7 +47,7 @@ export const PreferenceCard = (properties: {
   return (
     <Paper>
       <Content>
-        <Header>{`Предпочтение №${properties.preferenceNumber}`}</Header>
+        <Header>{`${properties.preference.title} №${properties.preferenceNumber}`}</Header>
         <TextWrapper>
           <Preference {...properties.preference} />
         </TextWrapper>
