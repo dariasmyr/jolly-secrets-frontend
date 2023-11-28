@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // import back arrow icon
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton, Toolbar, Typography } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
@@ -9,6 +10,8 @@ export interface IAppBarProperties {
   onMenuClick?: () => void;
   onAccountClick?: () => void;
   avatarUrl?: string;
+  isChat?: boolean;
+  onBackClick?: () => void;
 }
 
 export const AppBar = (properties: IAppBarProperties): ReactElement => {
@@ -30,9 +33,12 @@ export const AppBar = (properties: IAppBarProperties): ReactElement => {
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
-          onClick={properties.onMenuClick}
+          onClick={
+            properties.isChat ? properties.onBackClick : properties.onMenuClick
+          } // update click function based on isChat value
         >
-          <MenuIcon />
+          {properties.isChat ? <ArrowBackIcon /> : <MenuIcon />}{' '}
+          {/* update icon based on isChat value */}
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           {properties.title}

@@ -42,6 +42,7 @@ export interface IPageProperties {
   title: string;
   children: ReactNode;
   style?: CSSProperties;
+  isChat?: boolean;
 }
 
 interface MenuItemProperties {
@@ -78,6 +79,10 @@ export const Page = (properties: IPageProperties): ReactElement => {
     setShowMenu(true);
   };
 
+  const handleBack = (): void => {
+    router.back();
+  };
+
   const handleHideMenu = (): void => {
     setShowMenu(false);
   };
@@ -105,6 +110,10 @@ export const Page = (properties: IPageProperties): ReactElement => {
           router.push('/settings');
         }}
         avatarUrl={authStore.account?.avatarUrl || undefined}
+        {...(properties.isChat && {
+          isChat: true,
+          onBackClick: handleBack,
+        })}
       />
       <MenuContainer open={showMenu} onClick={handleHideMenu}>
         <Menu

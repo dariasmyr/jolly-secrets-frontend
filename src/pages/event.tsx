@@ -104,7 +104,7 @@ const Event: FC = () => {
 
   const goToChat = (): void => {
     router.push(
-      `/chat?eventApplicationPairId=${eventApplicationPairData?.getEventApplicationPairByEventAndAccount?.id}`,
+      `/chat?id=${eventApplicationPairData?.getEventApplicationPairByEventAndAccount?.chatId}`,
     );
   };
 
@@ -160,6 +160,10 @@ const Event: FC = () => {
       },
     },
   ];
+
+  const eventStatus = EventStatusDisplay.find(
+    (status) => status.value === eventData!.event.status,
+  );
 
   const daysToExpire = Math.max(
     Math.floor(
@@ -501,7 +505,7 @@ const Event: FC = () => {
             )}`,
           },
           {
-            title: `${eventData!.event.status}`,
+            title: `${eventStatus?.label}`,
             warning: eventData!.event.status === EventStatus.Open,
           },
         ]}

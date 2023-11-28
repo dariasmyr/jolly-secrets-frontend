@@ -139,8 +139,8 @@ export type CreateEventInput = {
 };
 
 export type CreateMessageInput = {
-  accountId: Scalars['Float']['input'];
-  chatId: Scalars['Float']['input'];
+  accountId: Scalars['Int']['input'];
+  chatId: Scalars['Int']['input'];
   text: Scalars['String']['input'];
 };
 
@@ -482,7 +482,7 @@ export type Query = {
   __typename?: 'Query';
   applicationPair: EventApplicationPair;
   applicationPairs: Array<EventApplicationPair>;
-  chat: Array<Chat>;
+  chat: Chat;
   chatMembers: Array<ChatMember>;
   currentSession: AccountSession;
   debug: Scalars['JSON']['output'];
@@ -519,7 +519,7 @@ export type QueryApplicationPairsArgs = {
 
 
 export type QueryChatArgs = {
-  id: Scalars['Float']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
@@ -579,7 +579,7 @@ export type QueryIsGroupNameAvailableArgs = {
 
 
 export type QueryMessagesArgs = {
-  chatId: Scalars['Float']['input'];
+  chatId: Scalars['Int']['input'];
 };
 
 
@@ -654,6 +654,15 @@ export type CreateGroupMutationVariables = Exact<{
 
 
 export type CreateGroupMutation = { __typename?: 'Mutation', createGroup: { __typename?: 'Group', id: number, createdAt: any, pictureUrl?: string | null, name: string, description: string, type: GroupType, status: GroupStatus, events?: Array<{ __typename?: 'Event', status: EventStatus }> | null, members?: Array<{ __typename?: 'GroupMember', id: number, role: GroupMemberRole }> | null } };
+
+export type CreateMessageMutationVariables = Exact<{
+  accountId: Scalars['Int']['input'];
+  chatId: Scalars['Int']['input'];
+  text: Scalars['String']['input'];
+}>;
+
+
+export type CreateMessageMutation = { __typename?: 'Mutation', createMessage: { __typename?: 'Message', id: number, createdAt: any, updatedAt: any, accountId: number, chatId?: number | null, text: string, chat?: { __typename?: 'Chat', id: number, eventApplicationPair?: Array<{ __typename?: 'EventApplicationPair', id: number, eventId: number }> | null } | null } };
 
 export type DebugQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -754,6 +763,13 @@ export type LoginWithTelegramMutationVariables = Exact<{
 
 
 export type LoginWithTelegramMutation = { __typename?: 'Mutation', loginWithTelegram: { __typename?: 'AuthResponse', token: string, account: { __typename?: 'Account', id: number, email?: string | null, roles?: Array<AccountRole> | null, status: AccountStatus, username: string, avatarUrl?: string | null } } };
+
+export type MessagesQueryVariables = Exact<{
+  chatId: Scalars['Int']['input'];
+}>;
+
+
+export type MessagesQuery = { __typename?: 'Query', messages: Array<{ __typename?: 'Message', id: number, createdAt: any, updatedAt: any, accountId: number, chatId?: number | null, text: string, chat?: { __typename?: 'Chat', id: number, eventApplicationPair?: Array<{ __typename?: 'EventApplicationPair', id: number, eventId: number }> | null } | null }> };
 
 export type NotificationsQueryVariables = Exact<{
   offset: Scalars['Int']['input'];
@@ -1079,6 +1095,53 @@ export function useCreateGroupMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateGroupMutationHookResult = ReturnType<typeof useCreateGroupMutation>;
 export type CreateGroupMutationResult = Apollo.MutationResult<CreateGroupMutation>;
 export type CreateGroupMutationOptions = Apollo.BaseMutationOptions<CreateGroupMutation, CreateGroupMutationVariables>;
+export const CreateMessageDocument = gql`
+    mutation createMessage($accountId: Int!, $chatId: Int!, $text: String!) {
+  createMessage(input: {accountId: $accountId, chatId: $chatId, text: $text}) {
+    id
+    createdAt
+    updatedAt
+    accountId
+    chatId
+    text
+    chat {
+      id
+      eventApplicationPair {
+        id
+        eventId
+      }
+    }
+  }
+}
+    `;
+export type CreateMessageMutationFn = Apollo.MutationFunction<CreateMessageMutation, CreateMessageMutationVariables>;
+
+/**
+ * __useCreateMessageMutation__
+ *
+ * To run a mutation, you first call `useCreateMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMessageMutation, { data, loading, error }] = useCreateMessageMutation({
+ *   variables: {
+ *      accountId: // value for 'accountId'
+ *      chatId: // value for 'chatId'
+ *      text: // value for 'text'
+ *   },
+ * });
+ */
+export function useCreateMessageMutation(baseOptions?: Apollo.MutationHookOptions<CreateMessageMutation, CreateMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateMessageMutation, CreateMessageMutationVariables>(CreateMessageDocument, options);
+      }
+export type CreateMessageMutationHookResult = ReturnType<typeof useCreateMessageMutation>;
+export type CreateMessageMutationResult = Apollo.MutationResult<CreateMessageMutation>;
+export type CreateMessageMutationOptions = Apollo.BaseMutationOptions<CreateMessageMutation, CreateMessageMutationVariables>;
 export const DebugDocument = gql`
     query Debug {
   debug
@@ -1807,6 +1870,53 @@ export function useLoginWithTelegramMutation(baseOptions?: Apollo.MutationHookOp
 export type LoginWithTelegramMutationHookResult = ReturnType<typeof useLoginWithTelegramMutation>;
 export type LoginWithTelegramMutationResult = Apollo.MutationResult<LoginWithTelegramMutation>;
 export type LoginWithTelegramMutationOptions = Apollo.BaseMutationOptions<LoginWithTelegramMutation, LoginWithTelegramMutationVariables>;
+export const MessagesDocument = gql`
+    query messages($chatId: Int!) {
+  messages(chatId: $chatId) {
+    id
+    createdAt
+    updatedAt
+    accountId
+    chatId
+    text
+    chat {
+      id
+      eventApplicationPair {
+        id
+        eventId
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useMessagesQuery__
+ *
+ * To run a query within a React component, call `useMessagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMessagesQuery({
+ *   variables: {
+ *      chatId: // value for 'chatId'
+ *   },
+ * });
+ */
+export function useMessagesQuery(baseOptions: Apollo.QueryHookOptions<MessagesQuery, MessagesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MessagesQuery, MessagesQueryVariables>(MessagesDocument, options);
+      }
+export function useMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MessagesQuery, MessagesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MessagesQuery, MessagesQueryVariables>(MessagesDocument, options);
+        }
+export type MessagesQueryHookResult = ReturnType<typeof useMessagesQuery>;
+export type MessagesLazyQueryHookResult = ReturnType<typeof useMessagesLazyQuery>;
+export type MessagesQueryResult = Apollo.QueryResult<MessagesQuery, MessagesQueryVariables>;
 export const NotificationsDocument = gql`
     query notifications($offset: Int!, $limit: Int!) {
   notifications(offset: $offset, limit: $limit) {

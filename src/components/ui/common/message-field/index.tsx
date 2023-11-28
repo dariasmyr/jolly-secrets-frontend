@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import {
   Container,
   ContentWrapper,
@@ -10,9 +10,9 @@ interface IMessageFieldProperties {
   onClick: (message: string) => void;
 }
 
-export const MessageField = (
-  properties: IMessageFieldProperties,
-): ReactElement => {
+export const MessageField = ({
+  onClick,
+}: IMessageFieldProperties): ReactElement => {
   const [message, setMessage] = useState('');
 
   const handleMessageChange = (
@@ -21,8 +21,12 @@ export const MessageField = (
     setMessage(event.target.value);
   };
 
-  const handleSendClick = (): void => {
-    properties.onClick(message);
+  const handleSendClick = async (): Promise<void> => {
+    if (message.trim() === '' || message.length > 200) {
+      return;
+    }
+
+    await onClick(message);
     setMessage('');
   };
 

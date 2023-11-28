@@ -1,0 +1,17 @@
+mutation createMessage ($accountId: Int!, $chatId: Int!, $text: String!) {
+  createMessage(input: { accountId:$accountId, chatId: $chatId, text:$text }) {
+    id
+    createdAt
+    updatedAt
+    accountId
+    chatId
+    text
+    chat {
+      id
+      eventApplicationPair {
+        id
+        eventId
+      }
+    }
+  }
+}
