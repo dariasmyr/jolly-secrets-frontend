@@ -1,8 +1,9 @@
 import { Paper as MuiPaper } from '@mui/material';
 import styled from 'styled-components';
 
-import { themeMui } from '@/theme';
+import { getThemeMui } from '@/theme';
 
+const themeMui = getThemeMui();
 export const Paper = styled(MuiPaper)`
   width: 368px;
   margin-top: 16px;

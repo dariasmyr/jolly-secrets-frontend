@@ -197,10 +197,10 @@ const CreateApplication: FC = () => {
         {fields.map((item, index) => (
           <CardCreatePreference
             key={item.id}
-            selectTitle={t('application:preference:price_range')}
+            selectTitle={t('application:application.preference:price_range')}
             priceOptions={priceRangeDisplay(t)}
             {...register(`preferences.${index}.priceRange`)}
-            button={'Удалить'}
+            button={t('application:application.preference:delete')}
             onDeleteButtonClick={(): void => {
               remove(index);
             }}
@@ -209,7 +209,7 @@ const CreateApplication: FC = () => {
               <TextField
                 key="dislikes"
                 id={`field-dislikes${index}`}
-                label={t('application:preference:dislikes')}
+                label={t('application:application.preference:dislikes')}
                 type="text"
                 fullWidth
                 size="small"
@@ -226,7 +226,7 @@ const CreateApplication: FC = () => {
               <TextField
                 key="likes"
                 id={`field-likes${index}`}
-                label={t('application:preference:likes')}
+                label={t('application:application.preference:likes')}
                 type="text"
                 fullWidth
                 size="medium"
@@ -243,7 +243,7 @@ const CreateApplication: FC = () => {
               <TextField
                 key="comment"
                 id={`field-comment${index}`}
-                label={t('application:preference:comment')}
+                label={t('application:application.preference:comment')}
                 type="text"
                 fullWidth
                 size="medium"
@@ -272,7 +272,7 @@ const CreateApplication: FC = () => {
               })
             }
           >
-            {t('application:preference:add')}
+            {t('application:application.preference:add')}
           </Button>
         </AddButtonWrapper>
         <Button
@@ -282,7 +282,7 @@ const CreateApplication: FC = () => {
           {t('application:create_application:action')}
         </Button>
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
-          Назад
+          {t('application:create_application:back')}
         </Button>
       </FormWrapper>
       <DialogConfirmAction

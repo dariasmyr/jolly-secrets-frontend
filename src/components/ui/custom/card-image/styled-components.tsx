@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 
-import { themeMui } from '@/theme';
+import { getThemeMui } from '@/theme';
 
+const themeMui = getThemeMui();
 export const ImageWrapper = styled(Image)`
   width: 368px;
   height: 200px;

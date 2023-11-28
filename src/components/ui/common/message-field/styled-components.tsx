@@ -1,11 +1,15 @@
 import SendIcon from '@mui/icons-material/Send';
 import styled from 'styled-components';
 
+import { getThemeMui } from '@/theme';
+
+const themeMui = getThemeMui();
+
 export const Container = styled.div`
   width: 100%;
   max-width: 390px;
   flex-shrink: 0;
-  background: #fff;
+  background: ${themeMui.palette.background.default};
   box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.15);
   display: flex;
 `;
@@ -39,6 +43,6 @@ export const TextArea = styled.textarea`
 
 export const SendButton = styled(SendIcon)`
   cursor: pointer;
-  color: #a5a5a5;
+  color: ${themeMui.palette.secondary.main};
   margin-left: 4px;
 `;

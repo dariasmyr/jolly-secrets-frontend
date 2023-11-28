@@ -22,28 +22,29 @@
       "cancel": "❌Cancel",
       "confirm": "✔️Yes, create a request"
     },
-    "action":"Create application"
+    "action":"Create application",
+    "back": "Back"
   },
   "application_not_found": {
     "title": "🔍There is no application yet.",
-    "description": "Looking for your Secret Santa!⏳"
+    "description": "Looking for your Secret Santa!"
   },
   "status": {
     "looking_for_pair": {
       "label": "🎅 Looking for a Secret Santa",
-      "description": "Your application is on the draw, we are looking for a Secret Santa for you! 🎁"
+      "description": "Your application is on the draw, we are looking for a Secret Santa for you!"
     },
     "paired": {
       "label": "🤝 Paired, sending gifts...",
-      "description": "It's time to send gifts! Find out each other's addresses in a secret chat! 📬🎁"
+      "description": "It's time to send gifts! Find out each other's addresses in a secret chat!"
     },
     "gift_sent": {
       "label": "🎁 Your gift is sent",
-      "description": "Your gift has been sent! It's your turn! 📮✨"
+      "description": "Your gift has been sent! It's your turn!"
     },
     "gift_received": {
       "label": "🎉 Done",
-      "description": "Your application has been successfully closed. Enjoy your gift! 🎁🎊"
+      "description": "When you receive a gift, confirm it in the application. After that, the application will be closed."
     }
   },
   "resolve": {

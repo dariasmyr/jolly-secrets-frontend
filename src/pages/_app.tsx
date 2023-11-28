@@ -11,7 +11,7 @@ import { useApolloClient } from '@/services/apollo-client.service';
 import { log } from '@/services/log';
 import { useSettingsStore } from '@/store/settings.store';
 import { useThemeStore } from '@/store/theme.store';
-import { themeMui, themeMuiDark, themeStyled } from '@/theme';
+import { getThemeMui, themeStyled } from '@/theme';
 
 import '../styles/global.css';
 
@@ -55,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
     return <div>Loading...</div>;
   }
 
-  const selectedTheme = darkMode ? themeMuiDark : themeMui;
+  const selectedTheme = getThemeMui(darkMode);
 
   return (
     <StyledComponentProvider theme={themeStyled}>

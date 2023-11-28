@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-import { themeMui } from '@/theme';
+import { getThemeMui } from '@/theme';
 
+const themeMui = getThemeMui();
 interface IButtonLargeProperties {
   children: string;
   disabled?: boolean;

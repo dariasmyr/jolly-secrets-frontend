@@ -82,7 +82,6 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
 };
 
 const Title = styled.div`
-  color: var(--text-primary, rgba(0, 0, 0, 0.87));
   text-align: center;
   font-feature-settings:
     'clig' off,
