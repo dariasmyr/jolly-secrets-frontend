@@ -355,6 +355,7 @@ type Query {
   applicationPairs(eventId: Float!): [EventApplicationPair!]!
   chat(id: Int!): Chat!
   chatMembers(chatId: Float!): [ChatMember!]!
+  checkUnreadNotifications: Boolean!
   currentSession: AccountSession!
   debug: JSON!
   echo(text: String!): String!

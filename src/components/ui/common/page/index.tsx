@@ -24,7 +24,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { SvgIcon } from '@mui/material';
+import { Badge } from '@mui/material';
 
+import { useCheckUnreadNotificationsQuery } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
 const Logo: React.FC = () => (
@@ -77,6 +79,8 @@ export const Page = (properties: IPageProperties): ReactElement => {
     }
   }, [authStore]);
 
+  const { data, error, loading } = useCheckUnreadNotificationsQuery({});
+
   const handleShowMenu = (): void => {
     setShowMenu(true);
   };
@@ -101,8 +105,13 @@ export const Page = (properties: IPageProperties): ReactElement => {
     return () => document.removeEventListener('keydown', onKeydown);
   }, []);
 
-  if (!router.isReady) return <div>Loading...</div>;
-  console.log(authStore.account);
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+  if (!router.isReady || loading) return <div>Loading...</div>;
+
+  const hasUnreadNotifications = Boolean(data);
+  console.log('hasUnreadNotifications', hasUnreadNotifications);
   return (
     <PageContainer style={properties.style}>
       <AppBar
@@ -161,9 +170,13 @@ export const Page = (properties: IPageProperties): ReactElement => {
           />
           <MenuItem
             icon={
-              <PrimaryIcon>
-                <NotificationsIcon />
-              </PrimaryIcon>
+              <Badge
+                color="error"
+                variant="dot"
+                invisible={hasUnreadNotifications}
+              >
+                <NotificationsIcon color="primary" />
+              </Badge>
             }
             name={t('menu:menu.notifications')}
             onClick={async (): Promise<void> => {

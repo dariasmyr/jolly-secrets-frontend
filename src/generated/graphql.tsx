@@ -484,6 +484,7 @@ export type Query = {
   applicationPairs: Array<EventApplicationPair>;
   chat: Chat;
   chatMembers: Array<ChatMember>;
+  checkUnreadNotifications: Scalars['Boolean']['output'];
   currentSession: AccountSession;
   debug: Scalars['JSON']['output'];
   echo: Scalars['String']['output'];
@@ -609,6 +610,11 @@ export type QueryPublicGroupsArgs = {
 export type QueryTestTranslationArgs = {
   username: Scalars['String']['input'];
 };
+
+export type CheckUnreadNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CheckUnreadNotificationsQuery = { __typename?: 'Query', checkUnreadNotifications: boolean };
 
 export type CreateEventApplicationMutationVariables = Exact<{
   accountId: Scalars['Int']['input'];
@@ -833,6 +839,38 @@ export type WhoamiQueryVariables = Exact<{ [key: string]: never; }>;
 export type WhoamiQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', id: number, createdAt: any, email?: string | null, isNotificationsEnabled: boolean, roles?: Array<AccountRole> | null, status: AccountStatus, avatarUrl?: string | null, username: string, externalProfiles?: Array<{ __typename?: 'ExternalProfile', provider: ExternalProfileProvider, externalId: string }> | null } };
 
 
+export const CheckUnreadNotificationsDocument = gql`
+    query checkUnreadNotifications {
+  checkUnreadNotifications
+}
+    `;
+
+/**
+ * __useCheckUnreadNotificationsQuery__
+ *
+ * To run a query within a React component, call `useCheckUnreadNotificationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckUnreadNotificationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckUnreadNotificationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCheckUnreadNotificationsQuery(baseOptions?: Apollo.QueryHookOptions<CheckUnreadNotificationsQuery, CheckUnreadNotificationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckUnreadNotificationsQuery, CheckUnreadNotificationsQueryVariables>(CheckUnreadNotificationsDocument, options);
+      }
+export function useCheckUnreadNotificationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckUnreadNotificationsQuery, CheckUnreadNotificationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckUnreadNotificationsQuery, CheckUnreadNotificationsQueryVariables>(CheckUnreadNotificationsDocument, options);
+        }
+export type CheckUnreadNotificationsQueryHookResult = ReturnType<typeof useCheckUnreadNotificationsQuery>;
+export type CheckUnreadNotificationsLazyQueryHookResult = ReturnType<typeof useCheckUnreadNotificationsLazyQuery>;
+export type CheckUnreadNotificationsQueryResult = Apollo.QueryResult<CheckUnreadNotificationsQuery, CheckUnreadNotificationsQueryVariables>;
 export const CreateEventApplicationDocument = gql`
     mutation createEventApplication($accountId: Int!, $eventId: Int!, $preferences: [CreatePreferenceInput!]!) {
   createEventApplication(

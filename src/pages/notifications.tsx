@@ -15,13 +15,17 @@ import {
   SubText,
   Text,
 } from '@/components/ui/common/styled-components';
-import { useNotificationsQuery } from '@/generated/graphql';
+import {
+  useNotificationsQuery,
+  useSetNotificationAsReadMutation,
+} from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
 const Notifications: FC = () => {
   const { t } = useTranslation(['notifications', 'menu']);
   const authStore = useAuthStore();
   const router = useRouter();
+  const [setNotificationAsRead] = useSetNotificationAsReadMutation();
 
   const { data, error, loading } = useNotificationsQuery({
     variables: {
@@ -35,6 +39,27 @@ const Notifications: FC = () => {
       router.push('/auth/login');
     }
   }, [authStore]);
+
+  useEffect(() => {
+    if (data?.notifications) {
+      console.log('AAAAAAAAAAAAAAAAAAA', data?.notifications);
+      for (const notification of data.notifications.filter(
+        (notification_) => notification_?.read === false,
+      )) {
+        if (notification?.id) {
+          try {
+            setNotificationAsRead({
+              variables: {
+                id: notification.id,
+              },
+            });
+          } catch (error_) {
+            console.error(error_);
+          }
+        }
+      }
+    }
+  }, [data]);
 
   if (loading) {
     return <div>Loading...</div>;
