@@ -24,7 +24,7 @@ import {
 import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { EventPage } from '@components/ui/custom/event-page';
 import { priceRangeDisplay } from '@pages/create-application';
-import { StyledImage } from '@pages/events';
+import { eventStatusDisplay, StyledImage } from '@pages/events';
 import styled from 'styled-components';
 
 import { Header } from '@/components/ui/common/page/styled-components';
@@ -161,8 +161,9 @@ const Event: FC = () => {
     },
   ];
 
-  const eventStatus = EventStatusDisplay.find(
-    (status) => status.value === eventData!.event.status,
+  const eventStatus = eventStatusDisplay(t).find(
+    (status: { value: EventStatus }) =>
+      status.value === eventData!.event.status,
   );
 
   const daysToExpire = Math.max(

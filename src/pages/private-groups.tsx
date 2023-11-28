@@ -28,7 +28,7 @@ import {
 import { useAuthStore } from '@/store/auth.store';
 
 const PrivateGroups: FC = () => {
-  const { t } = useTranslation(['common', 'auth', 'group', 'events']);
+  const { t } = useTranslation(['common', 'auth', 'group', 'event']);
   const authStore = useAuthStore();
   const router = useRouter();
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -170,7 +170,7 @@ const PrivateGroups: FC = () => {
                 ? {
                     options: [
                       {
-                        title: t('group:group.change:title'),
+                        title: t('group:group.change.title'),
                         onClick: (): void => {
                           router.push(`/update-group?id=${group.id}`);
                         },
@@ -197,7 +197,7 @@ const PrivateGroups: FC = () => {
         isOpen={isDialogOpen}
         title={t('group:group.delete.dialog.title')}
         description={t('group:group.delete.dialog.description')}
-        cancelButtonText={t('group:group.delete.dialog:cancel')}
+        cancelButtonText={t('group:group.delete.dialog.cancel')}
         confirmButtonText={t('group:group.delete.dialog.confirm')}
         onCancelClick={(): void => setDialogOpen(false)}
         onConfirmClick={async (): Promise<void> => {

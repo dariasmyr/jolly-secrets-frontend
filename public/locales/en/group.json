@@ -1,7 +1,7 @@
 {
   "group": {
     "change": {
-      "title": "Change group",
+      "title": "Change group"
     },
     "delete": {
       "title": "Delete",
@@ -17,6 +17,7 @@
   "groups": {
     "private": "My groups",
     "public": "Public groups",
+    "publicAAAAAAAAA": "Public groups",
     "no_groups_title": "No groups yet",
     "no_groups_description": "Create your first group!",
     "one_member": "member",

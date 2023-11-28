@@ -9,7 +9,9 @@
     "two_pairs": "pairs",
     "many_pairs": "pairs",
     "expired": "Event expired",
-    "participate": "Participate"
+    "participate": "Participate",
+    "active": "Active",
+    "inactive": "Inactive"
   },
   "events": {
     "header": "Events",

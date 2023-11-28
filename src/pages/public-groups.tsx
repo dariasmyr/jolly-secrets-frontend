@@ -49,7 +49,7 @@ function pluralize(
 }
 
 const PublicGroups: FC = () => {
-  const { t } = useTranslation(['common', 'group', 'events']);
+  const { t } = useTranslation(['common', 'group', 'event']);
   const authStore = useAuthStore();
   const router = useRouter();
   const [isDialogOpen, setDialogOpen] = useState(false);

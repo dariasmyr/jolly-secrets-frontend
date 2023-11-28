@@ -9,7 +9,9 @@
     "two_pairs": "пары",
     "many_pairs": "пар",
     "expired": "Событие завершено",
-    "participate": "Участвовать"
+    "participate": "Участвовать",
+    "active": "Активно",
+    "inactive": "Неактивно"
   },
   "events": {
     "header": "События",

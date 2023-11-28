@@ -24,9 +24,10 @@ import {
 } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
-export const EventStatusDisplay = [
-  { value: EventStatus.Open, label: 'Активно' },
-  { value: EventStatus.Expired, label: 'Неактивно' },
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const eventStatusDisplay = (t: (argument0: string) => any): any => [
+  { value: EventStatus.Open, label: t('event:event.active') },
+  { value: EventStatus.Expired, label: t('event:event.inactive') },
 ];
 const Events: FC = () => {
   const { t } = useTranslation(['common', 'event', 'group']);
@@ -140,8 +141,8 @@ const Events: FC = () => {
         </Wrapper>
       )}
       {eventsData?.events.map((event) => {
-        const eventStatus = EventStatusDisplay.find(
-          (status) => status.value === event.status,
+        const eventStatus = eventStatusDisplay(t).find(
+          (status: { value: EventStatus }) => status.value === event.status,
         );
         const tags = [
           {
