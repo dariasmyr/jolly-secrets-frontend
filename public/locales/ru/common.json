@@ -4,5 +4,6 @@
   "login": "Войти",
   "logout": "Выйти",
   "password": "Пароль",
-  "register": "Регистрация"
+  "register": "Регистрация",
+  "required_field": "Обязательное поле"
 }

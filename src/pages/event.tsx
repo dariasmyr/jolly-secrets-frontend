@@ -1,8 +1,11 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable unicorn/no-null */
 import { FC, ReactElement, useEffect, useState } from 'react';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
@@ -20,8 +23,8 @@ import {
 } from '@components/ui/custom/card-preference';
 import { DialogConfirmAction } from '@components/ui/custom/dialog-confirm-action';
 import { EventPage } from '@components/ui/custom/event-page';
-import { PriceRangeDisplay } from '@pages/create-application';
-import { EventStatusDisplay, StyledImage } from '@pages/events';
+import { priceRangeDisplay } from '@pages/create-application';
+import { StyledImage } from '@pages/events';
 import styled from 'styled-components';
 
 import { Header } from '@/components/ui/common/page/styled-components';
@@ -39,6 +42,7 @@ import { useAuthStore } from '@/store/auth.store';
 
 // eslint-disable-next-line complexity
 const Event: FC = () => {
+  const { t } = useTranslation(['application', 'group', 'event', 'common']);
   const authStore = useAuthStore();
   const router = useRouter();
   const eventId = router.query.id;
@@ -92,7 +96,9 @@ const Event: FC = () => {
   };
 
   const renderPriceRange = (priceRange: PriceRange): string => {
-    const label = PriceRangeDisplay.find((item) => item.value === priceRange);
+    const label = priceRangeDisplay(t).find(
+      (item) => item.value === priceRange,
+    );
     return label ? label.label : '';
   };
 
@@ -109,7 +115,7 @@ const Event: FC = () => {
   }, [authStore]);
 
   if (groupIsLoading || eventIsLoading || eventApplicationPairIsLoading) {
-    return <Page title="Событие">Loading...</Page>;
+    return <Page title={t('event:event.header')}>Loading...</Page>;
   }
 
   if (
@@ -118,7 +124,11 @@ const Event: FC = () => {
     !eventData?.event ||
     !groupData?.getGroupByEventId
   ) {
-    return <Page title="Событие">Error: {JSON.stringify(groupError)}</Page>;
+    return (
+      <Page title={t('event:event.header')}>
+        Error: {JSON.stringify(groupError)}
+      </Page>
+    );
   }
 
   const startDate = new Date(eventData?.event.startsAt).toLocaleDateString();
@@ -129,7 +139,7 @@ const Event: FC = () => {
 
   const steps = [
     {
-      label: isPrivate ? 'Мои группы' : 'Публичные группы',
+      label: isPrivate ? t('groups:private') : t('groups:public'),
       link: isPrivate ? '/private-groups' : '/public-groups',
       onClick: async (): Promise<void> => {
         await router.push(isPrivate ? '/private-groups' : '/public-groups');
@@ -215,12 +225,21 @@ const Event: FC = () => {
       myApplication && myApplication.preferences
         ? myApplication.preferences.map((pref) => ({
             priceRange: {
-              title: 'Ценовой диапазон',
+              title: t('application:application.preference.price_range'),
               value: renderPriceRange(pref.priceRange),
             },
-            likes: { title: 'Я хочу', value: pref.likes },
-            dislikes: { title: 'Я НЕ хочу', value: pref.dislikes },
-            comments: { title: 'Комментарии', value: pref.comment },
+            likes: {
+              title: t('application:application.preference.likes'),
+              value: pref.likes,
+            },
+            dislikes: {
+              title: t('application:application.preference.dislikes'),
+              value: pref.dislikes,
+            },
+            comments: {
+              title: t('application:application.preference.comment'),
+              value: pref.comment,
+            },
           }))
         : [];
 
@@ -228,12 +247,21 @@ const Event: FC = () => {
       santaApplication && santaApplication.preferences
         ? santaApplication.preferences.map((pref) => ({
             priceRange: {
-              title: 'Ценовой диапазон',
+              title: t('application:application.preference.price_range'),
               value: renderPriceRange(pref.priceRange),
             },
-            likes: { title: 'Я хочу', value: pref.likes },
-            dislikes: { title: 'Я НЕ хочу', value: pref.dislikes },
-            comments: { title: 'Комментарии', value: pref.comment },
+            likes: {
+              title: t('application:application.preference.likes'),
+              value: pref.likes,
+            },
+            dislikes: {
+              title: t('application:application.preference.dislikes'),
+              value: pref.dislikes,
+            },
+            comments: {
+              title: t('application:application.preference.comment'),
+              value: pref.comment,
+            },
           }))
         : [];
 
@@ -252,8 +280,10 @@ const Event: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>Заявки пока нет.</Text>
-          <SubText>Ищем вам Тайного Санту!</SubText>
+          <Text>{t('application:application_not_found.title')}</Text>
+          <SubText>
+            {t('application:application_not_found.description')}
+          </SubText>
         </ImageWrapper>
       );
     }
@@ -261,24 +291,24 @@ const Event: FC = () => {
       <div>
         <HeaderWrapper>
           <Header>
-            {tab === 'application' ? '🎁Моя Заявка' : '🎅Заявка Тайного Санты'}
+            {tab === 'application'
+              ? t('application:application.my_application')
+              : t('application:application.secret_santa_application')}
           </Header>
         </HeaderWrapper>
         <Stepper
           steps={[
             {
-              label: '🎅Поиск Тайного Санты',
-              description:
-                'Ваша Заявка на жеребьевке, подыскиваем вам Тайного Санту!',
-              showDescription: false,
+              label: t('application:status.looking_for_pair.label'),
+              description: t('application:status.looking_for_pair.description'),
+              showDescription: true,
               completed:
                 tabApplicationStatus !== EventApplicationStatus.LookingForPair,
             },
             {
-              label: '🤝Ожидание отправления',
-              description:
-                'Время отправлять подарки! Узнайте адреса друг друга в тайном чате!📬🎁',
-              showDescription: false,
+              label: t('application:status.paired.label'),
+              description: t('application:status.paired.description'),
+              showDescription: true,
               completed:
                 tabApplicationStatus === EventApplicationStatus.Paired ||
                 tabApplicationStatus === EventApplicationStatus.GiftSent ||
@@ -286,8 +316,8 @@ const Event: FC = () => {
                 tabApplicationStatus === EventApplicationStatus.GiftNotReceived,
             },
             {
-              label: '🎁Отправлено',
-              description: 'Ваш подарок отправлен! Дело за вами!📮✨',
+              label: t('application:status.gift_sent.label'),
+              description: t('application:status.gift_sent.description'),
               showDescription: true,
               completed:
                 tabApplicationStatus === EventApplicationStatus.GiftSent ||
@@ -295,9 +325,9 @@ const Event: FC = () => {
                 tabApplicationStatus === EventApplicationStatus.GiftNotReceived,
             },
             {
-              label: '🎉Выполнено',
-              description: 'Ваша заявка успешно закрыта🎁🎊',
-              showDescription: false,
+              label: t('application:status.gift_received.label'),
+              description: t('application:status.gift_received.description'),
+              showDescription: true,
               completed:
                 tabApplicationStatus === EventApplicationStatus.GiftReceived ||
                 tabApplicationStatus === EventApplicationStatus.GiftNotReceived,
@@ -313,15 +343,15 @@ const Event: FC = () => {
                   variant={ButtonVariant.primary}
                   onClick={handleGiftReceivedClick}
                 >
-                  Подарок у меня
+                  {t('application:resolve.gift_received.title')}
                 </Button>
                 <DialogConfirmAction
                   isOpen={isGiftReceivedDialogOpen}
                   onCancelClick={(): void => setGiftReceivedDialogOpen(false)}
-                  title="Подтвердите действие"
-                  description={
-                    'Надеемся, вам понравится подарок! После подтверждения ваша заявка будет закрыта. 😊👍'
-                  }
+                  title={t('application:resolve.gift_received.dialog.title')}
+                  description={t(
+                    'application:resolve.gift_received.dialog.description',
+                  )}
                   onConfirmClick={async (): Promise<void> => {
                     console.log('myApplication.id', myApplication.id);
                     await setEventApplicationStatus({
@@ -333,23 +363,31 @@ const Event: FC = () => {
                     setGiftReceivedDialogOpen(false);
                     reset();
                   }}
-                  cancelButtonText={'Отмена ❌'}
+                  cancelButtonText={t(
+                    'application:resolve.gift_received.dialog.cancel',
+                  )}
                   /* eslint-disable-next-line sonarjs/no-duplicate-string */
-                  confirmButtonText={'Подтверждаю ✔️'}
+                  confirmButtonText={t(
+                    'application:resolve.gift_received.dialog.confirm',
+                  )}
                 />
                 <Button
                   variant={ButtonVariant.warning}
                   onClick={handleGiftNotReceivedClick}
                 >
-                  Подарок не пришел
+                  {t('application:resolve.gift_not_received.title')}
                 </Button>
                 <DialogConfirmAction
                   isOpen={isGiftNotReceivedDialogOpen}
                   onCancelClick={(): void =>
                     setGiftNotReceivedDialogOpen(false)
                   }
-                  title="Подтвердите действие"
-                  description="Нам очень жаль 😢 После подтверждения ваша заявка будет закрыта. 🚫"
+                  title={t(
+                    'application:resolve.gift_not_received.dialog.title',
+                  )}
+                  description={t(
+                    'application:resolve.gift_not_received.dialog.description',
+                  )}
                   onConfirmClick={async (): Promise<void> => {
                     await setEventApplicationStatus({
                       variables: {
@@ -360,8 +398,12 @@ const Event: FC = () => {
                     setGiftNotReceivedDialogOpen(false);
                     reset();
                   }}
-                  cancelButtonText={'Отмена ❌'}
-                  confirmButtonText={'Подтверждаю ✔️'}
+                  cancelButtonText={t(
+                    'application:resolve.gift_not_received.dialog.cancel',
+                  )}
+                  confirmButtonText={t(
+                    'application:resolve.gift_not_received.dialog.confirm',
+                  )}
                 />
               </>
             )}
@@ -376,13 +418,15 @@ const Event: FC = () => {
                 santaApplicationStatus === EventApplicationStatus.GiftSent
               }
             >
-              Я отправил подарок
+              {t('application:resolve.gift_sent.title')}
             </Button>
             <DialogConfirmAction
               isOpen={isGiftSentDialogOpen}
               onCancelClick={(): void => setGiftSentDialogOpen(false)}
-              title="Подтвердите действие"
-              description="Статус заявки будет изменен на 'Подарок отправлен'. Вы уверены?"
+              title={t('application:resolve.gift_sent.dialog.title')}
+              description={t(
+                'application:resolve.gift_sent.dialog.description',
+              )}
               onConfirmClick={async (): Promise<void> => {
                 await setEventApplicationStatus({
                   variables: {
@@ -393,16 +437,20 @@ const Event: FC = () => {
                 setGiftSentDialogOpen(false);
                 reset();
               }}
-              cancelButtonText={'Отмена'}
-              confirmButtonText={'Подтверждаю'}
+              cancelButtonText={t(
+                'application:resolve.gift_sent.dialog.cancel',
+              )}
+              confirmButtonText={t(
+                'application:resolve.gift_sent.dialog.confirm',
+              )}
             />
             <Button variant={ButtonVariant.secondary} onClick={goToChat}>
-              Написать санте
+              {t('application:resolve.write_to_santa')}
             </Button>
           </ButtonWrapper>
         )}
         <CardPreference
-          header="Предпочтения"
+          header={t('application:application.preference.title')}
           preferences={
             tab === 'application'
               ? applicationPreferences
@@ -436,11 +484,11 @@ const Event: FC = () => {
         preHeader={
           isExpired
             ? `${startDate} - ${endDate}`
-            : `До завершения ${daysToExpire} ${pluralize(
+            : `${t('event:untill_ending')} ${daysToExpire} ${pluralize(
                 daysToExpire,
-                'день',
-                'дня',
-                'дней',
+                t('event:event.one_day'),
+                t('event:event.two_days'),
+                t('event:event.many_days'),
               )}`
         }
         header={eventData!.event.name}
@@ -451,9 +499,9 @@ const Event: FC = () => {
               eventData!.event.applicationPairs?.length || 0
             } ${pluralize(
               eventData!.event.applicationPairs?.length || 0,
-              'пара',
-              'пары',
-              'пар',
+              t('event:event.one_pair'),
+              t('event:event.two_pairs'),
+              t('event:event.many_pairs'),
             )}`,
           },
           {
@@ -466,9 +514,13 @@ const Event: FC = () => {
         null && (
         <ButtonLargeWrapper>
           {isExpired ? (
-            <ButtonLarge disabled={true}>Cобытие завершено</ButtonLarge>
+            <ButtonLarge disabled={true}>
+              {t('event:event.expired')}
+            </ButtonLarge>
           ) : (
-            <ButtonLarge onClick={participate}>Участвовать</ButtonLarge>
+            <ButtonLarge onClick={participate}>
+              {t('event:event.participate')}
+            </ButtonLarge>
           )}
         </ButtonLargeWrapper>
       )}
@@ -476,12 +528,12 @@ const Event: FC = () => {
         <TabApplications
           tabs={[
             {
-              label: 'Моя Заявка',
+              label: t('application:application.my_application'),
               value: 'application',
               component: renderApplication(activeTab),
             },
             {
-              label: 'Заявка Тайного Санты',
+              label: t('application:application.secret_santa_application'),
               value: 'secret-santa-application',
               component: renderApplication(activeTab),
             },
@@ -493,6 +545,19 @@ const Event: FC = () => {
       )}
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'application',
+        'group',
+        'event',
+        'common',
+      ])),
+    },
+  };
 };
 
 const ImageWrapper = styled.div`

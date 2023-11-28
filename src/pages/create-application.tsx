@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { FormWrapper } from '@components/ui/common/styled-components';
@@ -35,25 +38,34 @@ const validationSchema = Yup.object().shape({
     .of(
       Yup.object().shape({
         // eslint-disable-next-line sonarjs/no-duplicate-string
-        likes: Yup.string().required('Обязательное поле'),
-        dislikes: Yup.string().required('Обязательное поле'),
+        likes: Yup.string().required('Required field'),
+        dislikes: Yup.string().required('Required field'),
         comment: Yup.string().nullable(),
         priceRange: Yup.mixed<PriceRange>()
           .oneOf(Object.values(PriceRange))
           .default(PriceRange.NoMatter),
       }),
     )
-    .required('Обязательное поле'),
+    .required('Required field'),
 });
 
-export const PriceRangeDisplay = [
-  { value: PriceRange.NoMatter, label: 'Без ограничений' },
-  { value: PriceRange.Min_0Max_10, label: '0-10$' },
-  { value: PriceRange.Min_10Max_20, label: '10-20$' },
-  { value: PriceRange.Min_20Max_30, label: '20-30$' },
-];
+export const priceRangeDisplay = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: any,
+): { value: PriceRange; label: string }[] => {
+  return [
+    {
+      value: PriceRange.NoMatter,
+      label: t('application:preference:no_matter'),
+    },
+    { value: PriceRange.Min_0Max_10, label: '0-10$' },
+    { value: PriceRange.Min_10Max_20, label: '10-20$' },
+    { value: PriceRange.Min_20Max_30, label: '20-30$' },
+  ];
+};
 
 const CreateApplication: FC = () => {
+  const { t } = useTranslation(['application', 'group', 'event', 'common']);
   const router = useRouter();
   const authStore = useAuthStore();
   // eslint-disable-next-line unicorn/no-null
@@ -139,12 +151,16 @@ const CreateApplication: FC = () => {
   }, [authStore]);
 
   if (eventIsLoading) {
-    return <Page title="Заявка">Loading...</Page>;
+    return (
+      <Page title={t('application:create_application:page_title')}>
+        Loading...
+      </Page>
+    );
   }
 
   return (
     <Page title={eventData!.event.name} style={{ gap: 16, marginTop: 24 }}>
-      <Header>Я хочу</Header>
+      <Header>{t('application:create_application:header')}</Header>
       {loading && (
         <div
           style={{
@@ -175,8 +191,8 @@ const CreateApplication: FC = () => {
         {fields.map((item, index) => (
           <CardCreatePreference
             key={item.id}
-            selectTitle="Ограничение по цене"
-            priceOptions={PriceRangeDisplay}
+            selectTitle={t('application:preference:price_range')}
+            priceOptions={priceRangeDisplay(t)}
             {...register(`preferences.${index}.priceRange`)}
             button={'Удалить'}
             onDeleteButtonClick={(): void => {
@@ -187,7 +203,7 @@ const CreateApplication: FC = () => {
               <TextField
                 key="dislikes"
                 id={`field-dislikes${index}`}
-                label="Я НЕ хочу чтобы мне дарили"
+                label={t('application:preference:dislikes')}
                 type="text"
                 fullWidth
                 size="small"
@@ -204,7 +220,7 @@ const CreateApplication: FC = () => {
               <TextField
                 key="likes"
                 id={`field-likes${index}`}
-                label="Я хочу чтобы мне дарили"
+                label={t('application:preference:likes')}
                 type="text"
                 fullWidth
                 size="medium"
@@ -221,7 +237,7 @@ const CreateApplication: FC = () => {
               <TextField
                 key="comment"
                 id={`field-comment${index}`}
-                label="Комментарий"
+                label={t('application:preference:comment')}
                 type="text"
                 fullWidth
                 size="medium"
@@ -250,14 +266,14 @@ const CreateApplication: FC = () => {
               })
             }
           >
-            + Добавить
+            {t('application:preference:add')}
           </Button>
         </AddButtonWrapper>
         <Button
           variant={ButtonVariant.primary}
           onClick={handleConfirmDialogOpen}
         >
-          Создать заявку
+          {t('application:create_application:action')}
         </Button>
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
           Назад
@@ -265,16 +281,16 @@ const CreateApplication: FC = () => {
       </FormWrapper>
       <DialogConfirmAction
         isOpen={openConfirmDialog}
-        title="Вы уверены?"
-        description="После подтверждения заявку нельзя будет изменить"
-        cancelButtonText="Отмена"
-        confirmButtonText="Да, создать заявку"
+        title={t('application:create_application:dialog:title')}
+        description={t('application:create_application:dialog:description')}
+        cancelButtonText={t('application:create_application:dialog:cancel')}
+        confirmButtonText={t('application:create_application:dialog:confirm')}
         onCancelClick={handleConfirmDialogClose}
         /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
         onConfirmClick={(): any =>
           handleSubmit(async (formData) => {
             try {
-              handleConfirmDialogClose(); // Важно сначала закрыть диалог
+              handleConfirmDialogClose();
               await handleFormSubmit(formData);
               router.push(`/event?id=${eventId}`);
             } catch (submitError) {
@@ -285,6 +301,19 @@ const CreateApplication: FC = () => {
       />
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'application',
+        'group',
+        'event',
+        'common',
+      ])),
+    },
+  };
 };
 
 const AddButtonWrapper = styled.div`

@@ -4,5 +4,6 @@
   "login": "Login",
   "logout": "Logout",
   "password": "Password",
-  "register": "Register"
+  "register": "Register",
+  "required_field": "Required field",
 }

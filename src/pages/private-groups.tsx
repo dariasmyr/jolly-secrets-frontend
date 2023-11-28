@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { FabAdd } from '@components/ui/common/fab-add';
 import { Page } from '@components/ui/common/page';
 import {
@@ -25,6 +28,7 @@ import {
 import { useAuthStore } from '@/store/auth.store';
 
 const PrivateGroups: FC = () => {
+  const { t } = useTranslation(['common', 'auth', 'group', 'events']);
   const authStore = useAuthStore();
   const router = useRouter();
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -78,16 +82,21 @@ const PrivateGroups: FC = () => {
   }, [authStore]);
 
   if (loading) {
-    return <Page title="Мои группы">Loading...</Page>;
+    // eslint-disable-next-line sonarjs/no-duplicate-string
+    return <Page title={t('group:groups.private')}>Loading...</Page>;
   }
 
   if (error) {
-    return <Page title="Мои группы">Error: {JSON.stringify(error)}</Page>;
+    return (
+      <Page title={t('group:groups.private')}>
+        Error: {JSON.stringify(error)}
+      </Page>
+    );
   }
 
   return (
-    <Page title={'Мои группы'} style={{ gap: 16, marginTop: 24 }}>
-      <Header>Мои группы</Header>
+    <Page title={t('group:groups.private')} style={{ gap: 16, marginTop: 24 }}>
+      <Header>{t('group:groups.private')}</Header>
       {data?.privateGroups.length === 0 && (
         <Wrapper>
           <StyledImage>
@@ -98,8 +107,8 @@ const PrivateGroups: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>Групп пока нет.</Text>
-          <SubText>Создайте первую группу!</SubText>
+          <Text>{t('group:groups.no_groups_title')}</Text>
+          <SubText>{t('group:groups.no_groups_description')}</SubText>
         </Wrapper>
       )}
       {data?.privateGroups.map((group) => {
@@ -116,13 +125,13 @@ const PrivateGroups: FC = () => {
               {
                 title: `${group.members!.length} ${pluralize(
                   group.members!.length,
-                  'человек',
-                  'человека',
-                  'человек',
+                  t('group:groups.one_member'),
+                  t('group:groups.two_members'),
+                  t('group:groups.many_members'),
                 )}`,
               },
               {
-                title: 'Я создатель',
+                title: t('group:groups.creator'),
                 warning: true,
               },
             ]
@@ -130,9 +139,9 @@ const PrivateGroups: FC = () => {
               {
                 title: `${group.members!.length} ${pluralize(
                   group.members!.length,
-                  'человек',
-                  'человека',
-                  'человек',
+                  t('group:groups.one_member'),
+                  t('group:groups.two_members'),
+                  t('group:groups.many_members'),
                 )}`,
               },
             ];
@@ -149,9 +158,9 @@ const PrivateGroups: FC = () => {
             )?.length} ${pluralize(
               group.events!.filter((event) => event.status === EventStatus.Open)
                 ?.length,
-              'активное событие',
-              'активных события',
-              'активных событий',
+              t('event:events.one_еvent'),
+              t('event:events.two_еvents'),
+              t('event:events.many_еvents'),
             )}`}
             header={group.name}
             text={group.description}
@@ -161,13 +170,13 @@ const PrivateGroups: FC = () => {
                 ? {
                     options: [
                       {
-                        title: 'Изменить',
+                        title: t('group:group.change:title'),
                         onClick: (): void => {
                           router.push(`/update-group?id=${group.id}`);
                         },
                       },
                       {
-                        title: 'Удалить',
+                        title: t('group:group.delete.title'),
                         onClick: (): void => {
                           setGroupToDelete(group.id);
                           setDialogOpen(true);
@@ -186,10 +195,10 @@ const PrivateGroups: FC = () => {
       <FabAdd onClick={createGroup} />
       <DialogConfirmAction
         isOpen={isDialogOpen}
-        title="Удалить группу"
-        description="Вы уверены, что хотите удалить эту группу? Это действие не может быть отменено."
-        cancelButtonText="Отмена"
-        confirmButtonText="Удалить"
+        title={t('group:group.delete.dialog.title')}
+        description={t('group:group.delete.dialog.description')}
+        cancelButtonText={t('group:group.delete.dialog:cancel')}
+        confirmButtonText={t('group:group.delete.dialog.confirm')}
         onCancelClick={(): void => setDialogOpen(false)}
         onConfirmClick={async (): Promise<void> => {
           if (!groupToDelete) {
@@ -199,17 +208,14 @@ const PrivateGroups: FC = () => {
             variables: { id: groupToDelete },
           });
           if (deletedGroup?.deleteGroup.status === GroupStatus.Closed) {
-            console.log('Группа удалена успешно');
             // eslint-disable-next-line unicorn/no-null
             setGroupToDelete(null);
             await refetch();
             setDialogOpen(false);
             setSnackbarData({
               open: true,
-              message: 'Группа удалена',
+              message: t('group:group.delete.success'),
             });
-          } else {
-            console.log('Ошибка при удалении группы');
           }
         }}
       />
@@ -224,6 +230,18 @@ const PrivateGroups: FC = () => {
       </Snackbar>
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'group',
+        'common',
+        'event',
+      ])),
+    },
+  };
 };
 
 const Wrapper = styled.div`

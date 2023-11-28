@@ -1,6 +1,9 @@
 import { FC } from 'react';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import styled from 'styled-components';
@@ -11,6 +14,7 @@ import {
 } from '@/generated/graphql';
 
 const Login: FC = () => {
+  const { t } = useTranslation(['common', 'auth']);
   const { data: tgLinkData, error: tgLinkError } =
     useGenerateTelegramBotLinkQuery();
   const { data: googleLinkData, error: googleLinkError } =
@@ -48,24 +52,33 @@ const Login: FC = () => {
   return (
     <PageWrapper>
       <Image src={'/assets/logo1.png'} width={230} height={100} alt="Logo" />
-      <Title>Давайте познакомимся</Title>
+      <Title>{t('auth:login:title')}</Title>
       <FormControlLabel
         control={<Checkbox defaultChecked />}
         label={
           <p>
-            Я согласен(на) с <a href="#">правилами использования</a>
+            {t('auth:login:confirm_with')}{' '}
+            <a href="#">{t('auth:login:terms_of_use')}</a>
           </p>
         }
       />
       <Button variant={ButtonVariant.primary} onClick={handleLoginViaGoogle}>
-        ВОЙТИ ЧЕРЕЗ GOOGLE
+        {t('auth:login:google')}
       </Button>
-      <div>или</div>
+      <p>{t('auth:login:or')}</p>
       <Button variant={ButtonVariant.primary} onClick={handleLoginViaTelegram}>
-        ВОЙТИ ЧЕРЕЗ TELEGRAM
+        {t('auth:login:telegram')}
       </Button>
     </PageWrapper>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['common', 'auth'])),
+    },
+  };
 };
 
 const Title = styled.div`

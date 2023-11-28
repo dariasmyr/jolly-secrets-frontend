@@ -1,0 +1,9 @@
+{
+  "notifications": {
+    "title": "Уведомления"
+  },
+  "notifications_not_found": {
+    "title": "Уведомлений пока нет",
+    "description": "Ожидаем..."
+  }
+}

@@ -2,7 +2,10 @@
 /* eslint-disable unicorn/no-null */
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Page } from '@components/ui/common/page';
 import { FormWrapper } from '@components/ui/common/styled-components';
@@ -27,8 +30,8 @@ import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
 
 const validationSchema = Yup.object().shape({
-  groupName: Yup.string().required('Обязательное поле'),
-  groupDescription: Yup.string().required('Обязательное поле'),
+  groupName: Yup.string().required('Required field'),
+  groupDescription: Yup.string().required('Required field'),
 });
 
 type FormData = {
@@ -37,6 +40,7 @@ type FormData = {
 };
 
 const CreateGroup: FC = () => {
+  const { t } = useTranslation(['common', 'auth']);
   const authStore = useAuthStore();
   const router = useRouter();
   const { refetch: refetch } = useIsGroupNameAvailvableQuery({
@@ -116,7 +120,10 @@ const CreateGroup: FC = () => {
     });
 
     if (groupNameResponse.data.isGroupNameAvailable === false) {
-      setSnackbarData({ open: true, message: 'Имя группы уже существует' });
+      setSnackbarData({
+        open: true,
+        message: t('group:create_or_update_group.duplicate_name'),
+      });
       return;
     }
 
@@ -148,8 +155,11 @@ const CreateGroup: FC = () => {
   }, [authStore]);
 
   return (
-    <Page title={'Cоздание группы'} style={{ gap: 16, marginTop: 24 }}>
-      <Header>Создание группы</Header>
+    <Page
+      title={t('group:create_or_update_group.create_header')}
+      style={{ gap: 16, marginTop: 24 }}
+    >
+      <Header>{t('group:create_or_update_group.create_header')}</Header>
       <FormWrapper
         onSubmit={handleSubmit(async (formData) => {
           try {
@@ -160,12 +170,23 @@ const CreateGroup: FC = () => {
         })}
       >
         <CardCreateOrUpdateGroup
-          accessLevelTitle="Уровень доступа"
+          accessLevelTitle={t(
+            'group:create_or_update_group.access_level.title',
+          )}
           accessLevelOptions={[
-            { value: GroupType.Public, label: 'Публичная' },
-            { value: GroupType.Private, label: 'Приватная' },
+            {
+              value: GroupType.Public,
+              label: t('group:create_or_update_group.access_level.public'),
+            },
+            {
+              value: GroupType.Private,
+              label: t('group:create_or_update_group.access_level.private'),
+            },
           ]}
-          defaultOption={{ value: GroupType.Public, label: 'Публичная' }}
+          defaultOption={{
+            value: GroupType.Public,
+            label: t('group:create_or_update_group.access_level.public'),
+          }}
           onAccessLevelChange={handleAccessLevelChange}
         >
           {[
@@ -199,7 +220,7 @@ const CreateGroup: FC = () => {
                   />
                 ) : (
                   <Button variant={ButtonVariant.borderless}>
-                    Выбрать обложку
+                    {t('group:create_or_update_group.choose_cover')}
                   </Button>
                 )}
               </div>
@@ -207,7 +228,7 @@ const CreateGroup: FC = () => {
             <TextField
               key="groupName"
               id="field-groupName"
-              label="Название группы"
+              label={t('group:create_or_update_group.group_name')}
               type="text"
               fullWidth
               size="small"
@@ -220,7 +241,7 @@ const CreateGroup: FC = () => {
             <TextField
               key="groupDescription"
               id="field-groupDescription"
-              label="Описание группы"
+              label={t('group:create_or_update_group.group_description')}
               type="text"
               fullWidth
               size="medium"
@@ -234,10 +255,10 @@ const CreateGroup: FC = () => {
         </CardCreateOrUpdateGroup>
         {groupCreated && isPrivate && (
           <CardGenerateInvite
-            title={'Участники'}
-            description={'Нажми на кнопку чтобы сгенерировать приглашение.'}
+            title={t('group:create_or_update_group.invite.title')}
+            description={t('group:create_or_update_group.invite.description')}
             onGenerateInviteClick={handleClickOpenDialog}
-            button={'Пригласить'}
+            button={t('group:create_or_update_group.invite.action')}
           />
         )}
         {!groupCreated && (
@@ -255,21 +276,27 @@ const CreateGroup: FC = () => {
               }
             })}
           >
-            Создать группу
+            {t('group:create_or_update_group.create_action')}
           </Button>
         )}
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
-          К списку групп
+          {t('group:create_or_update_group.back')}
         </Button>
       </FormWrapper>
       <DialogGenerateInvite
         isOpen={showDialog}
-        title="Скопируй и отправь другу"
+        title={t('group:create_or_update_group.invite.dialog.title')}
         onCancelClick={handleClickCloseDialog}
-        cancelButtonLabel={'Закрыть'}
-        linkLabel={'Ссылка - приглашение'}
-        clipboardMessage={'Ссылка скопирована'}
-        generateButtonLabel={'Пригласить еще'}
+        cancelButtonLabel={t(
+          'group:create_or_update_group.invite.dialog.cancel',
+        )}
+        linkLabel={t('group:create_or_update_group.invite.dialog.label')}
+        clipboardMessage={t(
+          'group:create_or_update_group.invite.dialog.success',
+        )}
+        generateButtonLabel={t(
+          'group:create_or_update_group.invite.dialog.generate',
+        )}
         groupId={groupId!}
       />
       <Snackbar open={snackbarData.open} autoHideDuration={6000}>
@@ -279,6 +306,14 @@ const CreateGroup: FC = () => {
       </Snackbar>
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['group', 'common'])),
+    },
+  };
 };
 
 export default CreateGroup;

@@ -1,0 +1,37 @@
+{
+  "title": "Settings",
+  "delete": {
+    "title": "Account Deletion",
+    "description": "To delete your account, type 'Delete account'",
+    "label": "Name",
+    "confirm_phrase": "Delete account",
+    "wrong_phrase": "Enter 'Delete account'",
+    "action": "Delete",
+    "dialog": {
+      "title": "Are you sure?",
+      "description": "Are you sure you want to delete your account? The account cannot be recovered.",
+      "cancel": "Cancel",
+      "confirm": "Yes, delete"
+    }
+  },
+  "name_change": {
+    "title": "Personal Information",
+    "label": "Name",
+    "success": "Data successfully updated",
+    "save": "Save"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "media": "Email/Telegram",
+    "description": "With notifications enabled, you will receive them via email or Telegram",
+    "current_email": "Current address:",
+    "current_telegram": "Current Telegram ID:",
+    "disable_message": "Notifications disabled",
+    "dialog": {
+      "title": "Are you sure?",
+      "description": "Are you sure you want to enable notifications?",
+      "cancel": "Cancel",
+      "confirm": "Yes, enable"
+    }
+  }
+}

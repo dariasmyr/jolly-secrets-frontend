@@ -1,6 +1,9 @@
 import { FC, useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import CollapsedBreadcrumbs from '@components/ui/common/breadcrumbs';
 import { FabAdd } from '@components/ui/common/fab-add';
 import { Page } from '@components/ui/common/page';
@@ -26,6 +29,7 @@ export const EventStatusDisplay = [
   { value: EventStatus.Expired, label: 'Неактивно' },
 ];
 const Events: FC = () => {
+  const { t } = useTranslation(['common', 'event', 'group']);
   const authStore = useAuthStore();
   const router = useRouter();
   const groupId = router.query.groupId;
@@ -85,12 +89,12 @@ const Events: FC = () => {
   }, [authStore]);
 
   if (groupIsLoading || eventsIsLoading) {
-    return <Page title="События">Loading...</Page>;
+    return <Page title={t('event:event.header')}>Loading...</Page>;
   }
 
   if (groupError || eventsError) {
     return (
-      <Page title="События">
+      <Page title={t('event:event.header')}>
         Error: {JSON.stringify(groupError || eventsError)}
       </Page>
     );
@@ -100,7 +104,7 @@ const Events: FC = () => {
 
   const steps = [
     {
-      label: isPrivate ? 'Мои группы' : 'Публичные группы',
+      label: isPrivate ? t('group:groups.private') : t('group:groups.public'),
       link: isPrivate ? '/private-groups' : '/public-groups',
       onClick: async (): Promise<void> => {
         await router.push(isPrivate ? '/private-groups' : '/public-groups');
@@ -131,8 +135,8 @@ const Events: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>Событий пока нет.</Text>
-          <SubText>Создайте первое событие!</SubText>
+          <Text>{t('event:events.no_events_title')}</Text>
+          <SubText>{t('event:events.no_events_description')}</SubText>
         </Wrapper>
       )}
       {eventsData?.events.map((event) => {
@@ -143,9 +147,9 @@ const Events: FC = () => {
           {
             title: `${event.applicationPairs?.length || 0} ${pluralize(
               event.applicationPairs?.length || 0,
-              'пара',
-              'пары',
-              'пар',
+              t('event:event.one_pair'),
+              t('event:event.two_pairs'),
+              t('event:event.many_pairs'),
             )}`,
           },
           {
@@ -178,6 +182,18 @@ const Events: FC = () => {
       <FabAdd onClick={createEvent} />
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'common',
+        'group',
+        'event',
+      ])),
+    },
+  };
 };
 
 const Wrapper = styled.div`

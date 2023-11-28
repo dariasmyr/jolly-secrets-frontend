@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { FabAdd } from '@components/ui/common/fab-add';
 import { Page } from '@components/ui/common/page';
 import { CardImage } from '@components/ui/custom/card-image';
@@ -46,6 +49,7 @@ function pluralize(
 }
 
 const PublicGroups: FC = () => {
+  const { t } = useTranslation(['common', 'group', 'events']);
   const authStore = useAuthStore();
   const router = useRouter();
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -83,16 +87,21 @@ const PublicGroups: FC = () => {
   }, [authStore]);
 
   if (loading || accountCountLoading) {
-    return <Page title="Публичные группы">Loading...</Page>;
+    // eslint-disable-next-line sonarjs/no-duplicate-string
+    return <Page title={t('group:groups.public')}>Loading...</Page>;
   }
 
   if (error || accountCountError) {
-    return <Page title="Публичные группы">Error: {JSON.stringify(error)}</Page>;
+    return (
+      <Page title={t('group:groups.public')}>
+        Error: {JSON.stringify(error)}
+      </Page>
+    );
   }
 
   return (
-    <Page title={'Публичные группы'} style={{ gap: 16, marginTop: 24 }}>
-      <Header>Публичные группы</Header>
+    <Page title={t('group:groups.public')} style={{ gap: 16, marginTop: 24 }}>
+      <Header>{t('group:groups.public')}</Header>
       {data?.publicGroups.length === 0 && (
         <Wrapper>
           <StyledImage>
@@ -103,8 +112,8 @@ const PublicGroups: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>Групп пока нет.</Text>
-          <SubText>Создайте первую группу!</SubText>
+          <Text>{t('group:groups.no_groups_title')}</Text>
+          <SubText>{t('group:groups.no_groups_description')}</SubText>
         </Wrapper>
       )}
       {data?.publicGroups.map((group) => {
@@ -119,7 +128,7 @@ const PublicGroups: FC = () => {
         tags = isAdmin
           ? [
               {
-                title: 'Я создатель',
+                title: t('group:groups.creator'),
                 warning: true,
               },
             ]
@@ -127,9 +136,9 @@ const PublicGroups: FC = () => {
               {
                 title: `${accountCountData?.getAccountCount} ${pluralize(
                   accountCountData!.getAccountCount!,
-                  'человек',
-                  'человека',
-                  'человек',
+                  t('group:groups.one_member'),
+                  t('group:groups.two_members'),
+                  t('group:groups.many_members'),
                 )}`,
               },
             ];
@@ -146,9 +155,9 @@ const PublicGroups: FC = () => {
             )?.length} ${pluralize(
               group.events!.filter((event) => event.status === EventStatus.Open)
                 ?.length,
-              'активное событие',
-              'активных события',
-              'активных событий',
+              t('event:events.one_еvent'),
+              t('event:events.two_еvents'),
+              t('event:events.many_еvents'),
             )}`}
             header={group.name}
             text={group.description}
@@ -158,13 +167,13 @@ const PublicGroups: FC = () => {
                 ? {
                     options: [
                       {
-                        title: 'Изменить',
+                        title: t('group:group.change.title'),
                         onClick: (): void => {
                           router.push(`/update-group?id=${group.id}`);
                         },
                       },
                       {
-                        title: 'Удалить',
+                        title: t('group:group.delete.title'),
                         onClick: (): void => {
                           setGroupToDelete(group.id);
                           setDialogOpen(true);
@@ -183,10 +192,10 @@ const PublicGroups: FC = () => {
       <FabAdd onClick={createGroup} />
       <DialogConfirmAction
         isOpen={isDialogOpen}
-        title="Удалить группу"
-        description="Вы уверены, что хотите удалить эту группу? Это действие не может быть отменено."
-        cancelButtonText="Отмена"
-        confirmButtonText="Удалить"
+        title={t('group:group.delete.dialog.title')}
+        description={t('group:group.delete.dialog.description')}
+        cancelButtonText={t('group:group.delete.dialog.cancel')}
+        confirmButtonText={t('group:group.delete.dialog.confirm')}
         onCancelClick={(): void => setDialogOpen(false)}
         onConfirmClick={async (): Promise<void> => {
           if (!groupToDelete) {
@@ -202,10 +211,8 @@ const PublicGroups: FC = () => {
             setDialogOpen(false);
             setSnackbarData({
               open: true,
-              message: 'Группа удалена',
+              message: t('group:group.delete.success'),
             });
-          } else {
-            console.log('Ошибка при удалении группы');
           }
         }}
       />
@@ -229,5 +236,17 @@ const Wrapper = styled.div`
   align-items: center;
   height: 50vh;
 `;
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', [
+        'group',
+        'common',
+        'event',
+      ])),
+    },
+  };
+};
 
 export default PublicGroups;

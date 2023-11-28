@@ -2,7 +2,10 @@
 /* eslint-disable unicorn/no-null */
 import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { Card } from '@components/ui/common/card';
 import { FabMode } from '@components/ui/common/fab-mode';
@@ -33,13 +36,13 @@ import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
 
 const usernameValidationSchema = Yup.object().shape({
-  username: Yup.string().required('Обязательное поле'),
+  username: Yup.string().required('Required field'),
 });
 
 const deletionValidationSchema = Yup.object().shape({
   deleteAccountPhrase: Yup.string().oneOf(
-    ['Удалить аккаунт'],
-    'Введите "Удалить аккаунт"',
+    ['Delete account', 'Удалить аккаунт'],
+    'Incorrect phrase',
   ),
 });
 
@@ -49,6 +52,7 @@ type FormData = {
 };
 
 const Settings: FC = () => {
+  const { t } = useTranslation(['common', 'settings']);
   const authStore = useAuthStore();
   const router = useRouter();
   const { data } = useWhoamiQuery({});
@@ -151,7 +155,7 @@ const Settings: FC = () => {
     if (updateAccountResponse.data?.updateAccount) {
       setSnackbarData({
         open: true,
-        message: 'Данные успешно обновлены',
+        message: t('settings:name_change.success'),
       });
       accountReset();
       authStore.setAccount({
@@ -174,7 +178,7 @@ const Settings: FC = () => {
       notificationsReset();
       setSnackbarData({
         open: true,
-        message: 'Уведомления отключены',
+        message: t('settings:notifications.disable_message'),
       });
       setContact(null);
     }
@@ -206,8 +210,11 @@ const Settings: FC = () => {
   };
 
   return (
-    <Page title={'Настройки'} style={{ gap: 16, marginTop: 24 }}>
-      <Header>Личные данные</Header>
+    <Page
+      title={t('settings:name_change.title')}
+      style={{ gap: 16, marginTop: 24 }}
+    >
+      <Header>{t('settings:name_change.title')}</Header>
       <Card
         content={
           <FormWrapper
@@ -222,7 +229,7 @@ const Settings: FC = () => {
             <TextField
               key="username"
               id="field-userName"
-              label="Имя"
+              label={t('settings:name_change.label')}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -248,12 +255,12 @@ const Settings: FC = () => {
                 })()
               }
             >
-              Сохранить
+              {t('settings:name_change.save')}
             </Button>
           </FormWrapper>
         }
       />
-      <Header>Уведомления</Header>
+      <Header>{t('settings:notifications.title')}</Header>
       <CardEmailToggle
         content={
           <Wrapper>
@@ -262,7 +269,7 @@ const Settings: FC = () => {
                 <Avatar variant="rounded">
                   <AlternateEmailIcon />
                 </Avatar>
-                <Header>Email/Telegram</Header>
+                <Header>{t('settings:notifications.media')}</Header>
               </div>
               <Switch
                 {...label}
@@ -272,21 +279,22 @@ const Settings: FC = () => {
                 }
               />
             </HeaderWrapper>
-            <Description>
-              При включенной опции уведомления будут приходить на ваш емейл или
-              в телеграмм
-            </Description>
+            <Description>{t('settings:notifications.description')}</Description>
             {notifEnabled &&
               contact &&
               (isGoogleProfile ? (
-                <Description>{`Текущий адрес: ${contact}`}</Description>
+                <Description>{`${t(
+                  'settings:notifications.current_email',
+                )} ${contact}`}</Description>
               ) : (
-                <Description>{`Текущий Telegram ID: ${telegramId}`}</Description>
+                <Description>{`${t(
+                  'settings:notifications.current_telegram',
+                )} ${telegramId}`}</Description>
               ))}
           </Wrapper>
         }
       />
-      <Header>Удаление аккаунта</Header>
+      <Header>{t('settings:delete.title')}</Header>
       <Card
         content={
           <FormWrapper
@@ -298,14 +306,11 @@ const Settings: FC = () => {
               }
             })}
           >
-            <Description>
-              Чтобы удалить аккаунт напишите “Удалить аккаунт”
-            </Description>
+            <Description>{t('settings:delete.description')}</Description>
             <TextField
               key="deleteAccount"
               id="field-deleteAccount"
               type="text"
-              label="Удалить аккаунт"
               InputLabelProps={{
                 shrink: true,
               }}
@@ -315,7 +320,6 @@ const Settings: FC = () => {
               color={'error'}
               multiline={false}
               error={Boolean(formStateDelete.errors.deleteAccountPhrase)}
-              helperText={formStateDelete.errors.deleteAccountPhrase?.message}
               {...registerDelete('deleteAccountPhrase')}
             />
             <Button
@@ -334,7 +338,7 @@ const Settings: FC = () => {
                 }
               })}
             >
-              Удалить аккаунт
+              {t('settings:delete.action')}
             </Button>
           </FormWrapper>
         }
@@ -351,10 +355,10 @@ const Settings: FC = () => {
       </Snackbar>
       <DialogConfirmAction
         isOpen={isDialogOpen}
-        title={'Уверены?'}
-        description={'Вы уверены что ходите включить уведомления?'}
-        cancelButtonText={'Отмена'}
-        confirmButtonText={'Да, включить'}
+        title={t('settings:notifications.dialog:title')}
+        description={t('settings:notifications.dialog.description')}
+        cancelButtonText={t('settings:notifications.dialog.cancel')}
+        confirmButtonText={t('settings:notifications.dialog.confirm')}
         onCancelClick={(): void => {
           setDialogOpen(false);
           setNotifEnabled(false);
@@ -367,12 +371,10 @@ const Settings: FC = () => {
       />
       <DialogConfirmAction
         isOpen={openConfirmDialog}
-        title={'Подтвердите удаление аккаунта'}
-        description={
-          'Вы уверены, что хотите удалить свой аккаунт? Это действие не может быть отменено.'
-        }
-        cancelButtonText={'Отмена'}
-        confirmButtonText={'Да, включить'}
+        title={t('settings:delete.dialog.title')}
+        description={t('settings:delete.dialog.description')}
+        cancelButtonText={t('settings:delete.dialog.cancel')}
+        confirmButtonText={t('settings:delete.dialog.confirm')}
         onCancelClick={(): void => {
           handleConfirmDialogClose();
         }}
@@ -382,6 +384,14 @@ const Settings: FC = () => {
       />
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['settings', 'common'])),
+    },
+  };
 };
 
 const FormWrapper = styled.form`

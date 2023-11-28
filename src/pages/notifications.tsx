@@ -1,8 +1,11 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable unicorn/no-null */
 import { FC, useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Page } from '@components/ui/common/page';
 import { Notification } from '@components/ui/custom/notification';
 import styled from 'styled-components';
@@ -16,6 +19,7 @@ import { useNotificationsQuery } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
 const Notifications: FC = () => {
+  const { t } = useTranslation(['notifications']);
   const authStore = useAuthStore();
   const router = useRouter();
 
@@ -41,7 +45,10 @@ const Notifications: FC = () => {
   }
 
   return (
-    <Page title={'Уведомления'} style={{ gap: 16, marginTop: 24 }}>
+    <Page
+      title={t('notifications:notifications.title')}
+      style={{ gap: 16, marginTop: 24 }}
+    >
       {data?.notifications?.length === 0 && (
         <Wrapper>
           <StyledImage>
@@ -52,8 +59,10 @@ const Notifications: FC = () => {
               alt="Wait"
             />
           </StyledImage>
-          <Text>Уведомлений пока нет.</Text>
-          <SubText>Ожидаем...</SubText>
+          <Text>{t('notifications:notifications_not_found.title')}</Text>
+          <SubText>
+            {t('notifications:notifications_not_found.description')}
+          </SubText>
         </Wrapper>
       )}
       {data?.notifications?.map((notification) => {
@@ -68,6 +77,14 @@ const Notifications: FC = () => {
       })}
     </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['notifications'])),
+    },
+  };
 };
 
 const Wrapper = styled.div`
