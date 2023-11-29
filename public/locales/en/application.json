@@ -5,10 +5,10 @@
     "preference": {
       "no_matter": "No matter",
       "title": "Preference",
-      "price_range": "💸Price range",
+      "price_range": "Price range",
       "delete": "Delete",
-      "dislikes": "❌I do NOT wish",
-      "likes": "✔️I wish",
+      "dislikes": "I do NOT wish",
+      "likes": "I wish",
       "comment": "Comment",
       "add":"+ Add"
     }
@@ -20,7 +20,7 @@
       "title": "Are you sure?",
       "description": "After confirmation, the application cannot be changed",
       "cancel": "❌Cancel",
-      "confirm": "✔️Yes, create a request"
+      "confirm": "✔️Yes, create"
     },
     "action":"Create application",
     "back": "Back"
