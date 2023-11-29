@@ -9,7 +9,7 @@
         "title": "Are you sure?",
         "description": "Are you sure you want to delete this group? This action cannot be undone.",
         "cancel": "Cancel ❌",
-        "confirm": "Yes, delete group ✔️"
+        "confirm": "Yes, delete ✔️"
       },
       "success": "Group successfully deleted"
     }
@@ -17,7 +17,6 @@
   "groups": {
     "private": "My groups",
     "public": "Public groups",
-    "publicAAAAAAAAA": "Public groups",
     "no_groups_title": "No groups yet",
     "no_groups_description": "Create your first group!",
     "one_member": "member",
@@ -59,7 +58,7 @@
         "title": "Make the group private?",
         "description": "The invitation will be generated after confirmation.",
         "cancel": "Cancel ❌",
-        "confirm": "OK"
+        "confirm": "OK ✔️"
       },
     "back": "Back to group list"
   }
