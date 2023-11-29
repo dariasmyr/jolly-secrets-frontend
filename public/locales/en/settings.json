@@ -10,8 +10,8 @@
     "dialog": {
       "title": "Are you sure?",
       "description": "Are you sure you want to delete your account? The account cannot be recovered.",
-      "cancel": "Cancel",
-      "confirm": "Yes, delete"
+      "cancel": "Cancel ❌",
+      "confirm": "Yes, delete ✔️"
     }
   },
   "name_change": {
@@ -30,8 +30,8 @@
     "dialog": {
       "title": "Are you sure?",
       "description": "Are you sure you want to enable notifications?",
-      "cancel": "Cancel",
-      "confirm": "Yes, enable"
+      "cancel": "Cancel ❌",
+      "confirm": "Yes, enable ✔️"
     }
   }
 }
