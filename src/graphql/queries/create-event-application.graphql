@@ -15,32 +15,6 @@ mutation createEventApplication ($accountId: Int!, $eventId: Int!, $preferences:
       chatId,
       event {
         id
-      },
-      applicationFirst {
-        id,
-        createdAt,
-        updatedAt,
-        accountId,
-        status,
-        account {
-          id
-        }
-        preferences {
-          id,
-          createdAt,
-          updatedAt,
-          priceRange,
-          likes,
-          dislikes,
-          comment,
-          applicationId,
-          application {
-            id
-          },
-          eventApplication {
-            id
-          }
-        }
       }
     }
   }
