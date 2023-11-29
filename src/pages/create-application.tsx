@@ -158,7 +158,7 @@ const CreateApplication: FC = () => {
 
   if (eventIsLoading) {
     return (
-      <Page title={t('application:create_application:page_title')}>
+      <Page title={t('application:create_application.page_title')}>
         Loading...
       </Page>
     );
@@ -166,7 +166,7 @@ const CreateApplication: FC = () => {
 
   return (
     <Page title={eventData!.event.name} style={{ gap: 16, marginTop: 24 }}>
-      <Header>{t('application:create_application:header')}</Header>
+      <Header>{t('application:create_application.header')}</Header>
       {loading && (
         <div
           style={{
@@ -197,10 +197,10 @@ const CreateApplication: FC = () => {
         {fields.map((item, index) => (
           <CardCreatePreference
             key={item.id}
-            selectTitle={t('application:application.preference:price_range')}
+            selectTitle={t('application:application.preference.price_range')}
             priceOptions={priceRangeDisplay(t)}
             {...register(`preferences.${index}.priceRange`)}
-            button={t('application:application.preference:delete')}
+            button={t('application:application.preference.delete')}
             onDeleteButtonClick={(): void => {
               remove(index);
             }}
@@ -209,7 +209,7 @@ const CreateApplication: FC = () => {
               <TextField
                 key="dislikes"
                 id={`field-dislikes${index}`}
-                label={t('application:application.preference:dislikes')}
+                label={t('application:application.preference.dislikes')}
                 type="text"
                 fullWidth
                 size="small"
@@ -226,7 +226,7 @@ const CreateApplication: FC = () => {
               <TextField
                 key="likes"
                 id={`field-likes${index}`}
-                label={t('application:application.preference:likes')}
+                label={t('application:application.preference.likes')}
                 type="text"
                 fullWidth
                 size="medium"
@@ -243,7 +243,7 @@ const CreateApplication: FC = () => {
               <TextField
                 key="comment"
                 id={`field-comment${index}`}
-                label={t('application:application.preference:comment')}
+                label={t('application:application.preference.comment')}
                 type="text"
                 fullWidth
                 size="medium"
@@ -272,14 +272,14 @@ const CreateApplication: FC = () => {
               })
             }
           >
-            {t('application:application.preference:add')}
+            {t('application:application.preference.add')}
           </Button>
         </AddButtonWrapper>
         <Button
           variant={ButtonVariant.primary}
           onClick={handleConfirmDialogOpen}
         >
-          {t('application:create_application:action')}
+          {t('application:create_application.action')}
         </Button>
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
           {t('application:create_application:back')}
@@ -287,10 +287,10 @@ const CreateApplication: FC = () => {
       </FormWrapper>
       <DialogConfirmAction
         isOpen={openConfirmDialog}
-        title={t('application:create_application:dialog:title')}
-        description={t('application:create_application:dialog:description')}
-        cancelButtonText={t('application:create_application:dialog:cancel')}
-        confirmButtonText={t('application:create_application:dialog:confirm')}
+        title={t('application:create_application.dialog.title')}
+        description={t('application:create_application.dialog.description')}
+        cancelButtonText={t('application:create_application.dialog.cancel')}
+        confirmButtonText={t('application:create_application.dialog.confirm')}
         onCancelClick={handleConfirmDialogClose}
         /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
         onConfirmClick={(): any =>
