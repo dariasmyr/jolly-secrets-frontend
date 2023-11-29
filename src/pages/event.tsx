@@ -313,7 +313,12 @@ const Event: FC = () => {
               description: t('application:status.looking_for_pair.description'),
               showDescription: true,
               completed:
-                tabApplicationStatus !== EventApplicationStatus.LookingForPair,
+                tabApplicationStatus ===
+                  EventApplicationStatus.LookingForPair ||
+                tabApplicationStatus === EventApplicationStatus.Paired ||
+                tabApplicationStatus === EventApplicationStatus.GiftSent ||
+                tabApplicationStatus === EventApplicationStatus.GiftReceived ||
+                tabApplicationStatus === EventApplicationStatus.GiftNotReceived,
             },
             {
               label: t('application:status.paired.label'),
