@@ -282,7 +282,7 @@ const CreateApplication: FC = () => {
           {t('application:create_application.action')}
         </Button>
         <Button variant={ButtonVariant.secondary} onClick={handleBackClick}>
-          {t('application:create_application:back')}
+          {t('application:create_application.back')}
         </Button>
       </FormWrapper>
       <DialogConfirmAction
