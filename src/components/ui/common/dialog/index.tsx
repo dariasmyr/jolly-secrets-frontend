@@ -26,6 +26,7 @@ const DialogActions = styled(OrigDialogActions)<{ buttonCount: number }>`
   flex-direction: ${(properties): string =>
     // eslint-disable-next-line no-magic-numbers
     properties.buttonCount >= 3 ? 'column' : 'row'};
+  justify-content: center;
   gap: 16px;
 `;
 

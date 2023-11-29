@@ -49,7 +49,7 @@
   },
   "resolve": {
     "gift_received": {
-      "title": "Gift received",
+      "title": "I received gift",
       "dialog": {
         "title": "Confirm your action",
         "description": "We hope you enjoy the gift! After confirmation, your application will be closed. 😊👍",
@@ -58,7 +58,7 @@
       }
     },
     "gift_not_received": {
-      "title": "Gift not received",
+      "title": "I didn't received gift",
       "dialog": {
         "title": "Confirm the action",
         "description": "We are very sorry 😢. After confirmation, your application will be closed. 🚫",
@@ -67,7 +67,7 @@
       }
     },
     "gift_sent": {
-      "title": "I've sent gift",
+      "title": "I have sent gift",
       "dialog": {
         "title": "Confirm the action",
         "description": "After confirmation, the status of the application cannot be changed. 🚩",
@@ -75,6 +75,6 @@
         "confirm": "Confirm ✔️"
       }
     },
-    "write_to_santa": "Chat with Santa"
+    "write_to_santa": "Chat with Secret Santa"
   }
 }

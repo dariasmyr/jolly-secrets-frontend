@@ -1,7 +1,7 @@
 {
   "event": {
     "header": "Event",
-    "untill_ending": "Until expired",
+    "until_ending": "Until expired",
     "one_day": "day",
     "two_days": "days",
     "many_days": "days",

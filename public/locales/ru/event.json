@@ -1,7 +1,7 @@
 {
   "event": {
     "header": "Событие",
-    "untill_ending": "До завершения",
+    "until_ending": "До завершения",
     "one_day": "день",
     "two_days": "дня",
     "many_days": "дней",

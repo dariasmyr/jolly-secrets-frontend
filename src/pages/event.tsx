@@ -499,7 +499,7 @@ const Event: FC = () => {
         preHeader={
           isExpired
             ? `${startDate} - ${endDate}`
-            : `${t('event:untill_ending')} ${daysToExpire} ${pluralize(
+            : `${t('event:event.until_ending')} ${daysToExpire} ${pluralize(
                 daysToExpire,
                 t('event:event.one_day'),
                 t('event:event.two_days'),

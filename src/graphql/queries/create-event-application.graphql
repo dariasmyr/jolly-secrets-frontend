@@ -13,9 +13,6 @@ mutation createEventApplication ($accountId: Int!, $eventId: Int!, $preferences:
       eventApplicationFirstId,
       eventApplicationSecondId,
       chatId,
-      event {
-        id
-      }
     }
   }
 }
