@@ -46,7 +46,7 @@ export const MenuOptionText = styled.div`
 export const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   padding: 56px 0 0 0;
 `;
 

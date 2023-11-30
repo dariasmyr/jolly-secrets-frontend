@@ -52,5 +52,4 @@ export const TimeContainer = styled.div`
   font-weight: 400;
   line-height: 14px;
   letter-spacing: 0.16px;
-  color: var(--text-secondary, rgba(0, 0, 0, 0.6));
 `;

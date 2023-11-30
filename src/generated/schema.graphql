@@ -297,7 +297,7 @@ type Message {
 type Mutation {
   createChatMember(input: CreateChatMemberInput!): ChatMember!
   createEvent(input: CreateEventInput!): Event!
-  createEventApplication(input: CreateEventApplicationInput!): Event!
+  createEventApplication(input: CreateEventApplicationInput!): Float!
   createGroup(input: CreateOrUpdateGroupInput!): Group!
   createGroupInvite(groupId: Int!): GroupInvite!
   createGroupMember(code: String!): GroupMember!

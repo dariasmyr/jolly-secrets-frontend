@@ -323,7 +323,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createChatMember: ChatMember;
   createEvent: Event;
-  createEventApplication: Event;
+  createEventApplication: Scalars['Float']['output'];
   createGroup: Group;
   createGroupInvite: GroupInvite;
   createGroupMember: GroupMember;
@@ -623,7 +623,7 @@ export type CreateEventApplicationMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventApplicationMutation = { __typename?: 'Mutation', createEventApplication: { __typename?: 'Event', id: number, applicationPairs?: Array<{ __typename?: 'EventApplicationPair', id: number, createdAt: any, updatedAt: any, eventId: number, eventApplicationFirstId: number, eventApplicationSecondId?: number | null, chatId?: number | null }> | null } };
+export type CreateEventApplicationMutation = { __typename?: 'Mutation', createEventApplication: number };
 
 export type CreateEventMutationVariables = Exact<{
   groupId: Scalars['Int']['input'];
@@ -875,18 +875,7 @@ export const CreateEventApplicationDocument = gql`
     mutation createEventApplication($accountId: Int!, $eventId: Int!, $preferences: [CreatePreferenceInput!]!) {
   createEventApplication(
     input: {accountId: $accountId, eventId: $eventId, preferences: $preferences}
-  ) {
-    id
-    applicationPairs {
-      id
-      createdAt
-      updatedAt
-      eventId
-      eventApplicationFirstId
-      eventApplicationSecondId
-      chatId
-    }
-  }
+  )
 }
     `;
 export type CreateEventApplicationMutationFn = Apollo.MutationFunction<CreateEventApplicationMutation, CreateEventApplicationMutationVariables>;

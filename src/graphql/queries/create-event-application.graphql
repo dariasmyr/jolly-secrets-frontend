@@ -3,16 +3,5 @@ mutation createEventApplication ($accountId: Int!, $eventId: Int!, $preferences:
     accountId: $accountId,
     eventId: $eventId,
     preferences: $preferences
-  }) {
-    id,
-    applicationPairs {
-      id,
-      createdAt,
-      updatedAt,
-      eventId,
-      eventApplicationFirstId,
-      eventApplicationSecondId,
-      chatId,
-    }
-  }
+  })
 }

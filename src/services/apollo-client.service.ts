@@ -63,7 +63,6 @@ export function getApolloClient({
 
 export function useApolloClient(): ApolloClientType {
   const authStore = useAuthStore();
-  console.error('FFFFFFFFFFXXXXXXXXX', authStore);
   const [client, setClient] = useState(
     getApolloClient({
       authorizationHeader: authStore.token,

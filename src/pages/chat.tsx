@@ -16,6 +16,7 @@ import {
   useCreateMessageMutation,
   useMessagesQuery,
 } from '@/generated/graphql';
+import { useSocketIo } from '@/services/use-socket-io';
 import { useAuthStore } from '@/store/auth.store';
 
 const formattedDate: (date: string) => string = (date) => {
@@ -46,6 +47,21 @@ const Chat: FC = () => {
       chatId: Number(chatId),
     },
   });
+
+  const socket = useSocketIo();
+
+  useEffect(() => {
+    console.log('Subscribe to socket.io');
+    socket.on('new_message', (parameters) => {
+      console.log('NEW MESSAGE:', parameters);
+      refetch();
+    });
+
+    return () => {
+      console.log('Unsubscribe to socket.io');
+      socket.close();
+    };
+  }, []);
 
   useEffect(() => {
     if (!authStore.token || !authStore.account?.id) {
@@ -118,11 +134,10 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
 
 const ChatContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  height: 100%;
-  width: 100%;
+  flex-direction: column-reverse;
+  overflow: auto;
   padding: 10px;
+  height: calc(100% - 50px);
 `;
 
 const MessageContainer = styled.div`

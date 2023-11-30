@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { appWithTranslation } from 'next-i18next';
 import { ApolloProvider } from '@apollo/client';
@@ -9,6 +10,7 @@ import { ThemeProvider as StyledComponentProvider } from 'styled-components';
 
 import { useApolloClient } from '@/services/apollo-client.service';
 import { log } from '@/services/log';
+import { useSocketIo } from '@/services/use-socket-io';
 import { useSettingsStore } from '@/store/settings.store';
 import { useThemeStore } from '@/store/theme.store';
 import { getThemeMui, themeStyled } from '@/theme';
@@ -32,6 +34,25 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
   const apolloClient = useApolloClient();
   const [rendered, setRendered] = useState(false);
   const { darkMode } = useThemeStore();
+
+  const socket = useSocketIo();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.route !== '/chat') {
+      console.log('Subscribe to socket.io');
+      socket.on('new_message', (parameters) => {
+        console.log('NEW MESSAGE:', parameters);
+        // eslint-disable-next-line no-alert
+        alert(`New message:${parameters.echoMessage}`);
+      });
+    }
+
+    return () => {
+      console.log('Unsubscribe to socket.io');
+      socket.close();
+    };
+  }, []);
 
   useEffect(() => {
     setRendered(true);
