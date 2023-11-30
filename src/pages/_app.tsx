@@ -5,7 +5,10 @@ import Script from 'next/script';
 import { appWithTranslation } from 'next-i18next';
 import { ApolloProvider } from '@apollo/client';
 import { StyledEngineProvider } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import CssBaseline from '@mui/material/CssBaseline';
+import Link from '@mui/material/Link';
+import Snackbar from '@mui/material/Snackbar';
 import { ThemeProvider as StyledComponentProvider } from 'styled-components';
 
 import { useApolloClient } from '@/services/apollo-client.service';
@@ -34,6 +37,14 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
   const apolloClient = useApolloClient();
   const [rendered, setRendered] = useState(false);
   const { darkMode } = useThemeStore();
+  const [alertInfo, setAlertInfo] = useState({
+    open: false,
+    message: '',
+    link: '',
+  });
+  const handleClose = (): void => {
+    setAlertInfo({ ...alertInfo, open: false });
+  };
 
   const socket = useSocketIo();
   const router = useRouter();
@@ -42,9 +53,13 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
     if (router.route !== '/chat') {
       console.log('Subscribe to socket.io');
       socket.on('new_message', (parameters) => {
-        console.log('NEW MESSAGE:', parameters);
+        console.log('AAAAAAAAAAAA NEW MESSAGE:', parameters.text);
         // eslint-disable-next-line no-alert
-        alert(`New message:${parameters.echoMessage}`);
+        setAlertInfo({
+          open: true,
+          message: `New message: "${parameters.text}". `,
+          link: parameters.link,
+        });
       });
     }
 
@@ -86,6 +101,18 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
           <ApolloProvider client={apolloClient}>
             <Component {...pageProps} />
           </ApolloProvider>
+          <Snackbar
+            open={alertInfo.open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert onClose={handleClose} severity="info">
+              {alertInfo.message}
+              <Link href={alertInfo.link}>
+                <a>Go by link to see it</a>
+              </Link>
+            </Alert>
+          </Snackbar>
         </StyledEngineProvider>
       </MaterialUiProvider>
       {debugMode && (

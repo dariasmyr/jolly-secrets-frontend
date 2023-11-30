@@ -42,7 +42,6 @@ const Notifications: FC = () => {
 
   useEffect(() => {
     if (data?.notifications) {
-      console.log('AAAAAAAAAAAAAAAAAAA', data?.notifications);
       for (const notification of data.notifications.filter(
         (notification_) => notification_?.read === false,
       )) {
@@ -90,16 +89,18 @@ const Notifications: FC = () => {
           </SubText>
         </Wrapper>
       )}
-      {data?.notifications?.map((notification) => {
-        return (
-          <Notification
-            key={notification?.id}
-            date={notification?.createdAt}
-            sender={'Secret Santa'}
-            text={notification?.message}
-          />
-        );
-      })}
+      <NotificationsContainer>
+        {data?.notifications?.map((notification) => {
+          return (
+            <Notification
+              key={notification?.id}
+              date={notification?.createdAt}
+              sender={'Secret Santa'}
+              text={notification?.message}
+            />
+          );
+        })}
+      </NotificationsContainer>
     </Page>
   );
 };
@@ -121,6 +122,14 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 50vh;
+`;
+
+const NotificationsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 `;
 
 export default Notifications;

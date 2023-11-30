@@ -50,6 +50,14 @@ export const PageContainer = styled.div`
   padding: 56px 0 0 0;
 `;
 
+export const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+`;
+
 export const Menu = styled.div<IMenuProperties>`
   display: flex;
   flex-direction: column;

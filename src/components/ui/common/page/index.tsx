@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { AppBar } from '@components/ui/common/app-bar';
 import {
+  ContentContainer,
   IconContainer,
   LogoContainer,
   Menu,
@@ -197,7 +198,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
           />
         </Menu>
       </MenuContainer>
-      {properties.children}
+      <ContentContainer>{properties.children}</ContentContainer>
     </PageContainer>
   );
 };

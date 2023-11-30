@@ -9,7 +9,7 @@ import { Message } from '@components/ui/common/message';
 import { MessageField } from '@components/ui/common/message-field';
 import { Page } from '@components/ui/common/page';
 import { formatDistance, parseISO } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { enUS, ru } from 'date-fns/locale';
 import styled from 'styled-components';
 
 import {
@@ -18,11 +18,12 @@ import {
 } from '@/generated/graphql';
 import { useSocketIo } from '@/services/use-socket-io';
 import { useAuthStore } from '@/store/auth.store';
-
+const { locale: dateLocale } = useRouter();
 const formattedDate: (date: string) => string = (date) => {
+  const currentLocale = dateLocale === 'ru' ? ru : enUS;
   return formatDistance(parseISO(date), new Date(), {
     addSuffix: true,
-    locale: ru,
+    locale: currentLocale,
   });
 };
 
@@ -92,7 +93,7 @@ const Chat: FC = () => {
       }}
       isChat={true}
     >
-      <ChatContainer>
+      <MessageWrapper>
         {messagesData?.messages?.map((message) => {
           return (
             <MessageContainer key={message.id}>
@@ -104,7 +105,7 @@ const Chat: FC = () => {
             </MessageContainer>
           );
         })}
-      </ChatContainer>
+      </MessageWrapper>
       <MessageField
         onClick={async (text): Promise<void> => {
           const createMessageResponse = await createMessage({
@@ -124,6 +125,13 @@ const Chat: FC = () => {
   );
 };
 
+const MessageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 50px;
+`;
+
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
@@ -131,14 +139,6 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
     },
   };
 };
-
-const ChatContainer = styled.div`
-  display: flex;
-  flex-direction: column-reverse;
-  overflow: auto;
-  padding: 10px;
-  height: calc(100% - 50px);
-`;
 
 const MessageContainer = styled.div`
   display: flex;

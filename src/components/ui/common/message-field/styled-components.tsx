@@ -7,7 +7,8 @@ const themeMui = getThemeMui();
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 390px;
+  position: fixed;
+  bottom: 0;
   flex-shrink: 0;
   background: ${themeMui.palette.background.default};
   box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.15);
