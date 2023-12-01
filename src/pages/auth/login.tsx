@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
-import { Checkbox, FormControlLabel } from '@mui/material';
+// import { Checkbox, FormControlLabel } from '@mui/material';
 import styled from 'styled-components';
 
 import {
@@ -51,17 +51,17 @@ const Login: FC = () => {
 
   return (
     <PageWrapper>
-      <Image src={'/assets/logo1.png'} width={230} height={100} alt="Logo" />
+      <Image src={'/assets/logo.png'} width={150} height={150} alt="Logo" />
       <Title>{t('auth:login:title')}</Title>
-      <FormControlLabel
-        control={<Checkbox defaultChecked />}
-        label={
-          <p>
-            {t('auth:login:confirm_with')}{' '}
-            <a href="#">{t('auth:login:terms_of_use')}</a>
-          </p>
-        }
-      />
+      {/*<FormControlLabel*/}
+      {/*  control={<Checkbox defaultChecked />}*/}
+      {/*  label={*/}
+      {/*    <p>*/}
+      {/*      {t('auth:login:confirm_with')}{' '}*/}
+      {/*      <a href="#">{t('auth:login:terms_of_use')}</a>*/}
+      {/*    </p>*/}
+      {/*  }*/}
+      {/*/>*/}
       <Button variant={ButtonVariant.primary} onClick={handleLoginViaGoogle}>
         {t('auth:login:google')}
       </Button>

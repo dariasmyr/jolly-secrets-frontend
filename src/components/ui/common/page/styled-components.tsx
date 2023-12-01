@@ -11,6 +11,7 @@ export const LogoContainer = styled.div`
   display: flex;
   justify-content: center;
   align-self: center;
+  margin-bottom: 24px;
 `;
 
 export const MenuItemContainer = styled.div<{ isActive?: boolean }>`

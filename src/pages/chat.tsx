@@ -1,6 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable unicorn/no-null */
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -18,14 +18,6 @@ import {
 } from '@/generated/graphql';
 import { useSocketIo } from '@/services/use-socket-io';
 import { useAuthStore } from '@/store/auth.store';
-const { locale: dateLocale } = useRouter();
-const formattedDate: (date: string) => string = (date) => {
-  const currentLocale = dateLocale === 'ru' ? ru : enUS;
-  return formatDistance(parseISO(date), new Date(), {
-    addSuffix: true,
-    locale: currentLocale,
-  });
-};
 
 const Chat: FC = () => {
   const { t } = useTranslation(['chat']);
@@ -37,6 +29,14 @@ const Chat: FC = () => {
       refetch();
     },
   });
+  const { locale: dateLocale } = useRouter();
+  const formattedDate: (date: string) => string = (date) => {
+    const currentLocale = dateLocale === 'ru' ? ru : enUS;
+    return formatDistance(parseISO(date), new Date(), {
+      addSuffix: true,
+      locale: currentLocale,
+    });
+  };
 
   const {
     data: messagesData,
@@ -48,6 +48,12 @@ const Chat: FC = () => {
       chatId: Number(chatId),
     },
   });
+
+  const messageEndReference = useRef<null | HTMLDivElement>(null);
+
+  useEffect(() => {
+    messageEndReference.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messagesData]);
 
   const socket = useSocketIo();
 
@@ -105,6 +111,7 @@ const Chat: FC = () => {
             </MessageContainer>
           );
         })}
+        <div ref={messageEndReference} />
       </MessageWrapper>
       <MessageField
         onClick={async (text): Promise<void> => {

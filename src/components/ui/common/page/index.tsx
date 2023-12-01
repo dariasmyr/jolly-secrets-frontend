@@ -32,7 +32,12 @@ import { useAuthStore } from '@/store/auth.store';
 
 const Logo: React.FC = () => (
   <LogoContainer>
-    <Image src={'/assets/logo4.png'} width={300} height={180} alt="Logo" />
+    <Image
+      src={'/assets/logo-horisontal.png'}
+      width={213}
+      height={68}
+      alt="Logo"
+    />
   </LogoContainer>
 );
 

@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
         // eslint-disable-next-line no-alert
         setAlertInfo({
           open: true,
-          message: `New message: "${parameters.text}". `,
+          message: `<strong>New message:</strong> "${parameters.text}". `,
           link: parameters.link,
         });
       });
