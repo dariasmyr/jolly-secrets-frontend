@@ -116,8 +116,6 @@ export const Page = (properties: IPageProperties): ReactElement => {
   }
   if (!router.isReady || loading) return <div>Loading...</div>;
 
-  const hasUnreadNotifications = Boolean(data);
-  console.log('hasUnreadNotifications', hasUnreadNotifications);
   return (
     <PageContainer style={properties.style}>
       <AppBar
@@ -179,7 +177,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
               <Badge
                 color="error"
                 variant="dot"
-                invisible={hasUnreadNotifications}
+                invisible={!data?.checkUnreadNotifications}
               >
                 <NotificationsIcon color="primary" />
               </Badge>
