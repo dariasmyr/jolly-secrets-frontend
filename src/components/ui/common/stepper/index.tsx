@@ -28,11 +28,7 @@ export const Stepper = ({ steps }: StepperProperties): ReactElement => {
       }}
     >
       {steps.map((step) => (
-        <Step
-          key={step.label}
-          completed={step.completed}
-          active={!step.completed}
-        >
+        <Step key={step.label} completed={step.completed}>
           <StepLabel>{step.label}</StepLabel>
           <StepContent>
             {step.showDescription && (
