@@ -53,11 +53,10 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
     if (router.route !== '/chat') {
       console.log('Subscribe to socket.io');
       socket.on('new_message', (parameters) => {
-        console.log('AAAAAAAAAAAA NEW MESSAGE:', parameters.text);
         // eslint-disable-next-line no-alert
         setAlertInfo({
           open: true,
-          message: `<strong>New message:</strong> "${parameters.text}". `,
+          message: `New message: "${parameters.text}". `,
           link: parameters.link,
         });
       });
