@@ -88,18 +88,14 @@ const PublicGroups: FC = () => {
 
   if (loading || accountCountLoading) {
     // eslint-disable-next-line sonarjs/no-duplicate-string
-    return <Page title={t('group:groups.public')}>Loading...</Page>;
+    return <Page title={'Jolly Secrets'}>Loading...</Page>;
   }
 
   if (error || accountCountError) {
-    return (
-      <Page title={t('group:groups.public')}>
-        Error: {JSON.stringify(error)}
-      </Page>
-    );
+    return <Page title={'Jolly Secrets'}>Error: {JSON.stringify(error)}</Page>;
   }
   return (
-    <Page title={t('group:groups.public')} style={{ gap: 16, marginTop: 24 }}>
+    <Page title={'Jolly Secrets'} style={{ gap: 16, marginTop: 24 }}>
       <Header>{t('group:groups.public')}</Header>
       {data?.publicGroups.length === 0 && (
         <Wrapper>

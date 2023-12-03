@@ -90,12 +90,13 @@ const Events: FC = () => {
   }, [authStore]);
 
   if (groupIsLoading || eventsIsLoading) {
-    return <Page title={t('event:event.header')}>Loading...</Page>;
+    // eslint-disable-next-line sonarjs/no-duplicate-string
+    return <Page title={t('event:events.header')}>Loading...</Page>;
   }
 
   if (groupError || eventsError) {
     return (
-      <Page title={t('event:event.header')}>
+      <Page title={t('event:events.header')}>
         Error: {JSON.stringify(groupError || eventsError)}
       </Page>
     );
@@ -121,7 +122,7 @@ const Events: FC = () => {
   ];
 
   return (
-    <Page title={groupData!.group.name} style={{ gap: 16, marginTop: 24 }}>
+    <Page title={t('event:events.header')} style={{ gap: 16, marginTop: 24 }}>
       <Header>{groupData?.group.name}</Header>
       <Breadcrumbs>
         <CollapsedBreadcrumbs steps={steps} />

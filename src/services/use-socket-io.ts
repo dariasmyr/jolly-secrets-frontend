@@ -4,7 +4,7 @@ import { useAuthStore } from '@/store/auth.store';
 
 export const useSocketIo = (): Socket => {
   const authStore = useAuthStore();
-  return io('http://localhost:4000', {
+  return io(`${process.env.NEXT_PUBLIC_REST_API_URL}`, {
     reconnectionDelayMax: 10_000,
     auth: {
       authorization: authStore.token,
