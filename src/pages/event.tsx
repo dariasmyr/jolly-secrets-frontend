@@ -488,7 +488,6 @@ const Event: FC = () => {
         marginTop: 24,
         height: 'calc(100vh - 30px)',
       }}
-      isChat={true}
     >
       <Header>{groupData!.getGroupByEventId.name}</Header>
       <Breadcrumbs>
