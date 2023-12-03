@@ -1,6 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable unicorn/no-null */
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useMemo, useRef } from 'react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -55,7 +55,7 @@ const Chat: FC = () => {
     messageEndReference.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messagesData]);
 
-  const socket = useSocketIo();
+  const socket = useMemo(() => useSocketIo(), []);
 
   useEffect(() => {
     console.log('Subscribe to socket.io');

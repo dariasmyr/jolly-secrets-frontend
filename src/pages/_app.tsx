@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
     setAlertInfo({ ...alertInfo, open: false });
   };
 
-  const socket = useSocketIo();
+  const socket = useMemo(() => useSocketIo(), []);
   const router = useRouter();
 
   useEffect(() => {
