@@ -62,6 +62,12 @@ const PublicGroups: FC = () => {
     message: '',
   });
 
+  useEffect(() => {
+    if (!authStore.token || !authStore.account?.id) {
+      router.push('/auth/login');
+    }
+  }, [authStore]);
+
   const { data, error, loading, refetch } = usePublicGroupsQuery({
     variables: {
       offset: 0,
@@ -80,12 +86,6 @@ const PublicGroups: FC = () => {
     router.push('/create-group');
   };
 
-  useEffect(() => {
-    if (!authStore.token || !authStore.account?.id) {
-      router.push('/auth/login');
-    }
-  }, [authStore]);
-
   if (loading || accountCountLoading) {
     // eslint-disable-next-line sonarjs/no-duplicate-string
     return <Page title={t('group:groups.public')}>Loading...</Page>;
@@ -98,7 +98,6 @@ const PublicGroups: FC = () => {
       </Page>
     );
   }
-
   return (
     <Page title={t('group:groups.public')} style={{ gap: 16, marginTop: 24 }}>
       <Header>{t('group:groups.public')}</Header>

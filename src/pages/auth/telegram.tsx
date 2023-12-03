@@ -33,9 +33,6 @@ const Telegram: FC = () => {
       authStore.setToken(loginData.loginWithTelegram.token);
       authStore.setAccount(loginData.loginWithTelegram.account);
 
-      // wait for token to be set
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       await router.push('/public-groups');
     })();
   }, [token]);
