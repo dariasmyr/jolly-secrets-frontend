@@ -99,12 +99,6 @@ const PublicGroups: FC = () => {
     );
   }
 
-  useEffect(() => {
-    if (error) {
-      router.reload();
-    }
-  }, [error, router]);
-
   return (
     <Page title={t('group:groups.public')} style={{ gap: 16, marginTop: 24 }}>
       <Header>{t('group:groups.public')}</Header>
