@@ -121,11 +121,7 @@ const Event: FC = () => {
   }, [authStore]);
 
   if (groupIsLoading || eventIsLoading || eventApplicationPairIsLoading) {
-    return (
-      <Page title={t('event:event.header')} isChat={true}>
-        Loading...
-      </Page>
-    );
+    return <Page title={t('event:event.header')}>Loading...</Page>;
   }
 
   if (
@@ -135,7 +131,7 @@ const Event: FC = () => {
     !groupData?.getGroupByEventId
   ) {
     return (
-      <Page title={t('event:event.header')} isChat={true}>
+      <Page title={t('event:event.header')}>
         Error: {JSON.stringify(groupError)}
       </Page>
     );
