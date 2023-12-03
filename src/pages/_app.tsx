@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
@@ -46,13 +46,13 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
     setAlertInfo({ ...alertInfo, open: false });
   };
 
-  const socket = useMemo(() => useSocketIo(), []);
+  const socket = useSocketIo();
   const router = useRouter();
 
   useEffect(() => {
     if (router.route !== '/chat') {
       console.log('Subscribe to socket.io');
-      socket.on('new_message', (parameters) => {
+      socket?.on('new_message', (parameters) => {
         // eslint-disable-next-line no-alert
         setAlertInfo({
           open: true,
@@ -64,7 +64,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
 
     return () => {
       console.log('Unsubscribe to socket.io');
-      socket.close();
+      socket?.close();
     };
   }, []);
 
