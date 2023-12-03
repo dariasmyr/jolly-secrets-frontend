@@ -27,7 +27,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { SvgIcon } from '@mui/material';
 import { Badge } from '@mui/material';
 
-import { useCheckUnreadNotificationsQuery } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
 const Logo: React.FC = () => (
@@ -85,8 +84,6 @@ export const Page = (properties: IPageProperties): ReactElement => {
     }
   }, [authStore]);
 
-  const { data, error, loading } = useCheckUnreadNotificationsQuery({});
-
   const handleShowMenu = (): void => {
     setShowMenu(true);
   };
@@ -110,11 +107,6 @@ export const Page = (properties: IPageProperties): ReactElement => {
 
     return () => document.removeEventListener('keydown', onKeydown);
   }, []);
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-  if (!router.isReady || loading) return <div>Loading...</div>;
 
   return (
     <PageContainer style={properties.style}>
@@ -174,11 +166,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
           />
           <MenuItem
             icon={
-              <Badge
-                color="error"
-                variant="dot"
-                invisible={!data?.checkUnreadNotifications}
-              >
+              <Badge color="error" variant="dot" invisible={true}>
                 <NotificationsIcon color="primary" />
               </Badge>
             }
