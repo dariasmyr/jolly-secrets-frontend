@@ -31,7 +31,7 @@ export const TextArea = styled.textarea`
   outline: none;
   width: 100%;
   height: 2em;
-  resize: vertical;
+  resize: none;
   color: #2d2d2d;
   font-feature-settings:
     'clig' off,
