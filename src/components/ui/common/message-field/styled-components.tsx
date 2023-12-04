@@ -39,6 +39,8 @@ export const TextArea = styled.textarea`
   font-family: Roboto, sans-serif;
   font-style: normal;
   font-weight: 400;
+  font-size: 16px;
+  autocomplete: off;
   padding: 0.5em 0;
   overflow-y: hidden;
 `;
