@@ -26,8 +26,8 @@ export const DialogGenerateInvite = (
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [createGroupInvite] = useCreateGroupInviteMutation();
 
-  async function onCopy(inviteLink: string): Promise<void> {
-    await navigator.clipboard.writeText(inviteLink);
+  function onCopy(inviteLink: string): void {
+    navigator.clipboard.writeText(inviteLink);
     setSnackbarOpen(true);
   }
 
@@ -70,7 +70,7 @@ export const DialogGenerateInvite = (
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    onClick={(): Promise<void> => onCopy(inputValue)}
+                    onClick={(): void => onCopy(inputValue)}
                     color="primary"
                   >
                     <FileCopyIcon />
