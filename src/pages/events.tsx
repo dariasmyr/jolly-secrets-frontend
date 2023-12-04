@@ -107,9 +107,9 @@ const Events: FC = () => {
   const steps = [
     {
       label: isPrivate ? t('group:groups.private') : t('group:groups.public'),
-      link: isPrivate ? '/private-groups' : '/public-groups',
+      link: isPrivate ? '/private-groups' : '/',
       onClick: async (): Promise<void> => {
-        await router.push(isPrivate ? '/private-groups' : '/public-groups');
+        await router.push(isPrivate ? '/private-groups' : '/');
       },
     },
     {

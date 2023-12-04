@@ -40,11 +40,11 @@ const Invite: FC = () => {
         router.push(`/private-groups`);
         return;
       } else {
-        router.push(`/public-groups`);
+        router.push(`/`);
         return;
       }
 
-      await router.push('/public-groups');
+      await router.push('/');
     })();
   }, [code]);
 
