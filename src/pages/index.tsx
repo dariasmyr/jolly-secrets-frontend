@@ -48,7 +48,7 @@ function pluralize(
   return many;
 }
 
-const Index: FC = () => {
+const PublicGroups: FC = () => {
   const { t } = useTranslation(['common', 'group', 'event', 'menu']);
   const authStore = useAuthStore();
   const router = useRouter();
@@ -245,4 +245,4 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   };
 };
 
-export default Index;
+export default PublicGroups;
