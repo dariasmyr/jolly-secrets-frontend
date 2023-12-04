@@ -31,23 +31,23 @@ export interface ICardImageProperties {
 }
 
 export const CardImage = (properties: ICardImageProperties): ReactElement => {
+  const handleClick = (): void => {
+    if (properties.onClick) {
+      properties.onClick();
+    }
+  };
+
   return (
-    <Paper elevation={0}>
-      <ImageWrapper
-        onClick={properties.onClick}
-        src={properties.imageUrl}
-        alt=""
-        width={368}
-        height={200}
-      />
+    <Paper elevation={0} style={{ cursor: 'pointer' }} onClick={handleClick}>
+      <ImageWrapper src={properties.imageUrl} alt="" width={368} height={200} />
       <Content>
         <HeaderWrapper>
           <PreHeader>{properties.preHeader}</PreHeader>
           {properties.menu && <MenuOptions options={properties.menu.options} />}
         </HeaderWrapper>
-        <Header onClick={properties.onClick}>{properties.header}</Header>
-        <Text onClick={properties.onClick}>{properties.text}</Text>
-        <TagContainer onClick={properties.onClick}>
+        <Header>{properties.header}</Header>
+        <Text>{properties.text}</Text>
+        <TagContainer>
           {properties.tags.map((tag, index) => (
             <Tag key={index} title={tag.title} warning={tag.warning} />
           ))}
