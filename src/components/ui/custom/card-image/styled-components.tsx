@@ -8,6 +8,7 @@ export const ImageWrapper = styled(Image)`
   width: 368px;
   height: 200px;
   border-radius: 20px 20px 0 0;
+  object-fit: cover;
 `;
 
 export const PreHeader = styled.p`

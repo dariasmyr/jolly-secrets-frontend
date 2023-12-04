@@ -9,7 +9,7 @@ export const MessageBase = styled.div`
   padding: 6px 8px;
   align-items: center;
   font-family: Roboto, sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 18px;
