@@ -21,6 +21,7 @@ export const ContentWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  height: 60px;
   padding: 8px;
 `;
 
@@ -44,6 +45,6 @@ export const TextArea = styled.textarea`
 
 export const SendButton = styled(SendIcon)`
   cursor: pointer;
-  color: ${themeMui.palette.secondary.main};
+  color: ${themeMui.palette.primary.main};
   margin-left: 4px;
 `;
