@@ -33,7 +33,7 @@ const Telegram: FC = () => {
       authStore.setToken(loginData.loginWithTelegram.token);
       authStore.setAccount(loginData.loginWithTelegram.account);
 
-      await router.push('/public-groups');
+      await router.push('/');
     })();
   }, [token]);
 

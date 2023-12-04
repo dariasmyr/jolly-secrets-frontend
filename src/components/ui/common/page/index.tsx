@@ -144,9 +144,9 @@ export const Page = (properties: IPageProperties): ReactElement => {
             }
             name={t('menu:menu.public_groups')}
             onClick={async (): Promise<void> => {
-              await router.push('/public-groups');
+              await router.push('/');
             }}
-            isActive={router.pathname === '/public-groups'}
+            isActive={router.pathname === '/'}
           />
           <MenuItem
             icon={
