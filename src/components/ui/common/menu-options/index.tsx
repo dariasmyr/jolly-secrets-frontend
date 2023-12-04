@@ -23,12 +23,16 @@ export const MenuOptions = (properties: IMenuProperties): ReactElement => {
     setAnchorElement(event.currentTarget);
   };
 
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>): void => {
+    event.stopPropagation();
+  };
+
   const handleClose = (): void => {
     setAnchorElement(null);
   };
 
   return (
-    <Wrapper>
+    <Wrapper onClick={handleMenuClick}>
       <IconButton
         style={{ backgroundColor: 'transparent', border: 'none' }}
         aria-controls="simple-menu"
