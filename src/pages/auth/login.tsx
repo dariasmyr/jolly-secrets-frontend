@@ -45,9 +45,9 @@ const Login: FC = () => {
     await router.push(tgLinkData.generateTelegramBotLink);
   };
 
-  const handleLoginViaGoogle = async (): Promise<void> => {
-    await router.push(googleLinkData.generateUrlGoogle);
-  };
+  // const handleLoginViaGoogle = async (): Promise<void> => {
+  //   await router.push(googleLinkData.generateUrlGoogle);
+  // };
 
   return (
     <PageWrapper>
@@ -62,10 +62,10 @@ const Login: FC = () => {
       {/*    </p>*/}
       {/*  }*/}
       {/*/>*/}
-      <Button variant={ButtonVariant.primary} onClick={handleLoginViaGoogle}>
-        {t('auth:login:google')}
-      </Button>
-      <p>{t('auth:login:or')}</p>
+      {/*<Button variant={ButtonVariant.primary} onClick={handleLoginViaGoogle}>*/}
+      {/*  {t('auth:login:google')}*/}
+      {/*</Button>*/}
+      {/*<p>{t('auth:login:or')}</p>*/}
       <Button variant={ButtonVariant.primary} onClick={handleLoginViaTelegram}>
         {t('auth:login:telegram')}
       </Button>
