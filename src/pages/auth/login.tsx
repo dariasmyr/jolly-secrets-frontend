@@ -62,12 +62,12 @@ const Login: FC = () => {
       {/*    </p>*/}
       {/*  }*/}
       {/*/>*/}
-      <Button variant={ButtonVariant.primary} onClick={handleLoginViaGoogle}>
-        {t('auth:login:google')}
-      </Button>
-      <p>{t('auth:login:or')}</p>
       <Button variant={ButtonVariant.primary} onClick={handleLoginViaTelegram}>
         {t('auth:login:telegram')}
+      </Button>
+      <p>{t('auth:login:or')}</p>
+      <Button variant={ButtonVariant.primary} onClick={handleLoginViaGoogle}>
+        {t('auth:login:google')}
       </Button>
     </PageWrapper>
   );
