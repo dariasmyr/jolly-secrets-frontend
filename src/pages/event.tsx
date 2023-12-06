@@ -357,6 +357,9 @@ const Event: FC = () => {
                 <Button
                   variant={ButtonVariant.primary}
                   onClick={handleGiftReceivedClick}
+                  disabled={
+                    myApplicationStatus !== EventApplicationStatus.GiftSent
+                  }
                 >
                   {t('application:resolve.gift_received.title')}
                 </Button>
@@ -389,6 +392,9 @@ const Event: FC = () => {
                 <Button
                   variant={ButtonVariant.warning}
                   onClick={handleGiftNotReceivedClick}
+                  disabled={
+                    myApplicationStatus !== EventApplicationStatus.GiftSent
+                  }
                 >
                   {t('application:resolve.gift_not_received.title')}
                 </Button>
