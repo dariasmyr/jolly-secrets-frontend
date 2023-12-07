@@ -97,93 +97,96 @@ const PublicGroups: FC = () => {
   return (
     <Page title={'Jolly Secrets'} style={{ gap: 16, marginTop: 24 }}>
       <Header>{t('group:groups.public')}</Header>
-      {data?.publicGroups.length === 0 && (
-        <Wrapper>
-          <StyledImage>
-            <Image
-              src={'/assets/sand-clock.png'}
-              width={100}
-              height={100}
-              alt="Wait"
+      <GroupWrapper>
+        {data?.publicGroups.length === 0 && (
+          <Wrapper>
+            <StyledImage>
+              <Image
+                src={'/assets/sand-clock.png'}
+                width={100}
+                height={100}
+                alt="Wait"
+              />
+            </StyledImage>
+            <Text>{t('group:groups.no_groups_title')}</Text>
+            <SubText>{t('group:groups.no_groups_description')}</SubText>
+          </Wrapper>
+        )}
+        {data?.publicGroups.map((group) => {
+          const isAdmin = group.members!.some(
+            (member) =>
+              member.role === GroupMemberRole.Admin &&
+              member.accountId === authStore.account?.id,
+          );
+
+          let tags = [];
+
+          tags = isAdmin
+            ? [
+                {
+                  title: t('group:groups.creator'),
+                  warning: true,
+                },
+              ]
+            : [
+                {
+                  title: `${accountCountData?.getAccountCount} ${pluralize(
+                    accountCountData!.getAccountCount!,
+                    t('group:groups.one_member'),
+                    t('group:groups.two_members'),
+                    t('group:groups.many_members'),
+                  )}`,
+                },
+              ];
+          return (
+            <CardImage
+              key={group.id}
+              imageUrl={
+                group.pictureUrl
+                  ? process.env.NEXT_PUBLIC_REST_API_URL + group.pictureUrl
+                  : '/assets/hover.jpg'
+              }
+              preHeader={`${group.events?.filter(
+                (event) => event.status === EventStatus.Open,
+              )?.length} ${pluralize(
+                group.events!.filter(
+                  (event) => event.status === EventStatus.Open,
+                )?.length,
+                t('event:events.one_еvent'),
+                t('event:events.two_еvents'),
+                t('event:events.many_еvents'),
+              )}`}
+              header={group.name}
+              text={group.description}
+              tags={tags}
+              menu={
+                isAdmin
+                  ? {
+                      options: [
+                        {
+                          title: t('group:group.change.title'),
+                          onClick: (): void => {
+                            router.push(`/update-group?id=${group.id}`);
+                          },
+                        },
+                        {
+                          title: t('group:group.delete.title'),
+                          onClick: (): void => {
+                            setGroupToDelete(group.id);
+                            setDialogOpen(true);
+                          },
+                        },
+                      ],
+                    }
+                  : undefined
+              }
+              onClick={(): void => {
+                router.push(`/events?groupId=${group.id}`);
+              }}
             />
-          </StyledImage>
-          <Text>{t('group:groups.no_groups_title')}</Text>
-          <SubText>{t('group:groups.no_groups_description')}</SubText>
-        </Wrapper>
-      )}
-      {data?.publicGroups.map((group) => {
-        const isAdmin = group.members!.some(
-          (member) =>
-            member.role === GroupMemberRole.Admin &&
-            member.accountId === authStore.account?.id,
-        );
-
-        let tags = [];
-
-        tags = isAdmin
-          ? [
-              {
-                title: t('group:groups.creator'),
-                warning: true,
-              },
-            ]
-          : [
-              {
-                title: `${accountCountData?.getAccountCount} ${pluralize(
-                  accountCountData!.getAccountCount!,
-                  t('group:groups.one_member'),
-                  t('group:groups.two_members'),
-                  t('group:groups.many_members'),
-                )}`,
-              },
-            ];
-        return (
-          <CardImage
-            key={group.id}
-            imageUrl={
-              group.pictureUrl
-                ? process.env.NEXT_PUBLIC_REST_API_URL + group.pictureUrl
-                : '/assets/hover.jpg'
-            }
-            preHeader={`${group.events?.filter(
-              (event) => event.status === EventStatus.Open,
-            )?.length} ${pluralize(
-              group.events!.filter((event) => event.status === EventStatus.Open)
-                ?.length,
-              t('event:events.one_еvent'),
-              t('event:events.two_еvents'),
-              t('event:events.many_еvents'),
-            )}`}
-            header={group.name}
-            text={group.description}
-            tags={tags}
-            menu={
-              isAdmin
-                ? {
-                    options: [
-                      {
-                        title: t('group:group.change.title'),
-                        onClick: (): void => {
-                          router.push(`/update-group?id=${group.id}`);
-                        },
-                      },
-                      {
-                        title: t('group:group.delete.title'),
-                        onClick: (): void => {
-                          setGroupToDelete(group.id);
-                          setDialogOpen(true);
-                        },
-                      },
-                    ],
-                  }
-                : undefined
-            }
-            onClick={(): void => {
-              router.push(`/events?groupId=${group.id}`);
-            }}
-          />
-        );
-      })}
+          );
+        })}
+      </GroupWrapper>
       <FabAdd onClick={createGroup} />
       <DialogConfirmAction
         isOpen={isDialogOpen}
@@ -230,6 +233,15 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 50vh;
+`;
+
+export const GroupWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-self: center;
+  gap: 20px;
+  justify-content: space-between;
 `;
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {

@@ -57,6 +57,7 @@ export const ContentContainer = styled.div`
   align-items: center;
   width: 100%;
   gap: 10px;
+  margin: 0px 10px 0px 10px;
 `;
 
 export const Menu = styled.div<IMenuProperties>`

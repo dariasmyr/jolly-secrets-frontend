@@ -14,6 +14,7 @@ import {
 import { CardImage } from '@components/ui/custom/card-image';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { GroupWrapper } from '@pages/index';
 import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
 import styled from 'styled-components';
 
@@ -97,101 +98,104 @@ const PrivateGroups: FC = () => {
   return (
     <Page title={t('group:groups.private')} style={{ gap: 16, marginTop: 24 }}>
       <Header>{t('group:groups.private')}</Header>
-      {data?.privateGroups.length === 0 && (
-        <Wrapper>
-          <StyledImage>
-            <Image
-              src={'/assets/sand-clock.png'}
-              width={100}
-              height={100}
-              alt="Wait"
+      <GroupWrapper>
+        {data?.privateGroups.length === 0 && (
+          <Wrapper>
+            <StyledImage>
+              <Image
+                src={'/assets/sand-clock.png'}
+                width={100}
+                height={100}
+                alt="Wait"
+              />
+            </StyledImage>
+            <Text>{t('group:groups.no_groups_title')}</Text>
+            <SubText>{t('group:groups.no_groups_description')}</SubText>
+          </Wrapper>
+        )}
+        {data?.privateGroups.map((group) => {
+          const isAdmin = group.members!.some(
+            (member) =>
+              member.role === GroupMemberRole.Admin &&
+              member.accountId === authStore.account?.id,
+          );
+
+          let tags = [];
+
+          tags = isAdmin
+            ? [
+                {
+                  title: `${group.members!.length} ${pluralize(
+                    group.members!.length,
+                    t('group:groups.one_member'),
+                    t('group:groups.two_members'),
+                    t('group:groups.many_members'),
+                  )}`,
+                },
+                {
+                  title: t('group:groups.creator'),
+                  warning: true,
+                },
+              ]
+            : [
+                {
+                  title: `${group.members!.length} ${pluralize(
+                    group.members!.length,
+                    t('group:groups.one_member'),
+                    t('group:groups.two_members'),
+                    t('group:groups.many_members'),
+                  )}`,
+                },
+              ];
+          return (
+            <CardImage
+              key={group.id}
+              imageUrl={
+                group.pictureUrl
+                  ? process.env.NEXT_PUBLIC_REST_API_URL + group.pictureUrl
+                  : '/assets/hover.jpg'
+              }
+              preHeader={`${group.events?.filter(
+                (event) => event.status === EventStatus.Open,
+              )?.length} ${pluralize(
+                group.events!.filter(
+                  (event) => event.status === EventStatus.Open,
+                )?.length,
+                t('event:events.one_еvent'),
+                t('event:events.two_еvents'),
+                t('event:events.many_еvents'),
+              )}`}
+              header={group.name}
+              text={group.description}
+              tags={tags}
+              menu={
+                isAdmin
+                  ? {
+                      options: [
+                        {
+                          title: t('group:group.change.title'),
+                          onClick: (): void => {
+                            router.push(`/update-group?id=${group.id}`);
+                          },
+                        },
+                        {
+                          title: t('group:group.delete.title'),
+                          onClick: (): void => {
+                            setGroupToDelete(group.id);
+                            setDialogOpen(true);
+                          },
+                        },
+                      ],
+                    }
+                  : undefined
+              }
+              onClick={(): void => {
+                router.push(`/events?groupId=${group.id}`);
+              }}
             />
-          </StyledImage>
-          <Text>{t('group:groups.no_groups_title')}</Text>
-          <SubText>{t('group:groups.no_groups_description')}</SubText>
-        </Wrapper>
-      )}
-      {data?.privateGroups.map((group) => {
-        const isAdmin = group.members!.some(
-          (member) =>
-            member.role === GroupMemberRole.Admin &&
-            member.accountId === authStore.account?.id,
-        );
-
-        let tags = [];
-
-        tags = isAdmin
-          ? [
-              {
-                title: `${group.members!.length} ${pluralize(
-                  group.members!.length,
-                  t('group:groups.one_member'),
-                  t('group:groups.two_members'),
-                  t('group:groups.many_members'),
-                )}`,
-              },
-              {
-                title: t('group:groups.creator'),
-                warning: true,
-              },
-            ]
-          : [
-              {
-                title: `${group.members!.length} ${pluralize(
-                  group.members!.length,
-                  t('group:groups.one_member'),
-                  t('group:groups.two_members'),
-                  t('group:groups.many_members'),
-                )}`,
-              },
-            ];
-        return (
-          <CardImage
-            key={group.id}
-            imageUrl={
-              group.pictureUrl
-                ? process.env.NEXT_PUBLIC_REST_API_URL + group.pictureUrl
-                : '/assets/hover.jpg'
-            }
-            preHeader={`${group.events?.filter(
-              (event) => event.status === EventStatus.Open,
-            )?.length} ${pluralize(
-              group.events!.filter((event) => event.status === EventStatus.Open)
-                ?.length,
-              t('event:events.one_еvent'),
-              t('event:events.two_еvents'),
-              t('event:events.many_еvents'),
-            )}`}
-            header={group.name}
-            text={group.description}
-            tags={tags}
-            menu={
-              isAdmin
-                ? {
-                    options: [
-                      {
-                        title: t('group:group.change.title'),
-                        onClick: (): void => {
-                          router.push(`/update-group?id=${group.id}`);
-                        },
-                      },
-                      {
-                        title: t('group:group.delete.title'),
-                        onClick: (): void => {
-                          setGroupToDelete(group.id);
-                          setDialogOpen(true);
-                        },
-                      },
-                    ],
-                  }
-                : undefined
-            }
-            onClick={(): void => {
-              router.push(`/events?groupId=${group.id}`);
-            }}
-          />
-        );
-      })}
+          );
+        })}
+      </GroupWrapper>
       <FabAdd onClick={createGroup} />
       <DialogConfirmAction
         isOpen={isDialogOpen}

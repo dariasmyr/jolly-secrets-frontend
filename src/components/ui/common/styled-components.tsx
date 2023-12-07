@@ -5,8 +5,19 @@ import { getThemeMui } from '@/theme';
 
 const themeMui = getThemeMui();
 export const Paper = styled(MuiPaper)`
-  width: 368px;
+  width: 100%;
   border-radius: 20px;
+  min-width: 368px;
+  @media only screen and (max-width: 430px) {
+    width: calc(100% - 20px);
+  }
+
+  @media only screen and (min-width: 431px) and (max-width: 769px) {
+    width: calc(50% - 20px);
+
+  @media only screen and (min-width: 768px) and (max-width: 1199px) {
+    width: calc(33.33% - 20px);
+  }
 `;
 
 export const Content = styled.div`

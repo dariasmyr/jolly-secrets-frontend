@@ -5,10 +5,26 @@ import { getThemeMui } from '@/theme';
 
 const themeMui = getThemeMui();
 export const ImageWrapper = styled(Image)`
-  width: 368px;
-  height: 200px;
+  height: 25vw;
   border-radius: 20px 20px 0 0;
   object-fit: cover;
+  width: 100%;
+  min-width: 368px;
+  @media only screen and (max-width: 430px) {
+    height: 30vw;
+  }
+
+  @media only screen and (min-width: 431px) and (max-width: 769px) {
+    height: 30vw;
+  }
+
+  @media only screen and (min-width: 768px) and (max-width: 1199px) {
+    height: 35vw;
+  }
+
+  @media only screen and (min-width: 1200px) {
+    height: 36.25vw;
+  }
 `;
 
 export const PreHeader = styled.p`
