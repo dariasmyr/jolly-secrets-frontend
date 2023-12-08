@@ -242,7 +242,7 @@ export const GroupWrapper = styled.div`
   align-self: center;
   padding: 0px 10px;
   gap: 10px;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {

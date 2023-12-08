@@ -10,15 +10,15 @@ export const ImageWrapper = styled(Image)`
   object-fit: cover;
   width: 100%;
   min-width: 262px;
-  @media only screen and (max-width: 430px) {
+  @media only screen and (max-width: 552px) {
     height: 30vw;
   }
 
-  @media only screen and (min-width: 431px) and (max-width: 769px) {
+  @media only screen and (min-width: 553px) and (max-width: 822px) {
     height: 30vw;
   }
 
-  @media only screen and (min-width: 768px) {
+  @media only screen and (min-width: 823px) {
     height: 35vw;
   }
 `;

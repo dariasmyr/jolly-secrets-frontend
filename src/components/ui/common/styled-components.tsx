@@ -8,16 +8,22 @@ export const Paper = styled(MuiPaper)`
   width: 100%;
   border-radius: 20px;
   min-width: 262px;
-  @media only screen and (max-width: 430px) {
+  @media only screen and (max-width: 552px) {
     width: calc(100% - 10px);
   }
 
-  @media only screen and (min-width: 431px) and (max-width: 769px) {
+  @media only screen and (min-width: 553px) and (max-width: 822px) {
     width: calc(50% - 10px);
   }
 
-  @media only screen and (min-width: 768px) {
+  @media only screen and (min-width: 823px) {
     width: calc(33.33% - 10px);
+  }
+
+  @media only screen and (min-width: 553px) {
+    &:only-child {
+      width: calc(100% - 10px);
+    }
   }
 `;
 

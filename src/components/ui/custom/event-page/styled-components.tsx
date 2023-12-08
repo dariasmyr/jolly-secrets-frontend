@@ -2,12 +2,12 @@ import Image from 'next/image';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  width: 368px;
+  width: calc(100% - 10px);
 `;
 
 export const ImageWrapper = styled(Image)`
-  width: 368px;
-  height: 200px;
+  width: calc(100% - 10px);
+  height: 30vw;
   border-radius: 20px 20px 0 0;
 `;
 
