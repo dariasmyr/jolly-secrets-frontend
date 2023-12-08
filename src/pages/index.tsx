@@ -240,7 +240,8 @@ export const GroupWrapper = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-self: center;
-  gap: 20px;
+  padding: 0px 10px;
+  gap: 10px;
   justify-content: space-between;
 `;
 

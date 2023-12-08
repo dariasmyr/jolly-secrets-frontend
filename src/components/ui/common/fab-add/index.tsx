@@ -57,16 +57,7 @@ const FabWrapper = styled(Fab)`
   bottom: 20px;
   right: 20px;
   transition: all 0.3s ease-in-out;
-  opacity: 0;
-  transform: scale(0);
-
-  &.show {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  &.hide {
-    opacity: 0;
-    transform: scale(0);
+  @media only screen and (min-width: 431px) {
+    size: 'large';
   }
 `;

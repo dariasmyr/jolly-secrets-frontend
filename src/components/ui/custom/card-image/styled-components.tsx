@@ -9,7 +9,7 @@ export const ImageWrapper = styled(Image)`
   border-radius: 20px 20px 0 0;
   object-fit: cover;
   width: 100%;
-  min-width: 368px;
+  min-width: 262px;
   @media only screen and (max-width: 430px) {
     height: 30vw;
   }
@@ -18,12 +18,8 @@ export const ImageWrapper = styled(Image)`
     height: 30vw;
   }
 
-  @media only screen and (min-width: 768px) and (max-width: 1199px) {
+  @media only screen and (min-width: 768px) {
     height: 35vw;
-  }
-
-  @media only screen and (min-width: 1200px) {
-    height: 36.25vw;
   }
 `;
 
