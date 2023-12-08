@@ -9,16 +9,15 @@ export const ImageWrapper = styled(Image)`
   border-radius: 20px 20px 0 0;
   object-fit: cover;
   width: 100%;
-  min-width: 262px;
-  @media only screen and (max-width: 552px) {
+  @media only screen and (max-width: 61px) {
     height: 30vw;
   }
 
-  @media only screen and (min-width: 553px) and (max-width: 822px) {
+  @media only screen and (min-width: 601px) and (max-width: 1294px) {
     height: 30vw;
   }
 
-  @media only screen and (min-width: 823px) {
+  @media only screen and (min-width: 1295px) {
     height: 35vw;
   }
 `;

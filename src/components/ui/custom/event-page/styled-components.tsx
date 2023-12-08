@@ -1,14 +1,16 @@
-import Image from 'next/image';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  width: calc(100% - 10px);
-`;
+  width: 368px;
+  margin: 0 auto;
 
-export const ImageWrapper = styled(Image)`
-  width: calc(100% - 10px);
-  height: 30vw;
-  border-radius: 20px 20px 0 0;
+  @media only screen and (max-width: 600px) {
+    width: calc(100% - 10px);
+  }
+
+  @media only screen and (min-width: 601px) {
+    width: calc(50% - 10px);
+  }
 `;
 
 export const Content = styled.div`

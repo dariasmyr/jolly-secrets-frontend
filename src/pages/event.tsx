@@ -162,7 +162,7 @@ const Event: FC = () => {
       label: eventData!.event.name,
       link: `/event/${eventId}`,
       onClick: async (): Promise<void> => {
-        await router.push(`/event/${eventId}`);
+        await router.push(`/event?id=${eventId}`);
       },
     },
   ];
@@ -598,13 +598,20 @@ const HeaderWrapper = styled.div`
 `;
 
 const ButtonLargeWrapper = styled.div`
-  position: fixed;
   bottom: 20px;
   left: 0;
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 0 16px;
+  margin: 0 auto;
+
+  @media only screen and (max-width: 600px) {
+    width: calc(100% - 10px);
+  }
+
+  @media only screen and (min-width: 601px) {
+    width: calc(50% - 10px);
+  }
 `;
 
 const ButtonWrapper = styled.div`

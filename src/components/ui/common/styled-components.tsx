@@ -7,20 +7,21 @@ const themeMui = getThemeMui();
 export const Paper = styled(MuiPaper)`
   width: 100%;
   border-radius: 20px;
-  min-width: 262px;
-  @media only screen and (max-width: 552px) {
+  margin: 0 auto;
+
+  @media only screen and (max-width: 600px) {
     width: calc(100% - 10px);
   }
 
-  @media only screen and (min-width: 553px) and (max-width: 822px) {
+  @media only screen and (min-width: 601px) and (max-width: 1294px) {
     width: calc(50% - 10px);
   }
 
-  @media only screen and (min-width: 823px) {
+  @media only screen and (min-width: 1295px) {
     width: calc(33.33% - 10px);
   }
 
-  @media only screen and (min-width: 553px) {
+  @media only screen and (min-width: 600px) {
     &:only-child {
       width: calc(100% - 10px);
     }

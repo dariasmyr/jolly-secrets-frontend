@@ -5,6 +5,7 @@ import {
 } from '@components/ui/common/menu-options';
 import {
   Header,
+  ImageWrapper,
   PreHeader,
   Text,
 } from '@components/ui/custom/card-image/styled-components';
@@ -12,7 +13,6 @@ import { Tag } from '@components/ui/custom/card-image/tag';
 import {
   Content,
   HeaderWrapper,
-  ImageWrapper,
   TagContainer,
   Wrapper,
 } from '@components/ui/custom/event-page/styled-components';
