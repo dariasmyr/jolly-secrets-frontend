@@ -8,6 +8,7 @@ export const GroupPaper = styled(MuiPaper)`
   width: 100%;
   border-radius: 20px;
   margin: 0 auto;
+  max-width: 584px;
 
   @media only screen and (max-width: 600px) {
     width: calc(100% - 10px);

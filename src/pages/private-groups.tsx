@@ -14,7 +14,7 @@ import {
 import { CardImage } from '@components/ui/custom/card-image';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import { GroupWrapper } from '@pages/index';
+import { ArrayWrapper } from '@pages/index';
 import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
 import styled from 'styled-components';
 
@@ -98,14 +98,14 @@ const PrivateGroups: FC = () => {
   return (
     <Page title={t('group:groups.private')} style={{ gap: 16, marginTop: 24 }}>
       <Header>{t('group:groups.private')}</Header>
-      <GroupWrapper>
+      <ArrayWrapper>
         {data?.privateGroups.length === 0 && (
           <Wrapper>
             <StyledImage>
               <Image
                 src={'/assets/sand-clock.png'}
                 width={100}
-                height={100}
+                height={150}
                 alt="Wait"
               />
             </StyledImage>
@@ -195,7 +195,7 @@ const PrivateGroups: FC = () => {
             />
           );
         })}
-      </GroupWrapper>
+      </ArrayWrapper>
       <FabAdd onClick={createGroup} />
       <DialogConfirmAction
         isOpen={isDialogOpen}

@@ -97,14 +97,14 @@ const PublicGroups: FC = () => {
   return (
     <Page title={'Jolly Secrets'} style={{ gap: 16, marginTop: 24 }}>
       <Header>{t('group:groups.public')}</Header>
-      <GroupWrapper>
+      <ArrayWrapper>
         {data?.publicGroups.length === 0 && (
           <Wrapper>
             <StyledImage>
               <Image
                 src={'/assets/sand-clock.png'}
                 width={100}
-                height={100}
+                height={150}
                 alt="Wait"
               />
             </StyledImage>
@@ -186,7 +186,7 @@ const PublicGroups: FC = () => {
             />
           );
         })}
-      </GroupWrapper>
+      </ArrayWrapper>
       <FabAdd onClick={createGroup} />
       <DialogConfirmAction
         isOpen={isDialogOpen}
@@ -235,7 +235,7 @@ const Wrapper = styled.div`
   height: 50vh;
 `;
 
-export const GroupWrapper = styled.div`
+export const ArrayWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

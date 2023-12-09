@@ -13,6 +13,7 @@ import {
   Text,
 } from '@components/ui/common/styled-components';
 import { CardImage } from '@components/ui/custom/card-image';
+import { ArrayWrapper } from '@pages/index';
 import styled from 'styled-components';
 
 import { Header } from '@/components/ui/common/page/styled-components';
@@ -141,46 +142,48 @@ const Events: FC = () => {
           <SubText>{t('event:events.no_events_description')}</SubText>
         </Wrapper>
       )}
-      {eventsData?.events.map((event) => {
-        const eventStatus = eventStatusDisplay(t).find(
-          (status: { value: EventStatus }) => status.value === event.status,
-        );
-        const tags = [
-          {
-            title: `${event.applicationPairs?.length || 0} ${pluralize(
-              event.applicationPairs?.length || 0,
-              t('event:event.one_pair'),
-              t('event:event.two_pairs'),
-              t('event:event.many_pairs'),
-            )}`,
-          },
-          {
-            title: `${eventStatus?.label}`,
-            warning: event.status === EventStatus.Open,
-          },
-        ];
+      <ArrayWrapper>
+        {eventsData?.events.map((event) => {
+          const eventStatus = eventStatusDisplay(t).find(
+            (status: { value: EventStatus }) => status.value === event.status,
+          );
+          const tags = [
+            {
+              title: `${event.applicationPairs?.length || 0} ${pluralize(
+                event.applicationPairs?.length || 0,
+                t('event:event.one_pair'),
+                t('event:event.two_pairs'),
+                t('event:event.many_pairs'),
+              )}`,
+            },
+            {
+              title: `${eventStatus?.label}`,
+              warning: event.status === EventStatus.Open,
+            },
+          ];
 
-        const startDate = new Date(event.startsAt).toLocaleDateString();
-        const endDate = new Date(event.endsAt).toLocaleDateString();
+          const startDate = new Date(event.startsAt).toLocaleDateString();
+          const endDate = new Date(event.endsAt).toLocaleDateString();
 
-        return (
-          <CardImage
-            key={event.id}
-            imageUrl={
-              event.pictureUrl
-                ? process.env.NEXT_PUBLIC_REST_API_URL + event.pictureUrl
-                : '/assets/hover.jpg'
-            }
-            preHeader={`${startDate} - ${endDate}`}
-            header={event.name}
-            text={event.description}
-            tags={tags}
-            onClick={(): void => {
-              router.push(`/event?id=${event.id}`);
-            }}
-          />
-        );
-      })}
+          return (
+            <CardImage
+              key={event.id}
+              imageUrl={
+                event.pictureUrl
+                  ? process.env.NEXT_PUBLIC_REST_API_URL + event.pictureUrl
+                  : '/assets/hover.jpg'
+              }
+              preHeader={`${startDate} - ${endDate}`}
+              header={event.name}
+              text={event.description}
+              tags={tags}
+              onClick={(): void => {
+                router.push(`/event?id=${event.id}`);
+              }}
+            />
+          );
+        })}
+      </ArrayWrapper>
       <FabAdd onClick={createEvent} />
     </Page>
   );
