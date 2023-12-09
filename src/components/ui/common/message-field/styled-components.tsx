@@ -11,7 +11,7 @@ export const Container = styled.div`
   bottom: 0;
   flex-shrink: 0;
   background: ${themeMui.palette.background.default};
-  box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.15);
   display: flex;
   max-width: 584px;
 
@@ -26,7 +26,7 @@ export const ContentWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 60px;
+  height: 50px;
   padding: 8px;
 `;
 
