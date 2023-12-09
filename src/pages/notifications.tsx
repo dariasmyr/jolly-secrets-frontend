@@ -130,6 +130,7 @@ const NotificationsContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  padding: 0 10px;
 `;
 
 export default Notifications;

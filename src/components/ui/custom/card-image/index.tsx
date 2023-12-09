@@ -3,7 +3,7 @@ import {
   IMenuProperties,
   MenuOptions,
 } from '@components/ui/common/menu-options';
-import { Paper } from '@components/ui/common/styled-components';
+import { GroupPaper } from '@components/ui/common/styled-components';
 import {
   Content,
   Header,
@@ -38,8 +38,12 @@ export const CardImage = (properties: ICardImageProperties): ReactElement => {
   };
 
   return (
-    <Paper elevation={0} style={{ cursor: 'pointer' }} onClick={handleClick}>
-      <ImageWrapper src={properties.imageUrl} alt="" width={368} height={200} />
+    <GroupPaper
+      elevation={0}
+      style={{ cursor: 'pointer' }}
+      onClick={handleClick}
+    >
+      <ImageWrapper src={properties.imageUrl} alt="" width={368} height={100} />
       <Content>
         <HeaderWrapper>
           <PreHeader>{properties.preHeader}</PreHeader>
@@ -53,6 +57,6 @@ export const CardImage = (properties: ICardImageProperties): ReactElement => {
           ))}
         </TagContainer>
       </Content>
-    </Paper>
+    </GroupPaper>
   );
 };

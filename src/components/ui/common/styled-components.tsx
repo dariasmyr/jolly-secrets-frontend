@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { getThemeMui } from '@/theme';
 
 const themeMui = getThemeMui();
-export const Paper = styled(MuiPaper)`
+export const GroupPaper = styled(MuiPaper)`
   width: 100%;
   border-radius: 20px;
   margin: 0 auto;
@@ -13,18 +13,23 @@ export const Paper = styled(MuiPaper)`
     width: calc(100% - 10px);
   }
 
-  @media only screen and (min-width: 601px) and (max-width: 1294px) {
+  @media only screen and (min-width: 601px) {
     width: calc(50% - 10px);
-  }
-
-  @media only screen and (min-width: 1295px) {
-    width: calc(33.33% - 10px);
-  }
-
-  @media only screen and (min-width: 600px) {
     &:only-child {
       width: calc(100% - 10px);
     }
+  }
+`;
+
+export const Paper = styled(MuiPaper)`
+  border-radius: 20px;
+  margin: 0 auto;
+  padding: 0 10px;
+  max-width: 584px;
+  width: 100%;
+
+  @media only screen and (min-width: 369px) {
+    width: calc(100% - 10px);
   }
 `;
 
@@ -63,7 +68,6 @@ export const CardHeader = styled.p`
 `;
 
 export const Description = styled.p`
-  width: 327px;
   font-feature-settings:
     'clig' off,
     'liga' off;

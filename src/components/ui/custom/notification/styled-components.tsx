@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { getThemeMui } from '@/theme';
+
 export const Header = styled.p`
   font-feature-settings:
     'clig' off,
@@ -43,4 +45,15 @@ export const Wrapper = styled.div`
   align-items: start;
   gap: 5px;
   width: 100%;
+`;
+
+export const NotificationCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 8px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 15px;
+  background-color: ${getThemeMui().palette.background.paper};
 `;

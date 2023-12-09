@@ -1,7 +1,7 @@
 {
   "application": {
-    "my_application": "🎁My Application",
-    "secret_santa_application": "🎅Secret Santa's Application",
+    "my_application": "My Application",
+    "secret_santa_application": "Secret Santa's Application",
     "preference": {
       "no_matter": "No matter",
       "title": "Preference",
@@ -67,7 +67,7 @@
       }
     },
     "gift_sent": {
-      "title": "I have sent gift",
+      "title": "I've sent gift",
       "dialog": {
         "title": "Confirm the action",
         "description": "After confirmation, the status of the application cannot be changed. 🚩",
@@ -75,6 +75,6 @@
         "confirm": "Confirm ✔️"
       }
     },
-    "write_to_santa": "Chat with Secret Santa"
+    "write_to_santa": "Chat with Santa"
   }
 }

@@ -5,21 +5,9 @@ import { getThemeMui } from '@/theme';
 
 const themeMui = getThemeMui();
 export const ImageWrapper = styled(Image)`
-  height: 25vw;
   border-radius: 20px 20px 0 0;
   object-fit: cover;
   width: 100%;
-  @media only screen and (max-width: 61px) {
-    height: 30vw;
-  }
-
-  @media only screen and (min-width: 601px) and (max-width: 1294px) {
-    height: 30vw;
-  }
-
-  @media only screen and (min-width: 1295px) {
-    height: 35vw;
-  }
 `;
 
 export const PreHeader = styled.p`

@@ -13,6 +13,11 @@ export const Container = styled.div`
   background: ${themeMui.palette.background.default};
   box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.15);
   display: flex;
+  max-width: 584px;
+
+  @media only screen and (min-width: 369px) {
+    width: calc(100% - 10px);
+  }
 `;
 
 export const ContentWrapper = styled.div`
@@ -33,6 +38,7 @@ export const TextArea = styled.textarea`
   height: 2em;
   resize: none;
   color: #2d2d2d;
+  background-color: transparent;
   font-feature-settings:
     'clig' off,
     'liga' off;

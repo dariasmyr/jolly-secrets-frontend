@@ -1,7 +1,7 @@
 {
   "application": {
-    "my_application": "🎁Моя Заявка",
-    "secret_santa_application": "🎅Заявка Тайного Санты",
+    "my_application": "Моя Заявка",
+    "secret_santa_application": "Заявка Тайного Санты",
     "preference": {
       "no_matter": "Без ограничений",
       "title": "Предпочтение",

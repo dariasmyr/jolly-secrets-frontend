@@ -3,13 +3,11 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   width: 368px;
   margin: 0 auto;
+  padding: 0 10px;
+  max-width: 584px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (min-width: 369px) {
     width: calc(100% - 10px);
-  }
-
-  @media only screen and (min-width: 601px) {
-    width: calc(50% - 10px);
   }
 `;
 

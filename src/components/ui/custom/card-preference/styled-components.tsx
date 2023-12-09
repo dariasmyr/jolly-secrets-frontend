@@ -5,7 +5,7 @@ import { getThemeMui } from '@/theme';
 
 const themeMui = getThemeMui();
 export const Paper = styled(MuiPaper)`
-  width: 368px;
+  width: 100%;
   margin-top: 16px;
 `;
 

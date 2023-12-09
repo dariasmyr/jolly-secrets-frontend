@@ -1,9 +1,9 @@
 import { ReactElement, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import { Card } from '@components/ui/common/card';
 import {
   ContentWrapper,
   Header,
+  NotificationCard,
   Text,
   Wrapper,
 } from '@components/ui/custom/notification/styled-components';
@@ -30,24 +30,22 @@ export const Notification = (
   }, [dateLocale, properties.date]);
 
   return (
-    <Card
-      content={
-        <Wrapper>
-          <img
-            src={'/assets/secret_santa.png'}
-            alt="avatar"
-            style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-            }}
-          />
-          <ContentWrapper>
-            <Header>{`${properties.sender} • ${formattedDate}`}</Header>
-            <Text>{properties.text}</Text>
-          </ContentWrapper>
-        </Wrapper>
-      }
-    />
+    <NotificationCard>
+      <Wrapper>
+        <img
+          src={'/assets/secret_santa.png'}
+          alt="avatar"
+          style={{
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+          }}
+        />
+        <ContentWrapper>
+          <Header>{`${properties.sender} • ${formattedDate}`}</Header>
+          <Text>{properties.text}</Text>
+        </ContentWrapper>
+      </Wrapper>
+    </NotificationCard>
   );
 };

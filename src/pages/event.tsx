@@ -617,7 +617,8 @@ const ButtonLargeWrapper = styled.div`
 const ButtonWrapper = styled.div`
   flex-direction: row;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  gap: 10px;
   margin: 10px;
 `;
 

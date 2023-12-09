@@ -7,12 +7,10 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
-import { Card } from '@components/ui/common/card';
 import { FabMode } from '@components/ui/common/fab-mode';
 import { Page } from '@components/ui/common/page';
-import { Description, Wrapper } from '@components/ui/common/styled-components';
-import { CardEmailToggle } from '@components/ui/custom/card-toggle-email';
-import { HeaderWrapper } from '@components/ui/custom/card-toggle-email/styled-components';
+import { Description } from '@components/ui/common/styled-components';
+import { HeaderWrapper } from '@components/ui/custom/card-image/styled-components';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import { Avatar, Switch } from '@mui/material';
@@ -34,6 +32,7 @@ import {
 } from '@/generated/graphql';
 import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
+import { getThemeMui } from '@/theme';
 
 const usernameValidationSchema = Yup.object().shape({
   username: Yup.string().required('Required field'),
@@ -214,63 +213,63 @@ const Settings: FC = () => {
       title={t('settings:name_change.title')}
       style={{ gap: 16, marginTop: 24 }}
     >
-      <Header>{t('settings:name_change.title')}</Header>
-      <Card
-        content={
-          <FormWrapper
-            onSubmit={handleSubmitName(async (formData: FormData) => {
-              try {
-                await handleUsernameSubmit(formData.username);
-              } catch (submitError) {
-                log.error('Update account error', submitError);
-              }
-            })}
-          >
-            <TextField
-              key="username"
-              id="field-userName"
-              label={t('settings:name_change.label')}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              type="text"
-              fullWidth
-              size="small"
-              variant="standard"
-              multiline={false}
-              error={Boolean(formStateName.errors.username)}
-              helperText={formStateName.errors.username?.message}
-              {...registerName('username')}
-              defaultValue={data?.whoami?.username || ''}
-            />
-            <Button
-              variant={ButtonVariant.primary}
-              onClick={(): Promise<void> =>
-                handleSubmitName(async (formData: FormData): Promise<void> => {
+      <Wrapper>
+        <SettingsWrapper>
+          <Header>{t('settings:name_change.title')}</Header>
+          <SettingsCard>
+            {
+              <FormWrapper
+                onSubmit={handleSubmitName(async (formData: FormData) => {
                   try {
                     await handleUsernameSubmit(formData.username);
                   } catch (submitError) {
                     log.error('Update account error', submitError);
                   }
-                })()
-              }
-            >
-              {t('settings:name_change.save')}
-            </Button>
-          </FormWrapper>
-        }
-      />
-      <Header>{t('settings:notifications.title')}</Header>
-      <CardEmailToggle
-        content={
-          <Wrapper>
+                })}
+              >
+                <TextField
+                  key="username"
+                  id="field-userName"
+                  label={t('settings:name_change.label')}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  type="text"
+                  fullWidth
+                  size="small"
+                  variant="standard"
+                  multiline={false}
+                  error={Boolean(formStateName.errors.username)}
+                  helperText={formStateName.errors.username?.message}
+                  {...registerName('username')}
+                  defaultValue={data?.whoami?.username || ''}
+                />
+                <Button
+                  variant={ButtonVariant.primary}
+                  onClick={(): Promise<void> =>
+                    handleSubmitName(
+                      async (formData: FormData): Promise<void> => {
+                        try {
+                          await handleUsernameSubmit(formData.username);
+                        } catch (submitError) {
+                          log.error('Update account error', submitError);
+                        }
+                      },
+                    )()
+                  }
+                >
+                  {t('settings:name_change.save')}
+                </Button>
+              </FormWrapper>
+            }
+          </SettingsCard>
+          <Header>{t('settings:notifications.title')}</Header>
+          <SettingsCard>
             <HeaderWrapper>
-              <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-                <Avatar variant="rounded">
-                  <AlternateEmailIcon />
-                </Avatar>
-                <Header>{t('settings:notifications.media')}</Header>
-              </div>
+              <Avatar variant="rounded">
+                <AlternateEmailIcon />
+              </Avatar>
+              <Header>{t('settings:notifications.media')}</Header>
               <Switch
                 {...label}
                 checked={notifEnabled}
@@ -279,109 +278,113 @@ const Settings: FC = () => {
                 }
               />
             </HeaderWrapper>
-            <Description>{t('settings:notifications.description')}</Description>
-            {notifEnabled &&
-              contact &&
-              (isGoogleProfile ? (
-                <Description>{`${t(
-                  'settings:notifications.current_email',
-                )} ${contact}`}</Description>
-              ) : (
-                <Description>{`${t(
-                  'settings:notifications.current_telegram',
-                )} ${telegramId}`}</Description>
-              ))}
-          </Wrapper>
-        }
-      />
-      <Header>{t('settings:delete.title')}</Header>
-      <Card
-        content={
-          <FormWrapper
-            onSubmit={handleSubmitDelete(async () => {
-              try {
-                await handleDeleteAccountSubmit();
-              } catch (submitError) {
-                log.error('Delete account error', submitError);
-              }
-            })}
-          >
-            <Description>{t('settings:delete.description')}</Description>
-            <TextField
-              key="deleteAccount"
-              id="field-deleteAccount"
-              type="text"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-              size="small"
-              variant="standard"
-              color={'error'}
-              multiline={false}
-              error={Boolean(formStateDelete.errors.deleteAccountPhrase)}
-              {...registerDelete('deleteAccountPhrase')}
-            />
-            <Button
-              variant={ButtonVariant.error}
-              onClick={handleSubmitDelete(async (): Promise<void> => {
+            <ContentWrapper>
+              <Description>
+                {t('settings:notifications.description')}
+              </Description>
+              {notifEnabled &&
+                contact &&
+                (isGoogleProfile ? (
+                  <Description>{`${t(
+                    'settings:notifications.current_email',
+                  )} ${contact}`}</Description>
+                ) : (
+                  <Description>{`${t(
+                    'settings:notifications.current_telegram',
+                  )} ${telegramId}`}</Description>
+                ))}
+            </ContentWrapper>
+          </SettingsCard>
+          <Header>{t('settings:delete.title')}</Header>
+          <SettingsCard>
+            <FormWrapper
+              onSubmit={handleSubmitDelete(async () => {
                 try {
-                  const isValid =
-                    await deletionValidationSchema.isValid(formStateDelete);
-                  if (!isValid) {
-                    log.debug('Validation error');
-                    return;
-                  }
-                  handleConfirmDialogOpen();
+                  await handleDeleteAccountSubmit();
                 } catch (submitError) {
                   log.error('Delete account error', submitError);
                 }
               })}
             >
-              {t('settings:delete.action')}
-            </Button>
-          </FormWrapper>
-        }
-      />
-      <FabMode />
-      <Snackbar
-        open={snackbarData.open}
-        autoHideDuration={3000}
-        onClose={(): void => setSnackbarData({ ...snackbarData, open: false })}
-      >
-        <Alert severity="warning" sx={{ width: '100%' }}>
-          {snackbarData.message}
-        </Alert>
-      </Snackbar>
-      <DialogConfirmAction
-        isOpen={isDialogOpen}
-        title={t('settings:notifications.dialog:title')}
-        description={t('settings:notifications.dialog.description')}
-        cancelButtonText={t('settings:notifications.dialog.cancel')}
-        confirmButtonText={t('settings:notifications.dialog.confirm')}
-        onCancelClick={(): void => {
-          setDialogOpen(false);
-          setNotifEnabled(false);
-        }}
-        onConfirmClick={(): void => {
-          setContact(contact);
-          enableNotifications({});
-          setDialogOpen(false);
-        }}
-      />
-      <DialogConfirmAction
-        isOpen={openConfirmDialog}
-        title={t('settings:delete.dialog.title')}
-        description={t('settings:delete.dialog.description')}
-        cancelButtonText={t('settings:delete.dialog.cancel')}
-        confirmButtonText={t('settings:delete.dialog.confirm')}
-        onCancelClick={(): void => {
-          handleConfirmDialogClose();
-        }}
-        onConfirmClick={(): void => {
-          handleDeleteAccountSubmit();
-        }}
-      />
+              <Description>{t('settings:delete.description')}</Description>
+              <TextField
+                key="deleteAccount"
+                id="field-deleteAccount"
+                type="text"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                fullWidth
+                size="small"
+                variant="standard"
+                color={'error'}
+                multiline={false}
+                error={Boolean(formStateDelete.errors.deleteAccountPhrase)}
+                {...registerDelete('deleteAccountPhrase')}
+              />
+              <Button
+                variant={ButtonVariant.error}
+                onClick={handleSubmitDelete(async (): Promise<void> => {
+                  try {
+                    const isValid =
+                      await deletionValidationSchema.isValid(formStateDelete);
+                    if (!isValid) {
+                      log.debug('Validation error');
+                      return;
+                    }
+                    handleConfirmDialogOpen();
+                  } catch (submitError) {
+                    log.error('Delete account error', submitError);
+                  }
+                })}
+              >
+                {t('settings:delete.action')}
+              </Button>
+            </FormWrapper>
+          </SettingsCard>
+        </SettingsWrapper>
+        <FabMode />
+        <Snackbar
+          open={snackbarData.open}
+          autoHideDuration={3000}
+          onClose={(): void =>
+            setSnackbarData({ ...snackbarData, open: false })
+          }
+        >
+          <Alert severity="warning" sx={{ width: '100%' }}>
+            {snackbarData.message}
+          </Alert>
+        </Snackbar>
+        <DialogConfirmAction
+          isOpen={isDialogOpen}
+          title={t('settings:notifications.dialog:title')}
+          description={t('settings:notifications.dialog.description')}
+          cancelButtonText={t('settings:notifications.dialog.cancel')}
+          confirmButtonText={t('settings:notifications.dialog.confirm')}
+          onCancelClick={(): void => {
+            setDialogOpen(false);
+            setNotifEnabled(false);
+          }}
+          onConfirmClick={(): void => {
+            setContact(contact);
+            enableNotifications({});
+            setDialogOpen(false);
+          }}
+        />
+        <DialogConfirmAction
+          isOpen={openConfirmDialog}
+          title={t('settings:delete.dialog.title')}
+          description={t('settings:delete.dialog.description')}
+          cancelButtonText={t('settings:delete.dialog.cancel')}
+          confirmButtonText={t('settings:delete.dialog.confirm')}
+          onCancelClick={(): void => {
+            handleConfirmDialogClose();
+          }}
+          onConfirmClick={(): void => {
+            handleDeleteAccountSubmit();
+          }}
+        />
+      </Wrapper>
     </Page>
   );
 };
@@ -405,4 +408,50 @@ const FormWrapper = styled.form`
   gap: 16px;
   width: 75%;
 `;
+
+const SettingsCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 8px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 15px;
+  background-color: ${getThemeMui().palette.background.paper};
+`;
+
+const SettingsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+
+  @media only screen and (min-width: 600px) {
+    &:only-child {
+      width: calc(100% - 10px);
+    }
+  }
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  width: 100%;
+  max-width: 500px;
+`;
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 8px;
+  width: 100%;
+  overflow: auto;
+`;
+
 export default Settings;

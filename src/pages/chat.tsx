@@ -137,6 +137,11 @@ const MessageWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   padding-bottom: 50px;
+  max-width: 584px;
+
+  @media only screen and (min-width: 369px) {
+    width: calc(100% - 10px);
+  }
 `;
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
