@@ -131,6 +131,8 @@ const NotificationsContainer = styled.div`
   align-items: center;
   gap: 10px;
   padding: 0 10px;
+  width: 100%;
+  max-width: 500px;
 `;
 
 export default Notifications;
