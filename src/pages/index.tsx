@@ -243,6 +243,7 @@ export const ArrayWrapper = styled.div`
   padding: 0px 10px;
   gap: 10px;
   justify-content: space-around;
+  max-width: 1000px;
 `;
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {

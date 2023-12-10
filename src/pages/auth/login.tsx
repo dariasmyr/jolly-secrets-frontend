@@ -51,24 +51,29 @@ const Login: FC = () => {
 
   return (
     <PageWrapper>
-      <Image src={'/assets/logo.png'} width={150} height={150} alt="Logo" />
-      <Title>{t('auth:login:title')}</Title>
-      {/*<FormControlLabel*/}
-      {/*  control={<Checkbox defaultChecked />}*/}
-      {/*  label={*/}
-      {/*    <p>*/}
-      {/*      {t('auth:login:confirm_with')}{' '}*/}
-      {/*      <a href="#">{t('auth:login:terms_of_use')}</a>*/}
-      {/*    </p>*/}
-      {/*  }*/}
-      {/*/>*/}
-      <Button variant={ButtonVariant.primary} onClick={handleLoginViaTelegram}>
-        {t('auth:login:telegram')}
-      </Button>
-      <p>{t('auth:login:or')}</p>
-      <Button variant={ButtonVariant.primary} onClick={handleLoginViaGoogle}>
-        {t('auth:login:google')}
-      </Button>
+      <Wrapper>
+        <Image src={'/assets/logo.png'} width={150} height={150} alt="Logo" />
+        <Title>{t('auth:login:title')}</Title>
+        {/*<FormControlLabel*/}
+        {/*  control={<Checkbox defaultChecked />}*/}
+        {/*  label={*/}
+        {/*    <p>*/}
+        {/*      {t('auth:login:confirm_with')}{' '}*/}
+        {/*      <a href="#">{t('auth:login:terms_of_use')}</a>*/}
+        {/*    </p>*/}
+        {/*  }*/}
+        {/*/>*/}
+        <Button
+          variant={ButtonVariant.primary}
+          onClick={handleLoginViaTelegram}
+        >
+          {t('auth:login:telegram')}
+        </Button>
+        <p>{t('auth:login:or')}</p>
+        <Button variant={ButtonVariant.primary} onClick={handleLoginViaGoogle}>
+          {t('auth:login:google')}
+        </Button>
+      </Wrapper>
     </PageWrapper>
   );
 };
@@ -103,6 +108,13 @@ const PageWrapper = styled.div`
   padding-bottom: 30%;
   height: 100vh;
   gap: 16px;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
 `;
 
 export default Login;
