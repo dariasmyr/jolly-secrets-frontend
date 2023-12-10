@@ -244,6 +244,7 @@ export const ArrayWrapper = styled.div`
   gap: 10px;
   justify-content: space-around;
   max-width: 1000px;
+  width: 100%;
 `;
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
