@@ -1,0 +1,9 @@
+{
+    "accountSuspended": "Account Suspended",
+    "unauthorized": "Unauthorized",
+    "invalidPassword": "Invalid password",
+    "accountNotFound": "Account not found",
+    "emailNotSent": "Email not sent",
+    "invalidCode": "Invalid code",
+    "tokenExpired": "Token expired"
+  }
