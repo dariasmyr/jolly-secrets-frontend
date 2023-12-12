@@ -1,11 +1,11 @@
 {
   "errors": {
     "account_suspended": "Аккаунт заблокрован",
-    "unauthorized": "Неавторзован",
+    "unauthorized": "Неавторизован",
     "invalid_password": "Неверный пароль",
     "account_notfound": "Аккаунт устарел",
     "email_not_sent": "Ошибка отправки email",
     "invalid_code": "Неверный код",
     "token_expired": "Токен устарел"
   }
-  }
+}

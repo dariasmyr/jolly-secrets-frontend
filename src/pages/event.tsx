@@ -577,6 +577,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
         'event',
         'common',
         'menu',
+        'errors',
       ])),
     },
   };
