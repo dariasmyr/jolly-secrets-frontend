@@ -105,7 +105,7 @@ const PageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-bottom: 30%;
+  padding-bottom: 10%;
   height: 100vh;
   gap: 16px;
 `;
@@ -115,6 +115,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 16px;
   align-items: center;
+  justify-content: flex-end;
 `;
 
 export default Login;
