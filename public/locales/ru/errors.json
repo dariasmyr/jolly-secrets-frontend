@@ -1,9 +1,11 @@
 {
-    "accountSuspended": "Аккаунт заблокрован",
+  "errors": {
+    "account_suspended": "Аккаунт заблокрован",
     "unauthorized": "Неавторзован",
-    "invalidPassword": "Неверный пароль",
-    "accountNotFound": "Аккаунт устарел",
-    "emailNotSent": "Ошибка отправки email",
-    "invalidCode": "Неверный код",
-    "tokenExpired": "Токен устарел"
+    "invalid_password": "Неверный пароль",
+    "account_notfound": "Аккаунт устарел",
+    "email_not_sent": "Ошибка отправки email",
+    "invalid_code": "Неверный код",
+    "token_expired": "Токен устарел"
+  }
   }

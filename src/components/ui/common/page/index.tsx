@@ -76,7 +76,7 @@ const MenuItem = (properties: MenuItemProperties): ReactElement => {
 };
 
 export const Page = (properties: IPageProperties): ReactElement => {
-  const { t } = useTranslation(['menu']);
+  const { t } = useTranslation(['menu', 'errors']);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const router = useRouter();
   const authStore = useAuthStore();
@@ -114,8 +114,18 @@ export const Page = (properties: IPageProperties): ReactElement => {
   }, []);
 
   if (error) {
+    if (error.message) {
+      if (error.message.includes(t('errors:errors.token_expired'))) {
+        console.log('TOKEN EXPIRED');
+        authStore.clear();
+        router.push('/auth/login');
+      } else {
+        console.error('Error:', error.message);
+      }
+    }
     return <div>Error: {error.message}</div>;
   }
+
   if (!router.isReady || loading) return <div>Loading...</div>;
 
   return (

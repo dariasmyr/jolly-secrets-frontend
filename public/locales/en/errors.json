@@ -1,9 +1,11 @@
 {
-    "accountSuspended": "Account Suspended",
-    "unauthorized": "Unauthorized",
-    "invalidPassword": "Invalid password",
-    "accountNotFound": "Account not found",
-    "emailNotSent": "Email not sent",
-    "invalidCode": "Invalid code",
-    "tokenExpired": "Token expired"
+    "errors": {
+        "account_suspended": "Account Suspended",
+        "unauthorized": "Unauthorized",
+        "invalid_password": "Invalid password",
+        "account_notfound": "Account not found",
+        "email_not_sent": "Email not sent",
+        "invalid_code": "Invalid code",
+        "token_expired": "Token expired"
+    }
   }
