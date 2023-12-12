@@ -1,9 +1,9 @@
 {
-    "accountSuspended": "ккаунт залокрован",
+    "accountSuspended": "Аккаунт заблокрован",
     "unauthorized": "Неавторзован",
-    "invalidPassword": "Неверный арол",
-    "accountNotFound": "ккаунт устарел",
-    "emailNotSent": "Ока отравк email",
+    "invalidPassword": "Неверный пароль",
+    "accountNotFound": "Аккаунт устарел",
+    "emailNotSent": "Ошибка отправки email",
     "invalidCode": "Неверный код",
     "tokenExpired": "Токен устарел"
   }
