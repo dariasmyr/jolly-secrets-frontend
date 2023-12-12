@@ -20,7 +20,7 @@ const Login: FC = () => {
   const { data: googleLinkData, error: googleLinkError } =
     useGenerateUrlGoogleQuery({
       variables: {
-        state: 'http://localhost:3000/auth/google',
+        state: `${process.env.NEXT_PUBLIC_SELF_URL_BASE}`,
       },
     });
   const router = useRouter();
