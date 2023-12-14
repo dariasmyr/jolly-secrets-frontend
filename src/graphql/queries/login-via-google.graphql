@@ -1,5 +1,8 @@
-query generateUrlGoogle ($state: String!) {
-  generateUrlGoogle(state: $state)
+query generateUrlGoogle ($language: String! $state: String!) {
+  generateUrlGoogle(
+  language: $language
+  state: $state
+  )
 }
 
 mutation loginWithGoogle ($code: String!) {
