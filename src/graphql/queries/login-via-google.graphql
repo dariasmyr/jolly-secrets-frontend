@@ -1,6 +1,5 @@
-query generateUrlGoogle ($language: String! $state: String!) {
+query generateUrlGoogle ($state: String!) {
   generateUrlGoogle(
-  language: $language
   state: $state
   )
 }

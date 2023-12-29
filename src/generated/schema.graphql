@@ -362,7 +362,7 @@ type Query {
   event(id: Int!): Event!
   events(groupId: Int!): [Event!]!
   generateTelegramBotLink: String!
-  generateUrlGoogle(language: String = "en", state: String): String!
+  generateUrlGoogle(state: String): String!
   getAccountCount: Int!
   getEventApplicationPairByEventAndAccount(eventId: Int!): EventApplicationPair
   getGroupByEventId(eventId: Int!): Group!

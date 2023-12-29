@@ -545,7 +545,6 @@ export type QueryEventsArgs = {
 
 
 export type QueryGenerateUrlGoogleArgs = {
-  language?: InputMaybe<Scalars['String']['input']>;
   state?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -746,7 +745,6 @@ export type IsGroupNameAvailvableQueryVariables = Exact<{
 export type IsGroupNameAvailvableQuery = { __typename?: 'Query', isGroupNameAvailable: boolean };
 
 export type GenerateUrlGoogleQueryVariables = Exact<{
-  language: Scalars['String']['input'];
   state: Scalars['String']['input'];
 }>;
 
@@ -1724,8 +1722,8 @@ export type IsGroupNameAvailvableQueryHookResult = ReturnType<typeof useIsGroupN
 export type IsGroupNameAvailvableLazyQueryHookResult = ReturnType<typeof useIsGroupNameAvailvableLazyQuery>;
 export type IsGroupNameAvailvableQueryResult = Apollo.QueryResult<IsGroupNameAvailvableQuery, IsGroupNameAvailvableQueryVariables>;
 export const GenerateUrlGoogleDocument = gql`
-    query generateUrlGoogle($language: String!, $state: String!) {
-  generateUrlGoogle(language: $language, state: $state)
+    query generateUrlGoogle($state: String!) {
+  generateUrlGoogle(state: $state)
 }
     `;
 
@@ -1741,7 +1739,6 @@ export const GenerateUrlGoogleDocument = gql`
  * @example
  * const { data, loading, error } = useGenerateUrlGoogleQuery({
  *   variables: {
- *      language: // value for 'language'
  *      state: // value for 'state'
  *   },
  * });

@@ -20,7 +20,6 @@ const Login: FC = () => {
   const { data: googleLinkData, error: googleLinkError } =
     useGenerateUrlGoogleQuery({
       variables: {
-        language: navigator.language,
         state: `${process.env.NEXT_PUBLIC_SELF_URL_BASE}`,
       },
     });
