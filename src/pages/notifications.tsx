@@ -79,7 +79,7 @@ const Notifications: FC = () => {
             <Image
               src={'/assets/sand-clock.png'}
               width={130}
-              height={100}
+              height={150}
               alt="Wait"
             />
           </StyledImage>
