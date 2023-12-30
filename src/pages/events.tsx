@@ -133,7 +133,7 @@ const Events: FC = () => {
           <StyledImage>
             <Image
               src={'/assets/sand-clock.png'}
-              width={100}
+              width={130}
               height={100}
               alt="Wait"
             />

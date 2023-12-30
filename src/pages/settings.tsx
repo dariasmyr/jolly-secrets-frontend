@@ -9,8 +9,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
 import { FabMode } from '@components/ui/common/fab-mode';
 import { Page } from '@components/ui/common/page';
-import { Description } from '@components/ui/common/styled-components';
-import { HeaderWrapper } from '@components/ui/custom/card-image/styled-components';
+import { Description, Paper } from '@components/ui/common/styled-components';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import { Avatar, Switch } from '@mui/material';
@@ -32,7 +31,6 @@ import {
 } from '@/generated/graphql';
 import { log } from '@/services/log';
 import { useAuthStore } from '@/store/auth.store';
-import { getThemeMui } from '@/theme';
 
 const usernameValidationSchema = Yup.object().shape({
   username: Yup.string().required('Required field'),
@@ -213,10 +211,10 @@ const Settings: FC = () => {
       title={t('settings:name_change.title')}
       style={{ gap: 16, marginTop: 24 }}
     >
-      <Wrapper>
+      <PageWrapper>
         <SettingsWrapper>
           <Header>{t('settings:name_change.title')}</Header>
-          <SettingsCard>
+          <Paper>
             {
               <FormWrapper
                 onSubmit={handleSubmitName(async (formData: FormData) => {
@@ -262,41 +260,45 @@ const Settings: FC = () => {
                 </Button>
               </FormWrapper>
             }
-          </SettingsCard>
+          </Paper>
           <Header>{t('settings:notifications.title')}</Header>
-          <SettingsCard>
-            <HeaderWrapper>
-              <Avatar variant="rounded">
-                <AlternateEmailIcon />
-              </Avatar>
-              <Header>{t('settings:notifications.media')}</Header>
-              <Switch
-                {...label}
-                checked={notifEnabled}
-                onChange={(event): Promise<void> =>
-                  handleNotifSwitch(event.target.checked)
-                }
-              />
-            </HeaderWrapper>
-            <ContentWrapper>
-              <Description>
-                {t('settings:notifications.description')}
-              </Description>
-              {notifEnabled &&
-                contact &&
-                (isGoogleProfile ? (
-                  <Description>{`${t(
-                    'settings:notifications.current_email',
-                  )} ${contact}`}</Description>
-                ) : (
-                  <Description>{`${t(
-                    'settings:notifications.current_telegram',
-                  )} ${telegramId}`}</Description>
-                ))}
-            </ContentWrapper>
-          </SettingsCard>
+          <Paper>
+            <FormWrapper>
+              <HeaderWrapper>
+                <NameWrapper>
+                  <Avatar variant="rounded">
+                    <AlternateEmailIcon />
+                  </Avatar>
+                  <Header>{t('settings:notifications.media')}</Header>
+                </NameWrapper>
+                <Switch
+                  {...label}
+                  checked={notifEnabled}
+                  onChange={(event): Promise<void> =>
+                    handleNotifSwitch(event.target.checked)
+                  }
+                />
+              </HeaderWrapper>
+              <ContentWrapper>
+                <Description>
+                  {t('settings:notifications.description')}
+                </Description>
+                {notifEnabled &&
+                  contact &&
+                  (isGoogleProfile ? (
+                    <Description>{`${t(
+                      'settings:notifications.current_email',
+                    )} ${contact}`}</Description>
+                  ) : (
+                    <Description>{`${t(
+                      'settings:notifications.current_telegram',
+                    )} ${telegramId}`}</Description>
+                  ))}
+              </ContentWrapper>
+            </FormWrapper>
+          </Paper>
           <Header>{t('settings:delete.title')}</Header>
-          <SettingsCard>
+          <Paper>
             <FormWrapper
               onSubmit={handleSubmitDelete(async () => {
                 try {
@@ -341,7 +343,7 @@ const Settings: FC = () => {
                 {t('settings:delete.action')}
               </Button>
             </FormWrapper>
-          </SettingsCard>
+          </Paper>
         </SettingsWrapper>
         <FabMode />
         <Snackbar
@@ -384,7 +386,7 @@ const Settings: FC = () => {
             handleDeleteAccountSubmit();
           }}
         />
-      </Wrapper>
+      </PageWrapper>
     </Page>
   );
 };
@@ -407,18 +409,8 @@ const FormWrapper = styled.form`
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
-  width: 75%;
-`;
-
-const SettingsCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  gap: 8px;
   width: 100%;
-  padding: 16px;
-  border-radius: 15px;
-  background-color: ${getThemeMui().palette.background.paper};
+  margin: 16px 0;
 `;
 
 const SettingsWrapper = styled.div`
@@ -435,7 +427,7 @@ const SettingsWrapper = styled.div`
   }
 `;
 
-const Wrapper = styled.div`
+const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -453,6 +445,20 @@ const ContentWrapper = styled.div`
   gap: 8px;
   width: 100%;
   overflow: auto;
+`;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+`;
+
+const NameWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 16px;
 `;
 
 export default Settings;

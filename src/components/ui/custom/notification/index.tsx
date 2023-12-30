@@ -1,9 +1,9 @@
 import { ReactElement, useMemo } from 'react';
 import { useRouter } from 'next/router';
+import { Paper } from '@components/ui/common/styled-components';
 import {
   ContentWrapper,
   Header,
-  NotificationCard,
   Text,
   Wrapper,
 } from '@components/ui/custom/notification/styled-components';
@@ -30,7 +30,7 @@ export const Notification = (
   }, [dateLocale, properties.date]);
 
   return (
-    <NotificationCard>
+    <Paper>
       <Wrapper>
         <img
           src={'/assets/secret_santa.png'}
@@ -46,6 +46,6 @@ export const Notification = (
           <Text>{properties.text}</Text>
         </ContentWrapper>
       </Wrapper>
-    </NotificationCard>
+    </Paper>
   );
 };
