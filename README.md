@@ -1,4 +1,8 @@
-![](public/assets/logo.png)
+<div style="text-align: center;">
+    <img src="public/assets/logo.png"
+         alt="Logo"
+         style="width: 50%; height: auto;" />
+</div>
 
 # Jolly Secrets Frontend
 
