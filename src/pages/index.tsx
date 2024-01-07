@@ -24,7 +24,7 @@ const Landing: FC = () => {
           layout="responsive"
           width={1920}
           height={1080}
-          alt="Header"
+          alt="header"
         />
       </ImageWrapper>
       <ContentWrapper>
@@ -58,6 +58,54 @@ const Landing: FC = () => {
               width={1920}
               height={1080}
               alt="group-example"
+            />
+          </FrameWrapper>
+        </TutorialDescriptionWrapper>
+        <TutorialDescriptionWrapper>
+          <NumberIcon>2</NumberIcon>
+          <TutorialDescription>
+            Add a wish list to your group. You can add as many wishes as you
+            want.
+          </TutorialDescription>
+          <FrameWrapper>
+            <Image
+              src={'/assets/event-example-ru.png'}
+              layout="responsive"
+              width={1920}
+              height={1080}
+              alt="event-example"
+            />
+          </FrameWrapper>
+        </TutorialDescriptionWrapper>
+        <TutorialDescriptionWrapper>
+          <NumberIcon>3</NumberIcon>
+          <TutorialDescription>
+            Invite your friends to join your group. You can invite them via
+            email, Telegram, or WhatsApp.
+          </TutorialDescription>
+          <FrameWrapper>
+            <Image
+              src={'/assets/application-example-ru.png'}
+              layout="responsive"
+              width={1920}
+              height={1080}
+              alt="application-example"
+            />
+          </FrameWrapper>
+        </TutorialDescriptionWrapper>
+        <TutorialDescriptionWrapper>
+          <NumberIcon>4</NumberIcon>
+          <TutorialDescription>
+            When all your friends join the group, the system will automatically
+            assign each participant a person to whom he will give a gift.
+          </TutorialDescription>
+          <FrameWrapper>
+            <Image
+              src={'/assets/application-status-example-ru.png'}
+              layout="responsive"
+              width={1920}
+              height={1080}
+              alt="application-status-example"
             />
           </FrameWrapper>
         </TutorialDescriptionWrapper>
