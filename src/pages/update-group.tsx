@@ -100,7 +100,7 @@ const UpdateGroup: FC = () => {
       }
       reset();
       if (!isPrivate) {
-        await router.push(`/`);
+        await router.push(`/public-groups`);
       }
     }
   };

@@ -14,7 +14,7 @@ import {
 import { CardImage } from '@components/ui/custom/card-image';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import { ArrayWrapper } from '@pages/index';
+import { ArrayWrapper } from '@pages/public-groups';
 import { DialogConfirmAction } from 'src/components/ui/custom/dialog-confirm-action';
 import styled from 'styled-components';
 

@@ -93,7 +93,7 @@ const CreateGroup: FC = () => {
     }
   };
   const handleBackClick = async (): Promise<void> => {
-    await router.push(isPrivate ? '/private-groups' : '/');
+    await router.push(isPrivate ? '/private-groups' : '/public-groups');
   };
   const handleClickOpenDialog = (): void => {
     setShowDialog(true);
@@ -143,7 +143,7 @@ const CreateGroup: FC = () => {
       setGroupId(createGroupResponse.data.createGroup.id);
       reset();
       if (!isPrivate) {
-        await router.push(`/`);
+        await router.push(`/public-groups`);
       }
     }
   };

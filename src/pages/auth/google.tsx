@@ -34,7 +34,7 @@ const Login: FC = () => {
 
         settingsStore.setToken(loginData.loginWithGoogle.token);
         settingsStore.setAccount(loginData.loginWithGoogle.account);
-        await router.push('/');
+        await router.push('/public-groups');
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         console.log('error', error);

@@ -13,7 +13,7 @@ import {
   Text,
 } from '@components/ui/common/styled-components';
 import { CardImage } from '@components/ui/custom/card-image';
-import { ArrayWrapper } from '@pages/index';
+import { ArrayWrapper } from '@pages/public-groups';
 import styled from 'styled-components';
 
 import { Header } from '@/components/ui/common/page/styled-components';
@@ -108,9 +108,9 @@ const Events: FC = () => {
   const steps = [
     {
       label: isPrivate ? t('group:groups.private') : t('group:groups.public'),
-      link: isPrivate ? '/private-groups' : '/',
+      link: isPrivate ? '/private-groups' : '/public-groups',
       onClick: async (): Promise<void> => {
-        await router.push(isPrivate ? '/private-groups' : '/');
+        await router.push(isPrivate ? '/private-groups' : '/public-groups');
       },
     },
     {

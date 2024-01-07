@@ -32,7 +32,7 @@ import { useAuthStore } from '@/store/auth.store';
 
 const Logo: React.FC = () => (
   <LogoContainer>
-    <a href="/" style={{ cursor: 'pointer' }}>
+    <a href="/public-groups" style={{ cursor: 'pointer' }}>
       <Image
         src={'/assets/logo-horisontal.png'}
         width={213}
@@ -156,9 +156,9 @@ export const Page = (properties: IPageProperties): ReactElement => {
             }
             name={t('menu:menu.public_groups')}
             onClick={async (): Promise<void> => {
-              await router.push('/');
+              await router.push('/public-groups');
             }}
-            isActive={router.pathname === '/'}
+            isActive={router.pathname === '/public-groups'}
           />
           <MenuItem
             icon={
