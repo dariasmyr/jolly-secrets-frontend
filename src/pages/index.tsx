@@ -32,7 +32,7 @@ const Landing: FC = () => {
           <TitleWrapper>
             <Title>Jolly Secrets</Title>
             <Subtitle>
-              Exchange gifts secretly with friends and colleagues.
+              Лучший способ организовать тайный обмен подарками
             </Subtitle>
           </TitleWrapper>
           <Button variant={ButtonVariant.primary} onClick={handlePlay}>
@@ -41,15 +41,15 @@ const Landing: FC = () => {
         </HeaderWrapper>
         <TutorialWrapper>
           <TutorialTitleWrapper>
-            <TutorialTitle>How it works</TutorialTitle>
+            <TutorialTitle>Как это работает</TutorialTitle>
           </TutorialTitleWrapper>
         </TutorialWrapper>
         <TutorialDescriptionWrapper>
           <NumberIcon>1</NumberIcon>
           <TutorialDescription>
-            Create a group and invite your friends to join it. You can create
-            groups for your friends, family, colleagues, or any other group of
-            people.
+            Создайте группу, укажите название, описание и уровень доступа
+            (приватный или публичный). Пригласите участников, отправив им
+            ссылки-приглашения.
           </TutorialDescription>
           <FrameWrapper>
             <Image
@@ -64,8 +64,9 @@ const Landing: FC = () => {
         <TutorialDescriptionWrapper>
           <NumberIcon>2</NumberIcon>
           <TutorialDescription>
-            Add a wish list to your group. You can add as many wishes as you
-            want.
+            В группе создайте событие для обмена подарками. Если не находите
+            подходящее, создайте свое с указанием названия, описания и срока
+            действия.
           </TutorialDescription>
           <FrameWrapper>
             <Image
@@ -80,8 +81,9 @@ const Landing: FC = () => {
         <TutorialDescriptionWrapper>
           <NumberIcon>3</NumberIcon>
           <TutorialDescription>
-            Invite your friends to join your group. You can invite them via
-            email, Telegram, or WhatsApp.
+            Заполните заявку для участия в событии, указав свои предпочтения и
+            ограничение по стоимости подарка. Мы подберем вам подходящего
+            Тайного Санту и уведомим вас.
           </TutorialDescription>
           <FrameWrapper>
             <Image
@@ -96,8 +98,9 @@ const Landing: FC = () => {
         <TutorialDescriptionWrapper>
           <NumberIcon>4</NumberIcon>
           <TutorialDescription>
-            When all your friends join the group, the system will automatically
-            assign each participant a person to whom he will give a gift.
+            Управляйте статусом исполнения своего желания и выполняйте желание
+            вашего Тайного Санты через Тайный Чат, где можно обсудить все детали
+            (например адрес или номер офиса).
           </TutorialDescription>
           <FrameWrapper>
             <Image
@@ -111,7 +114,7 @@ const Landing: FC = () => {
         </TutorialDescriptionWrapper>
         <ButtonWrapper>
           <Button variant={ButtonVariant.primary} onClick={handlePlay}>
-            Start playing
+            Начать играть
           </Button>
         </ButtonWrapper>
       </ContentWrapper>
@@ -268,7 +271,7 @@ const TutorialWrapper = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   align-self: center;
-  margin-bottom: 40px;
+  margin: 20px 0 50px 0;
 `;
 
 export default Landing;
