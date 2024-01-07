@@ -214,7 +214,7 @@ const Settings: FC = () => {
       <PageWrapper>
         <SettingsWrapper>
           <Header>{t('settings:name_change.title')}</Header>
-          <Paper>
+          <Paper elevation={0}>
             {
               <FormWrapper
                 onSubmit={handleSubmitName(async (formData: FormData) => {

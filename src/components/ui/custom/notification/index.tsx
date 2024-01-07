@@ -30,7 +30,7 @@ export const Notification = (
   }, [dateLocale, properties.date]);
 
   return (
-    <Paper>
+    <Paper elevation={0}>
       <Wrapper>
         <img
           src={'/assets/secret_santa.png'}
