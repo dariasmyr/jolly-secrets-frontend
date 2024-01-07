@@ -36,7 +36,7 @@ const Landing: FC = () => {
             </Subtitle>
           </TitleWrapper>
           <Button variant={ButtonVariant.primary} onClick={handlePlay}>
-            Start playing
+            Начать играть
           </Button>
         </HeaderWrapper>
         <TutorialWrapper>
