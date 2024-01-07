@@ -221,7 +221,7 @@ const NumberIcon = styled.div`
 const FrameWrapper = styled.div`
   background-color: #e7f5ff;
   border-radius: 25px;
-  padding: 10px;
+  padding: 16px;
   max-width: 100vw;
   overflow: hidden;
   width: 100%;
@@ -239,7 +239,6 @@ const PageWrapper = styled.div`
 
 const ImageWrapper = styled.div`
   max-width: 100vw;
-  overflow: hidden;
   width: 100%;
 `;
 
@@ -269,6 +268,7 @@ const TutorialWrapper = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   align-self: center;
+  margin-bottom: 40px;
 `;
 
 export default Landing;
