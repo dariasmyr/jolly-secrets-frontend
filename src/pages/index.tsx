@@ -39,18 +39,20 @@ const Landing: FC = () => {
             Начать играть
           </Button>
         </HeaderWrapper>
-        <TutorialWrapper>
+        <TutorialHeaderWrapper>
           <TutorialTitleWrapper>
             <TutorialTitle>Как это работает</TutorialTitle>
           </TutorialTitleWrapper>
-        </TutorialWrapper>
-        <TutorialDescriptionWrapper>
-          <NumberIcon>1</NumberIcon>
-          <TutorialDescription>
-            Создайте группу, укажите название, описание и уровень доступа
-            (приватный или публичный). Пригласите участников, отправив им
-            ссылки-приглашения.
-          </TutorialDescription>
+        </TutorialHeaderWrapper>
+        <TutorialContentWrapper>
+          <TutorialDescriptionWrapper>
+            <NumberIcon>1</NumberIcon>
+            <TutorialDescription>
+              Создайте группу, укажите название, описание и уровень доступа
+              (приватный или публичный). Пригласите участников, отправив им
+              ссылки-приглашения.
+            </TutorialDescription>
+          </TutorialDescriptionWrapper>
           <FrameWrapper>
             <Image
               src={'/assets/group-example-ru.png'}
@@ -60,14 +62,16 @@ const Landing: FC = () => {
               alt="group-example"
             />
           </FrameWrapper>
-        </TutorialDescriptionWrapper>
-        <TutorialDescriptionWrapper>
-          <NumberIcon>2</NumberIcon>
-          <TutorialDescription>
-            В группе создайте событие для обмена подарками. Если не находите
-            подходящее, создайте свое с указанием названия, описания и срока
-            действия.
-          </TutorialDescription>
+        </TutorialContentWrapper>
+        <TutorialContentWrapper>
+          <TutorialDescriptionWrapper>
+            <NumberIcon>2</NumberIcon>
+            <TutorialDescription>
+              В группе создайте событие для обмена подарками. Если не находите
+              подходящее, создайте свое с указанием названия, описания и срока
+              действия.
+            </TutorialDescription>
+          </TutorialDescriptionWrapper>
           <FrameWrapper>
             <Image
               src={'/assets/event-example-ru.png'}
@@ -77,14 +81,16 @@ const Landing: FC = () => {
               alt="event-example"
             />
           </FrameWrapper>
-        </TutorialDescriptionWrapper>
-        <TutorialDescriptionWrapper>
-          <NumberIcon>3</NumberIcon>
-          <TutorialDescription>
-            Заполните заявку для участия в событии, указав свои предпочтения и
-            ограничение по стоимости подарка. Мы подберем вам подходящего
-            Тайного Санту и уведомим вас.
-          </TutorialDescription>
+        </TutorialContentWrapper>
+        <TutorialContentWrapper>
+          <TutorialDescriptionWrapper>
+            <NumberIcon>3</NumberIcon>
+            <TutorialDescription>
+              Заполните заявку для участия в событии, указав свои предпочтения и
+              ограничение по стоимости подарка. Мы подберем вам подходящего
+              Тайного Санту и уведомим вас.
+            </TutorialDescription>
+          </TutorialDescriptionWrapper>
           <FrameWrapper>
             <Image
               src={'/assets/application-example-ru.png'}
@@ -94,14 +100,16 @@ const Landing: FC = () => {
               alt="application-example"
             />
           </FrameWrapper>
-        </TutorialDescriptionWrapper>
-        <TutorialDescriptionWrapper>
-          <NumberIcon>4</NumberIcon>
-          <TutorialDescription>
-            Управляйте статусом исполнения своего желания и выполняйте желание
-            вашего Тайного Санты через Тайный Чат, где можно обсудить все детали
-            (например адрес или номер офиса).
-          </TutorialDescription>
+        </TutorialContentWrapper>
+        <TutorialContentWrapper>
+          <TutorialDescriptionWrapper>
+            <NumberIcon>4</NumberIcon>
+            <TutorialDescription>
+              Управляйте статусом исполнения своего желания и выполняйте желание
+              вашего Тайного Санты через Тайный Чат, где можно обсудить все
+              детали (например адрес или номер офиса).
+            </TutorialDescription>
+          </TutorialDescriptionWrapper>
           <FrameWrapper>
             <Image
               src={'/assets/application-status-example-ru.png'}
@@ -111,7 +119,7 @@ const Landing: FC = () => {
               alt="application-status-example"
             />
           </FrameWrapper>
-        </TutorialDescriptionWrapper>
+        </TutorialContentWrapper>
         <ButtonWrapper>
           <Button variant={ButtonVariant.primary} onClick={handlePlay}>
             Начать играть
@@ -140,8 +148,16 @@ const Title = styled.div`
   font-family: Roboto, sans-serif;
   font-size: 24px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 133.4%; /* 32.016px */
+
+  @media (min-width: 480px) {
+    font-size: 32px;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 40px;
+  }
 `;
 
 const Subtitle = styled.div`
@@ -156,6 +172,14 @@ const Subtitle = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: 150%; /* 24px */
+
+  @media (min-width: 480px) {
+    font-size: 18px;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 const TitleWrapper = styled.div`
@@ -180,7 +204,21 @@ const TutorialTitle = styled.div`
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
-  line-height: 133.4%; /* 32.016px */
+  line-height: 133.4%;
+`;
+
+const TutorialContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    gap: 40px;
+  }
 `;
 
 const TutorialDescriptionWrapper = styled.div`
@@ -189,6 +227,12 @@ const TutorialDescriptionWrapper = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: 16px;
+
+  width: 100%;
+
+  @media (min-width: 768px) {
+    width: calc(40% - 20px);
+  }
 `;
 
 const TutorialDescription = styled.div`
@@ -196,7 +240,7 @@ const TutorialDescription = styled.div`
     'clig' off,
     'liga' off;
   font-family: Roboto, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: 150%; /* 24px */
@@ -215,7 +259,7 @@ const NumberIcon = styled.div`
     'clig' off,
     'liga' off;
   font-family: Roboto, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: 150%;
@@ -223,11 +267,16 @@ const NumberIcon = styled.div`
 
 const FrameWrapper = styled.div`
   background-color: #e7f5ff;
-  border-radius: 25px;
+  border-radius: 20px;
   padding: 16px;
-  max-width: 100vw;
   overflow: hidden;
   width: 100%;
+  max-width: 480px;
+  align-self: center;
+
+  @media (min-width: 768px) {
+    width: calc(60% - 20px);
+  }
 `;
 
 const PageWrapper = styled.div`
@@ -248,7 +297,7 @@ const ImageWrapper = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   max-width: 1440px;
   gap: 20px;
   margin: 0 18px;
@@ -261,10 +310,11 @@ const HeaderWrapper = styled.div`
   gap: 20px;
 `;
 
-const TutorialWrapper = styled.div`
+const TutorialHeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  width: 100%;
   gap: 20px;
 `;
 
