@@ -18,7 +18,7 @@ const Landing: FC = () => {
 
   return (
     <PageWrapper>
-      <ImageWrapper>
+      <HeaderImageWrapper>
         <Image
           src={'/assets/header.png'}
           layout="responsive"
@@ -26,7 +26,7 @@ const Landing: FC = () => {
           height={1080}
           alt="header"
         />
-      </ImageWrapper>
+      </HeaderImageWrapper>
       <ContentWrapper>
         <HeaderWrapper>
           <TitleWrapper>
@@ -54,13 +54,15 @@ const Landing: FC = () => {
             </TutorialDescription>
           </TutorialDescriptionWrapper>
           <FrameWrapper>
-            <Image
-              src={'/assets/group-example-ru.png'}
-              layout="responsive"
-              width={1920}
-              height={1080}
-              alt="group-example"
-            />
+            <ImageWrapper>
+              <Image
+                src={'/assets/group-example-ru.png'}
+                layout="responsive"
+                width={480}
+                height={390}
+                alt="group-example"
+              />
+            </ImageWrapper>
           </FrameWrapper>
         </TutorialContentWrapper>
         <TutorialContentWrapper>
@@ -73,13 +75,15 @@ const Landing: FC = () => {
             </TutorialDescription>
           </TutorialDescriptionWrapper>
           <FrameWrapper>
-            <Image
-              src={'/assets/event-example-ru.png'}
-              layout="responsive"
-              width={1920}
-              height={1080}
-              alt="event-example"
-            />
+            <ImageWrapper>
+              <Image
+                src={'/assets/event-example-ru.png'}
+                layout="responsive"
+                width={480}
+                height={390}
+                alt="event-example"
+              />
+            </ImageWrapper>
           </FrameWrapper>
         </TutorialContentWrapper>
         <TutorialContentWrapper>
@@ -92,13 +96,15 @@ const Landing: FC = () => {
             </TutorialDescription>
           </TutorialDescriptionWrapper>
           <FrameWrapper>
-            <Image
-              src={'/assets/application-example-ru.png'}
-              layout="responsive"
-              width={1920}
-              height={1080}
-              alt="application-example"
-            />
+            <ImageWrapper>
+              <Image
+                src={'/assets/application-example-ru.png'}
+                layout="responsive"
+                width={480}
+                height={390}
+                alt="application-example"
+              />
+            </ImageWrapper>
           </FrameWrapper>
         </TutorialContentWrapper>
         <TutorialContentWrapper>
@@ -111,13 +117,15 @@ const Landing: FC = () => {
             </TutorialDescription>
           </TutorialDescriptionWrapper>
           <FrameWrapper>
-            <Image
-              src={'/assets/application-status-example-ru.png'}
-              layout="responsive"
-              width={1920}
-              height={1080}
-              alt="application-status-example"
-            />
+            <ImageWrapper>
+              <Image
+                src={'/assets/application-status-example-ru.png'}
+                layout="responsive"
+                width={480}
+                height={390}
+                alt="application-status-example"
+              />
+            </ImageWrapper>
           </FrameWrapper>
         </TutorialContentWrapper>
         <ButtonWrapper>
@@ -271,8 +279,11 @@ const FrameWrapper = styled.div`
   padding: 16px;
   overflow: hidden;
   width: 100%;
-  max-width: 480px;
+  max-width: 600px;
   align-self: center;
+
+  display: flex;
+  justify-content: center;
 
   @media (min-width: 768px) {
     width: calc(60% - 20px);
@@ -289,8 +300,13 @@ const PageWrapper = styled.div`
   gap: 16px;
 `;
 
-const ImageWrapper = styled.div`
+const HeaderImageWrapper = styled.div`
   max-width: 100vw;
+  width: 100%;
+`;
+
+const ImageWrapper = styled.div`
+  max-width: 480px;
   width: 100%;
 `;
 
