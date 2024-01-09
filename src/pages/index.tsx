@@ -19,33 +19,38 @@ const Landing: FC = () => {
   return (
     <PageWrapper>
       <HeaderImageWrapper>
-        <Image
-          src={'/assets/header.png'}
-          layout="responsive"
-          width={1920}
-          height={1080}
-          alt="header"
-        />
+        <HeaderImage />
       </HeaderImageWrapper>
-      <LogoWrapper>
+      <LogoBoxWrapper>
         <Image
-          src={'/assets/logo.png'}
+          src={'/assets/logo-box.png'}
           layout="responsive"
           width={150}
           height={150}
-          alt="logo"
+          alt="logo-box"
         />
-      </LogoWrapper>
+      </LogoBoxWrapper>
       <ContentWrapper>
         <HeaderWrapper>
+          <LogoTitleWrapper>
+            <Image
+              src={'/assets/logo-title.png'}
+              layout="responsive"
+              width={220}
+              height={60}
+              alt="logo-title"
+            />
+          </LogoTitleWrapper>
           <TitleWrapper>
             <Subtitle>
               Лучший способ организовать тайный обмен подарками
             </Subtitle>
           </TitleWrapper>
-          <Button variant={ButtonVariant.primary} onClick={handlePlay}>
-            Начать играть
-          </Button>
+          <ButtonWrapperHeader>
+            <Button variant={ButtonVariant.primary} onClick={handlePlay}>
+              Начать играть
+            </Button>
+          </ButtonWrapperHeader>
         </HeaderWrapper>
         <TutorialHeaderWrapper>
           <TutorialTitleWrapper>
@@ -56,8 +61,9 @@ const Landing: FC = () => {
           <TutorialDescriptionWrapper>
             <NumberIcon>1</NumberIcon>
             <TutorialDescription>
-              Создайте группу, укажите название, описание и уровень доступа
-              (приватный или публичный). Пригласите участников, отправив им
+              <strong>Создайте группу:</strong> укажите название, описание и
+              уровень доступа (<strong>приватный</strong> или{' '}
+              <strong>публичный</strong>). Пригласите участников, отправив им
               ссылки-приглашения.
             </TutorialDescription>
           </TutorialDescriptionWrapper>
@@ -77,9 +83,8 @@ const Landing: FC = () => {
           <TutorialDescriptionWrapper>
             <NumberIcon>2</NumberIcon>
             <TutorialDescription>
-              В группе создайте событие для обмена подарками. Если не находите
-              подходящее, создайте свое с указанием названия, описания и срока
-              действия.
+              <strong>Cоздайте событие для обмена подарками.</strong> Если не
+              находите подходящее, вы можете создайть свое!
             </TutorialDescription>
           </TutorialDescriptionWrapper>
           <FrameWrapper>
@@ -98,9 +103,9 @@ const Landing: FC = () => {
           <TutorialDescriptionWrapper>
             <NumberIcon>3</NumberIcon>
             <TutorialDescription>
-              Заполните заявку для участия в событии, указав свои предпочтения и
-              ограничение по стоимости подарка. Мы подберем вам подходящего
-              Тайного Санту и уведомим вас.
+              <strong>Заполните заявку:</strong> укажите свои предпочтения и
+              ограничение по стоимости подарка. А мы подберем вам подходящего
+              партнера!
             </TutorialDescription>
           </TutorialDescriptionWrapper>
           <FrameWrapper>
@@ -119,9 +124,10 @@ const Landing: FC = () => {
           <TutorialDescriptionWrapper>
             <NumberIcon>4</NumberIcon>
             <TutorialDescription>
-              Управляйте статусом исполнения своего желания и выполняйте желание
-              вашего Тайного Санты через Тайный Чат, где можно обсудить все
-              детали (например адрес или номер офиса).
+              <strong>
+                Обновляйте статус исполнения желания вашего партнера!
+              </strong>{' '}
+              А все детали можете обсудить с ним в Тайном Чате!
             </TutorialDescription>
           </TutorialDescriptionWrapper>
           <FrameWrapper>
@@ -136,11 +142,11 @@ const Landing: FC = () => {
             </ImageWrapper>
           </FrameWrapper>
         </TutorialContentWrapper>
-        <ButtonWrapper>
+        <ButtonWrapperFooter>
           <Button variant={ButtonVariant.primary} onClick={handlePlay}>
             Начать играть
           </Button>
-        </ButtonWrapper>
+        </ButtonWrapperFooter>
       </ContentWrapper>
     </PageWrapper>
   );
@@ -282,7 +288,7 @@ const NumberIcon = styled.div`
 `;
 
 const FrameWrapper = styled.div`
-  background-color: #e7f5ff;
+  background-color: #f2f3fa;
   border-radius: 20px;
   padding: 16px;
   overflow: hidden;
@@ -292,6 +298,7 @@ const FrameWrapper = styled.div`
 
   display: flex;
   justify-content: center;
+  align-items: center;
 
   @media (min-width: 768px) {
     width: calc(60% - 20px);
@@ -331,7 +338,6 @@ const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
 `;
 
 const TutorialHeaderWrapper = styled.div`
@@ -342,10 +348,16 @@ const TutorialHeaderWrapper = styled.div`
   gap: 20px;
 `;
 
-const ButtonWrapper = styled.div`
+const ButtonWrapperFooter = styled.div`
   display: flex;
   align-self: center;
   margin: 20px 0 50px 0;
+`;
+
+const ButtonWrapperHeader = styled.div`
+  display: flex;
+  align-self: center;
+  margin: 20px 0;
 `;
 
 const bounceAnimation = keyframes`
@@ -357,11 +369,30 @@ const bounceAnimation = keyframes`
   }
 `;
 
-const LogoWrapper = styled.div`
-  max-width: 200px;
+const LogoBoxWrapper = styled.div`
+  max-width: 100px;
   width: 100%;
   animation: ${bounceAnimation} 2s cubic-bezier(0.68, -0.55, 0.27, 1.55)
     infinite;
+
+  @media (min-width: 480px) {
+    max-width: 150px;
+  }
+`;
+
+const LogoTitleWrapper = styled.div`
+  max-width: 220px;
+  width: 100%;
+  @media (min-width: 480px) {
+    max-width: 300px;
+  }
+`;
+
+const HeaderImage = styled.div`
+  height: 10vh;
+  width: 100%;
+  background-color: #a2c9ff;
+  background: linear-gradient(180deg, #a2c9ff 0%, rgba(137, 153, 226, 0) 100%);
 `;
 
 export default Landing;
