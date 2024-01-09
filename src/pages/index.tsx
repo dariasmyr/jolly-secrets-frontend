@@ -59,12 +59,14 @@ const Landing: FC = () => {
         </TutorialHeaderWrapper>
         <TutorialContentWrapper>
           <TutorialDescriptionWrapper>
-            <NumberIcon>1</NumberIcon>
+            <TutorialStepWrapper>
+              <NumberIcon>1</NumberIcon>
+              <TutorialStepTitle>Создайте группу</TutorialStepTitle>
+            </TutorialStepWrapper>
             <TutorialDescription>
-              <strong>Создайте группу:</strong> укажите название, описание и
-              уровень доступа (<strong>приватный</strong> или{' '}
-              <strong>публичный</strong>). Пригласите участников, отправив им
-              ссылки-приглашения.
+              Внутри группы укажите название, описание и уровень доступа (
+              <strong>приватный</strong> или <strong>публичный</strong>).
+              Пригласите участников, отправив им ссылки-приглашения.
             </TutorialDescription>
           </TutorialDescriptionWrapper>
           <FrameWrapper>
@@ -81,10 +83,12 @@ const Landing: FC = () => {
         </TutorialContentWrapper>
         <TutorialContentWrapper>
           <TutorialDescriptionWrapper>
-            <NumberIcon>2</NumberIcon>
+            <TutorialStepWrapper>
+              <NumberIcon>2</NumberIcon>
+              <TutorialStepTitle>Cоздайте событие</TutorialStepTitle>
+            </TutorialStepWrapper>
             <TutorialDescription>
-              <strong>Cоздайте событие для обмена подарками.</strong> Если не
-              находите подходящее, вы можете создайть свое!
+              Если не находите подходящее, вы можете создайть свое!
             </TutorialDescription>
           </TutorialDescriptionWrapper>
           <FrameWrapper>
@@ -101,11 +105,13 @@ const Landing: FC = () => {
         </TutorialContentWrapper>
         <TutorialContentWrapper>
           <TutorialDescriptionWrapper>
-            <NumberIcon>3</NumberIcon>
+            <TutorialStepWrapper>
+              <NumberIcon>3</NumberIcon>
+              <TutorialStepTitle>Заполните заявку</TutorialStepTitle>
+            </TutorialStepWrapper>
             <TutorialDescription>
-              <strong>Заполните заявку:</strong> укажите свои предпочтения и
-              ограничение по стоимости подарка. А мы подберем вам подходящего
-              партнера!
+              Укажите свои предпочтения и ограничение по стоимости подарка. А мы
+              подберем вам подходящего партнера!
             </TutorialDescription>
           </TutorialDescriptionWrapper>
           <FrameWrapper>
@@ -122,12 +128,14 @@ const Landing: FC = () => {
         </TutorialContentWrapper>
         <TutorialContentWrapper>
           <TutorialDescriptionWrapper>
-            <NumberIcon>4</NumberIcon>
+            <TutorialStepWrapper>
+              <NumberIcon>4</NumberIcon>
+              <TutorialStepTitle>Обновляйте статусы</TutorialStepTitle>
+            </TutorialStepWrapper>
             <TutorialDescription>
-              <strong>
-                Обновляйте статус исполнения желания вашего партнера!
-              </strong>{' '}
-              А все детали можете обсудить с ним в Тайном Чате!
+              Обновляйте статус исполнения желания вашего партнера и следите за
+              своим статусом! Все детали можно обсудить с вашим партнером в
+              Тайном Чате!
             </TutorialDescription>
           </TutorialDescriptionWrapper>
           <FrameWrapper>
@@ -223,7 +231,7 @@ const TutorialTitle = styled.div`
     'clig' off,
     'liga' off;
   font-family: Roboto, sans-serif;
-  font-size: 18px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 600;
   line-height: 133.4%;
@@ -329,9 +337,9 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 1440px;
+  max-width: 1240px;
   gap: 20px;
-  margin: 0 18px;
+  margin: 0 20px;
 `;
 
 const HeaderWrapper = styled.div`
@@ -357,7 +365,7 @@ const ButtonWrapperFooter = styled.div`
 const ButtonWrapperHeader = styled.div`
   display: flex;
   align-self: center;
-  margin: 20px 0;
+  margin: 40px 0;
 `;
 
 const bounceAnimation = keyframes`
@@ -391,8 +399,25 @@ const LogoTitleWrapper = styled.div`
 const HeaderImage = styled.div`
   height: 10vh;
   width: 100%;
-  background-color: #a2c9ff;
   background: linear-gradient(180deg, #a2c9ff 0%, rgba(137, 153, 226, 0) 100%);
+`;
+
+const TutorialStepWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+`;
+
+const TutorialStepTitle = styled.div`
+  font-feature-settings:
+    'clig' off,
+    'liga' off;
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 133.4%;
 `;
 
 export default Landing;
