@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, ButtonVariant } from '@components/ui/common/button';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { getThemeMui } from '@/theme';
 const themeMui = getThemeMui();
@@ -27,10 +27,18 @@ const Landing: FC = () => {
           alt="header"
         />
       </HeaderImageWrapper>
+      <LogoWrapper>
+        <Image
+          src={'/assets/logo.png'}
+          layout="responsive"
+          width={150}
+          height={150}
+          alt="logo"
+        />
+      </LogoWrapper>
       <ContentWrapper>
         <HeaderWrapper>
           <TitleWrapper>
-            <Title>Jolly Secrets</Title>
             <Subtitle>
               Лучший способ организовать тайный обмен подарками
             </Subtitle>
@@ -146,27 +154,27 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   };
 };
 
-const Title = styled.div`
-  text-align: center;
-  font-feature-settings:
-    'clig' off,
-    'liga' off;
-
-  /* typography/h5 */
-  font-family: Roboto, sans-serif;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 133.4%; /* 32.016px */
-
-  @media (min-width: 480px) {
-    font-size: 32px;
-  }
-
-  @media (min-width: 768px) {
-    font-size: 40px;
-  }
-`;
+// const Title = styled.div`
+//   text-align: center;
+//   font-feature-settings:
+//     'clig' off,
+//     'liga' off;
+//
+//   /* typography/h5 */
+//   font-family: Roboto, sans-serif;
+//   font-size: 24px;
+//   font-style: normal;
+//   font-weight: 600;
+//   line-height: 133.4%; /* 32.016px */
+//
+//   @media (min-width: 480px) {
+//     font-size: 32px;
+//   }
+//
+//   @media (min-width: 768px) {
+//     font-size: 40px;
+//   }
+// `;
 
 const Subtitle = styled.div`
   text-align: center;
@@ -338,6 +346,22 @@ const ButtonWrapper = styled.div`
   display: flex;
   align-self: center;
   margin: 20px 0 50px 0;
+`;
+
+const bounceAnimation = keyframes`
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+`;
+
+const LogoWrapper = styled.div`
+  max-width: 200px;
+  width: 100%;
+  animation: ${bounceAnimation} 2s cubic-bezier(0.68, -0.55, 0.27, 1.55)
+    infinite;
 `;
 
 export default Landing;
