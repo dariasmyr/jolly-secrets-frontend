@@ -43,7 +43,7 @@ const Landing: FC = () => {
           </LogoTitleWrapper>
           <TitleWrapper>
             <Subtitle>
-              Лучший способ организовать тайный обмен подарками
+              Лучший способ организовать тайный обмен подарками!
             </Subtitle>
           </TitleWrapper>
           <ButtonWrapperHeader>
