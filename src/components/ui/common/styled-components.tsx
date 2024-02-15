@@ -86,6 +86,8 @@ export const FormWrapper = styled.form`
   gap: 16px;
   margin-right: 24px;
   margin-left: 24px;
+  width: 80%;
+  max-width: 584px;
 `;
 
 export const Breadcrumbs = styled.div`
