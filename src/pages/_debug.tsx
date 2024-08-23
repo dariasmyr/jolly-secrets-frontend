@@ -8,16 +8,16 @@ import { useSettingsStore } from '@/store/settings.store';
 
 import appInfo from '../../app-info.json';
 
+const formatDate = (date: number): string => {
+  const seconds = Math.floor(date % 60);
+  const minutes = Math.floor((date / 60) % 60);
+  const hours = Math.floor((date / (60 * 60)) % 24);
+  const days = Math.floor(date / (60 * 60 * 24));
+
+  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+};
+
 export default function InfoPage(properties: { uptime: number }): ReactNode {
-  const formatDate = (date: number): string => {
-    const seconds = Math.floor(date % 60);
-    const minutes = Math.floor((date / 60) % 60);
-    const hours = Math.floor((date / (60 * 60)) % 24);
-    const days = Math.floor(date / (60 * 60 * 24));
-
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
-  };
-
   const [browserId, setBrowserId] = useState<string | undefined>();
   const { debugMode, setDebugMode } = useSettingsStore();
 

@@ -82,7 +82,6 @@ const PublicGroups: FC = () => {
   } = useGetAccountCountQuery({});
 
   const createGroup = (): void => {
-    // eslint-disable-next-line no-alert
     router.push('/create-group');
   };
 
@@ -146,9 +145,11 @@ const PublicGroups: FC = () => {
                   ? process.env.NEXT_PUBLIC_REST_API_URL + group.pictureUrl
                   : '/assets/hover.jpg'
               }
-              preHeader={`${group.events?.filter(
-                (event) => event.status === EventStatus.Open,
-              )?.length} ${pluralize(
+              preHeader={`${
+                group.events?.filter(
+                  (event) => event.status === EventStatus.Open,
+                )?.length
+              } ${pluralize(
                 group.events!.filter(
                   (event) => event.status === EventStatus.Open,
                 )?.length,

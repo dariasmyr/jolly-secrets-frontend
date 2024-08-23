@@ -28,6 +28,26 @@ import {
 } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
 
+function pluralize(
+  number: number,
+  one: string,
+  two: string,
+  many: string,
+): string {
+  const lastDigit = number % 10;
+  const lastTwoDigits = number % 100;
+
+  if (lastDigit === 1 && lastTwoDigits !== 11) {
+    return one;
+  }
+
+  if ([2, 3, 4].includes(lastDigit) && ![12, 13, 14].includes(lastTwoDigits)) {
+    return two;
+  }
+
+  return many;
+}
+
 const PrivateGroups: FC = () => {
   const { t } = useTranslation(['common', 'auth', 'group', 'event']);
   const authStore = useAuthStore();
@@ -48,31 +68,8 @@ const PrivateGroups: FC = () => {
       limit: 100,
     },
   });
-  function pluralize(
-    number: number,
-    one: string,
-    two: string,
-    many: string,
-  ): string {
-    const lastDigit = number % 10;
-    const lastTwoDigits = number % 100;
-
-    if (lastDigit === 1 && lastTwoDigits !== 11) {
-      return one;
-    }
-
-    if (
-      [2, 3, 4].includes(lastDigit) &&
-      ![12, 13, 14].includes(lastTwoDigits)
-    ) {
-      return two;
-    }
-
-    return many;
-  }
 
   const createGroup = (): void => {
-    // eslint-disable-next-line no-alert
     router.push('/create-group');
   };
 
@@ -155,9 +152,11 @@ const PrivateGroups: FC = () => {
                   ? process.env.NEXT_PUBLIC_REST_API_URL + group.pictureUrl
                   : '/assets/hover.jpg'
               }
-              preHeader={`${group.events?.filter(
-                (event) => event.status === EventStatus.Open,
-              )?.length} ${pluralize(
+              preHeader={`${
+                group.events?.filter(
+                  (event) => event.status === EventStatus.Open,
+                )?.length
+              } ${pluralize(
                 group.events!.filter(
                   (event) => event.status === EventStatus.Open,
                 )?.length,

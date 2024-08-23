@@ -110,7 +110,7 @@ export const Page = (properties: IPageProperties): ReactElement => {
 
     setShowMenu(false);
 
-    return () => document.removeEventListener('keydown', onKeydown);
+    return (): void => document.removeEventListener('keydown', onKeydown);
   }, []);
 
   if (error) {

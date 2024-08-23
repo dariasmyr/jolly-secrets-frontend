@@ -1,5 +1,5 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable unicorn/prefer-module,@typescript-eslint/no-var-requires */
+/* eslint-disable unicorn/prefer-module */
 
 /** @type {import('next-i18next').UserConfig} */
 const i18n = {

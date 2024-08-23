@@ -1,3 +1,5 @@
+// noinspection DuplicatedCode
+
 import { FC, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
@@ -30,6 +32,26 @@ export const eventStatusDisplay = (t: (argument0: string) => any): any => [
   { value: EventStatus.Open, label: t('event:event.active') },
   { value: EventStatus.Expired, label: t('event:event.inactive') },
 ];
+
+function pluralize(
+  number: number,
+  one: string,
+  two: string,
+  many: string,
+): string {
+  const lastDigit = number % 10;
+  const lastTwoDigits = number % 100;
+
+  if (lastDigit === 1 && lastTwoDigits !== 11) {
+    return one;
+  }
+
+  if ([2, 3, 4].includes(lastDigit) && ![12, 13, 14].includes(lastTwoDigits)) {
+    return two;
+  }
+
+  return many;
+}
 const Events: FC = () => {
   const { t } = useTranslation(['common', 'event', 'group', 'menu']);
   const authStore = useAuthStore();
@@ -56,31 +78,7 @@ const Events: FC = () => {
     },
   });
 
-  function pluralize(
-    number: number,
-    one: string,
-    two: string,
-    many: string,
-  ): string {
-    const lastDigit = number % 10;
-    const lastTwoDigits = number % 100;
-
-    if (lastDigit === 1 && lastTwoDigits !== 11) {
-      return one;
-    }
-
-    if (
-      [2, 3, 4].includes(lastDigit) &&
-      ![12, 13, 14].includes(lastTwoDigits)
-    ) {
-      return two;
-    }
-
-    return many;
-  }
-
   const createEvent = (): void => {
-    // eslint-disable-next-line no-alert
     router.push(`/create-event?groupId=${groupId}`);
   };
 

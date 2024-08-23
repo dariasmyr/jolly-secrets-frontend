@@ -52,7 +52,7 @@ const UpdateGroup: FC = () => {
   const { register, handleSubmit, formState } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
   });
-  // eslint-disable-next-line unicorn/no-null
+
   const groupId = router.query.id;
 
   useEffect(() => {

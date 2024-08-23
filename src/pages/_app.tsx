@@ -53,7 +53,6 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
     if (router.route !== '/chat') {
       console.log('Subscribe to socket.io');
       socket?.on('new_message', (parameters) => {
-        // eslint-disable-next-line no-alert
         setAlertInfo({
           open: true,
           message: `New message: "${parameters.text}". `,
@@ -62,7 +61,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
       });
     }
 
-    return () => {
+    return (): void => {
       console.log('Unsubscribe to socket.io');
       socket?.close();
     };
@@ -76,7 +75,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
     window.addEventListener('error', handleError);
     window.addEventListener('unhandledrejection', handlePromiseRejection);
 
-    return () => {
+    return (): void => {
       window.removeEventListener('error', handleError);
       window.removeEventListener('unhandledrejection', handlePromiseRejection);
     };

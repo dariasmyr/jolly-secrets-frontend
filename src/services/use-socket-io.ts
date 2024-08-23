@@ -18,7 +18,7 @@ export const useSocketIo = (): Socket | null => {
 
     setSocket(newSocket);
 
-    return () => {
+    return (): void => {
       newSocket.close();
     };
   }, [authStore.token]);

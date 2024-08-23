@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable unicorn/no-null */
 import { FC, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';

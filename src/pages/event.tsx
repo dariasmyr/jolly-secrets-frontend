@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable unicorn/no-null */
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
@@ -39,6 +37,26 @@ import {
   useSetEventApplicationStatusMutation,
 } from '@/generated/graphql';
 import { useAuthStore } from '@/store/auth.store';
+
+function pluralize(
+  number: number,
+  one: string,
+  two: string,
+  many: string,
+): string {
+  const lastDigit = number % 10;
+  const lastTwoDigits = number % 100;
+
+  if (lastDigit === 1 && lastTwoDigits !== 11) {
+    return one;
+  }
+
+  if ([2, 3, 4].includes(lastDigit) && ![12, 13, 14].includes(lastTwoDigits)) {
+    return two;
+  }
+
+  return many;
+}
 
 // eslint-disable-next-line complexity
 const Event: FC = () => {
@@ -97,7 +115,6 @@ const Event: FC = () => {
   });
 
   const participate = (): void => {
-    // eslint-disable-next-line no-alert
     router.push(`/create-application?eventId=${eventId}`);
   };
 
@@ -180,28 +197,6 @@ const Event: FC = () => {
     ),
     0,
   );
-  function pluralize(
-    number: number,
-    one: string,
-    two: string,
-    many: string,
-  ): string {
-    const lastDigit = number % 10;
-    const lastTwoDigits = number % 100;
-
-    if (lastDigit === 1 && lastTwoDigits !== 11) {
-      return one;
-    }
-
-    if (
-      [2, 3, 4].includes(lastDigit) &&
-      ![12, 13, 14].includes(lastTwoDigits)
-    ) {
-      return two;
-    }
-
-    return many;
-  }
 
   // eslint-disable-next-line complexity,sonarjs/cognitive-complexity
   const renderApplication = (tab: string): ReactElement => {
@@ -384,7 +379,6 @@ const Event: FC = () => {
                   cancelButtonText={t(
                     'application:resolve.gift_received.dialog.cancel',
                   )}
-                  /* eslint-disable-next-line sonarjs/no-duplicate-string */
                   confirmButtonText={t(
                     'application:resolve.gift_received.dialog.confirm',
                   )}

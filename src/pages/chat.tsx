@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable unicorn/no-null */
 import { FC, useEffect, useRef } from 'react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -64,13 +62,13 @@ const Chat: FC = () => {
       refetch();
     });
 
-    return () => {
+    return (): void => {
       console.log('Unsubscribe to socket.io');
       socket?.close();
     };
   }, []);
 
-  useEffect(() => {
+  useEffect((): void => {
     if (!authStore.token || !authStore.account?.id) {
       router.push('/auth/login');
     }

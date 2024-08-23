@@ -25,7 +25,7 @@ export function FabAdd({ onClick }: IFabAddProperties): ReactElement {
     }
 
     window.addEventListener('scroll', handleScroll);
-    return () => {
+    return (): void => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);

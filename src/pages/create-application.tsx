@@ -74,7 +74,7 @@ const CreateApplication: FC = () => {
   ]);
   const router = useRouter();
   const authStore = useAuthStore();
-  // eslint-disable-next-line unicorn/no-null
+
   const [createEventApplication, { reset, loading }] =
     useCreateEventApplicationMutation();
   const eventId = router.query.eventId;
