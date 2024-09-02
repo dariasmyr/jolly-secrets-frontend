@@ -1,9 +1,8 @@
-version: '3.8'
 services:
-    app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        restart: unless-stopped
-        ports:
-            - "${PORT}:${PORT}"
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - '${PORT}:${PORT}'

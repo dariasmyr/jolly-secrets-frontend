@@ -1,4 +1,4 @@
-FROM node:18-alpine3.17
+FROM node:lts-alpine
 RUN apk add ca-certificates
 WORKDIR /app
 COPY package*.json ./

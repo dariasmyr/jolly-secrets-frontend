@@ -36,7 +36,6 @@ function pluralize(
 ): string {
   const lastDigit = number % 10;
   const lastTwoDigits = number % 100;
-
   if (lastDigit === 1 && lastTwoDigits !== 11) {
     return one;
   }
