@@ -23,7 +23,7 @@ export function getApolloClient({
   return new ApolloClient({
     link:
       process.env.NEXT_PUBLIC_MERGED_GRAPHQL_REQUESTS_ENABLED === 'true' &&
-      typeof window !== 'undefined'
+      typeof globalThis !== 'undefined'
         ? new BatchHttpLink({
             uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
             batchMax: Number.parseInt(
@@ -42,7 +42,7 @@ export function getApolloClient({
     }),
     uri:
       process.env.NEXT_PUBLIC_MERGED_GRAPHQL_REQUESTS_ENABLED === 'true' &&
-      typeof window !== 'undefined'
+      typeof globalThis !== 'undefined'
         ? undefined
         : process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
     cache: cache || new InMemoryCache(),
@@ -73,7 +73,7 @@ export function useApolloClient(): ApolloClientType {
       if (process.env.NEXT_PUBLIC_PERSIST_CACHE === 'true') {
         await persistCache({
           cache: client.cache,
-          storage: new LocalStorageWrapper(window.localStorage),
+          storage: new LocalStorageWrapper(globalThis.localStorage),
         });
       }
 

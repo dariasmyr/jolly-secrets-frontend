@@ -66,7 +66,7 @@ function sendLog(
 }
 
 export function getBrowserId(): string | undefined {
-  if (typeof window === 'undefined') {
+  if (typeof globalThis === 'undefined') {
     return undefined;
   }
   const currentBrowserId = localStorage.getItem('browser-id');
@@ -140,6 +140,6 @@ export class log {
   }
 }
 
-if (typeof window !== 'undefined') {
+if (typeof globalThis !== 'undefined') {
   log.info('Browser ID:', getBrowserId());
 }

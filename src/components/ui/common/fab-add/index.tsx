@@ -21,7 +21,7 @@ export function FabAdd({ onClick }: IFabAddProperties): ReactElement {
       } else {
         setIsVisible(false);
       }
-      lastScrollTop = st <= 0 ? 0 : st;
+      lastScrollTop = Math.max(st, 0);
     }
 
     window.addEventListener('scroll', handleScroll);

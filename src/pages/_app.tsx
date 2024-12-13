@@ -72,12 +72,15 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
   }, []);
 
   useEffect(() => {
-    window.addEventListener('error', handleError);
-    window.addEventListener('unhandledrejection', handlePromiseRejection);
+    globalThis.addEventListener('error', handleError);
+    globalThis.addEventListener('unhandledrejection', handlePromiseRejection);
 
     return (): void => {
-      window.removeEventListener('error', handleError);
-      window.removeEventListener('unhandledrejection', handlePromiseRejection);
+      globalThis.removeEventListener('error', handleError);
+      globalThis.removeEventListener(
+        'unhandledrejection',
+        handlePromiseRejection,
+      );
     };
   }, []);
 
@@ -120,7 +123,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactNode {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             // eslint-disable-next-line no-new
-            new window.VConsole();
+            new globalThis.VConsole();
           }}
         />
       )}
