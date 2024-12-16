@@ -1,9 +1,8 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-magic-numbers */
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
-import { getBrowserId } from '@/services/log';
 import { useSettingsStore } from '@/store/settings.store';
 
 import appInfo from '../../app-info.json';
@@ -18,12 +17,7 @@ const formatDate = (date: number): string => {
 };
 
 export default function InfoPage(properties: { uptime: number }): ReactNode {
-  const [browserId, setBrowserId] = useState<string | undefined>();
   const { debugMode, setDebugMode } = useSettingsStore();
-
-  useEffect(() => {
-    setBrowserId(getBrowserId());
-  }, []);
 
   const toggleDebugMode = (): void => {
     setDebugMode(!debugMode);
@@ -31,8 +25,6 @@ export default function InfoPage(properties: { uptime: number }): ReactNode {
 
   return (
     <Page>
-      <InfoItem>Browser ID:</InfoItem>
-      <Header>{browserId}</Header>
       <hr />
       <InfoItem>{`${appInfo.name} (v ${appInfo.version})`}</InfoItem>
       <InfoItem>Uptime: {formatDate(properties.uptime)}</InfoItem>
@@ -50,12 +42,6 @@ const Page = styled.div`
   color: black;
   padding-left: 16px;
   padding-right: 16px;
-`;
-
-const Header = styled.div`
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 0;
 `;
 
 const InfoItem = styled.p`

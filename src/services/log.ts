@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 export enum LogLevel {
   TRACE,
   DEBUG,
@@ -46,7 +45,7 @@ function sendLog(
   const selfUrlBase = process.env.NEXT_PUBLIC_SELF_URL_BASE as string;
   const url = `${selfUrlBase}/api/logs/add`;
   const body = {
-    channel: getBrowserId(),
+    channel: 'general',
     level,
     message: jsonCircular({
       message,
@@ -63,20 +62,6 @@ function sendLog(
   }).catch((error) => {
     console.error('Send logs error:', error);
   });
-}
-
-export function getBrowserId(): string | undefined {
-  if (typeof globalThis === 'undefined') {
-    return undefined;
-  }
-  const currentBrowserId = localStorage.getItem('browser-id');
-  if (currentBrowserId) {
-    return currentBrowserId;
-  } else {
-    const newBrowserId = uuidv4();
-    localStorage.setItem('browser-id', newBrowserId);
-    return newBrowserId;
-  }
 }
 
 export class log {
@@ -138,8 +123,4 @@ export class log {
       sendLog(level, message, ...arguments_);
     }
   }
-}
-
-if (typeof globalThis !== 'undefined') {
-  log.info('Browser ID:', getBrowserId());
 }
