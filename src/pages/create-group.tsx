@@ -254,12 +254,17 @@ const CreateGroup: FC = () => {
           ]}
         </CardCreateOrUpdateGroup>
         {groupCreated && isPrivate && (
-          <CardGenerateInvite
-            title={t('group:create_or_update_group.invite.title')}
-            description={t('group:create_or_update_group.invite.description')}
-            onGenerateInviteClick={handleClickOpenDialog}
-            button={t('group:create_or_update_group.invite.action')}
-          />
+          <>
+            <Button variant={ButtonVariant.secondary} disabled={true}>
+              {t('group:create_or_update_group.created')}
+            </Button>
+            <CardGenerateInvite
+              title={t('group:create_or_update_group.invite.title')}
+              description={t('group:create_or_update_group.invite.description')}
+              onGenerateInviteClick={handleClickOpenDialog}
+              button={t('group:create_or_update_group.invite.action')}
+            />
+          </>
         )}
         {!groupCreated && (
           <Button

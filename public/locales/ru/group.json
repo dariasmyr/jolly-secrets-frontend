@@ -29,6 +29,7 @@
   },
   "create_or_update_group": {
     "duplicate_name": "Имя группы уже существует",
+    "created": "Группа успешно создана",
     "create_header": "Создание группы",
     "update_header": "Изменение группы",
     "choose_cover": "Выбрать обложку",
