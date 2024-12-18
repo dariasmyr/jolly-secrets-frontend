@@ -596,6 +596,7 @@ const ButtonLargeWrapper = styled.div`
   bottom: 20px;
   left: 0;
   width: 100%;
+  max-width: 564px;
   display: flex;
   justify-content: center;
   margin: 0 auto;
