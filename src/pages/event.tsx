@@ -177,7 +177,7 @@ const Event: FC = () => {
     },
     {
       label: eventData!.event.name,
-      link: `/event/${eventId}`,
+      link: `/event/?id=${eventId}`,
       onClick: async (): Promise<void> => {
         await router.push(`/event?id=${eventId}`);
       },
